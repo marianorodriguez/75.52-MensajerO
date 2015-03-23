@@ -4,6 +4,4 @@
 #define JSON_CONFIG_FILE "config/config.json"
 #define DEFAULT_LOGGING_FILE "logging.txt"
 
-
-
 #endif /* CONFIG_CONFIG_H_ */

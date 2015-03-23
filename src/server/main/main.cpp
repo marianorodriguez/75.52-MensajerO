@@ -2,6 +2,7 @@
 #include <iostream>
 
 using namespace std;
+
 int main() {
 
 	logger* log = logger::getLogger();
