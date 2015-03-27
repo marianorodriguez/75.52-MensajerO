@@ -9,15 +9,36 @@
 #include "../jsoncpp/json.h"
 using namespace std;
 
+/**
+ * This class is used to log run-time issues, like Errors, Warnings, Info and Debugging.
+ */
 class logger {
 
 public:
+/**
+ *The level of the logger.
+ */
 	enum loggingLevel {
 		ERROR, WARN, DEBUG, INFO,
 	};
 
+	/**
+	 * Used to call the logger instance. If it doesn't exists, it will be instantiated.
+	 * The path to the logging file can be configured in the config.h
+	 */
 	static logger* getLogger();
+
+	/**
+	 * @param level The Level of the issue.
+	 * @param text Description of the issue.
+	 *
+	 *\brief Writes the issue into a file.
+	 */
 	void write(loggingLevel level, string text);
+
+	/**
+	 * Saves the file and re-opens it.
+	 */
 	void saveStatus();
 	~logger();
 
