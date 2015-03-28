@@ -25,7 +25,7 @@ HINTS ${ROCKSDB_ROOT_DIR}
 )
 find_path(ROCKSDB_INCLUDE_DIRS
 NAMES rocksdb/db.h
-HINTS ${ROCKSDB_ROOT_DIR}/include
+HINTS ${ROCKSDB_ROOT_DIR}
 )
 include(FindPackageHandleStandardArgs)
 find_package_handle_standard_args(RocksDB DEFAULT_MSG

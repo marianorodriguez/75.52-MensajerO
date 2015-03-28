@@ -203,16 +203,16 @@ int main() {
 
   // open DB
   Status s = DB::Open(options, kDBPath, &db);
-  assert(s.ok());
+ // assert(s.ok());
 
   // Put key-value
   s = db->Put(WriteOptions(), "key1", "value");
-  assert(s.ok());
+ // assert(s.ok());
   std::string value;
   // get value
   s = db->Get(ReadOptions(), "key1", &value);
-  assert(s.ok());
-  assert(value == "value");
+  //assert(s.ok());
+  //assert(value == "value");
 
   // atomically apply a set of updates
   {
@@ -223,10 +223,10 @@ int main() {
   }
 
   s = db->Get(ReadOptions(), "key1", &value);
-  assert(s.IsNotFound());
+  //assert(s.IsNotFound());
 
   db->Get(ReadOptions(), "key2", &value);
-  assert(value == "value");
+ // assert(value == "value");
 
   delete db;
 
