@@ -758,7 +758,7 @@ WARN_LOGFILE =
 # spaces.
 # Note: If this tag is empty the current directory is searched.
 
-INPUT = /home/marian/git/75.52-MensajerO/src/server/main /home/marian/git/75.52-MensajerO/src/server/main/logger 
+INPUT = /home/marian/git/75.52-MensajerO/src/server/main/utilities /home/marian/git/75.52-MensajerO/src/server/main/logger 
 
 # This tag can be used to specify the character encoding of the source files
 # that doxygen parses. Internally doxygen uses the UTF-8 encoding. Doxygen uses
