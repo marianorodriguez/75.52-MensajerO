@@ -1,7 +1,7 @@
 #include "logger.h"
 
 logger* logger::logInstance = NULL;
-string logger::logDir="";
+string logger::logDir = "";
 
 logger::logger() {
 
@@ -22,10 +22,12 @@ logger::logger() {
 
 void logger::write(loggingLevel level, string text) {
 
-	if (this->levels[level]) {
-		this->file->write("\n", strlen("\n"));
-		string toWrite = this->getWriteLevel(level) + ": " + text;
-		this->file->write(toWrite.c_str(), strlen(toWrite.c_str()));
+	if (this->file->is_open()) {
+		if (this->levels[level]) {
+			this->file->write("\n", strlen("\n"));
+			string toWrite = this->getWriteLevel(level) + ": " + text;
+			this->file->write(toWrite.c_str(), strlen(toWrite.c_str()));
+		}
 	}
 }
 
@@ -80,7 +82,7 @@ void logger::setLoggingLevels() {
 	this->levels[INFO] = loggingLevels[INFO].get("INFO", false).asBool();
 }
 
-string logger::getLogDir(){
+string logger::getLogDir() {
 	return logDir;
 }
 

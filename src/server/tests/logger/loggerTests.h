@@ -1,5 +1,5 @@
-#ifndef CPP_UNIT_EXAMPLETESTCASE_H
-#define CPP_UNIT_EXAMPLETESTCASE_H
+#ifndef SERVER_TESTS_LOGGER_LOGGERTESTS_H_
+#define SERVER_TESTS_LOGGER_LOGGERTESTS_H_
 
 #include <cppunit/extensions/HelperMacros.h>
 
@@ -7,6 +7,7 @@ class loggerTests: public CPPUNIT_NS::TestFixture {
 
 	CPPUNIT_TEST_SUITE( loggerTests );
 
+	CPPUNIT_TEST(should_be_singleton);
 	CPPUNIT_TEST(should_instantiate_logger);
 	CPPUNIT_TEST(should_return_log_path);
 	CPPUNIT_TEST(should_write_an_issue);
@@ -19,6 +20,7 @@ class loggerTests: public CPPUNIT_NS::TestFixture {
 private:
 
 protected:
+	void should_be_singleton();
 	void should_instantiate_logger();
 	void should_return_log_path();
 	void should_write_an_issue();

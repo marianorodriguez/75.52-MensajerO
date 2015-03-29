@@ -6,15 +6,26 @@
 
 CPPUNIT_TEST_SUITE_REGISTRATION(loggerTests);
 
-void loggerTests::should_instantiate_logger(){
+void loggerTests::should_be_singleton() {
 
-	logger* loggerInstance = NULL ;
+	logger* logger1 = logger::getLogger();
+	logger* logger2 = logger::getLogger();
+	logger* logger3 = logger::getLogger();
+
+	CPPUNIT_ASSERT(logger1 == logger2);
+	CPPUNIT_ASSERT(logger2 == logger3);
+	CPPUNIT_ASSERT(logger1 == logger3);
+}
+
+void loggerTests::should_instantiate_logger() {
+
+	logger* loggerInstance = NULL;
 	loggerInstance = logger::getLogger();
 
 	CPPUNIT_ASSERT(loggerInstance != NULL);
 }
 
-void loggerTests::should_return_log_path(){
+void loggerTests::should_return_log_path() {
 
 	logger* loggerInstance = logger::getLogger();
 	string logDir = "";
@@ -33,7 +44,7 @@ void loggerTests::should_return_log_path(){
 
 }
 
-void loggerTests::should_write_an_issue(){
+void loggerTests::should_write_an_issue() {
 
 //	logger* loggerInstance = logger::getLogger();
 //	loggerInstance->write(logger::ERROR, "Some error");
@@ -53,19 +64,22 @@ void loggerTests::should_write_an_issue(){
 //	delete loggerFile;
 }
 
-void loggerTests::should_stamp_time_and_date(){
+void loggerTests::should_stamp_time_and_date() {
 
 }
 
-void loggerTests::should_return_loggingLevels(){
+void loggerTests::should_return_loggingLevels() {
 
-	CPPUNIT_ASSERT(logger::getLogger()->getWriteLevel(logger::ERROR) == "ERROR");
-	CPPUNIT_ASSERT(logger::getLogger()->getWriteLevel(logger::WARN) == "WARNING");
+	CPPUNIT_ASSERT(
+			logger::getLogger()->getWriteLevel(logger::ERROR) == "ERROR");
+	CPPUNIT_ASSERT(
+			logger::getLogger()->getWriteLevel(logger::WARN) == "WARNING");
 	CPPUNIT_ASSERT(logger::getLogger()->getWriteLevel(logger::INFO) == "INFO");
-	CPPUNIT_ASSERT(logger::getLogger()->getWriteLevel(logger::DEBUG) == "DEBUG");
+	CPPUNIT_ASSERT(
+			logger::getLogger()->getWriteLevel(logger::DEBUG) == "DEBUG");
 
 }
 
-void loggerTests::should_set_logging_levels(){
+void loggerTests::should_set_logging_levels() {
 
 }
