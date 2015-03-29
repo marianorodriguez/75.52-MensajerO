@@ -1,6 +1,7 @@
 #include "logger.h"
 
 logger* logger::logInstance = NULL;
+string logger::logDir="";
 
 logger::logger() {
 
@@ -11,21 +12,20 @@ logger::logger() {
 
 	if (parsingSuccessful) {
 		this->json_logger = json_root["logger"];
-		this->logDir = json_logger.get("logDir", DEFAULT_LOGGING_FILE).asString();
+		logDir = json_logger.get("logDir", DEFAULT_LOGGING_FILE).asString();
 		this->file = new ofstream;
 		this->file->open(this->logDir.c_str(), ofstream::trunc);
 		setLoggingLevels();
 		dateStamp();
 	}
-
 }
 
 void logger::write(loggingLevel level, string text) {
 
 	if (this->levels[level]) {
+		this->file->write("\n", strlen("\n"));
 		string toWrite = this->getWriteLevel(level) + ": " + text;
 		this->file->write(toWrite.c_str(), strlen(toWrite.c_str()));
-		this->file->write("\n", strlen("\n"));
 	}
 }
 
@@ -43,7 +43,7 @@ void logger::dateStamp() {
 	this->file->write("\n", strlen("\n"));
 	sDate.append(separator);
 	this->file->write(sDate.c_str(), strlen(sDate.c_str()));
-	this->file->write("\n", strlen("\n"));
+	//this->file->write("\n", strlen("\n"));
 }
 
 string logger::getWriteLevel(loggingLevel level) {
@@ -78,6 +78,10 @@ void logger::setLoggingLevels() {
 	this->levels[WARN] = loggingLevels[WARN].get("WARNING", false).asBool();
 	this->levels[DEBUG] = loggingLevels[DEBUG].get("DEBUG", false).asBool();
 	this->levels[INFO] = loggingLevels[INFO].get("INFO", false).asBool();
+}
+
+string logger::getLogDir(){
+	return logDir;
 }
 
 logger::~logger() {

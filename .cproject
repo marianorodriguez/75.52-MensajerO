@@ -47,6 +47,7 @@
 									<listOptionValue builtIn="false" value="rocksdb"/>
 									<listOptionValue builtIn="false" value="mongoose"/>
 									<listOptionValue builtIn="false" value="pthread"/>
+									<listOptionValue builtIn="false" value="bz2"/>
 									<listOptionValue builtIn="false" value="z"/>
 								</option>
 								<option id="gnu.cpp.link.option.paths.2098320937" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths" valueType="libPaths">

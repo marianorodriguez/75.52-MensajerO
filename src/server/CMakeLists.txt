@@ -14,7 +14,7 @@ set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/3rd-party/Modules/")
 
-set(ROCKSDB_ROOT_DIR "${PROJECT_SOURCE_DIR}/3rd-party/rocksdb")
+set(ROCKSDB_ROOT_DIR "${PROJECT_SOURCE_DIR}/3rd-party/rocksdb/")
 
 find_package(RocksDB)
 

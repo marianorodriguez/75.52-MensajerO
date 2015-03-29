@@ -14,6 +14,8 @@ using namespace std;
  */
 class logger {
 
+	friend class loggerTests;
+
 public:
 /**
  *The level of the logger.
@@ -40,6 +42,12 @@ public:
 	 * Saves the file and re-opens it.
 	 */
 	void saveStatus();
+
+	/**
+	 * Returns the path to the logging file.
+	 */
+	static string getLogDir();
+
 	~logger();
 
 private:
@@ -48,7 +56,7 @@ private:
 	bool levels[4];
 	static logger* logInstance;
 	ofstream* file;
-	string logDir;
+	static string logDir;
 
 	logger();
 	void dateStamp();

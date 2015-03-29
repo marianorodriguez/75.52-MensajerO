@@ -1,6 +1,4 @@
 
-/*
-
 #include <cppunit/BriefTestProgressListener.h>
 #include <cppunit/CompilerOutputter.h>
 #include <cppunit/extensions/TestFactoryRegistry.h>
@@ -27,5 +25,3 @@ int main( int argc, char* argv[] )
 
   return result.wasSuccessful() ? 0 : 1;
 }
-
-*/
