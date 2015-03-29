@@ -26,7 +26,7 @@
 								<option id="gnu.cpp.compiler.option.include.paths.460229771" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" useByScannerDiscovery="false" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/server/3rd-party/jsoncpp}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/server/3rd-party/mongoose-cpp}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/server/3rd-party/rocksdb}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/server/3rd-party/rocksdb/include}&quot;"/>
 								</option>
 								<option id="gnu.cpp.compiler.option.dialect.std.1384765736" name="Language standard" superClass="gnu.cpp.compiler.option.dialect.std" useByScannerDiscovery="true" value="gnu.cpp.compiler.dialect.default" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.option.other.other.2145449191" name="Other flags" superClass="gnu.cpp.compiler.option.other.other" useByScannerDiscovery="false" value="-c -fmessage-length=0 -std=c++11 " valueType="string"/>
@@ -66,7 +66,7 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="server/main/CMakeFiles|server/CMakeFiles|client" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
+						<entry excluding="server/3rd-party/rocksdb/utilities|server/3rd-party/rocksdb/util|server/3rd-party/rocksdb/tools|server/3rd-party/rocksdb/third-party|server/3rd-party/rocksdb/table|server/3rd-party/rocksdb/port|server/3rd-party/rocksdb/linters|server/3rd-party/rocksdb/java|server/3rd-party/rocksdb/hdfs|server/3rd-party/rocksdb/examples|server/3rd-party/rocksdb/doc|server/3rd-party/rocksdb/db|server/3rd-party/rocksdb/coverage|server/3rd-party/rocksdb/build_tools|server/main/CMakeFiles|server/CMakeFiles|client" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -114,7 +114,7 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="server/main/CMakeFiles|server/CMakeFiles|client|server/tests/main.cpp" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
+						<entry excluding="server/3rd-party/rocksdb/utilities|server/3rd-party/rocksdb/util|server/3rd-party/rocksdb/tools|server/3rd-party/rocksdb/third-party|server/3rd-party/rocksdb/table|server/3rd-party/rocksdb/port|server/3rd-party/rocksdb/linters|server/3rd-party/rocksdb/java|server/3rd-party/rocksdb/hdfs|server/3rd-party/rocksdb/examples|server/3rd-party/rocksdb/doc|server/3rd-party/rocksdb/db|server/3rd-party/rocksdb/coverage|server/3rd-party/rocksdb/build_tools|server/main/CMakeFiles|server/CMakeFiles|client|server/tests/main.cpp" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
