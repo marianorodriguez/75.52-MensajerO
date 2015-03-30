@@ -9,6 +9,7 @@
 #define SERVER_TESTS_USER_MESSAGETESTS_H_
 
 #include <cppunit/extensions/HelperMacros.h>
+#include "../../main/interfaces/Serializable/ISerializable.h"
 
 class messageTests: public CPPUNIT_NS::TestFixture {
 

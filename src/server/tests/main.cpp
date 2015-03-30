@@ -5,6 +5,7 @@
 #include <cppunit/TestResult.h>
 #include <cppunit/TestResultCollector.h>
 #include <cppunit/TestRunner.h>
+#include "json.h"
 
 int main( int argc, char* argv[] )
 {

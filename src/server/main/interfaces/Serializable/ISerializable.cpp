@@ -13,5 +13,4 @@ string ISerializable::serialize(){
 }
 
 void ISerializable::deserialize(string serializedData){
-
 }
