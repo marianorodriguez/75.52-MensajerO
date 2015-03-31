@@ -2,17 +2,14 @@
 #define CONFIG_CONFIG_H_
 
 /**
- * Path to the JSON configuration file.
+ * Ruta al archivo de configuración de JSON.
  */
 #define JSON_CONFIG_FILE "config/config.json"
 
 //# LOGGER #
 /**
- * Path to the logging file.
+ * Ruta al archivo de logging.
  */
 #define DEFAULT_LOGGING_FILE "logging.txt"
-
-//# MESSAGE #
-#define MESSAGE_FIELD_SEPARATOR '%'
 
 #endif /* CONFIG_CONFIG_H_ */

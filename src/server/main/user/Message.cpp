@@ -1,10 +1,3 @@
-/*
- * Message.cpp
- *
- *  Created on: 29/3/2015
- *      Author: marian
- */
-
 #include "Message.h"
 #include "../config.h"
 

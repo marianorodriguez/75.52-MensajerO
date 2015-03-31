@@ -1,10 +1,3 @@
-/*
- * Message.h
- *
- *  Created on: 29/3/2015
- *      Author: marian
- */
-
 #ifndef SERVER_MAIN_USER_MESSAGE_H_
 #define SERVER_MAIN_USER_MESSAGE_H_
 #include "../interfaces/Serializable/ISerializable.h"
@@ -14,7 +7,7 @@
 using namespace std;
 
 /**
- * This class defines a single message between two users.
+ * Esta clase define un único mensaje entre dos usuarios.
  */
 class Message: public ISerializable {
 
