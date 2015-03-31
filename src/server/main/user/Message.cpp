@@ -1,7 +1,18 @@
 #include "Message.h"
 #include "../config.h"
 
-Message::Message() {}
+Message::Message(string toDeserialize) {
+
+	Json::Value parsedFromString;
+	Json::Reader reader;
+	reader.parse(toDeserialize, parsedFromString);
+
+	this->msg_number = (parsedFromString["message"]["msg_number"]).asInt();
+	this->userFromID = (parsedFromString["message"]["fromID"]).asInt();
+	this->userToID = (parsedFromString["message"]["toID"]).asInt();
+	this->date_time = (parsedFromString["message"]["date_time"]).asString();
+	this->message = (parsedFromString["message"]["text"]).asString();
+}
 
 Message::Message(int msg_num, string date_time, int from, int to,
 		string message) {
@@ -25,18 +36,4 @@ string Message::serialize() {
 	message["message"]["text"] = this->message;
 
 	return message.toStyledString();
-}
-
-void Message::deserialize(string serialized) {
-
-	Json::Value parsedFromString;
-	Json::Reader reader;
-	reader.parse(serialized, parsedFromString);
-
-	this->msg_number = (parsedFromString["message"]["msg_number"]).asInt();
-	this->userFromID = (parsedFromString["message"]["fromID"]).asInt();
-	this->userToID = (parsedFromString["message"]["toID"]).asInt();
-	this->date_time = (parsedFromString["message"]["date_time"]).asString();
-	this->message = (parsedFromString["message"]["text"]).asString();
-
 }

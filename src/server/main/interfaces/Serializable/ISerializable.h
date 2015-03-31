@@ -18,8 +18,6 @@ public:
 	virtual ~ISerializable();
 
 	virtual string serialize();
-	virtual void deserialize(string serializedData);
-
 };
 
 #endif /* SERVER_MAIN_INTERFACES_ISERIALIZABLE_H_ */

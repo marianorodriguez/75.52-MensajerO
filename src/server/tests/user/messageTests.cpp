@@ -61,10 +61,9 @@ void messageTests::should_deserialize_message() {
 
 	Message m1(num, date, from, to, message);
 
-	string serialized = m1.serialize();
+	string serializedString = m1.serialize();
 
-	Message m2;
-	m2.deserialize(serialized);
+	Message m2(serializedString);
 
 	CPPUNIT_ASSERT(m1.userToID == m2.userToID);
 	CPPUNIT_ASSERT(m1.userFromID == m2.userFromID);

@@ -14,12 +14,11 @@ class Message: public ISerializable {
 	friend messageTests;
 
 public:
-	Message();
+	Message(string toDeserialize);
 	Message(int msg_num,string date_time, int from, int to, string message);
 	virtual ~Message();
 
 	string serialize() override;
-	void deserialize(string serialized) override;
 
 private:
 	int msg_number;
