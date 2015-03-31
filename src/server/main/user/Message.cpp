@@ -7,16 +7,14 @@ Message::Message(string toDeserialize) {
 	Json::Reader reader;
 	reader.parse(toDeserialize, parsedFromString);
 
-	this->msg_number = (parsedFromString["message"]["msg_number"]).asInt();
-	this->userFromID = (parsedFromString["message"]["fromID"]).asInt();
-	this->userToID = (parsedFromString["message"]["toID"]).asInt();
+	this->userFromID = (parsedFromString["message"]["fromID"]).asString();
+	this->userToID = (parsedFromString["message"]["toID"]).asString();
 	this->date_time = (parsedFromString["message"]["date_time"]).asString();
 	this->message = (parsedFromString["message"]["text"]).asString();
 }
 
-Message::Message(int msg_num, string date_time, int from, int to,
-		string message) {
-	this->msg_number = msg_num;
+Message::Message(string date_time, string from, string to, string message) {
+
 	this->userFromID = from;
 	this->userToID = to;
 	this->message = message;
@@ -29,7 +27,6 @@ Message::~Message() {
 string Message::serialize() {
 
 	Json::Value message;
-	message["message"]["msg_number"] = this->msg_number;
 	message["message"]["fromID"] = this->userFromID;
 	message["message"]["toID"] = this->userToID;
 	message["message"]["date_time"] = this->date_time;

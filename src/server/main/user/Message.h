@@ -15,15 +15,14 @@ class Message: public ISerializable {
 
 public:
 	Message(string toDeserialize);
-	Message(int msg_num,string date_time, int from, int to, string message);
+	Message(string date_time, string from, string to, string message);
 	virtual ~Message();
 
 	string serialize() override;
 
 private:
-	int msg_number;
-	int userFromID;
-	int userToID;
+	string userFromID;
+	string userToID;
 	string date_time;
 	string message;
 };
