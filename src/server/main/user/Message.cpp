@@ -7,7 +7,6 @@
 
 #include "Message.h"
 #include "../config.h"
-#include "../utilities/stringUtil.h"
 
 Message::Message() {}
 

@@ -9,7 +9,6 @@
 #define SERVER_MAIN_USER_MESSAGE_H_
 #include "../interfaces/Serializable/ISerializable.h"
 #include "json/json.h"
-#include "../utilities/stringUtil.h"
 #include "../../tests/user/messageTests.h"
 #include<iostream>
 using namespace std;

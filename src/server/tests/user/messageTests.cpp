@@ -1,7 +1,6 @@
 #include <cppunit/config/SourcePrefix.h>
 #include "messageTests.h"
 #include "../../main/user/Message.h"
-#include "../../main/config.h"
 #include <stdio.h>
 #include <iostream>
 
@@ -22,6 +21,7 @@ void messageTests::should_instantiate_message() {
 	CPPUNIT_ASSERT(m.userFromID == from);
 	CPPUNIT_ASSERT(m.userToID == to);
 	CPPUNIT_ASSERT(m.message == message);
+	CPPUNIT_ASSERT(m.date_time == date);
 
 }
 
