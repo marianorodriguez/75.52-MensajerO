@@ -9,18 +9,19 @@
 #define DATABASE_H_
 
 #include <rocksdb/db.h>
+#include "json/json.h"
 #include <iostream>
+#include "../interfaces/Persistible/IPersistible.h"
 
-using namespace std;
 
-class Database {
+class Database: public IPersistible {
 private:
 	rocksdb::DB* db;
 public:
 	Database();
 	Database(string path);
-	void write(string key, string value);
-	string read(string key,bool* error);
+	void write(string key, string value) override;
+	string read(string key,bool* error) override;
 	void erase(string key);
 	virtual ~Database();
 };

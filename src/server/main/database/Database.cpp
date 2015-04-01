@@ -32,6 +32,9 @@ string Database::read(string key,bool* error) {
 
 void Database::erase(string key) {
 	db->Delete(rocksdb::WriteOptions(),key);
+	string serialized;
+	Json::Value parsed;
+	Json::Reader reader;
 }
 
 Database::~Database() {
