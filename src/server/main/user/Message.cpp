@@ -5,12 +5,16 @@ Message::Message(string toDeserialize) {
 
 	Json::Value parsedFromString;
 	Json::Reader reader;
-	reader.parse(toDeserialize, parsedFromString);
+	bool wasParsed = reader.parse(toDeserialize, parsedFromString);
 
-	this->userFromID = (parsedFromString["message"]["fromID"]).asString();
-	this->userToID = (parsedFromString["message"]["toID"]).asString();
-	this->date_time = (parsedFromString["message"]["date_time"]).asString();
-	this->message = (parsedFromString["message"]["text"]).asString();
+	this->userFromID =
+			(parsedFromString[JSON_MSG_ROOT][JSON_MSG_FROM_VALUE]).asString();
+	this->userToID =
+			(parsedFromString[JSON_MSG_ROOT][JSON_MSG_TO_VALUE]).asString();
+	this->date_time =
+			(parsedFromString[JSON_MSG_ROOT][JSON_MSG_DATE_TIME_VALUE]).asString();
+	this->message =
+			(parsedFromString[JSON_MSG_ROOT][JSON_MSG_TEXT]).asString();
 }
 
 Message::Message(string date_time, string from, string to, string message) {
@@ -18,7 +22,7 @@ Message::Message(string date_time, string from, string to, string message) {
 	this->userFromID = from;
 	this->userToID = to;
 	this->message = message;
-	this->date_time = date_time;
+	this->date_time = date_time; //TODO automatizar la fecha y hora
 }
 
 Message::~Message() {
@@ -27,10 +31,10 @@ Message::~Message() {
 string Message::serialize() {
 
 	Json::Value message;
-	message["message"]["fromID"] = this->userFromID;
-	message["message"]["toID"] = this->userToID;
-	message["message"]["date_time"] = this->date_time;
-	message["message"]["text"] = this->message;
+	message[JSON_MSG_ROOT][JSON_MSG_FROM_VALUE] = this->userFromID;
+	message[JSON_MSG_ROOT][JSON_MSG_TO_VALUE] = this->userToID;
+	message[JSON_MSG_ROOT][JSON_MSG_DATE_TIME_VALUE] = this->date_time;
+	message[JSON_MSG_ROOT][JSON_MSG_TEXT] = this->message;
 
 	return message.toStyledString();
 }

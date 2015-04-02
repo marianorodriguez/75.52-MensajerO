@@ -14,6 +14,7 @@ class loggerTests: public CPPUNIT_NS::TestFixture {
 	CPPUNIT_TEST(should_stamp_time_and_date);
 	CPPUNIT_TEST(should_return_loggingLevels);
 	CPPUNIT_TEST(should_set_logging_levels);
+	CPPUNIT_TEST(should_throw_file_not_found_exception);
 
 	CPPUNIT_TEST_SUITE_END();
 
@@ -27,6 +28,7 @@ protected:
 	void should_stamp_time_and_date();
 	void should_return_loggingLevels();
 	void should_set_logging_levels();
+	void should_throw_file_not_found_exception();
 };
 
 #endif

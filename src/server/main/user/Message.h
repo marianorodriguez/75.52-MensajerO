@@ -1,8 +1,8 @@
 #ifndef SERVER_MAIN_USER_MESSAGE_H_
 #define SERVER_MAIN_USER_MESSAGE_H_
 #include "../interfaces/Serializable/ISerializable.h"
-#include "json/json.h"
 #include "../../tests/user/messageTests.h"
+#include "json/json.h"
 #include<iostream>
 using namespace std;
 
@@ -14,10 +14,24 @@ class Message: public ISerializable {
 	friend messageTests;
 
 public:
+	/**
+	 * Permite construir un nuevo mensaje deserializando un string JSON.
+	 * @params toDeserialize Contiene el mensaje serializado mediante JSON.
+	 */
 	Message(string toDeserialize);
+
+	/**
+	 * Permite construir un nuevo mensaje indicandole sus atributos.
+	 * @params from El emisor del mensaje.
+	 * @params to El receptor del mensaje.
+	 * @params message El mensaje a enviar.
+	 */
 	Message(string date_time, string from, string to, string message);
 	virtual ~Message();
 
+	/**
+	 * Serializa una instancia de mensaje retornando el string JSON.
+	 */
 	string serialize() override;
 
 private:

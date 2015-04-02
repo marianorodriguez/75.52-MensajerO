@@ -65,3 +65,13 @@ void messageTests::should_deserialize_message() {
 	CPPUNIT_ASSERT(m1.date_time == m2.date_time);
 	CPPUNIT_ASSERT(m1.message == m2.message);
 }
+
+void messageTests::should_not_be_a_serialized_message(){
+
+	CPPUNIT_ASSERT(false);
+}
+
+void messageTests::should_be_a_serialized_message(){
+
+	CPPUNIT_ASSERT(false);
+}
