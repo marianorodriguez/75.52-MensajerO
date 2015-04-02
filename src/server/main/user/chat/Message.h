@@ -1,7 +1,8 @@
 #ifndef SERVER_MAIN_USER_MESSAGE_H_
 #define SERVER_MAIN_USER_MESSAGE_H_
-#include "../interfaces/Serializable/ISerializable.h"
-#include "../../tests/user/messageTests.h"
+#include "../../interfaces/Serializable/ISerializable.h"
+#include "../../exceptions/NotSerializedDataException.h"
+#include "../../tests/user/chat/messageTests.h"
 #include "json/json.h"
 #include<iostream>
 using namespace std;

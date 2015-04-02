@@ -1,11 +1,16 @@
 #include "Message.h"
-#include "../config.h"
+#include "../../config.h"
 
 Message::Message(string toDeserialize) {
 
 	Json::Value parsedFromString;
 	Json::Reader reader;
 	bool wasParsed = reader.parse(toDeserialize, parsedFromString);
+
+	if (not wasParsed){
+		NotSerializedDataException* e = new NotSerializedDataException("'" + toDeserialize + "' is not a JSON serialized message.");
+		throw *e;
+	}
 
 	this->userFromID =
 			(parsedFromString[JSON_MSG_ROOT][JSON_MSG_FROM_VALUE]).asString();

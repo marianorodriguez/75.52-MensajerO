@@ -1,9 +1,9 @@
 #include <cppunit/config/SourcePrefix.h>
 #include "messageTests.h"
-#include "../../main/user/Message.h"
+#include "../../../main/user/chat/Message.h"
+#include "../../main/config.h"
 #include <stdio.h>
 #include <iostream>
-
 using namespace std;
 
 CPPUNIT_TEST_SUITE_REGISTRATION(messageTests);
@@ -38,10 +38,10 @@ void messageTests::should_serialize_message() {
 	string serialized = m.serialize();
 
 	Json::Value jsonMsg;
-	jsonMsg["message"]["fromID"] = m.userFromID;
-	jsonMsg["message"]["toID"] = m.userToID;
-	jsonMsg["message"]["date_time"] = m.date_time;
-	jsonMsg["message"]["text"] = m.message;
+	jsonMsg[JSON_MSG_ROOT][JSON_MSG_FROM_VALUE] = m.userFromID;
+	jsonMsg[JSON_MSG_ROOT][JSON_MSG_TO_VALUE] = m.userToID;
+	jsonMsg[JSON_MSG_ROOT][JSON_MSG_DATE_TIME_VALUE] = m.date_time;
+	jsonMsg[JSON_MSG_ROOT][JSON_MSG_TEXT] = m.message;
 
 	CPPUNIT_ASSERT(serialized == jsonMsg.toStyledString());
 }
@@ -66,12 +66,8 @@ void messageTests::should_deserialize_message() {
 	CPPUNIT_ASSERT(m1.message == m2.message);
 }
 
-void messageTests::should_not_be_a_serialized_message(){
+void messageTests::should_not_be_a_serialized_message() {
 
-	CPPUNIT_ASSERT(false);
-}
-
-void messageTests::should_be_a_serialized_message(){
-
-	CPPUNIT_ASSERT(false);
+	string serialized = "this is not a JSON serialized message";
+	CPPUNIT_ASSERT_THROW(Message msg(serialized), NotSerializedDataException);
 }

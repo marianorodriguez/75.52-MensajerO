@@ -18,7 +18,6 @@ class messageTests: public CPPUNIT_NS::TestFixture {
 	CPPUNIT_TEST(should_serialize_message);
 	CPPUNIT_TEST(should_deserialize_message);
 	CPPUNIT_TEST(should_not_be_a_serialized_message);
-	CPPUNIT_TEST(should_be_a_serialized_message);
 
 	CPPUNIT_TEST_SUITE_END();
 
@@ -29,7 +28,6 @@ protected:
 	void should_serialize_message();
 	void should_deserialize_message();
 	void should_not_be_a_serialized_message();
-	void should_be_a_serialized_message();
 };
 
 #endif /* SERVER_TESTS_USER_MESSAGETESTS_H_ */
