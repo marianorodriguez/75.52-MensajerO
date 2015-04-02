@@ -43,3 +43,7 @@ string Message::serialize() {
 
 	return message.toStyledString();
 }
+
+string Message::getText(){
+	return this->message;
+}

@@ -14,6 +14,13 @@
 #define JSON_MSG_DATE_TIME_VALUE "msg_time_date"
 #define JSON_MSG_TEXT "msg_text"
 
+//# ESTRUCTURA DE UN CHAT JSON
+#define JSON_CHAT_ROOT "chat"
+#define JSON_CHAT_USER_1 "username_1"
+#define JSON_CHAT_USER_2 "username_2"
+#define JSON_CHAT_NUM_MSG "number_of_messages"
+#define JSON_CHAT_MESSAGES "messages"
+
 //# LOGGER ####################################
 /**
  * Ruta por defecto al archivo de logging.

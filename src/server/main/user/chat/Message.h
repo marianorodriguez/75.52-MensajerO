@@ -35,6 +35,11 @@ public:
 	 */
 	string serialize() override;
 
+	/**
+	 * Devuelve el texto del mensaje.
+	 */
+	string getText();
+
 private:
 	string userFromID;
 	string userToID;

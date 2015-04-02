@@ -2,37 +2,90 @@
 
 CPPUNIT_TEST_SUITE_REGISTRATION(chatTests);
 
-void chatTests::should_create_new_chat() {
+void chatTests::should_instantiate_new_chat() {
 
-	CPPUNIT_ASSERT(false);
+	string username_1 = "user1";
+	string username_2 = "user2";
+	Chat chat(username_1, username_2);
+
+	CPPUNIT_ASSERT(chat.username_1 == username_1);
+	CPPUNIT_ASSERT(chat.username_2 == username_2);
+	CPPUNIT_ASSERT(chat.numberOfMessages == 0);
+	CPPUNIT_ASSERT(chat.sentMessages.size() == 0);
 }
 
 void chatTests::should_add_message() {
 
-	CPPUNIT_ASSERT(false);
+	string username_1 = "user1";
+	string username_2 = "user2";
+	Chat chat(username_1, username_2);
+
+	string date_time = "29 February, 13:00hs";
+	string from = "user1";
+	string to = "user2";
+	string text = "some random message";
+	Message* msg = new Message(date_time, from, to, text);
+
+	chat.addNewMessage(msg);
+
+	Message* addedMsg = chat.sentMessages.at(0);
+
+	CPPUNIT_ASSERT(addedMsg == msg);
+	CPPUNIT_ASSERT(addedMsg->getText() == text);
 }
 
 void chatTests::should_have_3_sent_messages() {
 
+	string date_time = "29 February, 13:00hs";
+	string from = "user1";
+	string to = "user2";
+	Chat chat(from, to);
+	chat.addNewMessage(new Message(date_time, from, to, "first message"));
+	chat.addNewMessage(new Message(date_time, to, from, "second message"));
+	chat.addNewMessage(new Message(date_time, from, to, "third message"));
+
+	CPPUNIT_ASSERT(chat.numberOfMessages == 3);
+}
+
+void chatTests::should_serialize_chat() {
+
+	string date_time = "29 February, 13:00hs";
+	string from = "user1";
+	string to = "user2";
+	Chat chat(from, to);
+	Message* m1 = new Message(date_time, from, to, "first message");
+	Message* m2 = new Message(date_time, to, from, "second message");
+	Message* m3 = new Message(date_time, from, to, "third message");
+
+	chat.addNewMessage(m1);
+	chat.addNewMessage(m2);
+	chat.addNewMessage(m3);
+
+	string serializedChat = chat.serialize();
+
+	Json::Value JsonChat;
+	JsonChat[JSON_CHAT_ROOT][JSON_CHAT_USER_1] = from;
+	JsonChat[JSON_CHAT_ROOT][JSON_CHAT_USER_2] = to;
+	JsonChat[JSON_CHAT_ROOT][JSON_CHAT_NUM_MSG] = 3;
+	JsonChat[JSON_CHAT_ROOT][JSON_CHAT_MESSAGES]["1"] = m1->serialize();
+	JsonChat[JSON_CHAT_ROOT][JSON_CHAT_MESSAGES]["2"] = m2->serialize();
+	JsonChat[JSON_CHAT_ROOT][JSON_CHAT_MESSAGES]["3"] = m3->serialize();
+
+	CPPUNIT_ASSERT(JsonChat.toStyledString() == serializedChat);
+}
+
+void chatTests::should_not_be_a_serialized_chat() {
+
 	CPPUNIT_ASSERT(false);
 }
 
-void chatTests::should_serialize_chat(){
+void chatTests::should_deserialize_chat() {
 
 	CPPUNIT_ASSERT(false);
 }
 
-void chatTests::should_be_a_serialized_chat(){
+void chatTests::cant_add_message_between_invalid_users() {
 
 	CPPUNIT_ASSERT(false);
-}
 
-void chatTests::should_not_be_a_serialized_chat(){
-
-	CPPUNIT_ASSERT(false);
-}
-
-void chatTests::should_deserialize_chat(){
-
-	CPPUNIT_ASSERT(false);
 }
