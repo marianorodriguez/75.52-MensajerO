@@ -11,7 +11,8 @@
 #define JSON_MSG_ROOT "message"
 #define JSON_MSG_FROM_VALUE "msg_fromID"
 #define JSON_MSG_TO_VALUE "msg_toID"
-#define JSON_MSG_DATE_TIME_VALUE "msg_time_date"
+#define JSON_MSG_DATE_VALUE "msg_date"
+#define JSON_MSG_TIME_VALUE "msg_time"
 #define JSON_MSG_TEXT "msg_text"
 
 //# ESTRUCTURA DE UN CHAT JSON

@@ -20,11 +20,10 @@ void chatTests::should_add_message() {
 	string username_2 = "user2";
 	Chat chat(username_1, username_2);
 
-	string date_time = "29 February, 13:00hs";
 	string from = username_1;
 	string to = username_2;
 	string text = "some random message";
-	Message* msg = new Message(date_time, from, to, text);
+	Message* msg = new Message(from, to, text);
 
 	chat.addNewMessage(msg);
 
@@ -38,26 +37,24 @@ void chatTests::should_add_message() {
 
 void chatTests::should_have_3_sent_messages() {
 
-	string date_time = "29 February, 13:00hs";
 	string from = "user1";
 	string to = "user2";
 	Chat chat(from, to);
-	chat.addNewMessage(new Message(date_time, from, to, "first message"));
-	chat.addNewMessage(new Message(date_time, to, from, "second message"));
-	chat.addNewMessage(new Message(date_time, from, to, "third message"));
+	chat.addNewMessage(new Message(from, to, "first message"));
+	chat.addNewMessage(new Message(to, from, "second message"));
+	chat.addNewMessage(new Message(from, to, "third message"));
 
 	CPPUNIT_ASSERT(chat.numberOfMessages == 3);
 }
 
 void chatTests::should_serialize_chat() {
 
-	string date_time = "29 February, 13:00hs";
 	string from = "user1";
 	string to = "user2";
 	Chat chat(from, to);
-	Message* m1 = new Message(date_time, from, to, "first message");
-	Message* m2 = new Message(date_time, to, from, "second message");
-	Message* m3 = new Message(date_time, from, to, "third message");
+	Message* m1 = new Message(from, to, "first message");
+	Message* m2 = new Message(to, from, "second message");
+	Message* m3 = new Message(from, to, "third message");
 
 	chat.addNewMessage(m1);
 	chat.addNewMessage(m2);
@@ -86,12 +83,11 @@ void chatTests::should_not_be_a_serialized_chat() {
 
 void chatTests::should_deserialize_chat() {
 
-	string date_time = "29 February, 13:00hs";
 	string from = "user1";
 	string to = "user2";
 	Chat chat1(from, to);
-	Message* m1 = new Message(date_time, from, to, "some message");
-	Message* m2 = new Message(date_time, to, from, "another message");
+	Message* m1 = new Message(from, to, "some message");
+	Message* m2 = new Message(to, from, "another message");
 
 	chat1.addNewMessage(m1);
 	chat1.addNewMessage(m2);
@@ -118,12 +114,9 @@ void chatTests::cant_add_message_between_invalid_users() {
 
 	Chat chat("username1", "username2");
 
-	chat.addNewMessage(new Message("", "username1", "username2", "text"));
-	chat.addNewMessage(new Message("", "username2", "username1", "text"));
-
 	CPPUNIT_ASSERT_THROW(
 			chat.addNewMessage(
-					new Message("", "invalidUser", "username2", "text")),
+					new Message("invalidUser", "username2", "text")),
 			InvalidUsernameException);
 }
 

@@ -4,6 +4,8 @@
 #include "../../exceptions/NotSerializedDataException.h"
 #include "../../exceptions/InvalidUsernameException.h"
 #include "../../tests/user/chat/messageTests.h"
+#include "../../utilities/Date.h"
+#include "../../utilities/Time.h"
 #include "json/json.h"
 #include<iostream>
 using namespace std;
@@ -28,7 +30,7 @@ public:
 	 * @params to El receptor del mensaje.
 	 * @params message El mensaje a enviar.
 	 */
-	Message(string date_time, string from, string to, string message);
+	Message(string from, string to, string message);
 	virtual ~Message();
 
 	/**
@@ -43,11 +45,14 @@ public:
 
 	string getUserTo();
 	string getUserFrom();
+	string getDate();
+	string getTime();
 
 private:
 	string userFromID;
 	string userToID;
-	string date_time;
+	string date;
+	string time;
 	string message;
 };
 
