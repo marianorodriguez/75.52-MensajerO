@@ -8,9 +8,9 @@
 #ifndef SERVER_MAIN_USER_CHAT_CHAT_H_
 #define SERVER_MAIN_USER_CHAT_CHAT_H_
 
+#include "../../../tests/user/chat/chatTests.h"
 #include "../../interfaces/Serializable/ISerializable.h"
 #include "../../exceptions/InvalidUsernameException.h"
-#include "../../../tests/user/chat/chatTests.h"
 #include "Message.h"
 
 class chatTests;
@@ -30,6 +30,8 @@ private:
 	string username_2;
 	int numberOfMessages;
 	vector<Message*> sentMessages;
+
+	bool isAValidMessage(Message m);
 };
 
 #endif /* SERVER_MAIN_USER_CHAT_CHAT_H_ */

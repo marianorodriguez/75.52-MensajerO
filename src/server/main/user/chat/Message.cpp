@@ -20,6 +20,11 @@ Message::Message(string toDeserialize) {
 			(parsedFromString[JSON_MSG_ROOT][JSON_MSG_DATE_TIME_VALUE]).asString();
 	this->message =
 			(parsedFromString[JSON_MSG_ROOT][JSON_MSG_TEXT]).asString();
+
+	if(this->userFromID == this->userToID){
+		InvalidUsernameException *e = new InvalidUsernameException("Can't add a message between a single user");
+		throw *e;
+	}
 }
 
 Message::Message(string date_time, string from, string to, string message) {
@@ -28,6 +33,11 @@ Message::Message(string date_time, string from, string to, string message) {
 	this->userToID = to;
 	this->message = message;
 	this->date_time = date_time; //TODO automatizar la fecha y hora
+
+	if(this->userFromID == this->userToID){
+		InvalidUsernameException *e = new InvalidUsernameException("Can't add a message between a single user");
+		throw *e;
+	}
 }
 
 Message::~Message() {
@@ -46,4 +56,12 @@ string Message::serialize() {
 
 string Message::getText(){
 	return this->message;
+}
+
+string Message::getUserTo(){
+	return this->userToID;
+}
+
+string Message::getUserFrom(){
+	return this->userFromID;
 }

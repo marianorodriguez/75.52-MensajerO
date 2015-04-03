@@ -23,6 +23,7 @@ class chatTests: public CPPUNIT_NS::TestFixture {
 	CPPUNIT_TEST(should_add_message);
 	CPPUNIT_TEST(should_have_3_sent_messages);
 	CPPUNIT_TEST(cant_add_message_between_invalid_users);
+	CPPUNIT_TEST(cant_create_chat_between_one_single_user);
 
 	CPPUNIT_TEST_SUITE_END();
 
@@ -34,6 +35,7 @@ protected:
 	void should_add_message();
 	void should_have_3_sent_messages();
 	void cant_add_message_between_invalid_users();
+	void cant_create_chat_between_one_single_user();
 };
 
 #endif /* SERVER_TESTS_USER_CHATTESTS_H_ */

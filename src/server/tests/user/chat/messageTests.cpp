@@ -71,3 +71,9 @@ void messageTests::should_not_be_a_serialized_message() {
 	string serialized = "this is not a JSON serialized message";
 	CPPUNIT_ASSERT_THROW(Message msg(serialized), NotSerializedDataException);
 }
+
+void messageTests::cant_add_message_between_the_same_user() {
+
+	CPPUNIT_ASSERT_THROW(Message m("", "user1", "user1", "text"),
+			InvalidUsernameException);
+}

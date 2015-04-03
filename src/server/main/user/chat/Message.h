@@ -2,6 +2,7 @@
 #define SERVER_MAIN_USER_MESSAGE_H_
 #include "../../interfaces/Serializable/ISerializable.h"
 #include "../../exceptions/NotSerializedDataException.h"
+#include "../../exceptions/InvalidUsernameException.h"
 #include "../../tests/user/chat/messageTests.h"
 #include "json/json.h"
 #include<iostream>
@@ -39,6 +40,9 @@ public:
 	 * Devuelve el texto del mensaje.
 	 */
 	string getText();
+
+	string getUserTo();
+	string getUserFrom();
 
 private:
 	string userFromID;

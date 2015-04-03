@@ -21,8 +21,8 @@ void chatTests::should_add_message() {
 	Chat chat(username_1, username_2);
 
 	string date_time = "29 February, 13:00hs";
-	string from = "user1";
-	string to = "user2";
+	string from = username_1;
+	string to = username_2;
 	string text = "some random message";
 	Message* msg = new Message(date_time, from, to, text);
 
@@ -32,6 +32,8 @@ void chatTests::should_add_message() {
 
 	CPPUNIT_ASSERT(addedMsg == msg);
 	CPPUNIT_ASSERT(addedMsg->getText() == text);
+
+	delete msg;
 }
 
 void chatTests::should_have_3_sent_messages() {
@@ -61,18 +63,19 @@ void chatTests::should_serialize_chat() {
 	chat.addNewMessage(m2);
 	chat.addNewMessage(m3);
 
-	string serializedChat = chat.serialize();
-
 	Json::Value JsonChat;
 	JsonChat[JSON_CHAT_ROOT][JSON_CHAT_USER_1] = from;
 	JsonChat[JSON_CHAT_ROOT][JSON_CHAT_USER_2] = to;
 	JsonChat[JSON_CHAT_ROOT][JSON_CHAT_NUM_MSG] = 3;
-	JsonChat[JSON_CHAT_ROOT][JSON_CHAT_MESSAGES]["1"] = m1->serialize();
-	JsonChat[JSON_CHAT_ROOT][JSON_CHAT_MESSAGES]["2"] = m2->serialize();
-	JsonChat[JSON_CHAT_ROOT][JSON_CHAT_MESSAGES]["3"] = m3->serialize();
+	JsonChat[JSON_CHAT_ROOT][JSON_CHAT_MESSAGES][0] = m1->serialize();
+	JsonChat[JSON_CHAT_ROOT][JSON_CHAT_MESSAGES][1] = m2->serialize();
+	JsonChat[JSON_CHAT_ROOT][JSON_CHAT_MESSAGES][2] = m3->serialize();
 
-	cout << endl << serializedChat << endl << endl; //todo sacar
-	CPPUNIT_ASSERT(JsonChat.toStyledString() == serializedChat);
+	CPPUNIT_ASSERT(JsonChat.toStyledString() == chat.serialize());
+
+	delete m1;
+	delete m2;
+	delete m3;
 }
 
 void chatTests::should_not_be_a_serialized_chat() {
@@ -88,8 +91,10 @@ void chatTests::should_deserialize_chat() {
 	string to = "user2";
 	Chat chat1(from, to);
 	Message* m1 = new Message(date_time, from, to, "some message");
+	Message* m2 = new Message(date_time, to, from, "another message");
 
 	chat1.addNewMessage(m1);
+	chat1.addNewMessage(m2);
 
 	string serializedChat = chat1.serialize();
 
@@ -101,6 +106,12 @@ void chatTests::should_deserialize_chat() {
 	CPPUNIT_ASSERT(
 			chat1.sentMessages.at(0)->getText()
 					== chat2.sentMessages.at(0)->getText());
+	CPPUNIT_ASSERT(
+			chat1.sentMessages.at(1)->getText()
+					== chat2.sentMessages.at(1)->getText());
+
+	delete m1;
+	delete m2;
 }
 
 void chatTests::cant_add_message_between_invalid_users() {
@@ -114,4 +125,9 @@ void chatTests::cant_add_message_between_invalid_users() {
 			chat.addNewMessage(
 					new Message("", "invalidUser", "username2", "text")),
 			InvalidUsernameException);
+}
+
+void chatTests::cant_create_chat_between_one_single_user() {
+
+	CPPUNIT_ASSERT_THROW(Chat c("user1", "user1"), InvalidUsernameException);
 }
