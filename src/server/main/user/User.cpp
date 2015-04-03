@@ -9,14 +9,17 @@
 
 User::User(string username, string password) {
 
+	this->username = username;
+	this->hashedPWD = encryptPassword(password);
+	this->numberOfChats = 0;
+	this->location = DEFAULT_USER_LOCATION;
+	this->status = DEFAULT_USER_STATUS;
 }
 
 User::User(string serializedUser) {
 }
 
-User::~User() {
-
-}
+User::~User() {}
 
 string User::serialize() {
 	return "";
@@ -40,17 +43,20 @@ string User::getStatus() {
 
 void User::modifyLocation(string newLocation) {
 
+	this->location = newLocation;
 }
 
 void User::modifyStatus(string newStatus) {
 
+	this->status = newStatus;
 }
 
 void User::addChatWithUser(string username) {
+
 
 }
 
 string User::encryptPassword(string plainPWD) {
 
-	return "";
+	return md5(plainPWD);
 }

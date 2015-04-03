@@ -8,6 +8,7 @@
 #ifndef SERVER_MAIN_INTERFACES_ISERIALIZABLE_H_
 #define SERVER_MAIN_INTERFACES_ISERIALIZABLE_H_
 
+#include "json/json.h"
 #include <iostream>
 using namespace std;
 

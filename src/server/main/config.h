@@ -22,14 +22,23 @@
 #define JSON_CHAT_NUM_MSG "number_of_messages"
 #define JSON_CHAT_MESSAGES "messages"
 
+//# ESTRUCTURA DE UN USER JSON
+#define JSON_USER_ROOT "user"
+#define JSON_USER_NAME "username"
+#define JSON_USER_PWD "password"
+#define JSON_USER_LOCATION "location"
+#define JSON_USER_STATUS "status"
+#define JSON_USER_NUM_CHAT "number_of_chats"
+#define JSON_USER_CHATS_WITH "chats_with"
+
+//# USER ######################################
+#define DEFAULT_USER_LOCATION "UNKNOWN"
+#define DEFAULT_USER_STATUS "Online"
+
 //# LOGGER ####################################
 /**
  * Ruta por defecto al archivo de logging.
  */
 #define DEFAULT_LOGGING_FILE "logging.txt"
-
-
-
-
 
 #endif /* CONFIG_CONFIG_H_ */

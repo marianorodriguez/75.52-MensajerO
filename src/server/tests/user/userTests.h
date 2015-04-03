@@ -22,6 +22,10 @@ class userTests: public CPPUNIT_NS::TestFixture {
 	CPPUNIT_TEST(should_modify_status);
 	CPPUNIT_TEST(should_have_no_chats);
 	CPPUNIT_TEST(should_have_2_chats);
+	CPPUNIT_TEST(should_serialize_user);
+	CPPUNIT_TEST(should_deserialize_user);
+	CPPUNIT_TEST(cant_have_chat_with_himself);
+	CPPUNIT_TEST(cant_have_2_chats_with_same_user);
 
 	CPPUNIT_TEST_SUITE_END();
 
@@ -32,6 +36,10 @@ protected:
 	void should_modify_status();
 	void should_have_no_chats();
 	void should_have_2_chats();
+	void should_serialize_user();
+	void should_deserialize_user();
+	void cant_have_chat_with_himself();
+	void cant_have_2_chats_with_same_user();
 };
 
 #endif /* SERVER_TESTS_USER_USERTESTS_H_ */

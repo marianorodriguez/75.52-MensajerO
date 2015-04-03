@@ -2,11 +2,17 @@
 #define SERVER_MAIN_USER_USER_H_
 
 #include "../interfaces/Serializable/ISerializable.h"
+#include "../exceptions/InvalidUsernameException.h"
+#include "../../tests/user/userTests.h"
+#include "../utilities/MD5.h"
 #include <vector>
 #include <iostream>
 using namespace std;
 
+class userTests;
 class User: public ISerializable{
+	friend userTests;
+
 public:
 	User(string username, string pass);
 	User(string serializedUser);
