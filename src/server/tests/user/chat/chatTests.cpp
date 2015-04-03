@@ -71,21 +71,47 @@ void chatTests::should_serialize_chat() {
 	JsonChat[JSON_CHAT_ROOT][JSON_CHAT_MESSAGES]["2"] = m2->serialize();
 	JsonChat[JSON_CHAT_ROOT][JSON_CHAT_MESSAGES]["3"] = m3->serialize();
 
+	cout << endl << serializedChat << endl << endl; //todo sacar
 	CPPUNIT_ASSERT(JsonChat.toStyledString() == serializedChat);
 }
 
 void chatTests::should_not_be_a_serialized_chat() {
 
-	CPPUNIT_ASSERT(false);
+	string serialized = "not a serialized Chat";
+	CPPUNIT_ASSERT_THROW(Chat c(serialized), NotSerializedDataException);
 }
 
 void chatTests::should_deserialize_chat() {
 
-	CPPUNIT_ASSERT(false);
+	string date_time = "29 February, 13:00hs";
+	string from = "user1";
+	string to = "user2";
+	Chat chat1(from, to);
+	Message* m1 = new Message(date_time, from, to, "some message");
+
+	chat1.addNewMessage(m1);
+
+	string serializedChat = chat1.serialize();
+
+	Chat chat2(serializedChat);
+
+	CPPUNIT_ASSERT(chat1.username_1 == chat2.username_1);
+	CPPUNIT_ASSERT(chat1.username_2 == chat2.username_2);
+	CPPUNIT_ASSERT(chat1.numberOfMessages == chat2.numberOfMessages);
+	CPPUNIT_ASSERT(
+			chat1.sentMessages.at(0)->getText()
+					== chat2.sentMessages.at(0)->getText());
 }
 
 void chatTests::cant_add_message_between_invalid_users() {
 
-	CPPUNIT_ASSERT(false);
+	Chat chat("username1", "username2");
 
+	chat.addNewMessage(new Message("", "username1", "username2", "text"));
+	chat.addNewMessage(new Message("", "username2", "username1", "text"));
+
+	CPPUNIT_ASSERT_THROW(
+			chat.addNewMessage(
+					new Message("", "invalidUser", "username2", "text")),
+			InvalidUsernameException);
 }
