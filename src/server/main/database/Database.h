@@ -12,6 +12,7 @@
 #include "json/json.h"
 #include <iostream>
 #include "../interfaces/Persistible/IPersistible.h"
+#include "../logger/logger.h"
 
 
 class Database: public IPersistible {
