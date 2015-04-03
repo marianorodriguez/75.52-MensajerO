@@ -6,7 +6,7 @@
 #include<string.h>
 #include <time.h>
 #include "../config.h"
-#include "../jsoncpp/json.h"
+#include "json.h"
 using namespace std;
 
 /**
