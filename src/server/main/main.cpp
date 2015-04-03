@@ -1,8 +1,10 @@
-/*
+
 #include "logger/logger.h"
+#include "services/RestServer.h"
 #include <iostream>
 
 using namespace std;
+
 
 int main() {
 
@@ -13,11 +15,12 @@ int main() {
 	log->write(logger::INFO, "Info de app.");
 	log->write(logger::WARN, "cuidado! valor no establecido.");
 	log->saveStatus();
-
+	
 	delete log;
 	return 0;
 }
-*/
+
+
 
 /*
 #ifndef _MSC_VER
