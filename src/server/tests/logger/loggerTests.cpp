@@ -44,27 +44,13 @@ void loggerTests::should_return_log_path() {
 }
 
 void loggerTests::should_write_an_issue() {
-
-//	logger* loggerInstance = logger::getLogger();
-//	loggerInstance->write(logger::ERROR, "Some error");
-//	string logDir = logger::getLogDir();
-//	delete loggerInstance;
-//
-//	string shouldSay = "ERROR: Some error";
-//
-//	ifstream* loggerFile = new ifstream;
-//	loggerFile->open(logDir.c_str(), ifstream::out);
-//
-//	char* buffer = new char[shouldSay.size()];
-//	loggerFile->read(buffer, shouldSay.size());
-//
-//	CPPUNIT_ASSERT(buffer == shouldSay.c_str());
-//
-//	delete loggerFile;
+	//todo completar prueba
+	CPPUNIT_ASSERT(false);
 }
 
 void loggerTests::should_stamp_time_and_date() {
-
+	//todo completar prueba
+	CPPUNIT_ASSERT(false);
 }
 
 void loggerTests::should_return_loggingLevels() {
@@ -80,5 +66,12 @@ void loggerTests::should_return_loggingLevels() {
 }
 
 void loggerTests::should_set_logging_levels() {
+	//TODO completar prueba
+	CPPUNIT_ASSERT(false);
+}
 
+void loggerTests::should_throw_file_not_found_exception(){
+
+	//TODO hacer alguna magia para que no pueda encontrar el archivo config.json
+	CPPUNIT_ASSERT(false);
 }

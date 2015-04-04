@@ -10,7 +10,8 @@
 using namespace std;
 
 /**
- * This class is used to log run-time issues, like Errors, Warnings, Info and Debugging.
+ * Esta clase se utiliza para registrar eventos en un archivo de texto,
+ * como Errores, Advertencias, Información general y datos para Debugging.
  */
 class logger {
 
@@ -18,33 +19,33 @@ class logger {
 
 public:
 /**
- *The level of the logger.
+ *Los niveles de eventos del logger.
  */
 	enum loggingLevel {
 		ERROR, WARN, DEBUG, INFO,
 	};
 
 	/**
-	 * Used to call the logger instance. If it doesn't exists, it will be instantiated.
-	 * The path to the logging file can be configured in the config.h
+	 * Usado para llamar al logger. Si nunca antes fue llamado, se instanciará.
+	 * La dirección del archivo de texto puede ser configurada en config.h
 	 */
 	static logger* getLogger();
 
 	/**
-	 * @param level The Level of the issue.
-	 * @param text Description of the issue.
+	 * @param level El tipo de evento.
+	 * @param text Descripcion del evento.
 	 *
-	 *\brief Writes the issue into a file.
+	 *\brief Escribe el problema en el archivo de logging.
 	 */
 	void write(loggingLevel level, string text);
 
 	/**
-	 * Saves the file and re-opens it.
+	 * Guarda el archivo y lo vuelve a abrir.
 	 */
 	void saveStatus();
 
 	/**
-	 * Returns the path to the logging file.
+	 * Devuelve la dirección del archivo de logging.
 	 */
 	static string getLogDir();
 

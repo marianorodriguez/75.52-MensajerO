@@ -11,6 +11,3 @@ ISerializable::~ISerializable(){
 string ISerializable::serialize(){
 	return "";
 }
-
-void ISerializable::deserialize(string serializedData){
-}
