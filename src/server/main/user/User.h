@@ -3,6 +3,7 @@
 
 #include "../interfaces/Serializable/ISerializable.h"
 #include "../exceptions/InvalidUsernameException.h"
+#include "../exceptions/NotSerializedDataException.h"
 #include "../../tests/user/userTests.h"
 #include "../utilities/MD5.h"
 #include <vector>
@@ -38,6 +39,7 @@ private:
 	vector<string> hasChatsWith;
 
 	string encryptPassword(string plainPWD);
+	bool isChattingWith(string username);
 };
 
 #endif /* SERVER_MAIN_USER_USER_H_ */

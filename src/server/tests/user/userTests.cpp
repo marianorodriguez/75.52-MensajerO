@@ -125,3 +125,8 @@ void userTests::should_deserialize_user() {
 	CPPUNIT_ASSERT(user1->hasChatsWith.at(0) == user2->hasChatsWith.at(0));
 	CPPUNIT_ASSERT(user1->hasChatsWith.at(1) == user2->hasChatsWith.at(1));
 }
+
+void userTests::should_not_be_a_json_serialized_user(){
+
+	CPPUNIT_ASSERT_THROW(User user("not a serialized User"), NotSerializedDataException);
+}
