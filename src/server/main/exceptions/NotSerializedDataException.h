@@ -11,6 +11,13 @@
 #include <iostream>
 using namespace std;
 
+/**
+ * Define una excepcion de tipo "no es un objeto serializado".
+ * El objeto no es serializado cuando:
+ * -> No se reconoce a la cadena de texto como un mensaje serializado.
+ * -> No se reconoce a la cadena de texto como un chat serializado.
+ * -> No se reconoce a la cadena de texto como un usuario serializado.
+ */
 class NotSerializedDataException: public BaseException {
 public:
 	NotSerializedDataException(string what);

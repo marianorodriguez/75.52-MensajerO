@@ -12,6 +12,9 @@
 #include <iostream>
 using namespace std;
 
+/**
+ * Define una clase base para todas las excepciones del servidor.
+ */
 class BaseException: public std::exception {
 public:
 	BaseException(string what);

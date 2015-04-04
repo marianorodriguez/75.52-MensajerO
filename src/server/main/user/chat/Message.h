@@ -43,9 +43,24 @@ public:
 	 */
 	string getText();
 
+	/**
+	 * Devuelve el destinatario del mensaje.
+	 */
 	string getUserTo();
+
+	/**
+	 * Devuelve el emisor del mensaje.
+	 */
 	string getUserFrom();
+
+	/**
+	 * Devuelve la fecha en que se creó el mensaje.
+	 */
 	string getDate();
+
+	/**
+	 * Devuelve la hora en la que se creó el mensaje.
+	 */
 	string getTime();
 
 private:

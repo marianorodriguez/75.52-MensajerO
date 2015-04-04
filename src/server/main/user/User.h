@@ -11,23 +11,68 @@
 using namespace std;
 
 class userTests;
+/**
+ * Define a un usuario dentro del servidor.
+ */
 class User: public ISerializable{
 	friend userTests;
 
 public:
+
+	/**
+	 * Inicializa un usuario pasandole por parametro sus atributos.
+	 * @params username El username del usuario.
+	 * @params pass La contraseña del usuario.
+	 */
 	User(string username, string pass);
+
+	/**
+	 * Inicializa un usuario pasandole como parametro una cadena de texto con su información previamente serializada.
+	 */
 	User(string serializedUser);
 	virtual ~User();
 
+	/**
+	 * Serializa al usuario en una cadena de texto.
+	 */
 	string serialize() override;
 
+	/**
+	 * Devuelve el username del usuario.
+	 */
 	string getUsername();
+
+	/**
+	 * Devuelve la contreseña encriptada del usuario.
+	 */
 	string getHashedPWD();
+
+	/**
+	 * Devuelve la ubicación actual del usuario.
+	 */
 	string getLocation();
+
+	/**
+	 * Devuelve el estado del usuario.
+	 */
 	string getStatus();
 
+	/**
+	 * Cambia la ubicación del usuario por la que es pasada como parametro.
+	 * @params newLocation La nueva ubicación del usuario.
+	 */
 	void modifyLocation(string newLocation);
+
+	/**
+	 * Cambia el estado del usuario por el que es pasado como parametro.
+	 * @params newStatus El nuevo estado del usuario.
+	 */
 	void modifyStatus(string newStatus);
+
+	/**
+	 * Agrega a la lista de chats propios el username del usuario con el que comienza un chat.
+	 * @params user El username del usuario con el que comienza un chat.
+	 */
 	void addChatWithUser(string user);
 
 private:
@@ -38,7 +83,13 @@ private:
 	int numberOfChats;
 	vector<string> hasChatsWith;
 
+	/**Encripta la contreseña pasada por parametro */
 	string encryptPassword(string plainPWD);
+
+	/**
+	 * Se fija si el usuario tiene un chat con el usuario pasado por parametro.
+	 * @params username El usuario con el que quiere ver si tiene un chat.
+	 */
 	bool isChattingWith(string username);
 };
 

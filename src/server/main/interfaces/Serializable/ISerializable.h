@@ -12,12 +12,18 @@
 #include <iostream>
 using namespace std;
 
+/**
+ * Esta clase define una interfaz para todos los objetos que se pueden serializar a una cadena de texto.
+ */
 class ISerializable{
 
 public:
 	ISerializable();
 	virtual ~ISerializable();
 
+	/**
+	 * @returns El objeto serializado como una cadena de texto.
+	 */
 	virtual string serialize();
 };
 

@@ -14,15 +14,35 @@
 #include "Message.h"
 
 class chatTests;
+
+/**
+ * Esta clase define un chat entre dos usuarios diferentes.
+ */
 class Chat: public ISerializable {
 	friend chatTests;
 
 public:
+
+	/**
+	 * Inicializa un chat existente pasandole por parametros una cadena de texto con los datos del chat.
+	 */
 	Chat(string serializedChat);
+
+	/**
+	 * Inicializa un nuevo chat pasandole como parametro los usuarios vinculados.
+	 */
 	Chat(string user1, string user2);
 	virtual ~Chat();
+
+	/**
+	 * Agrega un nuevo mensaje al chat actual.
+	 * @params msg Puntero al mensaje a agregar.
+	 */
 	void addNewMessage(Message* msg);
 
+	/**
+	 * Serializa el chat en una cadena de texto.
+	 */
 	string serialize() override;
 
 private:
@@ -31,6 +51,9 @@ private:
 	int numberOfMessages;
 	vector<Message*> sentMessages;
 
+	/**
+	 * Chequea si el mensaje pasado por parametro puede ser un mensaje valido para el chat actual.
+	 */
 	bool isAValidMessage(Message m);
 };
 
