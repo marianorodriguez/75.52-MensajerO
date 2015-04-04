@@ -18,17 +18,20 @@ void DatabaseTests::should_write_and_read() {
 	Database* db = new Database(pathTest);
 	db->write("key1","value1");
 	db->write("key2","value2");
-	bool error = false;
+	bool error = true;
 	CPPUNIT_ASSERT(db->read("key1",&error) == "value1");
 	CPPUNIT_ASSERT(db->read("key2",&error) == "value2");
+	CPPUNIT_ASSERT(error == false);
 	delete db;
 }
 
 void DatabaseTests::should_erase(){
 	Database* db = new Database(pathTest);
-	bool error = false;
+	bool error = true;
+	CPPUNIT_ASSERT(db->read("key2",&error) == "value2");
 	db->write("key1","value1");
 	CPPUNIT_ASSERT(db->read("key1",&error) == "value1");
+	CPPUNIT_ASSERT(error == false);
 	db->erase("key1");
 	db->read("key1",&error);
 	CPPUNIT_ASSERT(error == true);
@@ -43,5 +46,16 @@ void DatabaseTests::should_modify(){
 	db->write("key1","value2");
 	CPPUNIT_ASSERT(db->read("key1",&error) == "value2");
 	delete db;
+}
+
+void DatabaseTests::should_persist() {
+	Database* db = new Database(pathTest);
+	bool error = false;
+	db->write("key1","value1");
+	CPPUNIT_ASSERT(db->read("key1",&error) == "value1");
+	delete db;
+	Database* db2 = new Database(pathTest);
+	CPPUNIT_ASSERT(db2->read("key1",&error) == "value1");
+	delete db2;
 }
 
