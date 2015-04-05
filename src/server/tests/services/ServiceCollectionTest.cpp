@@ -1,13 +1,14 @@
-#include <cstdio>
-
 #include "ServiceCollectionTest.h"
-
 
 CPPUNIT_TEST_SUITE_REGISTRATION(ServiceCollectionTest);
 
-void ServiceCollectionTest::setUp(){}
+void ServiceCollectionTest::setUp(){
+    CppUnit::TestFixture::setUp();
+}
 
-void ServiceCollectionTest::tearDown(){}
+void ServiceCollectionTest::tearDown(){
+    CppUnit::TestFixture::tearDown();
+}
 
 void ServiceCollectionTest::testAddService(){
 	ServiceInterface* echoService = new EchoService();

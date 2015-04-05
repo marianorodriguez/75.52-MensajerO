@@ -7,6 +7,7 @@
 #include <cppunit/TestRunner.h>
 
 #include "services/ServiceCollectionTest.h"
+#include "rest-client/RestClientTest.h"
 
 int main( int argc, char* argv[] )
 {
@@ -20,6 +21,8 @@ int main( int argc, char* argv[] )
   CPPUNIT_NS::TestRunner runner;
   
   ServiceCollectionTest scTest;
+  RestClientTest rcTest;
+  rcTest.testBuildQuery();
   scTest.testAddService();
 
   runner.addTest( CPPUNIT_NS::TestFactoryRegistry::getRegistry().makeTest() );
