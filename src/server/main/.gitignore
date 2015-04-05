@@ -1,0 +1,9 @@
+# Auxiliares cmake
+CMakeFiles
+CMakeCache.txt
+cmake_install.cmake
+
+Makefile
+
+# Ejecutable
+server

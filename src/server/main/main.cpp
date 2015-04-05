@@ -1,8 +1,10 @@
-/*
+
 #include "logger/logger.h"
+#include "services/RestServer.h"
 #include <iostream>
 
 using namespace std;
+
 
 int main() {
 
@@ -13,11 +15,12 @@ int main() {
 	log->write(logger::INFO, "Info de app.");
 	log->write(logger::WARN, "cuidado! valor no establecido.");
 	log->saveStatus();
-
+	
 	delete log;
 	return 0;
 }
-*/
+
+
 
 /*
 #ifndef _MSC_VER
@@ -181,6 +184,8 @@ int main()
 // This source code is licensed under the BSD-style license found in the
 // LICENSE file in the root directory of this source tree. An additional grant
 // of patent rights can be found in the PATENTS file in the same directory.
+
+/*
 #include <cstdio>
 #include <string>
 
@@ -203,16 +208,16 @@ int main() {
 
   // open DB
   Status s = DB::Open(options, kDBPath, &db);
-  assert(s.ok());
+ // assert(s.ok());
 
   // Put key-value
   s = db->Put(WriteOptions(), "key1", "value");
-  assert(s.ok());
+ // assert(s.ok());
   std::string value;
   // get value
   s = db->Get(ReadOptions(), "key1", &value);
-  assert(s.ok());
-  assert(value == "value");
+  //assert(s.ok());
+  //assert(value == "value");
 
   // atomically apply a set of updates
   {
@@ -223,12 +228,13 @@ int main() {
   }
 
   s = db->Get(ReadOptions(), "key1", &value);
-  assert(s.IsNotFound());
+  //assert(s.IsNotFound());
 
   db->Get(ReadOptions(), "key2", &value);
-  assert(value == "value");
+ // assert(value == "value");
 
-  delete db;
+// delete db;
 
   return 0;
 }
+*/

@@ -6,13 +6,15 @@
 #include<string.h>
 #include <time.h>
 #include "../config.h"
-#include "../jsoncpp/json.h"
+#include "json.h"
 using namespace std;
 
 /**
  * This class is used to log run-time issues, like Errors, Warnings, Info and Debugging.
  */
 class logger {
+
+	friend class loggerTests;
 
 public:
 /**
@@ -40,6 +42,12 @@ public:
 	 * Saves the file and re-opens it.
 	 */
 	void saveStatus();
+
+	/**
+	 * Returns the path to the logging file.
+	 */
+	static string getLogDir();
+
 	~logger();
 
 private:
@@ -48,7 +56,7 @@ private:
 	bool levels[4];
 	static logger* logInstance;
 	ofstream* file;
-	string logDir;
+	static string logDir;
 
 	logger();
 	void dateStamp();

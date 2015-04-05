@@ -1,0 +1,13 @@
+# Auxiliares cmake
+CMakeFiles
+CMakeCache.txt
+*.cmake
+
+Makefile
+
+*.a
+
+# IDE
+*.kdev4
+build
+
