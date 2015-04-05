@@ -7,7 +7,6 @@ import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
 
-
 public class MainActivity extends ActionBarActivity {
 
     @Override
@@ -16,6 +15,27 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
 
         new ServletPostAsyncTask().execute(new Pair<Context, String>(this, "Grupo Taller II"));
+
+        JsonUtil jsonU = new JsonUtil();
+        Person person = new Person();
+        person.setName("Fernando");
+        person.setSurname("Cortes");
+
+        person.getAddress().setCity("9 de Julio");
+        person.getAddress().setAddress("Mitre 576");
+        person.getAddress().setState("Buenos Aires");
+
+        person.getNum1().setNumber("0800 123456");
+        person.getNum1().setType("casa");
+        person.getNum2().setNumber("15 1335545654");
+        person.getNum2().setType("cel");
+
+//        jsonU.toJSon(person);
+
+        System.out.println(jsonU.toJSon(person).toString());
+
+        Person person2 = jsonU.toPerson(jsonU.toJSon(person));
+
     }
 
 
