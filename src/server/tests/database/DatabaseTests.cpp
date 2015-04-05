@@ -14,26 +14,64 @@ CPPUNIT_TEST_SUITE_REGISTRATION(DatabaseTests);
 
 string pathTest = "src/server/tests/database/testdb";
 
-void DatabaseTests::should_write_and_read() {
+void DatabaseTests::should_write_and_read_single_key() {
 	Database* db = new Database(pathTest);
-	db->write("key1","value1");
-	db->write("key2","value2");
+	vector<string> key1,key2;
+	key1.push_back("key1");
+	key2.push_back("key2");
+	db->write(key1,"value1");
+	db->write(key2,"value2");
 	bool error = true;
-	CPPUNIT_ASSERT(db->read("key1",&error) == "value1");
-	CPPUNIT_ASSERT(db->read("key2",&error) == "value2");
+	CPPUNIT_ASSERT(db->read(key1,&error) == "value1");
+	CPPUNIT_ASSERT(db->read(key2,&error) == "value2");
 	CPPUNIT_ASSERT(error == false);
+	delete db;
+}
+
+void DatabaseTests::should_write_and_read_double_keys() {
+	Database* db = new Database(pathTest);
+	vector<string> key1,key2;
+	key1.push_back("key1");
+	key1.push_back("key2");
+	key2.push_back("key2");
+	key2.push_back("key1");
+	db->write(key1,"value1");
+	bool error = true;
+	CPPUNIT_ASSERT(db->read(key1,&error) == "value1");
+	CPPUNIT_ASSERT(error == false);
+	CPPUNIT_ASSERT(db->read(key2,&error) == "value1");
+	CPPUNIT_ASSERT(error == false);
+	delete db;
+}
+
+void DatabaseTests::should_write_and_read_multiple_keys() {
+	Database* db = new Database(pathTest);
+	vector<string> key1,key2;
+	key1.push_back("key1");
+	key1.push_back("key2");
+	key1.push_back("key3");
+	key1.push_back("key4");
+	key2.push_back("key2");
+	key2.push_back("key3");
+	key2.push_back("key4");
+	key2.push_back("key1");
+	db->write(key1,"value1");
+	bool error = true;
+	CPPUNIT_ASSERT(db->read(key1,&error) == "value1");
+	CPPUNIT_ASSERT(db->read(key2,&error) == "value1");
 	delete db;
 }
 
 void DatabaseTests::should_erase(){
 	Database* db = new Database(pathTest);
 	bool error = true;
-	CPPUNIT_ASSERT(db->read("key2",&error) == "value2");
-	db->write("key1","value1");
-	CPPUNIT_ASSERT(db->read("key1",&error) == "value1");
+	vector<string> key1;
+	key1.push_back("key1");
+	db->write(key1,"value1");
+	CPPUNIT_ASSERT(db->read(key1,&error) == "value1");
 	CPPUNIT_ASSERT(error == false);
-	db->erase("key1");
-	db->read("key1",&error);
+	db->erase(key1);
+	db->read(key1,&error);
 	CPPUNIT_ASSERT(error == true);
 	delete db;
 }
@@ -41,21 +79,25 @@ void DatabaseTests::should_erase(){
 void DatabaseTests::should_modify(){
 	Database* db = new Database(pathTest);
 	bool error = false;
-	db->write("key1","value1");
-	CPPUNIT_ASSERT(db->read("key1",&error) == "value1");
-	db->write("key1","value2");
-	CPPUNIT_ASSERT(db->read("key1",&error) == "value2");
+	vector<string> key1;
+	key1.push_back("key1");
+	db->write(key1,"value1");
+	CPPUNIT_ASSERT(db->read(key1,&error) == "value1");
+	db->write(key1,"value2");
+	CPPUNIT_ASSERT(db->read(key1,&error) == "value2");
 	delete db;
 }
 
 void DatabaseTests::should_persist() {
 	Database* db = new Database(pathTest);
 	bool error = false;
-	db->write("key1","value1");
-	CPPUNIT_ASSERT(db->read("key1",&error) == "value1");
+	vector<string> key1;
+	key1.push_back("key1");
+	db->write(key1,"value1");
+	CPPUNIT_ASSERT(db->read(key1,&error) == "value1");
 	delete db;
 	Database* db2 = new Database(pathTest);
-	CPPUNIT_ASSERT(db2->read("key1",&error) == "value1");
+	CPPUNIT_ASSERT(db2->read(key1,&error) == "value1");
 	delete db2;
 }
 

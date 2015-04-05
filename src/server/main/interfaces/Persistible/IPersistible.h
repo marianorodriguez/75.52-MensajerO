@@ -9,15 +9,27 @@
 #define IPERSISTIBLE_H_
 
 #include <string>
+#include <vector>
+
 using namespace std;
+
+/*
+ * Esta clase define una interfaz para objetos que puedan guardar informacion en archivos a partir de una key y un value.
+ */
 
 class IPersistible {
 public:
 	IPersistible();
 	virtual ~IPersistible();
 
-	virtual void write(string key, string value);
-	virtual string read(string key,bool* error);
+	/*
+	 * Escribe informacion a partir de @params key y value.
+	 */
+	virtual void write(vector<string> key, string value);
+	/*
+	 * Lee y retorna informacion en @param key. Si no se puede leer, error = true; si se puede es false.
+	 */
+	virtual string read(vector<string> key,bool* error);
 };
 
 #endif /* IPERSISTIBLE_H_ */

@@ -15,17 +15,17 @@ Database::Database(string path) {
 	rocksdb::Status status = rocksdb::DB::Open(options, path , &database);
 }
 
-void Database::write(string key, string value) {
-	rocksdb::Status status = database->Put(rocksdb::WriteOptions(),key,value);
+void Database::write(vector<string> key, string value) {
+	rocksdb::Status status = database->Put(rocksdb::WriteOptions(),this->getKey(key),value);
 	if(!status.ok()) {
 		Logger* logger1 = Logger::getLogger();
 		logger1->write(Logger::ERROR,"No se pudo escribir en la base de datos de: " + database->GetName());
 	}
 }
 
-string Database::read(string key,bool* error) {
+string Database::read(vector<string> key,bool* error) {
 	string value = "";
-	rocksdb::Status status = database->Get(rocksdb::ReadOptions(),key,&value);
+	rocksdb::Status status = database->Get(rocksdb::ReadOptions(),this->getKey(key),&value);
 	if (!status.ok()) {
 		*error = true;
 	} else {
@@ -34,12 +34,22 @@ string Database::read(string key,bool* error) {
 	return value;
 }
 
-void Database::erase(string key) {
-	rocksdb::Status status = database->Delete(rocksdb::WriteOptions(),key);
+void Database::erase(vector<string> key) {
+	string compoundKey = this->getKey(key);
+	rocksdb::Status status = database->Delete(rocksdb::WriteOptions(),compoundKey);
 	if(!status.ok()) {
 		Logger* logger1 = Logger::getLogger();
-		logger1->write(Logger::ERROR,"No se pudo borrar la clave '" + key + "' en la base de datos de: " + database->GetName());
+		logger1->write(Logger::ERROR,"No se pudo borrar la clave '" + compoundKey + "' en la base de datos de: " + database->GetName());
 	}
+}
+
+string Database::getKey(vector<string> key){
+	sort(key.begin(),key.end());
+	Json::Value returnKey;
+	for (int i = 0; i < key.size();i++){
+		returnKey["key"][key[i]] = key[i];
+	}
+	return returnKey.toStyledString();
 }
 
 Database::~Database() {
