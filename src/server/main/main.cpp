@@ -1,4 +1,4 @@
-
+/*
 #include "logger/logger.h"
 #include "services/RestServer.h"
 #include <iostream>
@@ -20,7 +20,7 @@ int main() {
 	return 0;
 }
 
-
+*/
 
 /*
 #ifndef _MSC_VER

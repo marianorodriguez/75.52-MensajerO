@@ -12,7 +12,7 @@
 #include "json/json.h"
 #include <iostream>
 #include "../interfaces/Persistible/IPersistible.h"
-#include "../logger/logger.h"
+#include "../logger/Logger.h"
 
 /*
  * This class defines a database where information is stored as key-value.

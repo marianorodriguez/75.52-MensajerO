@@ -10,12 +10,13 @@ class loggerTests: public CPPUNIT_NS::TestFixture {
 	CPPUNIT_TEST(should_be_singleton);
 	CPPUNIT_TEST(should_instantiate_logger);
 	CPPUNIT_TEST(should_return_log_path);
-	CPPUNIT_TEST(should_write_an_issue);
-	CPPUNIT_TEST(should_stamp_time_and_date);
+	CPPUNIT_TEST(should_write_only_an_error);
+	CPPUNIT_TEST(should_write_only_a_warning);
+	CPPUNIT_TEST(should_write_only_a_debug);
+	CPPUNIT_TEST(should_write_only_an_info);
 	CPPUNIT_TEST(should_return_loggingLevels);
-	CPPUNIT_TEST(should_set_logging_levels);
 	CPPUNIT_TEST(should_throw_file_not_found_exception);
-
+	CPPUNIT_TEST(should_be_thread_safe);
 	CPPUNIT_TEST_SUITE_END();
 
 private:
@@ -24,11 +25,13 @@ protected:
 	void should_be_singleton();
 	void should_instantiate_logger();
 	void should_return_log_path();
-	void should_write_an_issue();
-	void should_stamp_time_and_date();
+	void should_write_only_an_error();
+	void should_write_only_a_warning();
+	void should_write_only_a_debug();
+	void should_write_only_an_info();
 	void should_return_loggingLevels();
-	void should_set_logging_levels();
 	void should_throw_file_not_found_exception();
+	void should_be_thread_safe();
 };
 
 #endif

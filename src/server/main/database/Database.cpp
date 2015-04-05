@@ -18,8 +18,8 @@ Database::Database(string path) {
 void Database::write(string key, string value) {
 	rocksdb::Status status = database->Put(rocksdb::WriteOptions(),key,value);
 	if(!status.ok()) {
-		logger* logger1 = logger::getLogger();
-		logger1->write(logger::ERROR,"No se pudo escribir en la base de datos de: " + database->GetName());
+		Logger* logger1 = Logger::getLogger();
+		logger1->write(Logger::ERROR,"No se pudo escribir en la base de datos de: " + database->GetName());
 	}
 }
 
@@ -37,8 +37,8 @@ string Database::read(string key,bool* error) {
 void Database::erase(string key) {
 	rocksdb::Status status = database->Delete(rocksdb::WriteOptions(),key);
 	if(!status.ok()) {
-		logger* logger1 = logger::getLogger();
-		logger1->write(logger::ERROR,"No se pudo borrar la clave '" + key + "' en la base de datos de: " + database->GetName());
+		Logger* logger1 = Logger::getLogger();
+		logger1->write(Logger::ERROR,"No se pudo borrar la clave '" + key + "' en la base de datos de: " + database->GetName());
 	}
 }
 

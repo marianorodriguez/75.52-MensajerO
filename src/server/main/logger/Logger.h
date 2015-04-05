@@ -4,16 +4,21 @@
 #include<iostream>
 #include<fstream>
 #include<string.h>
-#include <time.h>
+#include <thread>
+#include <mutex>
 #include "../config.h"
+#include "../exceptions/FileNotFoundException.h"
+#include "../utilities/Date.h"
+#include "../utilities/Time.h"
 #include "json.h"
+
 using namespace std;
 
 /**
  * Esta clase se utiliza para registrar eventos en un archivo de texto,
  * como Errores, Advertencias, Información general y datos para Debugging.
  */
-class logger {
+class Logger {
 
 	friend class loggerTests;
 
@@ -29,7 +34,7 @@ public:
 	 * Usado para llamar al logger. Si nunca antes fue llamado, se instanciará.
 	 * La dirección del archivo de texto puede ser configurada en config.h
 	 */
-	static logger* getLogger();
+	static Logger* getLogger();
 
 	/**
 	 * @param level El tipo de evento.
@@ -49,18 +54,17 @@ public:
 	 */
 	static string getLogDir();
 
-	~logger();
+	~Logger();
 
 private:
 
 	Json::Value json_logger;
 	bool levels[4];
-	static logger* logInstance;
-	ofstream* file;
+	static Logger* logInstance;
+	ofstream file;
 	static string logDir;
 
-	logger();
-	void dateStamp();
+	Logger(string loggerDir);
 	string getWriteLevel(loggingLevel level);
 	void setLoggingLevels();
 };
