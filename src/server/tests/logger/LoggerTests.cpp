@@ -50,19 +50,21 @@ void loggerTests::should_be_singleton() {
 	CPPUNIT_ASSERT(logger1 == logger2);
 	CPPUNIT_ASSERT(logger2 == logger3);
 	CPPUNIT_ASSERT(logger1 == logger3);
+
+	delete logger1;
 }
 
 void loggerTests::should_instantiate_logger() {
 
-	logger->logInstance = NULL;
 	logger = Logger::getLogger();
 
 	CPPUNIT_ASSERT(logger != NULL);
+
+	delete logger;
 }
 
 void loggerTests::should_return_log_path() {
 
-	logger->logInstance = NULL;
 	logger = Logger::getLogger();
 	string logDir = "";
 
@@ -77,22 +79,23 @@ void loggerTests::should_return_log_path() {
 	}
 
 	CPPUNIT_ASSERT(logDir == logger->getLogDir());
+
+	delete logger;
 }
 
 void loggerTests::should_return_loggingLevels() {
 
-	logger->logInstance = NULL;
 	logger = Logger::getLogger();
 	CPPUNIT_ASSERT(logger->getWriteLevel(Logger::ERROR) == "ERROR");
 	CPPUNIT_ASSERT(logger->getWriteLevel(Logger::WARN) == "WARNING");
 	CPPUNIT_ASSERT(logger->getWriteLevel(Logger::INFO) == "INFO");
 	CPPUNIT_ASSERT(logger->getWriteLevel(Logger::DEBUG) == "DEBUG");
 
+	delete logger;
 }
 
 void loggerTests::should_write_only_a_debug() {
 
-	logger->logInstance = NULL;
 	logger = Logger::getLogger();
 	logger->levels[Logger::DEBUG] = true;
 	logger->levels[Logger::WARN] = false;
@@ -113,11 +116,12 @@ void loggerTests::should_write_only_a_debug() {
 	CPPUNIT_ASSERT(warnFound == string::npos);
 	CPPUNIT_ASSERT(errorFound == string::npos);
 	CPPUNIT_ASSERT(InfoFound == string::npos);
+
+	delete logger;
 }
 
 void loggerTests::should_write_only_an_error() {
 
-	logger->logInstance = NULL;
 	logger = Logger::getLogger();
 	logger->levels[Logger::ERROR] = true;
 	logger->levels[Logger::DEBUG] = false;
@@ -138,11 +142,12 @@ void loggerTests::should_write_only_an_error() {
 	CPPUNIT_ASSERT(debugFound == string::npos);
 	CPPUNIT_ASSERT(warnFound == string::npos);
 	CPPUNIT_ASSERT(InfoFound == string::npos);
+
+	delete logger;
 }
 
 void loggerTests::should_write_only_a_warning() {
 
-	logger->logInstance = NULL;
 	logger = Logger::getLogger();
 	logger->levels[Logger::WARN] = true;
 	logger->levels[Logger::DEBUG] = false;
@@ -163,11 +168,12 @@ void loggerTests::should_write_only_a_warning() {
 	CPPUNIT_ASSERT(debugFound == string::npos);
 	CPPUNIT_ASSERT(errorFound == string::npos);
 	CPPUNIT_ASSERT(InfoFound == string::npos);
+
+	delete logger;
 }
 
 void loggerTests::should_write_only_an_info() {
 
-	logger->logInstance = NULL;
 	logger = Logger::getLogger();
 	logger->levels[Logger::INFO] = true;
 	logger->levels[Logger::DEBUG] = false;
@@ -188,48 +194,79 @@ void loggerTests::should_write_only_an_info() {
 	CPPUNIT_ASSERT(debugFound == string::npos);
 	CPPUNIT_ASSERT(warnFound == string::npos);
 	CPPUNIT_ASSERT(errorFound == string::npos);
+
+	delete logger;
 }
 
 void loggerTests::should_be_thread_safe() {
 
-	logger->logInstance = NULL;
 	thread th1(write50Times, "1");
 	thread th2(write50Times, "2");
 
 	th1.join();
 	th2.join();
 
-	bool assert = true;
+	bool assert = false;
 	ifstream file(logger->getLogDir());
-	string line1;
-	getline(file, line1);
-	int i = 1;
 
-	//me fijo que las primeras 50 lineas del archivo de log sean iguales (todas del thread 1 o todas del thread 2)
-	for (std::string line2; getline(file, line2) && i < 50; i++) {
+	string line;
+	getline(file, line);
 
-		//voy comparando una linea con la siguiente hasta la linea n° 50 (donde termina un thread y comienza el otro)
-		if (line1 != line2) {
-			assert = false;
-			break;
-		} else {
-			line1 = line2;
+	//veo si la primer linea es del thread 1 o del thread 2
+	size_t foundth1 = line.find("thread n1");
+	size_t foundth2 = line.find("thread n2");
+
+	if (foundth1 != string::npos && foundth2 == string::npos) { //si se encontró el thread 1, me aseguro que las siguientes 49 lineas sean del mismo thread
+
+		for (int i = 1; i < 50; i++) {
+			getline(file, line);
+			foundth1 = line.find("thread n1");
+			if (foundth1 == string::npos) {
+				assert = false;
+				break;
+			} else {
+				assert = true;
+			}
+		}
+
+		for (int i = 50; i < 100 && assert == true; i++) {	//las lineas 50 a 100 tienen que ser del thread n2
+			getline(file, line);
+			foundth2 = line.find("thread n2");
+			if (foundth2 == string::npos) {
+				assert = false;
+				break;
+			} else {
+				assert = true;
+			}
+		}
+	} else {	//lo mismo pero al reves
+
+		for (int i = 1; i < 50; i++) {
+			getline(file, line);
+			foundth2 = line.find("thread n2");
+			if (foundth2 == string::npos) {
+				assert = false;
+				break;
+			} else {
+				assert = true;
+			}
+		}
+
+		for (int i = 50; i < 100; i++) {	//las lineas 50 a 100 tienen que ser del thread n1
+			getline(file, line);
+			foundth1 = line.find("thread n1");
+			if (foundth1 == string::npos) {
+				assert = false;
+				break;
+			} else {
+				assert = true;
+			}
 		}
 	}
 
-	//lo mismo con las ultimas 50 lineas, si no hubo mezcla de threads continuo chequeando el otro:
-	getline(file, line1);
-	i++;
-	for (std::string line2; getline(file, line2) && i < 100 && assert == true; i++) {
-
-		if (line1 != line2) {
-			assert = false;
-			break;
-		} else {
-			line1 = line2;
-		}
-	}
 	CPPUNIT_ASSERT(assert);
+
+	delete logger;
 }
 
 void loggerTests::should_throw_file_not_found_exception() {

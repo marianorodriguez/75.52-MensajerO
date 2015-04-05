@@ -94,8 +94,8 @@ Logger::~Logger() {
 	if (this->file.is_open()) {
 		this->file.close();
 	}
-	delete logInstance;
-	logInstance = NULL;
+
+	this->logInstance = NULL;
 }
 
 Logger* Logger::getLogger() {
