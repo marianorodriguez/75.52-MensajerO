@@ -1,7 +1,7 @@
 #ifndef ECHOSERVICE_H
 #define ECHOSERVICE_H
 
-#include "services/ServiceInterface.h"
+#include "ServiceInterface.h"
 
 class EchoService : public ServiceInterface{
 public:

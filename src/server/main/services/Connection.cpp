@@ -10,5 +10,5 @@ std::string Connection::getUri() const{
 }
 
 mg_connection* Connection::getRawConnection() const{
-	return this->getRawConnection();
+	return this->rawConnection;
 }

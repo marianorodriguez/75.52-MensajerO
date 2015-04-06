@@ -1,13 +1,19 @@
 #include <cstdio>
 #include <cstring>
 
-#include "RestServer.h"
 #include "mongoose.h"
 
-static int ev_handler(struct mg_connection *conn, enum mg_event ev) {
+#include "RestServer.h"
+#include "ServiceFactory.h"
+#include "ServiceInterface.h"
+
+/**
+* Captura los requests que le llegan al servidor
+*/
+static int eventHandler(struct mg_connection *conn, enum mg_event event) {
 	RestServer* server = static_cast<RestServer*>(conn->server_param);
 	Connection connectionWrap(conn);
-	switch (ev) {
+	switch (event) {
 		case MG_AUTH:
 			return MG_TRUE;
 		case MG_REQUEST:
@@ -22,11 +28,8 @@ static int ev_handler(struct mg_connection *conn, enum mg_event ev) {
  * Constructor
  */
 RestServer::RestServer(){
-	this->server = mg_create_server(this, ev_handler);
+	this->server = mg_create_server(this, eventHandler);
 	mg_set_option(this->server, "listening_port", "8081");
-	for (;;) {
-		mg_poll_server(server, 1000);
-	}
 }
 
 /**
@@ -36,12 +39,22 @@ RestServer::~RestServer(){
 	shutdownServer();
 }
 
+void RestServer::pollServer(){
+	mg_poll_server(this->server, 1000);
+}
+
+
 void RestServer::handleConnection(const Connection& connection) const{
+	ServiceInterface* service;
+	// Le saco la barra inicial
+	std::string serviceName(connection.getUri().substr(1));
+	service = this->serviceFactory->createService(serviceName);
+	service->executeRequest(connection);
 }
 
 /**
  * Apago el servidor
  */
-int RestServer::shutdownServer(){
+void RestServer::shutdownServer(){
 	mg_destroy_server(&this->server);
 }
