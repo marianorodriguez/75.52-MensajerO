@@ -13,7 +13,7 @@ IPersistible::IPersistible() {
 IPersistible::~IPersistible() {
 }
 
-string IPersistible::read(vector<string> key, bool* error) {
+string IPersistible::read(vector<string> key) {
 	return "";
 }
 

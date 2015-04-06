@@ -16,20 +16,21 @@ Database::Database(string path) {
 }
 
 void Database::write(vector<string> key, string value) {
-	rocksdb::Status status = database->Put(rocksdb::WriteOptions(),this->getKey(key),value);
+	string compoundKey = this->getKey(key);
+	rocksdb::Status status = database->Put(rocksdb::WriteOptions(),compoundKey,value);
 	if(!status.ok()) {
 		Logger* logger1 = Logger::getLogger();
-		logger1->write(Logger::ERROR,"No se pudo escribir en la base de datos de: " + database->GetName());
+		logger1->write(Logger::ERROR,"Hubo un error al escribir en la base de datos de: " + database->GetName() + " la key: " + compoundKey);
 	}
 }
 
-string Database::read(vector<string> key,bool* error) {
+string Database::read(vector<string> key) {
 	string value = "";
-	rocksdb::Status status = database->Get(rocksdb::ReadOptions(),this->getKey(key),&value);
+	string compoundKey = this->getKey(key);
+	rocksdb::Status status = database->Get(rocksdb::ReadOptions(),compoundKey,&value);
 	if (!status.ok()) {
-		*error = true;
-	} else {
-		*error = false;
+		KeyNotFoundException* e = new KeyNotFoundException("Key no encontrada: " + compoundKey );
+		throw *e;
 	}
 	return value;
 }
@@ -39,7 +40,7 @@ void Database::erase(vector<string> key) {
 	rocksdb::Status status = database->Delete(rocksdb::WriteOptions(),compoundKey);
 	if(!status.ok()) {
 		Logger* logger1 = Logger::getLogger();
-		logger1->write(Logger::ERROR,"No se pudo borrar la clave '" + compoundKey + "' en la base de datos de: " + database->GetName());
+		logger1->write(Logger::ERROR,"Hubo un error al borrar de la base de datos de: " + database->GetName() + "la key: " + compoundKey);
 	}
 }
 

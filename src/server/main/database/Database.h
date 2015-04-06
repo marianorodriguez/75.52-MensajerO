@@ -13,6 +13,7 @@
 #include <rocksdb/db.h>
 #include "json/json.h"
 #include "../interfaces/Persistible/IPersistible.h"
+#include "../exceptions/KeyNotFoundException.h"
 #include "../logger/Logger.h"
 
 /*
@@ -38,7 +39,7 @@ public:
 	/*
 	 * Retorna el value indicado por @param key. Si la key no existe, retorna @param error = true, si existe falso.
 	 */
-	string read(vector<string> key,bool* error) override;
+	string read(vector<string> key) override;
 
 	/*
 	 * Borra el @param key con el value asociado de la bd.

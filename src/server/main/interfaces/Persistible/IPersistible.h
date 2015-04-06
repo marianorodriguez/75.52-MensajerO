@@ -27,9 +27,9 @@ public:
 	 */
 	virtual void write(vector<string> key, string value);
 	/*
-	 * Lee y retorna informacion en @param key. Si no se puede leer, error = true; si se puede es false.
+	 * Lee y retorna informacion en @param key.
 	 */
-	virtual string read(vector<string> key,bool* error);
+	virtual string read(vector<string> key);
 };
 
 #endif /* IPERSISTIBLE_H_ */
