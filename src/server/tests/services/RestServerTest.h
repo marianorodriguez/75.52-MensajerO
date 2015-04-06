@@ -10,9 +10,11 @@
 class RestServerTest : public CppUnit::TestFixture{
 	CPPUNIT_TEST_SUITE(RestServerTest);
 	CPPUNIT_TEST(testConstructor);
+	CPPUNIT_TEST(testEchoReply);
 	CPPUNIT_TEST_SUITE_END();
 
 public:
+    virtual ~RestServerTest();
 	void setUp();
 	void tearDown();
 	/**
@@ -27,3 +29,4 @@ public:
 };
 
 #endif // RESTSERVERTEST_H
+

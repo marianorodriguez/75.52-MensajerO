@@ -1,6 +1,6 @@
 project(mensajero)
 
-add_library(services
+add_library(mensajero-services
 	Connection.cpp
 	CreateUserService.cpp
 	EchoService.cpp
@@ -10,4 +10,4 @@ add_library(services
 	ServiceFactory.cpp
 	)
 
-target_link_libraries(services mongoose)
+target_link_libraries(mensajero-services mongoose)

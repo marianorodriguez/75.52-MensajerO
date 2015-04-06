@@ -29,6 +29,8 @@ static int eventHandler(struct mg_connection *conn, enum mg_event event) {
  */
 RestServer::RestServer(){
 	this->server = mg_create_server(this, eventHandler);
+	//TODO: getter y setter o singleton
+	this->serviceFactory = new ServiceFactory();
 	mg_set_option(this->server, "listening_port", "8081");
 }
 

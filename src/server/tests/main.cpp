@@ -1,4 +1,3 @@
-
 #include <cppunit/BriefTestProgressListener.h>
 #include <cppunit/CompilerOutputter.h>
 #include <cppunit/extensions/TestFactoryRegistry.h>
@@ -12,25 +11,24 @@
 
 int main( int argc, char* argv[] )
 {
-  CPPUNIT_NS::TestResult controller;
-  CPPUNIT_NS::TestResultCollector result;
+	CPPUNIT_NS::TestResult controller;
+	CPPUNIT_NS::TestResultCollector result;
 
-  controller.addListener( &result );
-  CPPUNIT_NS::BriefTestProgressListener progress;
+	controller.addListener( &result );
+	CPPUNIT_NS::BriefTestProgressListener progress;
 
-  controller.addListener( &progress );
-  CPPUNIT_NS::TestRunner runner;
-  
-  ServiceFactoryTest scTest;
-  RestClientTest rcTest;
-  rcTest.testBuildQuery();
-  scTest.testGetService();
+	controller.addListener( &progress );
+	CPPUNIT_NS::TestRunner runner;
 
-  runner.addTest( CPPUNIT_NS::TestFactoryRegistry::getRegistry().makeTest() );
-  runner.run( controller );
+	ServiceFactoryTest scTest;
+	RestClientTest rcTest;
+	RestServerTest rsTest;
 
-  CPPUNIT_NS::CompilerOutputter outputter( &result, CPPUNIT_NS::stdCOut() );
-  outputter.write();
+	runner.addTest( CPPUNIT_NS::TestFactoryRegistry::getRegistry().makeTest() );
+	runner.run( controller );
 
-  return result.wasSuccessful() ? 0 : 1;
+	CPPUNIT_NS::CompilerOutputter outputter( &result, CPPUNIT_NS::stdCOut() );
+	outputter.write();
+
+	return result.wasSuccessful() ? 0 : 1;
 }
