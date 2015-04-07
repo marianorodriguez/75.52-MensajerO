@@ -24,7 +24,7 @@ public class JsonUtil {
             jsonAdd.put("city", person.getAddress().getCity());
             jsonAdd.put("state", person.getAddress().getState());
 
-            // We add the object to the main object
+            // We add the object to the ic_launcher object
             jsonObj.put("address", jsonAdd);
 
             // and finally we add the phone number

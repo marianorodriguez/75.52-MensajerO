@@ -2,15 +2,20 @@ package com.example.fernando.myapplication;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.preference.PreferenceActivity;
 import android.util.Pair;
 import android.widget.Toast;
 
+import org.apache.http.Header;
+import org.apache.http.HeaderElement;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
+import org.apache.http.ParseException;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpHead;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
@@ -32,8 +37,7 @@ class ServletPostAsyncTask extends AsyncTask<Pair<Context, String>, Void, String
         String name = params[0].second;
 
         HttpClient httpClient = new DefaultHttpClient();
-        HttpPost httpPost = new HttpPost("http://10.0.2.2:8080/hello");
-        // 10.0.2.2 is localhost's IP address in Android emulator
+        HttpPost httpPost = new HttpPost("http://10.0.2.2:8080/hello"); // 10.0.2.2 is localhost's IP address in Android emulator
         try {
             // Add name data to request
             List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);

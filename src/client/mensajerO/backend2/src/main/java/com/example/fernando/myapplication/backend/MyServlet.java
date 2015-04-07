@@ -14,12 +14,7 @@ public class MyServlet extends HttpServlet {
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws IOException {
-        String name = req.getParameter("name");
         resp.setContentType("text/plain");
-        if (name == null) {
-            resp.getWriter().println("Please enter a name");
-        }
-        resp.getWriter().println("Hello " + name);
         resp.getWriter().println("Please use the form to POST to this url");
     }
 
