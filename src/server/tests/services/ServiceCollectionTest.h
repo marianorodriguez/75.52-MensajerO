@@ -2,7 +2,7 @@
 #define SERVICECOLLECTIONTEST_H
 
 #include "cppunit/extensions/HelperMacros.h"
-#include "services/ServiceCollection.h"
+//#include "services/ServiceCollection.h"
 
 class ServiceCollectionTest : public CppUnit::TestFixture{
 	CPPUNIT_TEST_SUITE(ServiceCollectionTest);
@@ -14,7 +14,7 @@ public:
 	void tearDown();
 	void testAddService();
 private:
-	ServiceCollection servCollection;
+//	ServiceCollection servCollection;
 };
 
 #endif // SERVICECOLLECTIONTEST_H

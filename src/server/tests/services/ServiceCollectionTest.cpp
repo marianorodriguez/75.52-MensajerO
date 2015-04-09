@@ -10,5 +10,13 @@ void ServiceCollectionTest::setUp(){}
 void ServiceCollectionTest::tearDown(){}
 
 void ServiceCollectionTest::testAddService(){
-	CPPUNIT_FAIL("Estoy fallando :D");
+	ServiceInterface* echoService = new EchoService();
+	this->serviceCollection.addService(echoService);
+	std::vector<std::string> serviceNameList;
+	serviceNameList = serviceCollection.getServiceNameList();
+	int listSize = serviceNameList.size();
+	CPPUNIT_ASSERT_EQUAL(1, listSize);
+	std::string echoServiceName(echoService->getUri());
+	// Me fijo que el nombre del servicio devuelto sea el del que almacené
+	CPPUNIT_ASSERT(echoServiceName.compare(serviceNameList[0]) == 0);
 }

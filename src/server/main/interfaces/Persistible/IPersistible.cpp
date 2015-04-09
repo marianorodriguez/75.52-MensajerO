@@ -13,9 +13,9 @@ IPersistible::IPersistible() {
 IPersistible::~IPersistible() {
 }
 
-string IPersistible::read(string key, bool* error) {
+string IPersistible::read(vector<string> key) {
 	return "";
 }
 
-void IPersistible::write(string key, string value) {
+void IPersistible::write(vector<string> key, string value) {
 }

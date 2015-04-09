@@ -6,8 +6,6 @@
 #include <cppunit/TestResultCollector.h>
 #include <cppunit/TestRunner.h>
 
-#include "services/ServiceCollectionTest.h"
-
 int main( int argc, char* argv[] )
 {
   CPPUNIT_NS::TestResult controller;
@@ -18,9 +16,6 @@ int main( int argc, char* argv[] )
 
   controller.addListener( &progress );
   CPPUNIT_NS::TestRunner runner;
-  
-  ServiceCollectionTest scTest;
-  scTest.testAddService();
 
   runner.addTest( CPPUNIT_NS::TestFactoryRegistry::getRegistry().makeTest() );
   runner.run( controller );

@@ -15,31 +15,42 @@ Database::Database(string path) {
 	rocksdb::Status status = rocksdb::DB::Open(options, path , &database);
 }
 
-void Database::write(string key, string value) {
-	rocksdb::Status status = database->Put(rocksdb::WriteOptions(),key,value);
+void Database::write(vector<string> key, string value) {
+	string compoundKey = this->getKey(key);
+	rocksdb::Status status = database->Put(rocksdb::WriteOptions(),compoundKey,value);
 	if(!status.ok()) {
-		logger* logger1 = logger::getLogger();
-		logger1->write(logger::ERROR,"No se pudo escribir en la base de datos de: " + database->GetName());
+		Logger* logger1 = Logger::getLogger();
+		logger1->write(Logger::ERROR,"Hubo un error al escribir en la base de datos de: " + database->GetName() + " la key: " + compoundKey);
 	}
 }
 
-string Database::read(string key,bool* error) {
+string Database::read(vector<string> key) {
 	string value = "";
-	rocksdb::Status status = database->Get(rocksdb::ReadOptions(),key,&value);
+	string compoundKey = this->getKey(key);
+	rocksdb::Status status = database->Get(rocksdb::ReadOptions(),compoundKey,&value);
 	if (!status.ok()) {
-		*error = true;
-	} else {
-		*error = false;
+		KeyNotFoundException* e = new KeyNotFoundException("Key no encontrada: " + compoundKey );
+		throw *e;
 	}
 	return value;
 }
 
-void Database::erase(string key) {
-	rocksdb::Status status = database->Delete(rocksdb::WriteOptions(),key);
+void Database::erase(vector<string> key) {
+	string compoundKey = this->getKey(key);
+	rocksdb::Status status = database->Delete(rocksdb::WriteOptions(),compoundKey);
 	if(!status.ok()) {
-		logger* logger1 = logger::getLogger();
-		logger1->write(logger::ERROR,"No se pudo borrar la clave '" + key + "' en la base de datos de: " + database->GetName());
+		Logger* logger1 = Logger::getLogger();
+		logger1->write(Logger::ERROR,"Hubo un error al borrar de la base de datos de: " + database->GetName() + "la key: " + compoundKey);
 	}
+}
+
+string Database::getKey(vector<string> key){
+	sort(key.begin(),key.end());
+	Json::Value returnKey;
+	for (int i = 0; i < key.size();i++){
+		returnKey["key"][key[i]] = key[i];
+	}
+	return returnKey.toStyledString();
 }
 
 Database::~Database() {
