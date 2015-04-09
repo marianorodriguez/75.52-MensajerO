@@ -65,7 +65,7 @@ private:
 	static string logDir;
 
 	Logger(string loggerDir);
-	string getWriteLevel(loggingLevel level);
+	string getWriteLevel(const loggingLevel& level);
 	void setLoggingLevels();
 };
 

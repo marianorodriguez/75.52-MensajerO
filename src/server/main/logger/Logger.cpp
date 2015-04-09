@@ -49,7 +49,7 @@ void Logger::saveStatus() {
 	this->file.flush();
 }
 
-string Logger::getWriteLevel(loggingLevel level) {
+string Logger::getWriteLevel(const loggingLevel& level) {
 
 	string ret;
 

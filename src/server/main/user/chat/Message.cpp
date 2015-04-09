@@ -49,7 +49,7 @@ Message::Message(string from, string to, string message) {
 Message::~Message() {
 }
 
-string Message::serialize() {
+string Message::serialize() const {
 
 	Json::Value message;
 	message[JSON_MSG_ROOT][JSON_MSG_FROM_VALUE] = this->userFromID;
@@ -61,22 +61,22 @@ string Message::serialize() {
 	return message.toStyledString();
 }
 
-string Message::getText() {
+string Message::getText() const {
 	return this->message;
 }
 
-string Message::getUserTo() {
+string Message::getUserTo() const {
 	return this->userToID;
 }
 
-string Message::getUserFrom() {
+string Message::getUserFrom() const {
 	return this->userFromID;
 }
 
-string Message::getTime(){
+string Message::getTime() const {
 	return this->time;
 }
 
-string Message::getDate(){
+string Message::getDate() const {
 	return this->date;
 }

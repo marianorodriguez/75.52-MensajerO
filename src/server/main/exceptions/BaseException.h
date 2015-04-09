@@ -20,7 +20,7 @@ public:
 	BaseException(string what);
 	virtual ~BaseException();
 
-	string getDescription();
+	string getDescription() const;
 
 private:
 	string description;

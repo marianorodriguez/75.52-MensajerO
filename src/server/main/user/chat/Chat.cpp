@@ -65,7 +65,7 @@ void Chat::addNewMessage(Message* newMsg) {
 
 }
 
-string Chat::serialize() {
+string Chat::serialize() const{
 
 	Json::Value JsonChat;
 	JsonChat[JSON_CHAT_ROOT][JSON_CHAT_USER_1] = this->username_1;
@@ -83,7 +83,7 @@ string Chat::serialize() {
 Chat::~Chat() {
 }
 
-bool Chat::isAValidMessage(Message m) {
+bool Chat::isAValidMessage(const Message& m) {
 
 	string from = m.getUserFrom();
 	string to = m.getUserTo();

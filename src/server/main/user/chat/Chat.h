@@ -43,7 +43,7 @@ public:
 	/**
 	 * Serializa el chat en una cadena de texto.
 	 */
-	string serialize() override;
+	string serialize() const override;
 
 private:
 	string username_1;
@@ -54,7 +54,7 @@ private:
 	/**
 	 * Chequea si el mensaje pasado por parametro puede ser un mensaje valido para el chat actual.
 	 */
-	bool isAValidMessage(Message m);
+	bool isAValidMessage(const Message& m);
 };
 
 #endif /* SERVER_MAIN_USER_CHAT_CHAT_H_ */

@@ -24,7 +24,7 @@ public:
 	/**
 	 * @returns El objeto serializado como una cadena de texto.
 	 */
-	virtual string serialize();
+	virtual string serialize() const;
 };
 
 #endif /* SERVER_MAIN_INTERFACES_ISERIALIZABLE_H_ */

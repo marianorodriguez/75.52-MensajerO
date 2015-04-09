@@ -35,32 +35,32 @@ public:
 	/**
 	 * Serializa al usuario en una cadena de texto.
 	 */
-	string serialize() override;
+	string serialize() const override;
 
 	/**
 	 * Devuelve el username del usuario.
 	 */
-	string getUsername();
+	string getUsername() const;
 
 	/**
 	 * Devuelve la contreseña encriptada del usuario.
 	 */
-	string getHashedPWD();
+	string getHashedPWD() const;
 
 	/**
 	 * Devuelve la ubicación actual del usuario.
 	 */
-	string getLocation();
+	string getLocation() const;
 
 	/**
 	 * Devuelve el estado del usuario.
 	 */
-	string getStatus();
+	string getStatus() const;
 
 	/**
 	 * Devuelve la foto de perfil encriptada en base64.
 	 */
-	string getHashedProfilePicture();
+	string getHashedProfilePicture() const;
 
 	/**
 	 * Cambia la ubicación del usuario por la que es pasada como parametro.
@@ -96,13 +96,13 @@ private:
 	vector<string> hasChatsWith;
 
 	/**Encripta la contreseña pasada por parametro */
-	string encryptPassword(string plainPWD);
+	string encryptPassword(const string& plainPWD) const;
 
 	/**
 	 * Se fija si el usuario tiene un chat con el usuario pasado por parametro.
 	 * @params username El usuario con el que quiere ver si tiene un chat.
 	 */
-	bool isChattingWith(string username);
+	bool isChattingWith(const string& username);
 };
 
 #endif /* SERVER_MAIN_USER_USER_H_ */
