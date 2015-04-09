@@ -20,6 +20,7 @@ class userTests: public CPPUNIT_NS::TestFixture {
 	CPPUNIT_TEST(should_encrypt_password);
 	CPPUNIT_TEST(should_modify_location);
 	CPPUNIT_TEST(should_modify_status);
+	CPPUNIT_TEST(should_modify_profile_picture);
 	CPPUNIT_TEST(should_have_no_chats);
 	CPPUNIT_TEST(should_have_2_chats);
 	CPPUNIT_TEST(should_serialize_user);
@@ -35,6 +36,7 @@ protected:
 	void should_encrypt_password();
 	void should_modify_location();
 	void should_modify_status();
+	void should_modify_profile_picture();
 	void should_have_no_chats();
 	void should_have_2_chats();
 	void should_serialize_user();

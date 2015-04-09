@@ -1,5 +1,6 @@
 #ifndef CONFIG_CONFIG_H_
 #define CONFIG_CONFIG_H_
+#include "profPicture.h"
 
 //# JSON ######################################
 /**
@@ -28,12 +29,14 @@
 #define JSON_USER_PWD "password"
 #define JSON_USER_LOCATION "location"
 #define JSON_USER_STATUS "status"
+#define JSON_USER_PROFILE_PICTURE "profile_picture"
 #define JSON_USER_NUM_CHAT "number_of_chats"
 #define JSON_USER_CHATS_WITH "chats_with"
 
 //# USER ######################################
 #define DEFAULT_USER_LOCATION "UNKNOWN"
 #define DEFAULT_USER_STATUS "Online"
+#define DEFAULT_USER_PROFILE_PICTURE DEF_PROF_PICT
 
 //# LOGGER ####################################
 /**

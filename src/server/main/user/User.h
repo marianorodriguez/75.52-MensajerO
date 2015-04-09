@@ -58,6 +58,11 @@ public:
 	string getStatus();
 
 	/**
+	 * Devuelve la foto de perfil encriptada en base64.
+	 */
+	string getHashedProfilePicture();
+
+	/**
 	 * Cambia la ubicación del usuario por la que es pasada como parametro.
 	 * @params newLocation La nueva ubicación del usuario.
 	 */
@@ -70,6 +75,12 @@ public:
 	void modifyStatus(string newStatus);
 
 	/**
+	 * Modifica la foto de perfil por la que es pasada como parametro.
+	 * @params newProfilePicture La nueva foto de perfil, previamente encriptada con base64.
+	 */
+	void modifyProfilePicture(string newProfilePicture);
+
+	/**
 	 * Agrega a la lista de chats propios el username del usuario con el que comienza un chat.
 	 * @params user El username del usuario con el que comienza un chat.
 	 */
@@ -80,6 +91,7 @@ private:
 	string hashedPWD;
 	string location;
 	string status;
+	string hashedProfilePicture;
 	int numberOfChats;
 	vector<string> hasChatsWith;
 
