@@ -28,18 +28,18 @@ public:
 	/*
 	 * Abre la base de datos en el @param path especificado. Si la base de datos no existe, la crea.
 	 */
-	Database(string path);
+	Database(const string& path);
 
 	/*
 	 * Escribe informacion en la bd. Si @param key ya existe, el nuevo @param value reemplaza al anterior.
 	 * No importa el orden de los strings dentro del vector, los mismos strings siempre forman la misma key.
 	 */
-	void write(vector<string> key, string value) override;
+	void write(vector<string> key, const string& value) override;
 
 	/*
 	 * Retorna el value indicado por @param key. Si la key no existe, retorna @param error = true, si existe falso.
 	 */
-	string read(vector<string> key) override;
+	string read(vector<string> key) const override;
 
 	/*
 	 * Borra el @param key con el value asociado de la bd.
@@ -51,7 +51,7 @@ private:
 	/*
 	 * Forma una key a partir de un vector de strings.
 	 */
-	string getKey(vector<string> key);
+	string getKey(vector<string> key) const;
 };
 
 #endif /* DATABASE_H_ */

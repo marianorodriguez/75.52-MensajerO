@@ -9,13 +9,13 @@
 
 Database::Database() { }
 
-Database::Database(string path) {
+Database::Database(const string& path) {
 	rocksdb::Options options;
 	options.create_if_missing = true;
 	rocksdb::Status status = rocksdb::DB::Open(options, path , &database);
 }
 
-void Database::write(vector<string> key, string value) {
+void Database::write(vector<string> key, const string& value) {
 	string compoundKey = this->getKey(key);
 	rocksdb::Status status = database->Put(rocksdb::WriteOptions(),compoundKey,value);
 	if(!status.ok()) {
@@ -24,7 +24,7 @@ void Database::write(vector<string> key, string value) {
 	}
 }
 
-string Database::read(vector<string> key) {
+string Database::read(vector<string> key) const{
 	string value = "";
 	string compoundKey = this->getKey(key);
 	rocksdb::Status status = database->Get(rocksdb::ReadOptions(),compoundKey,&value);
@@ -44,7 +44,7 @@ void Database::erase(vector<string> key) {
 	}
 }
 
-string Database::getKey(vector<string> key){
+string Database::getKey(vector<string> key) const{
 	sort(key.begin(),key.end());
 	Json::Value returnKey;
 	for (int i = 0; i < key.size();i++){

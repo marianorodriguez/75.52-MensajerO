@@ -25,11 +25,11 @@ public:
 	/*
 	 * Escribe informacion a partir de @params key y value.
 	 */
-	virtual void write(vector<string> key, string value);
+	virtual void write(vector<string> key, const string& value);
 	/*
 	 * Lee y retorna informacion en @param key.
 	 */
-	virtual string read(vector<string> key);
+	virtual string read(vector<string> key) const ;
 };
 
 #endif /* IPERSISTIBLE_H_ */
