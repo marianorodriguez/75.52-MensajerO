@@ -12,9 +12,10 @@
 #include <algorithm>
 #include <rocksdb/db.h>
 #include "json/json.h"
-#include "../interfaces/Persistible/IPersistible.h"
-#include "../exceptions/KeyNotFoundException.h"
-#include "../logger/Logger.h"
+#include "interfaces/Persistible/IPersistible.h"
+#include "exceptions/KeyNotFoundException.h"
+#include "exceptions/InvalidKeyException.h"
+#include "logger/Logger.h"
 
 /*
  * Esta clase define una base de datos donde la informacion se guarda como key-value.
