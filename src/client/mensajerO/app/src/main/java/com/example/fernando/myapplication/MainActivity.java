@@ -11,7 +11,6 @@ import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -99,17 +98,21 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         TextView mainTextView = (TextView) findViewById(R.id.textView);
         mainTextView.setText("Button pressed!");
 
+//        setContentView(R.layout.activity);
+
         // create an Intent to take you over to a new DetailActivity
-        Intent detailIntent = new Intent(this, OtherActivity.class);
+        Intent signIn = new Intent(this, SignInActivity.class);
 
         // pack away the data about the cover
         // into your Intent before you head out
-        detailIntent.putExtra("coverID", "undato");
+        signIn.putExtra("coverID", "undato");
 
         // TODO: add any other data you'd like as Extras
 
         // start the next Activity using your prepared Intent
-        startActivity(detailIntent);
+        startActivity(signIn);
+
+        finish();
 
     }
 

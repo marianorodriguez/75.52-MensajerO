@@ -26,7 +26,7 @@
             android:id="@+id/main_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/button"
+            android:text="@string/button1"
             android:layout_marginTop="19dp"
             android:layout_below="@+id/textView"
             android:layout_centerHorizontal="true" />

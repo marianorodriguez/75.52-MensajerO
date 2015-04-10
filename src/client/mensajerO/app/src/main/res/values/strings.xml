@@ -1,7 +1,18 @@
 <resources>
     <string name="app_name">MensajerO</string>
 
+    <string name="signIn">MensajerO - SignIn</string>
+    <string name="signUp">MensajerO - SignUp</string>
+
+    <string name="config">MensajerO - Configuration</string>
+    <string name="users">MensajerO - Users</string>
+    <string name="chatsHall">MensajerO - Chats</string>
+    <string name="chat">MensajerO - Chat with: </string>
+
     <string name="textview">Hello world!</string>
     <string name="action_settings">Settings</string>
-    <string name="button">Update The TextView</string>
+
+    <string name="button1">Button 1</string>
+    <string name="button2">Button 2</string>
+    <string name="button3">Button 3</string>
 </resources>
