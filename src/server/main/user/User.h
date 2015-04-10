@@ -10,12 +10,11 @@
 #include <iostream>
 using namespace std;
 
-class userTests;
 /**
  * Define a un usuario dentro del servidor.
  */
 class User: public ISerializable{
-	friend userTests;
+	friend class userTests;
 
 public:
 
@@ -24,12 +23,12 @@ public:
 	 * @params username El username del usuario.
 	 * @params pass La contraseña del usuario.
 	 */
-	User(string username, string pass);
+	User(const string& username, const string& pass);
 
 	/**
 	 * Inicializa un usuario pasandole como parametro una cadena de texto con su información previamente serializada.
 	 */
-	User(string serializedUser);
+	User(const string& serializedUser);
 	virtual ~User();
 
 	/**
@@ -66,25 +65,25 @@ public:
 	 * Cambia la ubicación del usuario por la que es pasada como parametro.
 	 * @params newLocation La nueva ubicación del usuario.
 	 */
-	void modifyLocation(string newLocation);
+	void modifyLocation(const string& newLocation);
 
 	/**
 	 * Cambia el estado del usuario por el que es pasado como parametro.
 	 * @params newStatus El nuevo estado del usuario.
 	 */
-	void modifyStatus(string newStatus);
+	void modifyStatus(const string& newStatus);
 
 	/**
 	 * Modifica la foto de perfil por la que es pasada como parametro.
 	 * @params newProfilePicture La nueva foto de perfil, previamente encriptada con base64.
 	 */
-	void modifyProfilePicture(string newProfilePicture);
+	void modifyProfilePicture(const string& newProfilePicture);
 
 	/**
 	 * Agrega a la lista de chats propios el username del usuario con el que comienza un chat.
 	 * @params user El username del usuario con el que comienza un chat.
 	 */
-	void addChatWithUser(string user);
+	void addChatWithUser(const string& user);
 
 private:
 	string username;
@@ -102,7 +101,7 @@ private:
 	 * Se fija si el usuario tiene un chat con el usuario pasado por parametro.
 	 * @params username El usuario con el que quiere ver si tiene un chat.
 	 */
-	bool isChattingWith(const string& username);
+	bool isChattingWith(const string& username) const;
 };
 
 #endif /* SERVER_MAIN_USER_USER_H_ */

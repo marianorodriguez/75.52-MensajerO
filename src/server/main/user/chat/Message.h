@@ -22,7 +22,7 @@ public:
 	 * Permite construir un nuevo mensaje deserializando un string JSON.
 	 * @params toDeserialize Contiene el mensaje serializado mediante JSON.
 	 */
-	Message(string toDeserialize);
+	Message(const string& toDeserialize);
 
 	/**
 	 * Permite construir un nuevo mensaje indicandole sus atributos.
@@ -30,7 +30,7 @@ public:
 	 * @params to El receptor del mensaje.
 	 * @params message El mensaje a enviar.
 	 */
-	Message(string from, string to, string message);
+	Message(const string& from, const string& to, const string& message);
 	virtual ~Message();
 
 	/**

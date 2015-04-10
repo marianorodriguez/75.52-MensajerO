@@ -26,12 +26,12 @@ public:
 	/**
 	 * Inicializa un chat existente pasandole por parametros una cadena de texto con los datos del chat.
 	 */
-	Chat(string serializedChat);
+	Chat(const string &serializedChat);
 
 	/**
 	 * Inicializa un nuevo chat pasandole como parametro los usuarios vinculados.
 	 */
-	Chat(string user1, string user2);
+	Chat(const string& user1, const string& user2);
 	virtual ~Chat();
 
 	/**
@@ -54,7 +54,7 @@ private:
 	/**
 	 * Chequea si el mensaje pasado por parametro puede ser un mensaje valido para el chat actual.
 	 */
-	bool isAValidMessage(const Message& m);
+	bool isAValidMessage(const Message& m) const;
 };
 
 #endif /* SERVER_MAIN_USER_CHAT_CHAT_H_ */

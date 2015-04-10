@@ -7,7 +7,7 @@
 
 #include "Chat.h"
 
-Chat::Chat(string serializedChat) {
+Chat::Chat(const string& serializedChat) {
 
 	Json::Value parsedFromString;
 	Json::Reader reader;
@@ -36,7 +36,7 @@ Chat::Chat(string serializedChat) {
 	}
 }
 
-Chat::Chat(string user_1, string user_2) {
+Chat::Chat(const string& user_1, const string& user_2) {
 
 	if (user_1 == user_2) {
 		InvalidUsernameException *e = new InvalidUsernameException(
@@ -83,7 +83,7 @@ string Chat::serialize() const{
 Chat::~Chat() {
 }
 
-bool Chat::isAValidMessage(const Message& m) {
+bool Chat::isAValidMessage(const Message& m) const{
 
 	string from = m.getUserFrom();
 	string to = m.getUserTo();

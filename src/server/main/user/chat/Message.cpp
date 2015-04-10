@@ -1,7 +1,7 @@
 #include "Message.h"
 #include "../../config.h"
 
-Message::Message(string toDeserialize) {
+Message::Message(const string& toDeserialize) {
 
 	Json::Value parsedFromString;
 	Json::Reader reader;
@@ -31,7 +31,7 @@ Message::Message(string toDeserialize) {
 	}
 }
 
-Message::Message(string from, string to, string message) {
+Message::Message(const string& from, const string& to, const string& message) {
 
 	this->userFromID = from;
 	this->userToID = to;

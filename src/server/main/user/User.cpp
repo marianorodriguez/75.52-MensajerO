@@ -7,7 +7,7 @@
 
 #include "User.h"
 
-User::User(string username, string password) {
+User::User(const string& username, const string& password) {
 
 	this->username = username;
 	this->hashedPWD = encryptPassword(password);
@@ -17,7 +17,7 @@ User::User(string username, string password) {
 	this->hashedProfilePicture = DEFAULT_USER_PROFILE_PICTURE;
 }
 
-User::User(string serializedUser) {
+User::User(const string& serializedUser) {
 
 	Json::Value parsedFromString;
 	Json::Reader reader;
@@ -94,21 +94,21 @@ string User::getHashedProfilePicture() const {
 	return this->hashedProfilePicture;
 }
 
-void User::modifyProfilePicture(string newPP) {
+void User::modifyProfilePicture(const string& newPP) {
 	this->hashedProfilePicture = newPP;
 }
 
-void User::modifyLocation(string newLocation) {
+void User::modifyLocation(const string& newLocation) {
 
 	this->location = newLocation;
 }
 
-void User::modifyStatus(string newStatus) {
+void User::modifyStatus(const string& newStatus) {
 
 	this->status = newStatus;
 }
 
-void User::addChatWithUser(string username) {
+void User::addChatWithUser(const string& username) {
 
 	if (username == this->username) {
 		string description = this->username + "can't have a chat with "
@@ -134,7 +134,7 @@ string User::encryptPassword(const string& plainPWD) const{
 	return md5(plainPWD);
 }
 
-bool User::isChattingWith(const string& username) {
+bool User::isChattingWith(const string& username) const {
 
 	bool isChatting = false;
 
