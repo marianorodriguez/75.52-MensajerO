@@ -3,9 +3,9 @@
 
 #include <cppunit/extensions/HelperMacros.h>
 
-class loggerTests: public CPPUNIT_NS::TestFixture {
+class LoggerTest: public CPPUNIT_NS::TestFixture {
 
-	CPPUNIT_TEST_SUITE( loggerTests );
+	CPPUNIT_TEST_SUITE(LoggerTest);
 
 	CPPUNIT_TEST(should_be_singleton);
 	CPPUNIT_TEST(should_instantiate_logger);

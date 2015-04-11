@@ -1,9 +1,9 @@
 #include <cppunit/config/SourcePrefix.h>
-#include "loggerTests.h"
+#include "LoggerTest.h"
 #include <stdio.h>
 #include "../../main/logger/Logger.h"
 
-CPPUNIT_TEST_SUITE_REGISTRATION(loggerTests);
+CPPUNIT_TEST_SUITE_REGISTRATION(LoggerTest);
 
 Logger* logger;
 
@@ -41,7 +41,7 @@ string getTextFromFile(string dir) {
 	return text;
 }
 
-void loggerTests::should_be_singleton() {
+void LoggerTest::should_be_singleton() {
 
 	Logger* logger1 = Logger::getLogger();
 	Logger* logger2 = Logger::getLogger();
@@ -54,7 +54,7 @@ void loggerTests::should_be_singleton() {
 	delete logger1;
 }
 
-void loggerTests::should_instantiate_logger() {
+void LoggerTest::should_instantiate_logger() {
 
 	logger = Logger::getLogger();
 
@@ -63,7 +63,7 @@ void loggerTests::should_instantiate_logger() {
 	delete logger;
 }
 
-void loggerTests::should_return_log_path() {
+void LoggerTest::should_return_log_path() {
 
 	logger = Logger::getLogger();
 	string logDir = "";
@@ -83,7 +83,7 @@ void loggerTests::should_return_log_path() {
 	delete logger;
 }
 
-void loggerTests::should_return_loggingLevels() {
+void LoggerTest::should_return_loggingLevels() {
 
 	logger = Logger::getLogger();
 	CPPUNIT_ASSERT(logger->getWriteLevel(Logger::ERROR) == "ERROR");
@@ -94,7 +94,7 @@ void loggerTests::should_return_loggingLevels() {
 	delete logger;
 }
 
-void loggerTests::should_write_only_a_debug() {
+void LoggerTest::should_write_only_a_debug() {
 
 	logger = Logger::getLogger();
 	logger->levels[Logger::DEBUG] = true;
@@ -120,7 +120,7 @@ void loggerTests::should_write_only_a_debug() {
 	delete logger;
 }
 
-void loggerTests::should_write_only_an_error() {
+void LoggerTest::should_write_only_an_error() {
 
 	logger = Logger::getLogger();
 	logger->levels[Logger::ERROR] = true;
@@ -146,7 +146,7 @@ void loggerTests::should_write_only_an_error() {
 	delete logger;
 }
 
-void loggerTests::should_write_only_a_warning() {
+void LoggerTest::should_write_only_a_warning() {
 
 	logger = Logger::getLogger();
 	logger->levels[Logger::WARN] = true;
@@ -172,7 +172,7 @@ void loggerTests::should_write_only_a_warning() {
 	delete logger;
 }
 
-void loggerTests::should_write_only_an_info() {
+void LoggerTest::should_write_only_an_info() {
 
 	logger = Logger::getLogger();
 	logger->levels[Logger::INFO] = true;
@@ -198,13 +198,17 @@ void loggerTests::should_write_only_an_info() {
 	delete logger;
 }
 
-void loggerTests::should_be_thread_safe() {
+void LoggerTest::should_be_thread_safe() {
 
 	thread th1(write50Times, "1");
 	thread th2(write50Times, "2");
+	thread th3(write50Times, "3");
+	thread th4(write50Times, "4");
 
 	th1.join();
 	th2.join();
+	th3.join();
+	th4.join();
 
 	bool assert = false;
 	ifstream file(logger->getLogDir());
@@ -269,7 +273,7 @@ void loggerTests::should_be_thread_safe() {
 	delete logger;
 }
 
-void loggerTests::should_throw_file_not_found_exception() {
+void LoggerTest::should_throw_file_not_found_exception() {
 
 	CPPUNIT_ASSERT_THROW(new Logger("invalid route"), FileNotFoundException);
 }

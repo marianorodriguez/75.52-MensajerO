@@ -20,7 +20,7 @@ using namespace std;
  */
 class Logger {
 
-	friend class loggerTests;
+	friend class LoggerTest;
 
 public:
 /**

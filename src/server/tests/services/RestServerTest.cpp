@@ -2,12 +2,14 @@
 #include "services/ServerThread.h"
 #include "services/RestServer.h"
 #include "../rest-client/RestClient.h"
+#include <cstdio>
 
 CPPUNIT_TEST_SUITE_REGISTRATION(RestServerTest);
 
 RestServerTest::~RestServerTest(){}
 
 void RestServerTest::setUp(){
+	printf("SetUp");
     CppUnit::TestFixture::setUp();
 }
 

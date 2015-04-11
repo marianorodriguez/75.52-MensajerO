@@ -31,5 +31,4 @@ void RestClientTest::testGet(){
 	query.setBaseUri("http://www.google.com/");
 	std::string response = client.execute(RestClient::GET, query);
 	CPPUNIT_ASSERT(!response.empty());
-	printf("Response: %s\n", response.c_str());
 }
