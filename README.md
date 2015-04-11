@@ -1,18 +1,25 @@
-# 75.52-MensajerO
+75.52-MensajerO
+===============
+
 Taller de Programacion II
+-------------------------
 
 Desde consola dirigirse a la carpeta del proyecto y ejecutar los siguientes comandos:
 
-$ cd src/server/3rd-party/rocksdb
-$ make static_lib
-$ cd ../..
-$ cmake .
+    $ sudo apt-get install libbz2-dev zlib1g-dev libcppunit-dev libcurl4-gnutls-dev
+    $ cd src/server/3rd-party/rocksdb
+    $ make static_lib
+    $ cd ../..
+    $ cmake .
 
 Para ejecutar las pruebas:
-$ make tests
+
+    $ make tests
 
 Para compilar el servidor:
-$ make server
+
+    $ make server
 
 Para limpiar el proyecto:
-$ make clean
+
+    $ make clean
