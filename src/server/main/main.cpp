@@ -1,5 +1,4 @@
-
-#include "logger/logger.h"
+#include "logger/Logger.h"
 #include "services/RestServer.h"
 #include <iostream>
 
@@ -8,19 +7,17 @@ using namespace std;
 
 int main() {
 
-	logger* log = logger::getLogger();
+	Logger* log = Logger::getLogger();
 
-	log->write(logger::ERROR, "Error desconocido.");
-	log->write(logger::DEBUG, "la variable vale 3.");
-	log->write(logger::INFO, "Info de app.");
-	log->write(logger::WARN, "cuidado! valor no establecido.");
+	log->write(Logger::ERROR, "Error desconocido.");
+	log->write(Logger::DEBUG, "la variable vale 3.");
+	log->write(Logger::INFO, "Info de app.");
+	log->write(Logger::WARN, "cuidado! valor no establecido.");
 	log->saveStatus();
 	
 	delete log;
 	return 0;
 }
-
-
 
 /*
 #ifndef _MSC_VER

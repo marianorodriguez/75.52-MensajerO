@@ -1,8 +1,10 @@
 project(mensajero)
 
 add_library(mensajero-utilities
-	base64.cpp
-	Thread.cpp
+	Base64.cpp
+	Time.cpp
+	Date.cpp
+	MD5.cpp
 	)
 
 target_link_libraries(mensajero-utilities pthread)

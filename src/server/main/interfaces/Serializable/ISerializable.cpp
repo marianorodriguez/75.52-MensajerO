@@ -8,9 +8,6 @@ ISerializable::~ISerializable(){
 
 }
 
-string ISerializable::serialize(){
+string ISerializable::serialize() const{
 	return "";
-}
-
-void ISerializable::deserialize(string serializedData){
 }

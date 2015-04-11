@@ -3,7 +3,7 @@
 	"loggingLevels": [
 	   {"ERROR": true},
 	   {"WARNING": true},
-	   {"DEBUG": false},
+	   {"DEBUG": true},
 	   {"INFO": true}
 	 ]
    }

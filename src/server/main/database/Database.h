@@ -8,23 +8,51 @@
 #ifndef DATABASE_H_
 #define DATABASE_H_
 
+#include <iostream>
+#include <algorithm>
 #include <rocksdb/db.h>
 #include "json/json.h"
-#include <iostream>
-#include "../interfaces/Persistible/IPersistible.h"
-#include "../logger/logger.h"
+#include "interfaces/Persistible/IPersistible.h"
+#include "exceptions/KeyNotFoundException.h"
+#include "exceptions/InvalidKeyException.h"
+#include "logger/Logger.h"
 
+/*
+ * Esta clase define una base de datos donde la informacion se guarda como key-value.
+ */
 
 class Database: public IPersistible {
 private:
-	rocksdb::DB* db;
+	rocksdb::DB* database;
 public:
 	Database();
-	Database(string path);
-	void write(string key, string value) override;
-	string read(string key,bool* error) override;
-	void erase(string key);
+	/*
+	 * Abre la base de datos en el @param path especificado. Si la base de datos no existe, la crea.
+	 */
+	Database(const string& path);
+
+	/*
+	 * Escribe informacion en la bd. Si @param key ya existe, el nuevo @param value reemplaza al anterior.
+	 * No importa el orden de los strings dentro del vector, los mismos strings siempre forman la misma key.
+	 */
+	void write(vector<string> key, const string& value) override;
+
+	/*
+	 * Retorna el value indicado por @param key. Si la key no existe, retorna @param error = true, si existe falso.
+	 */
+	string read(vector<string> key) const override;
+
+	/*
+	 * Borra el @param key con el value asociado de la bd.
+	 */
+	void erase(vector<string> key);
 	virtual ~Database();
+
+private:
+	/*
+	 * Forma una key a partir de un vector de strings.
+	 */
+	string getKey(vector<string> key) const;
 };
 
 #endif /* DATABASE_H_ */
