@@ -11,3 +11,5 @@ CMakeCache.txt
 *.kdev4
 build
 
+Makefile
+Testing/
