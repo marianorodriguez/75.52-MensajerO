@@ -21,6 +21,7 @@ std::string RestClient::execute(RestClient::RequestType requestType, const RestQ
 	CURLcode res;
 	switch(requestType){
 	case GET:
+		curl_easy_setopt(curl, CURLOPT_HTTPGET, 1L);
 		curl_easy_setopt(curl, CURLOPT_URL, query.buildGetQuery().c_str());
 		break;
 	default:
@@ -35,6 +36,9 @@ std::string RestClient::execute(RestClient::RequestType requestType, const RestQ
 	}
 }
 
+/**
+ * Clase para armar la respuesta del request.
+ */
 size_t RestClient::callback(void* contents, size_t size, size_t nmemb, void* data){
 	size_t realsize = size * nmemb;
 	RestClient *client = static_cast<RestClient*>(data);

@@ -10,14 +10,13 @@
 /**
 * Captura los requests que le llegan al servidor
 */
-static int eventHandler(struct mg_connection *conn, enum mg_event event) {
-	RestServer* server = static_cast<RestServer*>(conn->server_param);
-	Connection connectionWrap(conn);
+static int eventHandler(struct mg_connection *mgConnection, enum mg_event event) {
+	RestServer* server = static_cast<RestServer*>(mgConnection->server_param);
 	switch (event) {
 		case MG_AUTH:
 			return MG_TRUE;
 		case MG_REQUEST:
-			server->handleConnection(connectionWrap);
+			server->handleConnection(mgConnection);
 			return MG_TRUE;
 		default:
 			return MG_FALSE;
@@ -46,12 +45,13 @@ void RestServer::pollServer(){
 }
 
 
-void RestServer::handleConnection(const Connection& connection) const{
+void RestServer::handleConnection(struct mg_connection *mgConnection) const{
 	ServiceInterface* service;
+	Connection connectionWrap(mgConnection);
 	// Le saco la barra inicial
-	std::string serviceName(connection.getUri().substr(1));
+	std::string serviceName(connectionWrap.getUri().substr(1));
 	service = this->serviceFactory->createService(serviceName);
-	service->executeRequest(connection);
+	service->executeRequest(connectionWrap);
 }
 
 /**

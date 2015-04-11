@@ -1,10 +1,10 @@
 #include "ServerThread.h"
 
 ServerThread::ServerThread(){
-	this->exit = false;
 }
 
 void ServerThread::runFunction(){
+	this->exit = false;
 	while (!this->exit){
 		this->server.pollServer();
 	}

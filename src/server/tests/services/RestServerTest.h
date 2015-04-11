@@ -3,6 +3,7 @@
 
 #include "cppunit/extensions/HelperMacros.h"
 #include "services/RestServer.h"
+#include "services/ServerThread.h"
 
 /**
  * Tests sobre la colección de servicios
@@ -26,6 +27,8 @@ public:
 	 * de prueba EchoService.
 	 */
 	void testEchoReply();
+private:
+	ServerThread* testServer;
 };
 
 #endif // RESTSERVERTEST_H

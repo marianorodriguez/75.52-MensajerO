@@ -33,7 +33,7 @@ public:
 	/**
 	 * Atrapa los requests
 	 */
-	void handleConnection(const Connection& connection) const;
+	void handleConnection(struct mg_connection *connection) const;
 private:
 	/**
 	 * Server mongoose
