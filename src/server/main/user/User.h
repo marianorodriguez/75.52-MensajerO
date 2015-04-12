@@ -5,7 +5,6 @@
 #include "../exceptions/InvalidUsernameException.h"
 #include "../exceptions/NotSerializedDataException.h"
 #include "../../tests/user/userTests.h"
-#include "../utilities/MD5.h"
 #include <vector>
 #include <iostream>
 using namespace std;
@@ -44,7 +43,7 @@ public:
 	/**
 	 * Devuelve la contreseña encriptada del usuario.
 	 */
-	string getHashedPWD() const;
+	string getPassword() const;
 
 	/**
 	 * Devuelve la ubicación actual del usuario.
@@ -87,15 +86,12 @@ public:
 
 private:
 	string username;
-	string hashedPWD;
+	string password;
 	string location;
 	string status;
 	string hashedProfilePicture;
 	int numberOfChats;
 	vector<string> hasChatsWith;
-
-	/**Encripta la contreseña pasada por parametro */
-	string encryptPassword(const string& plainPWD) const;
 
 	/**
 	 * Se fija si el usuario tiene un chat con el usuario pasado por parametro.

@@ -17,7 +17,6 @@ class userTests: public CPPUNIT_NS::TestFixture {
 	CPPUNIT_TEST_SUITE( userTests );
 
 	CPPUNIT_TEST(should_instantiate_new_user);
-	CPPUNIT_TEST(should_encrypt_password);
 	CPPUNIT_TEST(should_modify_location);
 	CPPUNIT_TEST(should_modify_status);
 	CPPUNIT_TEST(should_modify_profile_picture);
@@ -33,7 +32,6 @@ class userTests: public CPPUNIT_NS::TestFixture {
 
 protected:
 	void should_instantiate_new_user();
-	void should_encrypt_password();
 	void should_modify_location();
 	void should_modify_status();
 	void should_modify_profile_picture();

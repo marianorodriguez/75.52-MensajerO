@@ -1,8 +1,5 @@
 #include "CreateUserService.h"
 
-#include<iostream>
-
-
 const std::string CreateUserService::serviceName = "createUser";
 
 std::string CreateUserService::getUri() const{
@@ -10,5 +7,4 @@ std::string CreateUserService::getUri() const{
 }
 
 void CreateUserService::executeRequest(const Connection& connection) const{
-
 }

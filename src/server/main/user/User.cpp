@@ -10,7 +10,7 @@
 User::User(const string& username, const string& password) {
 
 	this->username = username;
-	this->hashedPWD = encryptPassword(password);
+	this->password = password;
 	this->numberOfChats = 0;
 	this->location = DEFAULT_USER_LOCATION;
 	this->status = DEFAULT_USER_STATUS;
@@ -31,7 +31,7 @@ User::User(const string& serializedUser) {
 
 	this->username =
 			parsedFromString[JSON_USER_ROOT][JSON_USER_NAME].asString();
-	this->hashedPWD =
+	this->password =
 			parsedFromString[JSON_USER_ROOT][JSON_USER_PWD].asString();
 	this->location =
 			parsedFromString[JSON_USER_ROOT][JSON_USER_LOCATION].asString();
@@ -57,7 +57,7 @@ string User::serialize()const {
 
 	Json::Value serializedUser;
 	serializedUser[JSON_USER_ROOT][JSON_USER_NAME] = this->username;
-	serializedUser[JSON_USER_ROOT][JSON_USER_PWD] = this->hashedPWD;
+	serializedUser[JSON_USER_ROOT][JSON_USER_PWD] = this->password;
 	serializedUser[JSON_USER_ROOT][JSON_USER_LOCATION] = this->location;
 	serializedUser[JSON_USER_ROOT][JSON_USER_STATUS] = this->status;
 	serializedUser[JSON_USER_ROOT][JSON_USER_NUM_CHAT] = this->numberOfChats;
@@ -78,8 +78,8 @@ string User::getUsername() const {
 	return this->username;
 }
 
-string User::getHashedPWD() const {
-	return this->hashedPWD;
+string User::getPassword() const {
+	return this->password;
 }
 
 string User::getLocation() const {
@@ -127,11 +127,6 @@ void User::addChatWithUser(const string& username) {
 	this->hasChatsWith.push_back(username);
 	this->numberOfChats++;
 
-}
-
-string User::encryptPassword(const string& plainPWD) const{
-
-	return md5(plainPWD);
 }
 
 bool User::isChattingWith(const string& username) const {

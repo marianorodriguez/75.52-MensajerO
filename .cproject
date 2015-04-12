@@ -45,6 +45,7 @@
 							<tool id="cdt.managedbuild.tool.gnu.c.linker.exe.debug.545929891" name="GCC C Linker" superClass="cdt.managedbuild.tool.gnu.c.linker.exe.debug"/>
 							<tool id="cdt.managedbuild.tool.gnu.cpp.linker.exe.debug.1703836015" name="GCC C++ Linker" superClass="cdt.managedbuild.tool.gnu.cpp.linker.exe.debug">
 								<option id="gnu.cpp.link.option.libs.1298637864" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs" valueType="libs">
+									<listOptionValue builtIn="false" value="curl"/>
 									<listOptionValue builtIn="false" value="cppunit"/>
 									<listOptionValue builtIn="false" value="rocksdb"/>
 									<listOptionValue builtIn="false" value="mongoose"/>

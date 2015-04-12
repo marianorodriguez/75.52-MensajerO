@@ -3,6 +3,8 @@
 #include<iostream>
 
 #include "mongoose.h"
+#include "json.h"
+#include "utilities/Base64.h"
 
 #include "RestServer.h"
 #include "ServiceFactory.h"
