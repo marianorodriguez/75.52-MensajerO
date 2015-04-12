@@ -7,7 +7,11 @@
 
 #include "Database.h"
 
-Database::Database() { }
+Database::Database() {
+	rocksdb::Options options;
+	options.create_if_missing = true;
+	rocksdb::Status status = rocksdb::DB::Open(options, DEFAULT_DATABASE_PATH , &database);
+}
 
 Database::Database(const string& path) {
 	rocksdb::Options options;

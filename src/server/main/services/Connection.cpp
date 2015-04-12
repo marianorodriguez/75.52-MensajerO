@@ -35,7 +35,7 @@ std::map<std::string, std::string> Connection::getParamMap() const{
 	return this->paramMap;
 }
 
-void Connection::printMessage(std::string& message) const{
+void Connection::printMessage(const std::string& message) const{
 	mg_printf_data(this->rawConnection, message.c_str());
 }
 

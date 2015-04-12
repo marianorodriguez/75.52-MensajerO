@@ -24,6 +24,10 @@ std::string RestClient::execute(RestClient::RequestType requestType, const RestQ
 		curl_easy_setopt(curl, CURLOPT_HTTPGET, 1L);
 		curl_easy_setopt(curl, CURLOPT_URL, query.buildGetQuery().c_str());
 		break;
+	case POST:
+		curl_easy_setopt(curl, CURLOPT_URL, query.buildGetQuery().c_str());
+		curl_easy_setopt(curl, CURLOPT_POSTFIELDS, query.getPostData().c_str());
+		break;
 	default:
 		break;
 	}
@@ -69,4 +73,12 @@ std::string RestQuery::buildGetQuery() const{
 	std::string paramString = paramStream.str();
 	paramString = paramString.substr(0, paramString.size()-1);
 	return this->baseUri + paramString; 
+}
+
+void RestQuery::setPostData(const std::string& data){
+	this->postData = data;
+}
+
+std::string RestQuery::getPostData() const{
+	return this->postData;
 }

@@ -28,7 +28,7 @@ public:
 	/**
 	 * Le envía un string al cliente que realizó el request
 	 */
-    void printMessage(std::string& message) const;
+    void printMessage(const std::string& message) const;
 	/**
 	 * Devuelve un mapa con los parámetros recibidos por request
 	 */

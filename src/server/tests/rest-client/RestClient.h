@@ -55,9 +55,14 @@ public:
 	 * Devuelve la uri con parametros para realizar un get
 	 */
 	std::string buildGetQuery() const;
+
+	void setPostData(const std::string& data);
+	std::string getPostData() const;
 private:
 	std::string baseUri;
 	std::map<std::string, std::string> parameters;
+
+	std::string postData;
 };
 
 #endif // RESTCLIENT_H
