@@ -2,11 +2,13 @@
 #define RESTCLIENTTEST_H
 
 #include "cppunit/extensions/HelperMacros.h"
+#include "services/ServerThread.h"
 
 class RestClientTest : public CppUnit::TestFixture{
 	CPPUNIT_TEST_SUITE(RestClientTest);
 	CPPUNIT_TEST(testBuildQuery);
 	CPPUNIT_TEST(testGet);
+	CPPUNIT_TEST(testPost);
 	CPPUNIT_TEST_SUITE_END();
 
 public:
@@ -20,6 +22,8 @@ public:
 	 * Comprueba que realice un get correctamente
 	 */
 	void testGet();
+
+	void testPost();
 };
 
 #endif // RESTCLIENTTEST_H

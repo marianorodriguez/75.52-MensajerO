@@ -32,3 +32,19 @@ void RestClientTest::testGet(){
 	std::string response = client.execute(RestClient::GET, query);
 	CPPUNIT_ASSERT(!response.empty());
 }
+
+void RestClientTest::testPost(){
+	ServerThread server;
+	server.run();
+
+	RestClient client;
+	RestQuery query;
+	query.setBaseUri("http://127.0.0.1:8081/echo");
+	query.setPostData("i'm posting some data");
+	std::string response = client.execute(RestClient::POST, query);
+
+	CPPUNIT_ASSERT(!response.empty());
+
+	server.shutdown();
+	server.join();
+}
