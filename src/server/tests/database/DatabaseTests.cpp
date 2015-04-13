@@ -125,29 +125,3 @@ void DatabaseTests::should_not_find_values() {
 	CPPUNIT_ASSERT_THROW(db->read(key), KeyNotFoundException);
 	delete db;
 }
-
-void DatabaseTests::cant_use_invalid_key(){
-
-	Database* db = new Database(pathTest);
-	vector<string> key1;
-	key1.push_back("");
-	CPPUNIT_ASSERT_THROW(db->write(key1, "value"), InvalidKeyException);
-
-	vector<string> key2;
-	key2.push_back("validUsername");
-	key2.push_back("#$cantHave/Invalid%Characters");
-	CPPUNIT_ASSERT_THROW(db->write(key2, "value"), InvalidKeyException);
-
-	vector<string> key3;
-	key3.push_back("   ");
-	key3.push_back("cantHaveOnlySpaces");
-	CPPUNIT_ASSERT_THROW(db->write(key3, "value"), InvalidKeyException);
-
-	vector<string> key4;
-	key4.push_back(" cantStartWithSpaces");
-	CPPUNIT_ASSERT_THROW(db->write(key4, "value"), InvalidKeyException);
-
-	vector<string> key5;
-	key5.push_back("cantEndWithSpaces  ");
-	CPPUNIT_ASSERT_THROW(db->write(key5, "value"), InvalidKeyException);
-}

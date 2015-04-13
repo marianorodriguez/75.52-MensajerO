@@ -16,15 +16,23 @@ Database::Database(const string& path) {
 }
 
 void Database::write(vector<string> key, const string& value) {
+	if (key.size() == 0) {
+		InvalidKeyException* e = new InvalidKeyException("Vector de keys esta vacio.");
+		throw *e;
+	}
 	string compoundKey = this->getKey(key);
 	rocksdb::Status status = database->Put(rocksdb::WriteOptions(),compoundKey,value);
 	if(!status.ok()) {
 		Logger* logger1 = Logger::getLogger();
-		logger1->write(Logger::ERROR,"Hubo un error al escribir en la base de datos de: " + database->GetName() + " la key: " + compoundKey);
+		logger1->write(Logger::ERROR, "Error: " + status.ToString() + " Hubo un error al escribir en la base de datos de: " + database->GetName() + " la key: " + compoundKey);
 	}
 }
 
 string Database::read(vector<string> key) const{
+	if (key.size() == 0) {
+		InvalidKeyException* e = new InvalidKeyException("Vector de keys esta vacio.");
+		throw *e;
+	}
 	string value = "";
 	string compoundKey = this->getKey(key);
 	rocksdb::Status status = database->Get(rocksdb::ReadOptions(),compoundKey,&value);
@@ -40,7 +48,7 @@ void Database::erase(vector<string> key) {
 	rocksdb::Status status = database->Delete(rocksdb::WriteOptions(),compoundKey);
 	if(!status.ok()) {
 		Logger* logger1 = Logger::getLogger();
-		logger1->write(Logger::ERROR,"Hubo un error al borrar de la base de datos de: " + database->GetName() + "la key: " + compoundKey);
+		logger1->write(Logger::ERROR,"Error: " + status.ToString() + " Hubo un error al borrar de la base de datos de: " + database->GetName() + "la key: " + compoundKey);
 	}
 }
 
