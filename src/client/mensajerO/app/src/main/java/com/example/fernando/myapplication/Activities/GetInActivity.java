@@ -1,4 +1,4 @@
-package com.example.fernando.myapplication;
+package com.example.fernando.myapplication.Activities;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,7 +17,14 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class MainActivity extends ActionBarActivity implements View.OnClickListener{
+import com.example.fernando.myapplication.Common.JsonUtil;
+import com.example.fernando.myapplication.Common.Person;
+import com.example.fernando.myapplication.R;
+import com.example.fernando.myapplication.Common.ServletPostAsyncTask;
+
+import java.io.UnsupportedEncodingException;
+
+public class GetInActivity extends ActionBarActivity implements View.OnClickListener{
 
     private static final String PREFS = "prefs";
     private static final String PREF_NAME = "Fer";
@@ -25,15 +33,31 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.getin);
 //
 //        //BARRA DE PROGRESO
 //        requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 //        setProgressBarIndeterminateVisibility(false);
 //        //BARRA DE PROGRESO ON previo al request, OFF desp del request
 //        setProgressBarIndeterminateVisibility(true);
+
+        String fer = parserTest();
+        System.out.println(fer);
+
+        byte[] data = new byte[0];
+        try {
+            data = fer.getBytes("UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+        String fer64 = Base64.encodeToString(data, Base64.NO_WRAP);
+
+        fer64 = fer64.replaceAll("(?:\\r\\n|\\n\\r|\\n|\\r)", "");
+        System.out.println(fer64);
+
+//        new ServletPostAsyncTask().execute(new Pair<Context, String>(this, fer64));
         new ServletPostAsyncTask().execute(new Pair<Context, String>(this, "Grupo Taller II"));
-//        setProgressBarIndeterminateVisibility(false);
 
         //JSON
         parserTest();
@@ -41,11 +65,11 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         TextView mainTextView = (TextView) findViewById(R.id.textView);
         mainTextView.setText("Set in Java!");
 
-        Button mainButton = (Button) findViewById(R.id.main_button);
+        Button mainButton = (Button) findViewById(R.id.button1);
         mainButton.setOnClickListener(this);
 
         // 7. Greet the user, or ask for their name if new
-        displayWelcome();
+        //displayWelcome();
 
     }
 
@@ -60,7 +84,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
+        // as you specify a parent login in AndroidManifest.xml.
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
@@ -71,7 +95,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         return super.onOptionsItemSelected(item);
     }
 
-    public void parserTest() {
+    public String parserTest() {
         JsonUtil jsonU = new JsonUtil();
         Person person = new Person();
         person.setName("Fernando");
@@ -88,9 +112,11 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 
 //        jsonU.toJSon(person);
 
-        System.out.println(jsonU.toJSon(person).toString());
+        return jsonU.toJSon(person).toString();
 
-        Person person2 = jsonU.toPerson(jsonU.toJSon(person));
+//        System.out.println(jsonU.toJSon(person).toString());
+//
+//        Person person2 = jsonU.toPerson(jsonU.toJSon(person));
     }
 
     @Override
@@ -98,19 +124,20 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         TextView mainTextView = (TextView) findViewById(R.id.textView);
         mainTextView.setText("Button pressed!");
 
-//        setContentView(R.layout.activity);
+//        setContentView(R.layout.login);
 
         // create an Intent to take you over to a new DetailActivity
-        Intent signIn = new Intent(this, SignInActivity.class);
+        Intent logIn = new Intent(this, LogInActivity.class);
 
         // pack away the data about the cover
         // into your Intent before you head out
-        signIn.putExtra("coverID", "undato");
+        logIn.putExtra("coverID", "undato");
 
         // TODO: add any other data you'd like as Extras
 
         // start the next Activity using your prepared Intent
-        startActivity(signIn);
+
+        startActivity(logIn);
 
         finish();
 
@@ -163,7 +190,9 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
             // that simply dismisses the alert
             alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
 
-                public void onClick(DialogInterface dialog, int whichButton) {}
+                public void onClick(DialogInterface dialog, int whichButton) {
+
+                }
             });
 
             alert.show();

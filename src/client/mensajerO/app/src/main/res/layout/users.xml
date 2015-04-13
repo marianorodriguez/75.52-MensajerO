@@ -8,7 +8,7 @@
         android:id="@+id/button1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/button1"
+        android:text="@string/b.chats"
         android:layout_marginTop="20dp"
         android:layout_below="@+id/textView"
         android:layout_centerHorizontal="true" />
@@ -16,16 +16,8 @@
         android:id="@+id/button2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/button2"
+        android:text="@string/b.chatX"
         android:layout_marginTop="80dp"
-        android:layout_below="@+id/textView"
-        android:layout_centerHorizontal="true" />
-    <Button
-        android:id="@+id/button3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/button3"
-        android:layout_marginTop="140dp"
         android:layout_below="@+id/textView"
         android:layout_centerHorizontal="true" />
 

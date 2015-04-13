@@ -1,4 +1,4 @@
-package com.example.fernando.myapplication;
+package com.example.fernando.myapplication.Common;
 
 import android.support.annotation.NonNull;
 

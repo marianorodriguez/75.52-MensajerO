@@ -1,10 +1,8 @@
-package com.example.fernando.myapplication;
+package com.example.fernando.myapplication.Common;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.List;
 
 /**
  * Created by fernando on 4/04/15.
