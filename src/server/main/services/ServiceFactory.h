@@ -11,7 +11,7 @@ class ServiceInterface;
 class ServiceFactory{
 public:
 	enum ServiceInterfaceId {
-		CREATE_USER_SERVICE,
+		SIGNUP_SERVICE,
 		//TODO: remover
 		ECHO_SERVICE,
 		NULL_SERVICE

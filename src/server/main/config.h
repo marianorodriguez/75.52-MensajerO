@@ -47,4 +47,11 @@
  */
 #define DEFAULT_LOGGING_FILE "logging.txt"
 
+//# SERVICES ##################################
+
+//# SERVICIO DE SIGNUP
+#define SERVICE_SIGNUP_NAME "signUp"
+#define SERVICE_SIGNUP_USERNAME "username"
+#define SERVICE_SIGNUP_PASSWORD "password"
+
 #endif /* CONFIG_CONFIG_H_ */

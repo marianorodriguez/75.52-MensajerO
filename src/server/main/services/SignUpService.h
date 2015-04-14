@@ -4,8 +4,8 @@
 #include "user/User.h"
 #include "database/Database.h"
 
-class CreateUserService: public ServiceInterface {
-	friend class CreateUserServiceTest;
+class SignUpService: public ServiceInterface {
+	friend class SignUpServiceTest;
 public:
 	/**
 	 * Devuelve el nombre del servicio: createUser
@@ -18,8 +18,6 @@ public:
 private:
 	static const std::string serviceName;
 
-	void checkValidUsername(const std::string& username,
-			const Connection& connection, bool& error) const;
 	void checkusernameExists(const std::string& username,
 			const Connection& connection, bool& error) const;
 };
