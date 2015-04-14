@@ -40,6 +40,7 @@
 
 //# DATABASE ##################################
 #define DEFAULT_DATABASE_PATH "database"
+#define DATABASE_CHAT_PATH "database/chat"
 
 //# LOGGER ####################################
 /**
