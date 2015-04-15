@@ -21,8 +21,10 @@ Message::Message(const string& toDeserialize) {
 			(parsedFromString[JSON_MSG_ROOT][JSON_MSG_DATE_VALUE]).asString();
 	this->time =
 			(parsedFromString[JSON_MSG_ROOT][JSON_MSG_TIME_VALUE]).asString();
-
-	this->message = (parsedFromString[JSON_MSG_ROOT][JSON_MSG_TEXT]).asString();
+	this->message =
+			(parsedFromString[JSON_MSG_ROOT][JSON_MSG_TEXT]).asString();
+	this->sent =
+			(parsedFromString[JSON_MSG_ROOT][JSON_MSG_SENT]).asBool();
 
 	if (this->userFromID == this->userToID) {
 		InvalidUsernameException *e = new InvalidUsernameException(
@@ -38,6 +40,7 @@ Message::Message(const string& from, const string& to, const string& message) {
 	this->message = message;
 	this->date = Date::getDate();
 	this->time = Time::getTime();
+	this->sent = false;
 
 	if (this->userFromID == this->userToID) {
 		InvalidUsernameException *e = new InvalidUsernameException(
@@ -57,6 +60,7 @@ string Message::serialize() const {
 	message[JSON_MSG_ROOT][JSON_MSG_DATE_VALUE] = this->date;
 	message[JSON_MSG_ROOT][JSON_MSG_TIME_VALUE] = this->time;
 	message[JSON_MSG_ROOT][JSON_MSG_TEXT] = this->message;
+	message[JSON_MSG_ROOT][JSON_MSG_SENT] = this->sent;
 
 	return message.toStyledString();
 }
@@ -79,4 +83,12 @@ string Message::getTime() const {
 
 string Message::getDate() const {
 	return this->date;
+}
+
+bool Message::getSent() const{
+	return this->sent;
+}
+
+void Message::setAsSent(){
+	this->sent = true;
 }
