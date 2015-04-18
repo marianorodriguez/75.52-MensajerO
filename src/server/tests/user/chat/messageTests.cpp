@@ -19,6 +19,7 @@ void messageTests::should_instantiate_message() {
 	CPPUNIT_ASSERT(m.userFromID == from);
 	CPPUNIT_ASSERT(m.userToID == to);
 	CPPUNIT_ASSERT(m.message == message);
+	CPPUNIT_ASSERT(m.sent == false);
 }
 
 void messageTests::should_serialize_message() {
@@ -39,6 +40,7 @@ void messageTests::should_serialize_message() {
 	jsonMsg[JSON_MSG_ROOT][JSON_MSG_DATE_VALUE] = m.date;
 	jsonMsg[JSON_MSG_ROOT][JSON_MSG_TIME_VALUE] = m.time;
 	jsonMsg[JSON_MSG_ROOT][JSON_MSG_TEXT] = m.message;
+	jsonMsg[JSON_MSG_ROOT][JSON_MSG_SENT] = m.sent;
 
 	CPPUNIT_ASSERT(serialized == jsonMsg.toStyledString());
 }
@@ -60,6 +62,7 @@ void messageTests::should_deserialize_message() {
 	CPPUNIT_ASSERT(m1.date == m2.date);
 	CPPUNIT_ASSERT(m1.time == m2.time);
 	CPPUNIT_ASSERT(m1.message == m2.message);
+	CPPUNIT_ASSERT(m1.sent == m2.sent);
 }
 
 void messageTests::should_not_be_a_serialized_message() {

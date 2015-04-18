@@ -63,7 +63,12 @@ public:
 	 */
 	string getTime() const;
 
+	bool getSent() const;
+	void setAsSent();
+
 private:
+	bool sent;
+
 	string userFromID;
 	string userToID;
 	string date;
