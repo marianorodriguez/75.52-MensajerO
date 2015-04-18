@@ -45,6 +45,7 @@ void SignUpService::checkusernameExists(const std::string& username,
 
 	if (found) {
 		connection.printMessage("Error: Username already exists.");
+		//todo setear connection status
 	}
 
 	delete DB;

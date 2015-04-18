@@ -5,7 +5,7 @@
 #include "database/Database.h"
 
 class SignUpService: public ServiceInterface {
-	friend class SignUpServiceTest;
+	friend class ServicesIntegrationTests;
 public:
 	/**
 	 * Devuelve el nombre del servicio: createUser

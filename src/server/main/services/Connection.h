@@ -11,7 +11,7 @@ struct mg_connection;
  * Clase que engloba una conexión mongoose
  */
 class Connection{
-	friend class SignUpServiceTest;
+	friend class ServicesIntegrationTests;
 public:
 	/**
 	 * Constructor

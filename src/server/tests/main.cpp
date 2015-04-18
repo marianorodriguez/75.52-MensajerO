@@ -19,6 +19,7 @@ int main( int argc, char* argv[] )
 
 	controller.addListener( &progress );
 	CPPUNIT_NS::TestRunner runner;
+
 	// Instancio para que ejecuten las pruebas
 	LoggerTest lt;
 	RestClientTest rct;
