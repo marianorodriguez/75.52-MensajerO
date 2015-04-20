@@ -8,6 +8,10 @@
 #ifndef SERVER_TESTS_SERVICES_SERVICESINTEGRATIONTESTS_H_
 #define SERVER_TESTS_SERVICES_SERVICESINTEGRATIONTESTS_H_
 #include "cppunit/extensions/HelperMacros.h"
+#include "../rest-client/RestClient.h"
+#include "services/ServerThread.h"
+#include "database/Database.h"
+#include "json.h"
 #include "config.h"
 
 class ServicesIntegrationTests: public CppUnit::TestFixture {

@@ -1,6 +1,6 @@
 #include <services/SendMessageService.h>
 
-const std::string SendMessageService::serviceName = "sendMessage";
+const std::string SendMessageService::serviceName = SERVICE_SENDMESSAGE_NAME;
 
 std::string SendMessageService::getUri() const {
 	return SendMessageService::serviceName;
@@ -9,13 +9,13 @@ std::string SendMessageService::getUri() const {
 void SendMessageService::executeRequest(const Connection& connection) const {
 
 	map<string,string> params = connection.getParamMap();
-	string userFrom;	// = params["userFrom"];
-	string userTo;		// = params["userTo"];
-	string sentMessage;		// = params["message"];
+	string userFrom = params[SERVICE_SENDMESSAGE_USERNAME_FROM];
+	string userTo = params[SERVICE_SENDMESSAGE_USERNAME_TO];
+	string sentMessage = params[SERVICE_SENDMESSAGE_MESSAGE];
 
 	Message* message = new Message(userFrom,userTo,sentMessage);
 
-	Database* db = new Database(DATABASE_CHAT_PATH);
+	Database* db = new Database(DATABASE_CHATS_PATH);
 	vector<string> key;
 	key.push_back(userFrom);
 	key.push_back(userTo);
