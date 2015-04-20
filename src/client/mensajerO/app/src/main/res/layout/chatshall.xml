@@ -5,38 +5,11 @@
     android:layout_height="match_parent">
 
     <Button
-        android:id="@+id/button1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/b.users"
-        android:layout_marginTop="20dp"
-        android:layout_below="@+id/textView"
-        android:layout_centerHorizontal="true" />
-
-    <Button
         android:id="@+id/button2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/b.chatX"
         android:layout_marginTop="80dp"
-        android:layout_below="@+id/textView"
-        android:layout_centerHorizontal="true" />
-
-    <Button
-        android:id="@+id/button3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/b.config"
-        android:layout_marginTop="140dp"
-        android:layout_below="@+id/textView"
-        android:layout_centerHorizontal="true" />
-
-    <Button
-        android:id="@+id/button4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/b.logOut"
-        android:layout_marginTop="200dp"
         android:layout_below="@+id/textView"
         android:layout_centerHorizontal="true" />
 

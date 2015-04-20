@@ -7,17 +7,20 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Pair;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.fernando.myapplication.Common.ServletPostAsyncTask;
 import com.example.fernando.myapplication.Common.UserSessionManager;
 import com.example.fernando.myapplication.R;
 
 /**
  * Created by fernando on 07/04/15.
  */
+
 public class LogInActivity extends ActionBarActivity implements View.OnClickListener {
 
     // To close this activity from SignUp Activity
@@ -31,8 +34,10 @@ public class LogInActivity extends ActionBarActivity implements View.OnClickList
     UserSessionManager session;
     SharedPreferences mSharedPreferences;
     private static final String PREFS = "prefs";
-    private static final String PREF_NAME = "Fer";
-    private static final String PREF_PASSW = "Fer";
+    private static final String PREF_NAME = "name";
+    private static final String PREF_PASS= "password";
+
+    private static final String url = "http://10.0.2.2:8080/hello";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +68,8 @@ public class LogInActivity extends ActionBarActivity implements View.OnClickList
 
         // User Login button
         btnLogin = (Button) findViewById(R.id.button1);
+        btnLogin.setOnClickListener(this);
+
         mSharedPreferences = getSharedPreferences(PREFS, MODE_PRIVATE);
         // Enable the "Up" button for more navigation options
 //        getActionBar().setDisplayHomeAsUpEnabled(true);
@@ -82,11 +89,15 @@ public class LogInActivity extends ActionBarActivity implements View.OnClickList
 
                 SharedPreferences.Editor e = mSharedPreferences.edit();
                 e.putString(PREF_NAME, username);
-                e.putString(PREF_PASSW, password);
+                e.putString(PREF_PASS, password);
                 e.commit();
 
-                // Welcome the new user
-//                Toast.makeText(getApplicationContext(), "Welcome, " + username + "!", Toast.LENGTH_LONG).show();
+//                String packageToServer = doPackage();
+
+                new ServletPostAsyncTask().execute(new Pair<Context, String>(this, "packageToServer"),
+                        new Pair<Context, String>(this, "http://10.0.2.2:8080/hello"),
+                        new Pair<Context, String>(this, "post"));
+
 
                 // create an Intent to take you over to a new DetailActivity
                 Intent chatsHall = new Intent(this, ChatsHallActivity.class);

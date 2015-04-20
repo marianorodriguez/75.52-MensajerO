@@ -1,8 +1,15 @@
 package com.example.fernando.myapplication.Common;
 
+import android.content.Context;
+import android.util.ArrayMap;
+import android.util.Pair;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.Map;
 
 /**
  * Created by fernando on 4/04/15.
@@ -10,50 +17,55 @@ import org.json.JSONObject;
 
 public class JsonUtil {
 
-    public static JSONObject toJSon(Person person) {
+    public JSONObject toJSon(User user) {
         try {
             // Here we convert Java Object to JSON
-            JSONObject jsonObj = new JSONObject();
-            jsonObj.put("name", person.getName()); // Set the first name/pair
-            jsonObj.put("surname", person.getSurname());
 
-            JSONObject jsonAdd = new JSONObject(); // we need another object to store the address
-            jsonAdd.put("address", person.getAddress().getAddress());
-            jsonAdd.put("city", person.getAddress().getCity());
-            jsonAdd.put("state", person.getAddress().getState());
+            JSONObject jsonU = new JSONObject();
+            jsonU.put("username", user.username); // Set the first name/pair
+            jsonU.put("password", user.password);
+            jsonU.put("location", user.location);
+            jsonU.put("status", user.status);
+            jsonU.put("picture", user.profilePicture);
 
-            // We add the object to the ic_launcher object
-            jsonObj.put("address", jsonAdd);
-
-            // and finally we add the phone number
-            // In this case we need a json array to hold the java list
-            JSONArray jsonArr = new JSONArray();
-
-            JSONObject pnObj = new JSONObject();
-            pnObj.put("num", person.getNum1().getNumber());
-            pnObj.put("type", person.getNum1().getType());
-            jsonArr.put(pnObj);
-
-            JSONObject pnObj2 = new JSONObject();
-            pnObj2.put("num", person.getNum2().getNumber());
-            pnObj2.put("type", person.getNum2().getType());
-            jsonArr.put(pnObj2);
-
-            jsonObj.put("phoneNumber", jsonArr);
-
-            System.out.println(jsonObj);
-
-            return jsonObj;
+            return jsonU;
 
         } catch (JSONException ex) {
             ex.printStackTrace();
         }
-
         return null;
-
     }
 
-    public static Person toPerson(JSONObject jsonObject) {
+    public JSONObject toJSon(User user, ArrayList<Chat> chats) {
+
+        JSONObject jsonU = toJSon(user);
+        JSONArray allChats = new JSONArray();
+
+        try {
+
+            for (int i = 0; i < chats.size(); i++) {
+
+                JSONObject chat = new JSONObject();
+
+                chat.put("otherUsername", chats.get(i).otherUser);
+
+                for (int j = 0; j < chats.get(i).messages.size(); j++) {
+
+                }
+
+                allChats.put(chat);
+            }
+
+            jsonU.put("chats", allChats);
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+        return jsonU;
+    }
+
+    public Person toMessage(JSONObject jsonObject) {
         try {
             Person person = new Person();
             person.setName(jsonObject.getString("name"));

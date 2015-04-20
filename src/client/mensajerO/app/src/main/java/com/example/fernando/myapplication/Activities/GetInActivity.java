@@ -34,12 +34,6 @@ public class GetInActivity extends ActionBarActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.getin);
-//
-//        //BARRA DE PROGRESO
-//        requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
-//        setProgressBarIndeterminateVisibility(false);
-//        //BARRA DE PROGRESO ON previo al request, OFF desp del request
-//        setProgressBarIndeterminateVisibility(true);
 
         String fer = parserTest();
         System.out.println(fer);
@@ -57,7 +51,9 @@ public class GetInActivity extends ActionBarActivity implements View.OnClickList
         System.out.println(fer64);
 
 //        new ServletPostAsyncTask().execute(new Pair<Context, String>(this, fer64));
-        new ServletPostAsyncTask().execute(new Pair<Context, String>(this, "Grupo Taller II"));
+        new ServletPostAsyncTask().execute(new Pair<Context, String>(this, "Grupo Taller II"),
+                new Pair<Context, String>(this, "http://10.0.2.2:8080/hello"),
+                new Pair<Context, String>(this, "post"));
 
         //JSON
         parserTest();
@@ -71,28 +67,6 @@ public class GetInActivity extends ActionBarActivity implements View.OnClickList
         // 7. Greet the user, or ask for their name if new
         //displayWelcome();
 
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent login in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 
     public String parserTest() {

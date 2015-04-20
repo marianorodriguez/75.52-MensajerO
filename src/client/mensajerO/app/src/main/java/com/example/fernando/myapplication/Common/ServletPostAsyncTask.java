@@ -32,8 +32,12 @@ public class ServletPostAsyncTask extends AsyncTask<Pair<Context, String>, Void,
         context = params[0].first;
         String name = params[0].second;
 
+        String url = params[1].second;
+
+        String type = params[2].second;
+
         HttpClient httpClient = new DefaultHttpClient();
-        HttpPost httpPost = new HttpPost("http://10.0.2.2:8080/hello"); // 10.0.2.2 is localhost's IP address in Android emulator
+        HttpPost httpPost = new HttpPost(url); // 10.0.2.2 is localhost's IP address in Android emulator
         HttpGet httpGet = new HttpGet("http://10.0.2.2:8080/hello");
 
         try {
