@@ -40,6 +40,7 @@ public:
 	 */
 	void addNewMessage(Message* msg);
 
+	vector<Message*> getMessages() const;
 	/**
 	 * Serializa el chat en una cadena de texto.
 	 */

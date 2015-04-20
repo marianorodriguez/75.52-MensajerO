@@ -57,7 +57,7 @@ const std::string SERVICE_SIGNUP_NAME = "signUp";
 #define SERVICE_SIGNUP_USERNAME "username"
 #define SERVICE_SIGNUP_PASSWORD "password"
 
-//* SERVICIO DE LOGIN
+//# SERVICIO DE LOGIN
 const std::string SERVICE_LOGIN_NAME = "logIn";
 #define SERVICE_LOGIN_USERNAME "username"
 #define SERVICE_LOGIN_PASSWORD "password"
@@ -67,6 +67,9 @@ const std::string SERVICE_SENDMESSAGE_NAME = "sendMessage";
 #define SERVICE_SENDMESSAGE_USERNAME_FROM "userFrom"
 #define SERVICE_SENDMESSAGE_USERNAME_TO "userTo"
 #define SERVICE_SENDMESSAGE_MESSAGE "message"
+
+//# SERVICIO DE SOMETHINGFORME
+const std::string SERVICE_SOMETHINGFORME_NAME = "sendMessage";
 
 
 

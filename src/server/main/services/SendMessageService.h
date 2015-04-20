@@ -4,6 +4,7 @@
 #include "ServiceInterface.h"
 #include "../database/Database.h"
 #include "../user/chat/Chat.h"
+#include "../user/User.h"
 
 class SendMessageService: public ServiceInterface {
 public:

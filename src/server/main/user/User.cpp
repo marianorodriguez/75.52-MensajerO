@@ -94,6 +94,10 @@ string User::getHashedProfilePicture() const {
 	return this->hashedProfilePicture;
 }
 
+vector<string> User::getChats() const {
+	return this->hasChatsWith;
+}
+
 void User::modifyProfilePicture(const string& newPP) {
 	this->hashedProfilePicture = newPP;
 }
