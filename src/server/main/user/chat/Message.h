@@ -68,7 +68,6 @@ public:
 
 private:
 	bool sent;
-
 	string userFromID;
 	string userToID;
 	string date;

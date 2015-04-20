@@ -39,9 +39,11 @@
 #define DEFAULT_USER_STATUS "Online"
 #define DEFAULT_USER_PROFILE_PICTURE DEF_PROF_PICT
 
+
 //# DATABASE ##################################
 #define DEFAULT_DATABASE_PATH "database"
 #define DATABASE_CHAT_PATH "database/chat"
+
 
 //# LOGGER ####################################
 /**

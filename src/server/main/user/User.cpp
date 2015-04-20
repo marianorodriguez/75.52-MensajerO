@@ -6,6 +6,7 @@
  */
 
 #include "User.h"
+#include "utilities/MD5.h"
 
 User::User(const string& username, const string& password) {
 
@@ -76,10 +77,6 @@ string User::serialize()const {
 
 string User::getUsername() const {
 	return this->username;
-}
-
-string User::getPassword() const {
-	return this->password;
 }
 
 string User::getLocation() const {

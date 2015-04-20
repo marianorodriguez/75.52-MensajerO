@@ -43,7 +43,7 @@ public:
 	/**
 	 * Devuelve la contreseña encriptada del usuario.
 	 */
-	string getPassword() const;
+	string getHashedPWD() const;
 
 	/**
 	 * Devuelve la ubicación actual del usuario.
@@ -87,6 +87,7 @@ public:
 private:
 	string username;
 	string password;
+
 	string location;
 	string status;
 	string hashedProfilePicture;

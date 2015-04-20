@@ -26,6 +26,8 @@ Message::Message(const string& toDeserialize) {
 	this->sent =
 			(parsedFromString[JSON_MSG_ROOT][JSON_MSG_SENT]).asBool();
 
+	this->message = (parsedFromString[JSON_MSG_ROOT][JSON_MSG_TEXT]).asString();
+
 	if (this->userFromID == this->userToID) {
 		InvalidUsernameException *e = new InvalidUsernameException(
 				"Can't add a message between a single user");

@@ -1,7 +1,6 @@
 #include "services/ServerThread.h"
 #include "exceptions/BaseException.h"
 #include <iostream>
-#include <unistd.h>
 
 using namespace std;
 
@@ -24,4 +23,3 @@ int main() {
 	std::cout << "Apagando..." << std::endl;
 	server.join();
 }
-

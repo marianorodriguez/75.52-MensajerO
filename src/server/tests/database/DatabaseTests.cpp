@@ -74,6 +74,12 @@ void DatabaseTests::should_erase() {
 	delete db;
 }
 
+void DatabaseTests::should_persist() {
+	db->erase(key1);
+	CPPUNIT_ASSERT_THROW(db->read(key1), KeyNotFoundException);
+	delete db;
+}
+
 void DatabaseTests::should_modify() {
 	Database* db = new Database(pathTest);
 	vector<string> key1;
@@ -85,6 +91,11 @@ void DatabaseTests::should_modify() {
 
 	db->erase(key1);
 	delete db;
+	Database* db2 = new Database(pathTest);
+	CPPUNIT_ASSERT(db2->read(key1) == "value1");
+
+	db2->erase(key1);
+	delete db2;
 }
 
 void DatabaseTests::should_persist() {
