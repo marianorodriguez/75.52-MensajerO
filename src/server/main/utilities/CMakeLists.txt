@@ -3,8 +3,9 @@ project(mensajero)
 add_library(mensajero-utilities
 	Base64.cpp
 	Date.cpp
+	Logger.cpp
 	Thread.cpp
 	Time.cpp
 	)
 
-target_link_libraries(mensajero-utilities pthread)
+target_link_libraries(mensajero-utilities mensajero-model pthread)

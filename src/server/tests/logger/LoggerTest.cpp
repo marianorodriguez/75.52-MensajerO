@@ -1,7 +1,7 @@
 #include <cppunit/config/SourcePrefix.h>
 #include "LoggerTest.h"
 #include <stdio.h>
-#include "../../main/logger/Logger.h"
+#include "utilities/Logger.h"
 
 CPPUNIT_TEST_SUITE_REGISTRATION(LoggerTest);
 

@@ -5,7 +5,7 @@
  *      Author: marian
  */
 
-#include "InvalidKeyException.h"
+#include <exceptions/InvalidKeyException.h>
 
 InvalidKeyException::InvalidKeyException(string what): BaseException(what) {}
 

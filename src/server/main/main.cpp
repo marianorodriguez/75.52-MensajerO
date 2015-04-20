@@ -1,4 +1,3 @@
-/*
 #include "services/ServerThread.h"
 #include "exceptions/BaseException.h"
 #include <iostream>
@@ -25,4 +24,4 @@ int main() {
 	std::cout << "Apagando..." << std::endl;
 	server.join();
 }
-*/
+

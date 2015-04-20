@@ -8,7 +8,7 @@
 #ifndef SERVER_MAIN_EXCEPTIONS_INVALIDKEYEXCEPTION_H_
 #define SERVER_MAIN_EXCEPTIONS_INVALIDKEYEXCEPTION_H_
 
-#include "BaseException.h"
+#include <exceptions/BaseException.h>
 
 class InvalidKeyException: public BaseException {
 public:

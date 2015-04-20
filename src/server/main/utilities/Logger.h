@@ -7,9 +7,9 @@
 #include <thread>
 #include <mutex>
 #include "../config.h"
-#include "../exceptions/FileNotFoundException.h"
-#include "../utilities/Date.h"
-#include "../utilities/Time.h"
+#include "exceptions/FileNotFoundException.h"
+#include "utilities/Date.h"
+#include "utilities/Time.h"
 #include "json.h"
 
 using namespace std;

@@ -40,6 +40,7 @@ RestServer::RestServer(){
  * Destructor
  */
 RestServer::~RestServer(){
+	delete this->serviceFactory;
 	shutdownServer();
 }
 
