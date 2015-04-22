@@ -13,24 +13,24 @@ public class Packager {
 
         switch (service) {
             case "logIn":
-                return user.toJsonToServer().toString();
+                return user.toJsonForServer().toString();
             case "signUp":
-                return user.toJsonToServer().toString();
+                return user.toJsonForServer().toString();
 
             case "setConfig":
-                return user.toJsonToServer().toString();
+                return user.toJsonForServer().toString();
 
             case "somethingForMe":
-                return user.toJsonToServer().toString();
+                return user.toJsonForServer().toString();
 
             case "currentChats":
-                return user.toJsonToServer().toString();
+                return user.toJsonForServer().toString();
 
             case "users":
-                return user.toJsonToServer().toString();
+                return user.toJsonForServer().toString();
 
             case "sendMessage":
-                return user.toJsonToServer().toString();
+                return user.toJsonForServer().toString();
 
         }
         return null;

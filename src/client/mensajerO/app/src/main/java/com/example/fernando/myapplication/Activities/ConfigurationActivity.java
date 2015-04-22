@@ -33,8 +33,16 @@ public class ConfigurationActivity extends ActionBarActivity implements View.OnC
     @Override
     public void onClick(View v) {
 
-        if (v.getId() == R.id.button1 || v.getId() == R.id.button2 ) {
+        if (v.getId() == R.id.button1) {
+            //Cancel button
             finish();
+        } else if (v.getId() == R.id.button2 ) {
+            //Done button
+
+            //ARMAR EL PAQETE CORRESPONDIENTE CON FOTO DE USER
+            // HACER EL POST
+            // SI EL SERVER DA EL OK SALIR (TOCAR CONSTANTS), SINO TIRAR UN TOAST QE NO SE PUDO ENVIAR
+            // Y QUEDARSE AHI.
         }
     }
 }

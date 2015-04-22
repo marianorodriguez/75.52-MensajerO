@@ -28,7 +28,7 @@ public class User {
         chats = new ArrayList<Chat>();
     }
 
-    public JSONObject toJsonToServer () {
+    public JSONObject toJsonForServer () {
         JSONObject juser = new JSONObject();
         try {
             juser.put("username", username);
@@ -41,8 +41,8 @@ public class User {
         }
     }
 
-    public JSONObject toJsonToServer (int a) {
-        JSONObject juser = toJsonToServer();
+    public JSONObject toJsonForServer (int a) {
+        JSONObject juser = toJsonForServer();
         try {
             juser.put("picture", profilePicture);
             juser.put("location", location);
@@ -55,8 +55,8 @@ public class User {
         }
     }
 
-    public JSONObject toJsonToDisk () {
-        JSONObject juser = toJsonToServer(0);
+    public JSONObject toJsonForDisk () {
+        JSONObject juser = toJsonForServer(0);
         JSONArray jchats = new JSONArray();
         for (int i = 0; i < chats.size(); i++) {
             jchats.put(chats.get(i).toJson());

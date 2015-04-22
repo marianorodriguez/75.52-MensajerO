@@ -10,49 +10,46 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.fernando.myapplication.Common.Constants;
 import com.example.fernando.myapplication.R;
+
+import java.util.logging.Handler;
 
 /**
  * Created by fernando on 10/04/15.
  */
 public class ChatsHallActivity extends ActionBarActivity implements View.OnClickListener {
-    SharedPreferences mSharedPreferences;
-    private static final String PREFS = "prefs";
-    private static final String PREF_NAME = "name";
-    private static final String PREF_PASS = "password";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        // Tell the login which XML layout is right
         setContentView(R.layout.chatshall);
 
-        mSharedPreferences = getSharedPreferences(PREFS, MODE_PRIVATE);
+        Constants.mSharedPreferences = getSharedPreferences(Constants.PREFS, MODE_PRIVATE);
 
-
-        if (mSharedPreferences.getString(PREF_NAME, "").isEmpty()) {
+        if (Constants.mSharedPreferences.getString(Constants.PREF_NAME, "").isEmpty()) {
 
             Intent getIn = new Intent(this, GetInActivity.class);
-
-            // pack away the data about the cover
-            // into your Intent before you head out
-            getIn.putExtra("coverID", "undato");
-
-            // TODO: add any other data you'd like as Extras
-
-            // start the next Activity using your prepared Intent
             startActivity(getIn);
             finish();
 
         } else {
 
-            String username = mSharedPreferences.getString(PREF_NAME, "");
-            String p = mSharedPreferences.getString(PREF_PASS, "");
-            Toast.makeText(getApplicationContext(), "Welcome, " + username + p + "!", Toast.LENGTH_LONG).show();
+            String username = Constants.mSharedPreferences.getString(Constants.PREF_NAME, "");
+            Toast.makeText(getApplicationContext(), "Welcome, " + username + "!", Toast.LENGTH_LONG).show();
 
             Button button2 = (Button) findViewById(R.id.button2);
             button2.setOnClickListener(this);
+
+            // tirar un hilo que llame a something for me (si llega algo tirar pop up)
+            // tirar un hilo que llame a users
+            // tirar hilo que vea si hay chats nuevos en la lista de chats y si lo hay
+            // o si hay mensaje nuevo lo muestre y los ordene
+
+            // si los hilos responden, desparsear
+            // actualizar listas de chats y users (con hilos)
+
+            // sino responde --> no conexxion toast
 
         }
 
@@ -67,64 +64,33 @@ public class ChatsHallActivity extends ActionBarActivity implements View.OnClick
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent login in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.users) {
-
-            // create an Intent to take you over to a new DetailActivity
             Intent users = new Intent(this, UsersActivity.class);
-
-            // pack away the data about the cover
-            // into your Intent before you head out
-            users.putExtra("coverID", "undato");
-
-            // TODO: add any other data you'd like as Extras
-
-            // start the next Activity using your prepared Intent
             startActivity(users);
             return true;
 
         } else if (id == R.id.logOut) {
 
-            // Access the device's key-value storage
-            mSharedPreferences = getSharedPreferences(PREFS, MODE_PRIVATE);
-
-            SharedPreferences.Editor e = mSharedPreferences.edit();
+            Constants.mSharedPreferences = getSharedPreferences(Constants.PREFS, MODE_PRIVATE);
+            SharedPreferences.Editor e = Constants.mSharedPreferences.edit();
             e.clear();
-//            e.putString(PREF_NAME, "");
             e.commit();
 
-            // create an Intent to take you over to a new DetailActivity
+            // GUARDAR CHATS en archivo con nombre de username (o crear el json
+            // y mandar al server que lo
+            // guarde porque si abre en otro device no va a estar)
+            // SI LO HACE ON DESTROY NO HACERLO ACA ESTO
+
             Intent login = new Intent(this, LogInActivity.class);
-
-            // pack away the data about the cover
-            // into your Intent before you head out
-            login.putExtra("coverID", "undato");
-
-            // TODO: add any other data you'd like as Extras
-
-            // start the next Activity using your prepared Intent
             startActivity(login);
-
             finish();
             return true;
 
         } else if (id == R.id.settings) {
 
-            // create an Intent to take you over to a new DetailActivity
             Intent config = new Intent(this, ConfigurationActivity.class);
-
-            // pack away the data about the cover
-            // into your Intent before you head out
-            config.putExtra("coverID", "undato");
-
-            // TODO: add any other data you'd like as Extras
-
-            // start the next Activity using your prepared Intent
             startActivity(config);
             return true;
 
@@ -134,20 +100,24 @@ public class ChatsHallActivity extends ActionBarActivity implements View.OnClick
     }
 
     @Override
+    protected void onDestroy() { // supuestamente llama a este metodo cuando hace FINISH
+        super.onDestroy();
+        // The activity is about to be destroyed.
+
+        // GUARDAR CHATS en archivo con nombre de username (o crear el json
+        // y mandar al server que lo
+        // guarde porque si abre en otro device no va a estar)
+
+    }
+
+    @Override
     public void onClick(View v) {
 
         if (v.getId() == R.id.button2) {
 
-            // create an Intent to take you over to a new DetailActivity
+            //setear constante string chatwith para saber q chat mostrar en chat activity
+
             Intent chat = new Intent(this, ChatActivity.class);
-
-            // pack away the data about the cover
-            // into your Intent before you head out
-            chat.putExtra("coverID", "undato");
-
-            // TODO: add any other data you'd like as Extras
-
-            // start the next Activity using your prepared Intent
             startActivity(chat);
 
         }

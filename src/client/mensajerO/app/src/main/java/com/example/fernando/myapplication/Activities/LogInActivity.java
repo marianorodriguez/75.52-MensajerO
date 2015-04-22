@@ -13,7 +13,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.fernando.myapplication.Common.Constants;
 import com.example.fernando.myapplication.Common.ServletPostAsyncTask;
+import com.example.fernando.myapplication.Common.User;
 import com.example.fernando.myapplication.Common.UserSessionManager;
 import com.example.fernando.myapplication.R;
 
@@ -27,23 +29,13 @@ public class LogInActivity extends ActionBarActivity implements View.OnClickList
     public static final String ACTION_CLOSE = "yourPackageName.ACTION_CLOSE";
     private FinishSignalReceiver firstReceiver;
 
-    // To user enter password and username
-    Button btnLogin;
     EditText txtUsername, txtPassword;
     // User Session Manager Class
-    UserSessionManager session;
-    SharedPreferences mSharedPreferences;
-    private static final String PREFS = "prefs";
-    private static final String PREF_NAME = "name";
-    private static final String PREF_PASS= "password";
-
-    private static final String url = "http://10.0.2.2:8080/hello";
+//    UserSessionManager session;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        // Tell the login which XML layout is right
         setContentView(R.layout.login);
 
         Button button1 = (Button) findViewById(R.id.button1);
@@ -56,7 +48,6 @@ public class LogInActivity extends ActionBarActivity implements View.OnClickList
         firstReceiver = new FinishSignalReceiver();
         registerReceiver(firstReceiver, filter);
 
-
         // get Email, Password input text
         txtUsername = (EditText) findViewById(R.id.txtUsername);
         txtPassword = (EditText) findViewById(R.id.txtPassword);
@@ -65,14 +56,8 @@ public class LogInActivity extends ActionBarActivity implements View.OnClickList
 //                "User Login Status: " + session.isUserLoggedIn(),
 //                Toast.LENGTH_LONG).show();
 
+        Constants.mSharedPreferences = getSharedPreferences(Constants.PREFS, MODE_PRIVATE);
 
-        // User Login button
-        btnLogin = (Button) findViewById(R.id.button1);
-        btnLogin.setOnClickListener(this);
-
-        mSharedPreferences = getSharedPreferences(PREFS, MODE_PRIVATE);
-        // Enable the "Up" button for more navigation options
-//        getActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     @Override
@@ -87,28 +72,28 @@ public class LogInActivity extends ActionBarActivity implements View.OnClickList
             // Validate if username, password is filled
             if(username.trim().length() > 0 && password.trim().length() > 0) {
 
-                SharedPreferences.Editor e = mSharedPreferences.edit();
-                e.putString(PREF_NAME, username);
-                e.putString(PREF_PASS, password);
+                SharedPreferences.Editor e = Constants.mSharedPreferences.edit();
+                e.putString(Constants.PREF_NAME, username);
+                e.putString(Constants.PREF_PASS, password);
                 e.commit();
 
-//                String packageToServer = doPackage();
+                // CREAR UN USER
+                // hacer el package
+                // hacer el post
+                // tomar el response
+                // si todo ok (Constants.user = newUser;) seguir,
+                // sino tirar un toast, borrar el user, y borrar los edit text (o
+                // ejecutar nuevamente la activity con algun flag para qe tire el toast
+                // de user y password incorrecta)
 
                 new ServletPostAsyncTask().execute(new Pair<Context, String>(this, "packageToServer"),
                         new Pair<Context, String>(this, "http://10.0.2.2:8080/hello"),
                         new Pair<Context, String>(this, "post"));
 
+                // PEDIR CHATS ANTERIORES !!!!!! EN UN SERVICIO NUEVO O EN LOG IN
+                // cargar en lista de chats de user.
 
-                // create an Intent to take you over to a new DetailActivity
                 Intent chatsHall = new Intent(this, ChatsHallActivity.class);
-
-                // pack away the data about the cover
-                // into your Intent before you head out
-                chatsHall.putExtra("coverID", "undato");
-
-                // TODO: add any other data you'd like as Extras
-
-                // start the next Activity using your prepared Intent
                 startActivity(chatsHall);
                 finish();
 
@@ -123,14 +108,6 @@ public class LogInActivity extends ActionBarActivity implements View.OnClickList
 
             // create an Intent to take you over to a new DetailActivity
             Intent signUpActivity = new Intent(this, SignUpActivity.class);
-
-            // pack away the data about the cover
-            // into your Intent before you head out
-            signUpActivity.putExtra("coverID", "undato");
-
-            // TODO: add any other data you'd like as Extras
-
-            // start the next Activity using your prepared Intent
             startActivity(signUpActivity);
         }
     }

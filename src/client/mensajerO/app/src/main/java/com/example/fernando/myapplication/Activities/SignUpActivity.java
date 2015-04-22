@@ -8,30 +8,23 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
-import com.example.fernando.myapplication.Common.UserSessionManager;
+import com.example.fernando.myapplication.Common.Constants;
 import com.example.fernando.myapplication.R;
 
 /**
  * Created by fernando on 10/04/15.
  */
+
 public class SignUpActivity extends ActionBarActivity implements View.OnClickListener {
 
     // To user enter password and username
-    Button btnLogin;
     EditText txtUsername, txtPassword;
     // User Session Manager Class
-    UserSessionManager session;
-    SharedPreferences mSharedPreferences;
-    private static final String PREFS = "prefs";
-    private static final String PREF_NAME = "Fer";
-    private static final String PREF_PASSW = "Fer";
+//    UserSessionManager session;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        // Tell the login which XML layout is right
         setContentView(R.layout.signup);
 
         Button button1 = (Button) findViewById(R.id.button1);
@@ -39,7 +32,6 @@ public class SignUpActivity extends ActionBarActivity implements View.OnClickLis
 
         Button button2 = (Button) findViewById(R.id.button2);
         button2.setOnClickListener(this);
-
 
         // get Email, Password input text
         txtUsername = (EditText) findViewById(R.id.txtUsername);
@@ -50,11 +42,9 @@ public class SignUpActivity extends ActionBarActivity implements View.OnClickLis
 //                Toast.LENGTH_LONG).show();
 
         // User Login button
-        btnLogin = (Button) findViewById(R.id.button1);
-        mSharedPreferences = getSharedPreferences(PREFS, MODE_PRIVATE);
+//        btnLogin = (Button) findViewById(R.id.button1);
+        Constants.mSharedPreferences = getSharedPreferences(Constants.PREFS, MODE_PRIVATE);
 
-        // Enable the "Up" button for more navigation options
-//        getActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     @Override
@@ -68,37 +58,25 @@ public class SignUpActivity extends ActionBarActivity implements View.OnClickLis
             // Validate if username, password is filled
             if(username.trim().length() > 0 && password.trim().length() > 0) {
 
-                SharedPreferences.Editor e = mSharedPreferences.edit();
-                e.putString(PREF_NAME, username);
-                e.putString(PREF_PASSW, password);
+                SharedPreferences.Editor e = Constants.mSharedPreferences.edit();
+                e.putString(Constants.PREF_NAME, username);
+                e.putString(Constants.PREF_PASS, password);
                 e.commit();
 
-                // Welcome the new user
-//                Toast.makeText(getApplicationContext(), "Welcome, " + username + "!", Toast.LENGTH_LONG).show();
+                // CREAR UN USER
+                // hacer el package
+                // hacer el post
+                // tomar el response
+                // si todo ok (Constants.user = newUser;) seguir,
+                // sino tirar un toast, borrar el user, y borrar los edit text (o
+                // ejecutar nuevamente la activity con algun flag para qe tire el toast
+                // de user y password incorrecta)
 
-                // create an Intent to take you over to a new DetailActivity
                 Intent chatsHall = new Intent(this, ChatsHallActivity.class);
-
-                // pack away the data about the cover
-                // into your Intent before you head out
-                chatsHall.putExtra("coverID", "undato");
-
-                // TODO: add any other data you'd like as Extras
-
-                // start the next Activity using your prepared Intent
                 startActivity(chatsHall);
-                // create an Intent to take you over to a new DetailActivity
+
                 Intent config = new Intent(this, ConfigurationActivity.class);
-
-                // pack away the data about the cover
-                // into your Intent before you head out
-                config.putExtra("coverID", "undato");
-
-                // TODO: add any other data you'd like as Extras
-
-                // start the next Activity using your prepared Intent
                 startActivity(config);
-
 
                 // y hacer finish de log IN tambien !!!!!!!!!!!!!
                 Intent myIntent = new Intent(LogInActivity.ACTION_CLOSE);
@@ -114,16 +92,7 @@ public class SignUpActivity extends ActionBarActivity implements View.OnClickLis
             }
 
         } else {
-//            Intent login = new Intent(this, LogInActivity.class);
-//
-//            // pack away the data about the cover
-//            // into your Intent before you head out
-//            login.putExtra("coverID", "undato");
-//
-//            // TODO: add any other data you'd like as Extras
-//
-//            // start the next Activity using your prepared Intent
-//            startActivity(login);
+
             finish();
         }
     }

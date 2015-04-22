@@ -26,6 +26,9 @@ public class UsersActivity extends ActionBarActivity implements View.OnClickList
         Button button2 = (Button) findViewById(R.id.button2);
         button2.setOnClickListener(this);
 
+        // dibujar los usuarios de la lista de usuarios
+        // tirar hilo que compruebe si hay nuevos usuarios y los dibuje
+
     }
 
     @Override
@@ -58,16 +61,9 @@ public class UsersActivity extends ActionBarActivity implements View.OnClickList
 
         if (v.getId() == R.id.button2) {
 
-            // create an Intent to take you over to a new DetailActivity
+            //setear constante string chatwith para saber q chat mostrar en chat activity
+
             Intent chat = new Intent(this, ChatActivity.class);
-
-            // pack away the data about the cover
-            // into your Intent before you head out
-            chat.putExtra("coverID", "undato");
-
-            // TODO: add any other data you'd like as Extras
-
-            // start the next Activity using your prepared Intent
             startActivity(chat);
 
         }
