@@ -8,8 +8,8 @@ std::string SignUpService::getUri() const {
 
 void SignUpService::executeRequest(const Connection& connection) const {
 
-	std::string username = connection.getParamMap()[SERVICE_SIGNUP_USERNAME];
-	std::string password = connection.getParamMap()[SERVICE_SIGNUP_PASSWORD];
+	std::string username = connection.getParamMap()[SERVICE_USERNAME];
+	std::string password = connection.getParamMap()[SERVICE_PASSWORD];
 	bool error = false;
 
 	checkusernameExists(username, connection, error);

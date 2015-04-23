@@ -52,15 +52,14 @@
 
 //# SERVICES ##################################
 
+#define SERVICE_USERNAME "username"
+#define SERVICE_PASSWORD "password"
+
 //# SERVICIO DE SIGNUP
 const std::string SERVICE_SIGNUP_NAME = "signUp";
-#define SERVICE_SIGNUP_USERNAME "username"
-#define SERVICE_SIGNUP_PASSWORD "password"
 
 //# SERVICIO DE LOGIN
 const std::string SERVICE_LOGIN_NAME = "logIn";
-#define SERVICE_LOGIN_USERNAME "username"
-#define SERVICE_LOGIN_PASSWORD "password"
 
 //# SERVICIO DE SENDMESSAGE
 const std::string SERVICE_SENDMESSAGE_NAME = "sendMessage";
@@ -70,6 +69,9 @@ const std::string SERVICE_SENDMESSAGE_NAME = "sendMessage";
 
 //# SERVICIO DE SOMETHINGFORME
 const std::string SERVICE_SOMETHINGFORME_NAME = "sendMessage";
+
+//# SERVICIO DE CURRENTCHATS
+const std::string SERVICE_CURRENTCHATS_NAME = "currentChats";
 
 
 

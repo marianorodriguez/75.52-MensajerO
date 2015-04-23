@@ -7,8 +7,8 @@ std::string LogInService::getUri() const {
 
 void LogInService::executeRequest(const Connection& connection) const {
 
-	string username = connection.getParamMap()[SERVICE_LOGIN_USERNAME];
-	string password = connection.getParamMap()[SERVICE_LOGIN_PASSWORD];
+	string username = connection.getParamMap()[SERVICE_USERNAME];
+	string password = connection.getParamMap()[SERVICE_PASSWORD];
 
 	Database* db = new Database(DATABASE_USERS_PATH);
 	vector<string> key;
@@ -20,6 +20,7 @@ void LogInService::executeRequest(const Connection& connection) const {
 		if (user->getPassword() == password) {
 			//Devuelvo datos al user.
 			connection.printMessage(serializedUser);
+			delete user;
 			delete db;
 			return;
 		}

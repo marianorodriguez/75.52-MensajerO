@@ -34,8 +34,8 @@ void ServicesIntegrationTests::signUp_should_register_new_user() {
 	query.setBaseUri("127.0.0.1:8081/" + SERVICE_SIGNUP_NAME);
 
 	Json::Value sendUser;
-	sendUser[SERVICE_SIGNUP_NAME][SERVICE_SIGNUP_USERNAME] = "newUser";
-	sendUser[SERVICE_SIGNUP_NAME][SERVICE_SIGNUP_PASSWORD] = "md5_hashed_pwd";
+	sendUser[SERVICE_SIGNUP_NAME][SERVICE_USERNAME] = "newUser";
+	sendUser[SERVICE_SIGNUP_NAME][SERVICE_PASSWORD] = "md5_hashed_pwd";
 	query.setPostData(sendUser.toStyledString());
 
 	std::string response = testClient->execute(RestClient::POST, query);
@@ -68,8 +68,8 @@ void ServicesIntegrationTests::signUp_username_should_already_exist() {
 	query.setBaseUri("127.0.0.1:8081/" + SERVICE_SIGNUP_NAME);
 
 	Json::Value sendUser;
-	sendUser[SERVICE_SIGNUP_NAME][SERVICE_SIGNUP_USERNAME] = username;
-	sendUser[SERVICE_SIGNUP_NAME][SERVICE_SIGNUP_PASSWORD] = password;
+	sendUser[SERVICE_SIGNUP_NAME][SERVICE_USERNAME] = username;
+	sendUser[SERVICE_SIGNUP_NAME][SERVICE_PASSWORD] = password;
 	query.setPostData(sendUser.toStyledString());
 
 	std::string response = testClient->execute(RestClient::POST, query);
