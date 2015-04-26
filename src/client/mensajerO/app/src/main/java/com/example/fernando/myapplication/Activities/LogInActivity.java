@@ -19,6 +19,10 @@ import com.example.fernando.myapplication.Common.User;
 import com.example.fernando.myapplication.Common.UserSessionManager;
 import com.example.fernando.myapplication.R;
 
+import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
 /**
  * Created by fernando on 07/04/15.
  */
@@ -30,8 +34,11 @@ public class LogInActivity extends ActionBarActivity implements View.OnClickList
     private FinishSignalReceiver firstReceiver;
 
     EditText txtUsername, txtPassword;
-    // User Session Manager Class
-//    UserSessionManager session;
+
+    ServletPostAsyncTask logInPost;
+    ServletPostAsyncTask currentChatsPost;
+    public String ok;
+    public String chats;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,16 +55,39 @@ public class LogInActivity extends ActionBarActivity implements View.OnClickList
         firstReceiver = new FinishSignalReceiver();
         registerReceiver(firstReceiver, filter);
 
-        // get Email, Password input text
+        // get Username, Password input text
         txtUsername = (EditText) findViewById(R.id.txtUsername);
         txtPassword = (EditText) findViewById(R.id.txtPassword);
 
-//        Toast.makeText(getApplicationContext(),
-//                "User Login Status: " + session.isUserLoggedIn(),
-//                Toast.LENGTH_LONG).show();
-
         Constants.mSharedPreferences = getSharedPreferences(Constants.PREFS, MODE_PRIVATE);
 
+        logInPost = new ServletPostAsyncTask();
+        currentChatsPost = new ServletPostAsyncTask();
+        ok = "";
+        chats = "";
+
+    }
+
+    public static String md5(String string) {
+        byte[] hash = new byte[0];
+
+        try {
+            hash = MessageDigest.getInstance("MD5").digest(string.getBytes("UTF-8"));
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException("Huh, MD5 should be supported?", e);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+        StringBuilder hex = new StringBuilder(hash.length * 2);
+
+        for (byte b : hash) {
+            int i = (b & 0xFF);
+            if (i < 0x10) hex.append('0');
+            hex.append(Integer.toHexString(i));
+        }
+
+        return hex.toString();
     }
 
     @Override
@@ -72,26 +102,45 @@ public class LogInActivity extends ActionBarActivity implements View.OnClickList
             // Validate if username, password is filled
             if(username.trim().length() > 0 && password.trim().length() > 0) {
 
-                SharedPreferences.Editor e = Constants.mSharedPreferences.edit();
-                e.putString(Constants.PREF_NAME, username);
-                e.putString(Constants.PREF_PASS, password);
-                e.commit();
+                password = md5(password);
+                User currentUser = new User(username, password);
 
-                // CREAR UN USER
-                // hacer el package
-                // hacer el post
-                // tomar el response
-                // si todo ok (Constants.user = newUser;) seguir,
-                // sino tirar un toast, borrar el user, y borrar los edit text (o
-                // ejecutar nuevamente la activity con algun flag para qe tire el toast
-                // de user y password incorrecta)
+                String package_ = Constants.packager.doPackage("logIn", currentUser);
 
-                new ServletPostAsyncTask().execute(new Pair<Context, String>(this, "packageToServer"),
-                        new Pair<Context, String>(this, "http://10.0.2.2:8080/hello"),
+                System.out.println(package_);
+
+                logInPost.execute(new Pair<Context, String>(this, package_),
+                        new Pair<Context, String>(this, Constants.logInUrl),
                         new Pair<Context, String>(this, "post"));
 
-                // PEDIR CHATS ANTERIORES !!!!!! EN UN SERVICIO NUEVO O EN LOG IN
-                // cargar en lista de chats de user.
+                while (ok.compareTo("") == 0) {}
+
+                if (ok.contains("Error")) {}
+
+                if (ok.compareTo("true") == 0) {
+                    Constants.user = currentUser;
+
+                    SharedPreferences.Editor e = Constants.mSharedPreferences.edit();
+                    e.putString(Constants.PREF_NAME, username);
+                    e.putString(Constants.PREF_PASS, password);
+                    e.commit();
+
+                } else {
+                    Toast.makeText(this, "Nombre de usuario o conyrasenia invalido. Ingrese nuevamente.", Toast.LENGTH_LONG).show();
+                    currentUser = null;
+                    txtUsername.setText("");
+                    txtPassword.setText("");
+                    return;
+                }
+
+                // posteo el mismo package_ de arriba
+                currentChatsPost.execute(new Pair<Context, String>(this, package_),
+                    new Pair<Context, String>(this, Constants.currentChatsUrl),
+                    new Pair<Context, String>(this, "post"));
+
+                while (chats.compareTo("") == 0) {}
+
+                // user.chats = desempaquetar chats
 
                 Intent chatsHall = new Intent(this, ChatsHallActivity.class);
                 startActivity(chatsHall);

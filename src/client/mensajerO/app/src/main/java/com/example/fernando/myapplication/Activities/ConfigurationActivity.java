@@ -1,11 +1,14 @@
 package com.example.fernando.myapplication.Activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Pair;
 import android.view.View;
 import android.widget.Button;
 
+import com.example.fernando.myapplication.Common.ServletPostAsyncTask;
 import com.example.fernando.myapplication.R;
 
 /**
@@ -41,8 +44,17 @@ public class ConfigurationActivity extends ActionBarActivity implements View.OnC
 
             //ARMAR EL PAQETE CORRESPONDIENTE CON FOTO DE USER
             // HACER EL POST
-            // SI EL SERVER DA EL OK SALIR (TOCAR CONSTANTS), SINO TIRAR UN TOAST QE NO SE PUDO ENVIAR
-            // Y QUEDARSE AHI.
+            new ServletPostAsyncTask().execute(new Pair<Context, String>(this, "packageToServer"),
+                    new Pair<Context, String>(this, "http://10.0.2.2:8080/config"),
+                    new Pair<Context, String>(this, "post"));
+            boolean ok = true;
+            if (ok) {
+//                TOCAR CONSTANTS
+                finish();
+            } else {
+                // tirar toast de que no se pudo conectar con el server, verifique su conexion
+            }
+
         }
     }
 }

@@ -1,14 +1,18 @@
 package com.example.fernando.myapplication.Activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Pair;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 import com.example.fernando.myapplication.Common.Constants;
+import com.example.fernando.myapplication.Common.ServletPostAsyncTask;
+import com.example.fernando.myapplication.Common.User;
 import com.example.fernando.myapplication.R;
 
 /**
@@ -19,8 +23,8 @@ public class SignUpActivity extends ActionBarActivity implements View.OnClickLis
 
     // To user enter password and username
     EditText txtUsername, txtPassword;
-    // User Session Manager Class
-//    UserSessionManager session;
+    ServletPostAsyncTask signUpPost;
+    String ok;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,40 +41,51 @@ public class SignUpActivity extends ActionBarActivity implements View.OnClickLis
         txtUsername = (EditText) findViewById(R.id.txtUsername);
         txtPassword = (EditText) findViewById(R.id.txtPassword);
 
-//        Toast.makeText(getApplicationContext(),
-//                "User Login Status: " + session.isUserLoggedIn(),
-//                Toast.LENGTH_LONG).show();
-
-        // User Login button
-//        btnLogin = (Button) findViewById(R.id.button1);
         Constants.mSharedPreferences = getSharedPreferences(Constants.PREFS, MODE_PRIVATE);
 
+        signUpPost = new ServletPostAsyncTask();
+        ok = "";
     }
 
     @Override
     public void onClick(View v) {
 
         if (v.getId() == R.id.button2 ) {
-            // Get username, password from EditText
+
             String username = txtUsername.getText().toString();
             String password = txtPassword.getText().toString();
 
             // Validate if username, password is filled
             if(username.trim().length() > 0 && password.trim().length() > 0) {
 
-                SharedPreferences.Editor e = Constants.mSharedPreferences.edit();
-                e.putString(Constants.PREF_NAME, username);
-                e.putString(Constants.PREF_PASS, password);
-                e.commit();
+                password = LogInActivity.md5(password);
+                User currentUser = new User(username, password);
 
-                // CREAR UN USER
-                // hacer el package
-                // hacer el post
-                // tomar el response
-                // si todo ok (Constants.user = newUser;) seguir,
-                // sino tirar un toast, borrar el user, y borrar los edit text (o
-                // ejecutar nuevamente la activity con algun flag para qe tire el toast
-                // de user y password incorrecta)
+                String package_ = Constants.packager.doPackage("logIn", currentUser);
+
+                signUpPost.execute(new Pair<Context, String>(this, package_),
+                        new Pair<Context, String>(this,Constants.signUpUrl),
+                        new Pair<Context, String>(this, "post"));
+
+                while (ok.compareTo("") == 0) {}
+
+                if (ok.contains("Error")) {}
+
+                if (ok.compareTo("true") == 0) {
+                    Constants.user = currentUser;
+
+                    SharedPreferences.Editor e = Constants.mSharedPreferences.edit();
+                    e.putString(Constants.PREF_NAME, username);
+                    e.putString(Constants.PREF_PASS, password);
+                    e.commit();
+
+                } else {
+                    Toast.makeText(this, "Nombre de usuario invalido. Ingrese nuevamente.", Toast.LENGTH_LONG).show();
+                    currentUser = null;
+                    txtUsername.setText("");
+                    txtPassword.setText("");
+                    return;
+                }
 
                 Intent chatsHall = new Intent(this, ChatsHallActivity.class);
                 startActivity(chatsHall);

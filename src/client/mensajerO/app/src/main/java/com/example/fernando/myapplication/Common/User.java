@@ -13,8 +13,8 @@ import java.util.ArrayList;
  */
 public class User {
 
-    public String username;
-    public String password;
+    public String username = "";
+    public String password = "";
     public String profilePicture;
     public String location;
     public String status;
@@ -25,7 +25,7 @@ public class User {
         username = _username;
         password = _password;
         jsonU = new JsonUtil();
-        chats = new ArrayList<Chat>();
+        chats = new ArrayList<>();
     }
 
     public JSONObject toJsonForServer () {

@@ -9,7 +9,7 @@ import java.io.UnsupportedEncodingException;
  */
 public class Packager {
 
-    public String toJson (String service, User user) {
+    private String toJson (String service, User user) {
 
         switch (service) {
             case "logIn":
@@ -38,9 +38,10 @@ public class Packager {
 
     public String doPackage(String service, User user) {
 
-        String jsonPackage= toJson(service, user);
+        String jsonPackage = toJson(service, user);
+        System.out.println(jsonPackage);
 
-        byte[] data = new byte[0];
+        byte[] data;
         try {
             data = jsonPackage.getBytes("UTF-8");
         } catch (UnsupportedEncodingException e) {
@@ -49,9 +50,7 @@ public class Packager {
         }
 
         String packageEncoded = Base64.encodeToString(data, Base64.NO_WRAP);
-
         packageEncoded = packageEncoded.replaceAll("(?:\\r\\n|\\n\\r|\\n|\\r)", "");
-//        System.out.println(packageEncoded);
 
         return packageEncoded;
     }

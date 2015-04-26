@@ -1,10 +1,13 @@
 package com.example.fernando.myapplication.Common;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.http.AndroidHttpClient;
 import android.os.AsyncTask;
 import android.util.Pair;
 import android.widget.Toast;
+
+import com.example.fernando.myapplication.Activities.LogInActivity;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -18,13 +21,17 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * Created by fernando on 3/04/15.
  */
-public class ServletPostAsyncTask extends AsyncTask<Pair<Context, String>, Void, String> {
+public class ServletPostAsyncTask extends AsyncTask<Pair<Context, String>, String, String> {
     private Context context;
 
     @Override
@@ -39,6 +46,17 @@ public class ServletPostAsyncTask extends AsyncTask<Pair<Context, String>, Void,
         HttpClient httpClient = new DefaultHttpClient();
         HttpPost httpPost = new HttpPost(url); // 10.0.2.2 is localhost's IP address in Android emulator
         HttpGet httpGet = new HttpGet("http://10.0.2.2:8080/hello");
+
+        ArrayList<String> a = new ArrayList<>();
+        a.add("lala");
+        a.add("lala2");
+        publishProgress("fer", "fer2", a.get(0));
+
+//        while (!isCancelled()) {
+//
+//        }
+
+        System.out.println("SALIO");
 
         try {
             // Add name data to request
@@ -68,7 +86,19 @@ public class ServletPostAsyncTask extends AsyncTask<Pair<Context, String>, Void,
     }
 
     @Override
+    protected void onProgressUpdate(String... values) {
+        super.onProgressUpdate(values);
+
+        System.out.println("VALUES = " + values[0] + "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
+    }
+
+    @Override
     protected void onPostExecute(String result) {
-        Toast.makeText(context, result, Toast.LENGTH_LONG).show();
+        // aca desempaqueto el package respuesta
+
+        // LogInActivity.ok = result.toJson().buscar clave "ok"
+
+//        Toast.makeText(context, result, Toast.LENGTH_LONG).show();
+//        publishProgress("fer", "fer2", "carlos");
     }
 }

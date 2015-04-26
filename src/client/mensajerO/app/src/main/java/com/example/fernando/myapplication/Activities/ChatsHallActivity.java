@@ -1,9 +1,11 @@
 package com.example.fernando.myapplication.Activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -11,6 +13,8 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.fernando.myapplication.Common.Constants;
+import com.example.fernando.myapplication.Common.ServletPostAsyncTask;
+import com.example.fernando.myapplication.Common.User;
 import com.example.fernando.myapplication.R;
 
 import java.util.logging.Handler;
@@ -19,6 +23,12 @@ import java.util.logging.Handler;
  * Created by fernando on 10/04/15.
  */
 public class ChatsHallActivity extends ActionBarActivity implements View.OnClickListener {
+
+    ServletPostAsyncTask somethingForMePost;
+    ServletPostAsyncTask usersPost;
+    ServletPostAsyncTask refreshChats;
+    public String something;
+    String package_;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,21 +45,48 @@ public class ChatsHallActivity extends ActionBarActivity implements View.OnClick
 
         } else {
 
-            String username = Constants.mSharedPreferences.getString(Constants.PREF_NAME, "");
-            Toast.makeText(getApplicationContext(), "Welcome, " + username + "!", Toast.LENGTH_LONG).show();
-
             Button button2 = (Button) findViewById(R.id.button2);
             button2.setOnClickListener(this);
 
-            // tirar un hilo que llame a something for me (si llega algo tirar pop up)
-            // tirar un hilo que llame a users
-            // tirar hilo que vea si hay chats nuevos en la lista de chats y si lo hay
-            // o si hay mensaje nuevo lo muestre y los ordene
+            somethingForMePost = new ServletPostAsyncTask();
+            something = "";
+            refreshChats = new ServletPostAsyncTask();
+            usersPost = new ServletPostAsyncTask();
 
-            // si los hilos responden, desparsear
-            // actualizar listas de chats y users (con hilos)
+//            dibujar los chats que vienen de login
 
-            // sino responde --> no conexxion toast
+            String username = Constants.mSharedPreferences.getString(Constants.PREF_NAME, "");
+            String password = Constants.mSharedPreferences.getString(Constants.PREF_PASS, "");
+            Toast.makeText(getApplicationContext(), "Welcome, " + username + "!", Toast.LENGTH_LONG).show();
+
+            User currentUser = new User(username, password);
+
+            package_ = Constants.packager.doPackage("logIn", currentUser);
+
+            somethingForMePost.execute(new Pair<Context, String>(this, package_),
+                    new Pair<Context, String>(this, Constants.somethingForMeUrl),
+                    new Pair<Context, String>(this, "post"));
+
+            while (something.compareTo("") == 0) {}
+
+            if (something.contains("Error")) {
+                // tirar toast (no se puede conectar con el server)
+            } else {
+                // si llega algo tirar pop up, y actualizar lista de chats (o hacerlo directo en el hilo!!!)
+                something = "";
+            }
+
+            usersPost.execute(new Pair<Context, String>(this, package_),
+                    new Pair<Context, String>(this, Constants.usersUrl),
+                    new Pair<Context, String>(this, "post"));
+            // tirar un hilo que llame a users, que tire todos los usuarios del sistema y cargarlos en constants.users
+            // loopea, se hace constantemente. el server manda todos los users
+
+            refreshChats.execute(new Pair<Context, String>(this, ""),
+                    new Pair<Context, String>(this, ""),
+                    new Pair<Context, String>(this, ""));
+            // hilo que ve si hay chats nuevos en la lista de chats y si los hay
+            // o si hay mensajes nuevo los muestre y los ordene
 
         }
 
@@ -100,13 +137,15 @@ public class ChatsHallActivity extends ActionBarActivity implements View.OnClick
     }
 
     @Override
-    protected void onDestroy() { // supuestamente llama a este metodo cuando hace FINISH
+    protected void onDestroy() {
         super.onDestroy();
-        // The activity is about to be destroyed.
 
-        // GUARDAR CHATS en archivo con nombre de username (o crear el json
-        // y mandar al server que lo
-        // guarde porque si abre en otro device no va a estar)
+        new ServletPostAsyncTask().execute(new Pair<Context, String>(this, package_),
+                new Pair<Context, String>(this, Constants.currentChatsUrl),
+                new Pair<Context, String>(this, "post"));
+
+        // getResponse
+        // GUARDAR CHATS sharedPreferences !
 
     }
 

@@ -2,6 +2,7 @@ package com.example.fernando.myapplication.Activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Base64;
@@ -16,34 +17,35 @@ import com.example.fernando.myapplication.R;
 import java.io.UnsupportedEncodingException;
 
 public class GetInActivity extends ActionBarActivity implements View.OnClickListener{
-
+    ServletPostAsyncTask post;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.getin);
 
-        String fer = "hello";
-        System.out.println(fer);
+//        String fer = "hello";
+////        System.out.println(fer);
+//
+//        byte[] data = new byte[0];
+//        try {
+//            data = fer.getBytes("UTF-8");
+//        } catch (UnsupportedEncodingException e) {
+//            e.printStackTrace();
+//        }
+//
+//        String fer64 = Base64.encodeToString(data, Base64.NO_WRAP);
+//
+//        fer64 = fer64.replaceAll("(?:\\r\\n|\\n\\r|\\n|\\r)", "");
+//        System.out.println(fer64);
+//
+////        new ServletPostAsyncTask().execute(new Pair<Context, String>(this, fer64));
+//        post = new ServletPostAsyncTask();
+//        post.execute(new Pair<Context, String>(this, "Grupo Taller II"),
+//                new Pair<Context, String>(this, "http://10.0.2.2:8080/hello"),
+//                new Pair<Context, String>(this, "post"));
 
-        byte[] data = new byte[0];
-        try {
-            data = fer.getBytes("UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-
-        String fer64 = Base64.encodeToString(data, Base64.NO_WRAP);
-
-        fer64 = fer64.replaceAll("(?:\\r\\n|\\n\\r|\\n|\\r)", "");
-        System.out.println(fer64);
-
-//        new ServletPostAsyncTask().execute(new Pair<Context, String>(this, fer64));
-        new ServletPostAsyncTask().execute(new Pair<Context, String>(this, "Grupo Taller II"),
-                new Pair<Context, String>(this, "http://10.0.2.2:8080/hello"),
-                new Pair<Context, String>(this, "post"));
-
-        TextView mainTextView = (TextView) findViewById(R.id.textView);
-        mainTextView.setText("Set in Java!");
+//        TextView mainTextView = (TextView) findViewById(R.id.textView);
+//        mainTextView.setText("Set in Java!");
 
         Button mainButton = (Button) findViewById(R.id.button1);
         mainButton.setOnClickListener(this);
@@ -75,12 +77,14 @@ public class GetInActivity extends ActionBarActivity implements View.OnClickList
 
     @Override
     public void onClick(View v) {
-        TextView mainTextView = (TextView) findViewById(R.id.textView);
-        mainTextView.setText("Button pressed!");
+//        TextView mainTextView = (TextView) findViewById(R.id.textView);
+//        mainTextView.setText("Button pressed!");
 
         Intent logIn = new Intent(this, LogInActivity.class);
         startActivity(logIn);
         finish();
+//        if (!post.isCancelled())
+//            post.cancel(true);
 
     }
 

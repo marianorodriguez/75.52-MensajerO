@@ -1,14 +1,18 @@
 package com.example.fernando.myapplication.Activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
+import com.example.fernando.myapplication.Common.Constants;
+import com.example.fernando.myapplication.Common.ServletPostAsyncTask;
 import com.example.fernando.myapplication.R;
 
 /**
@@ -16,17 +20,23 @@ import com.example.fernando.myapplication.R;
  */
 public class UsersActivity extends ActionBarActivity implements View.OnClickListener {
 
+    ServletPostAsyncTask refreshUsers;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        // Tell the login which XML layout is right
         setContentView(R.layout.users);
 
         Button button2 = (Button) findViewById(R.id.button2);
         button2.setOnClickListener(this);
 
-        // dibujar los usuarios de la lista de usuarios
+        // dibujar los usuarios de la lista de usuarios Constants.users
+
+
+        refreshUsers = new ServletPostAsyncTask();
+        refreshUsers.execute(new Pair<Context, String>(this, ""),
+                new Pair<Context, String>(this, Constants.usersUrl),
+                new Pair<Context, String>(this, ""));
         // tirar hilo que compruebe si hay nuevos usuarios y los dibuje
 
     }
