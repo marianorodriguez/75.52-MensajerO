@@ -23,6 +23,7 @@ public:
 
 class ServiceCreatorInterface{
 public:
+	virtual ~ServiceCreatorInterface() {}
 	/**
 	 * Devuelve un puntero a una instancia de un servicio
 	 */

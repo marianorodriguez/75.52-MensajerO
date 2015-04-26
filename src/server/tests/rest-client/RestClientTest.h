@@ -8,7 +8,6 @@ class RestClientTest : public CppUnit::TestFixture{
 	CPPUNIT_TEST_SUITE(RestClientTest);
 	CPPUNIT_TEST(testBuildQuery);
 	CPPUNIT_TEST(testGet);
-	CPPUNIT_TEST(testPost);
 	CPPUNIT_TEST_SUITE_END();
 
 public:

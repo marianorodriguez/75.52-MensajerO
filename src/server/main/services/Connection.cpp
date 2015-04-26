@@ -1,6 +1,8 @@
 #include <map>
-#include "Connection.h"
 #include "mongoose.h"
+
+#include "Connection.h"
+#include "QueryParams.h"
 
 // Constantes
 const std::string Connection::getMethodName = "GET";
@@ -40,7 +42,12 @@ void Connection::printMessage(const std::string& message) const{
 }
 
 void Connection::parseGetParams(){
-	this->paramMap["getParam"] = this->rawConnection->query_string;
+	this->paramMap.clear();
+	if (this->rawConnection->query_string){
+		std::string query(this->rawConnection->query_string);
+		QueryParams params(query);
+		this->paramMap = params.getParams();
+	}
 }
 
 void Connection::parsePostParams(){

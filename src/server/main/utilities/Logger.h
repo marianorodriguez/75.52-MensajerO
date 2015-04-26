@@ -1,13 +1,12 @@
 #ifndef LOGGER_H_
 #define LOGGER_H_
 
-#include<iostream>
-#include<fstream>
-#include<string.h>
-#include <thread>
-#include <mutex>
+#include <iostream>
+#include <fstream>
+#include <string.h>
 #include "../config.h"
 #include "exceptions/FileNotFoundException.h"
+#include "Mutex.h"
 #include "utilities/Date.h"
 #include "utilities/Time.h"
 #include "json.h"
@@ -67,6 +66,9 @@ private:
 	Logger(string loggerDir);
 	string getWriteLevel(const loggingLevel& level);
 	void setLoggingLevels();
+	
+	Mutex mutex;
+	static Mutex constructorMutex;
 };
 
 #endif /* LOGGER_H_ */

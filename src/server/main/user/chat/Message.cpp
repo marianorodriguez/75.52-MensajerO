@@ -8,9 +8,9 @@ Message::Message(const string& toDeserialize) {
 	bool wasParsed = reader.parse(toDeserialize, parsedFromString);
 
 	if (not wasParsed) {
-		NotSerializedDataException* e = new NotSerializedDataException(
-				"'" + toDeserialize + "' is not a JSON serialized message.");
-		throw *e;
+		NotSerializedDataException exception("'" + toDeserialize + 
+					"' is not a JSON serialized message.");
+		throw exception;
 	}
 
 	this->userFromID =
@@ -29,9 +29,9 @@ Message::Message(const string& toDeserialize) {
 	this->message = (parsedFromString[JSON_MSG_ROOT][JSON_MSG_TEXT]).asString();
 
 	if (this->userFromID == this->userToID) {
-		InvalidUsernameException *e = new InvalidUsernameException(
-				"Can't add a message between a single user");
-		throw *e;
+		InvalidUsernameException exception( 
+						"Can't add a message between a single user");
+		throw exception;
 	}
 }
 
@@ -45,9 +45,9 @@ Message::Message(const string& from, const string& to, const string& message) {
 	this->sent = false;
 
 	if (this->userFromID == this->userToID) {
-		InvalidUsernameException *e = new InvalidUsernameException(
+		InvalidUsernameException exception(
 				"Can't add a message between a single user");
-		throw *e;
+		throw exception;
 	}
 }
 

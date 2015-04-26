@@ -1,4 +1,5 @@
 #include "ServiceFactoryTest.h"
+#include "EchoService.h"
 #include "services/ServiceInterface.h"
 
 CPPUNIT_TEST_SUITE_REGISTRATION(ServiceFactoryTest);
@@ -12,14 +13,17 @@ void ServiceFactoryTest::tearDown(){
 }
 
 void ServiceFactoryTest::testGetService(){
+	ServiceFactory serviceFactory;
+	serviceFactory.addNewServiceCreator(new EchoServiceCreator());
 	ServiceInterface* service;
 	// Compruebo que me devuelva un servicio con nombre válido
-	service = this->serviceFactory.createService("createUser");
+	service = serviceFactory.createService("echo");
 	std::string uri(service->getUri());
-	CPPUNIT_ASSERT(uri.compare("createUser") == 0);
+	CPPUNIT_ASSERT(uri.compare("echo") == 0);
 	delete service;
 	// Devuelve una instancia de NullService
-	service = this->serviceFactory.createService("im an invalid service");
+	service = serviceFactory.createService("im an invalid service");
 	uri.assign(service->getUri());
 	CPPUNIT_ASSERT(uri.compare("") == 0);
+	delete service;
 }

@@ -1,10 +1,14 @@
 project(mensajero)
 
 # Archivos del servidor
+if(coverage-test)
+	message(STATUS "Compilando soporte para coverage-tests")
+	set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fprofile-arcs -ftest-coverage")
+endif(coverage-test)
+
 add_executable(server
 	main.cpp
-	database/Database.cpp
-	utilities/Logger.cpp)
+	)
 
 # Archivos del modelo en general
 add_library(mensajero-model
@@ -23,6 +27,10 @@ add_library(mensajero-model
 target_link_libraries(server ${JSONCPP_LIBRARIES} mensajero-database
 					mensajero-services mensajero-model mensajero-utilities)
 
+if(coverage-test)
+	target_link_libraries(server gcov)
+	target_link_libraries(mensajero-model gcov)
+endif(coverage-test)
 
 # Paths absolutos
 include_directories(${PROJECT_SOURCE_DIR})

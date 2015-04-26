@@ -6,6 +6,10 @@ ServiceFactory::ServiceFactory(){}
 
 
 ServiceFactory::~ServiceFactory(){
+	std::map<std::string, ServiceCreatorInterface*>::const_iterator it;
+	for (it = this->serviceMap.begin(); it != this->serviceMap.end(); ++it){
+		delete it->second;
+	}
 }
 
 ServiceInterface* ServiceFactory::createService(const std::string& serviceName) const{

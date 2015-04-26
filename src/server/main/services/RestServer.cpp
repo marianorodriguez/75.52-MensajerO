@@ -56,6 +56,7 @@ void RestServer::handleConnection(struct mg_connection *mgConnection) const{
 	std::string serviceName(connectionWrap.getUri().substr(1));
 	service = this->serviceFactory.createService(serviceName);
 	service->executeRequest(connectionWrap);
+	delete service;
 }
 
 /**

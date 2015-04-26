@@ -36,9 +36,9 @@ public:
 
 	/**
 	 * Agrega un nuevo mensaje al chat actual.
-	 * @params msg Puntero al mensaje a agregar.
+	 * @param message Puntero al mensaje a agregar.
 	 */
-	void addNewMessage(Message* msg);
+	void addNewMessage(const Message& message);
 
 	/**
 	 * Serializa el chat en una cadena de texto.
@@ -49,12 +49,12 @@ private:
 	string username_1;
 	string username_2;
 	int numberOfMessages;
-	vector<Message*> sentMessages;
+	vector<Message> sentMessages;
 
 	/**
 	 * Chequea si el mensaje pasado por parametro puede ser un mensaje valido para el chat actual.
 	 */
-	bool isAValidMessage(const Message& m) const;
+	bool isAValidMessage(const Message& message) const;
 };
 
 #endif /* SERVER_MAIN_USER_CHAT_CHAT_H_ */

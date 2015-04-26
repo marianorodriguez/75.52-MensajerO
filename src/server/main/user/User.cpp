@@ -25,9 +25,9 @@ User::User(const string& serializedUser) {
 	bool wasParsed = reader.parse(serializedUser, parsedFromString);
 
 	if (not wasParsed) {
-		NotSerializedDataException* e = new NotSerializedDataException(
-				"'" + serializedUser + "' is not a JSON serialized user.");
-		throw *e;
+		NotSerializedDataException exception("'" + serializedUser +
+						"' is not a JSON serialized user.");
+		throw exception;
 	}
 
 	this->username =
@@ -110,15 +110,15 @@ void User::addChatWithUser(const string& username) {
 	if (username == this->username) {
 		string description = this->username + "can't have a chat with "
 				+ this->username + ".";
-		InvalidUsernameException *e = new InvalidUsernameException(description);
-		throw *e;
+		InvalidUsernameException exception(description);
+		throw exception;
 	}
 
 	if (isChattingWith(username)) {
 		string description = this->username + " is already chatting with "
 				+ username + ".";
-		InvalidUsernameException *e = new InvalidUsernameException(description);
-		throw *e;
+		InvalidUsernameException exception(description);
+		throw exception;
 	}
 
 	this->hasChatsWith.push_back(username);

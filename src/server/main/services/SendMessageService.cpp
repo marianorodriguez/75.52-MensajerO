@@ -13,26 +13,24 @@ void SendMessageService::executeRequest(const Connection& connection) const {
 	string userTo;		// = params["userTo"];
 	string sentMessage;		// = params["message"];
 
-	Message* message = new Message(userFrom,userTo,sentMessage);
+	Message message(userFrom,userTo,sentMessage);
 
-	Database* db = new Database(DATABASE_CHAT_PATH);
+	Database db(DATABASE_CHAT_PATH);
 	vector<string> key;
 	key.push_back(userFrom);
 	key.push_back(userTo);
 
 	try {
-		string serializedChat = db->read(key);
+		string serializedChat = db.read(key);
 		Chat chat(serializedChat);
-		chat.addNewMessage(message);
-		db->write(key,chat.serialize());
+		chat.addNewMessage(&message);
+		db.write(key,chat.serialize());
 	} catch (KeyNotFoundException &e) {
 		Chat chat(userFrom,userTo);
-		chat.addNewMessage(message);
-		db->write(key,chat.serialize());
+		chat.addNewMessage(&message);
+		db.write(key,chat.serialize());
 	}
 
-	delete message;
-	delete db;
 }
 
 ServiceInterface* SendMessageServiceCreator::create(){

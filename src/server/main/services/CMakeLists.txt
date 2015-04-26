@@ -3,6 +3,7 @@ project(mensajero)
 add_library(mensajero-services
 	Connection.cpp
 	NullService.cpp
+	QueryParams.cpp
 	RestServer.cpp
 	ServerThread.cpp
 	ServiceFactory.cpp

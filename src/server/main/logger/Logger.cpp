@@ -14,8 +14,8 @@ Logger::Logger(string config_dir) {
 	if (!json_file.good()) {
 		string configDir(config_dir);
 		string description = "Can't find the file " + configDir + ".";
-		FileNotFoundException * e = new FileNotFoundException(description);
-		throw *e;
+		FileNotFoundException exception(description);
+		throw exception;
 	}
 	bool parsingSuccessful = json_reader.parse(json_file, json_root, false);
 	json_file.close();

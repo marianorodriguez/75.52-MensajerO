@@ -16,7 +16,6 @@ class LoggerTest: public CPPUNIT_NS::TestFixture {
 	CPPUNIT_TEST(should_write_only_an_info);
 	CPPUNIT_TEST(should_return_loggingLevels);
 	CPPUNIT_TEST(should_throw_file_not_found_exception);
-	CPPUNIT_TEST(should_be_thread_safe);
 	CPPUNIT_TEST_SUITE_END();
 
 private:

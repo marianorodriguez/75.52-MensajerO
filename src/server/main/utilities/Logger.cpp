@@ -1,8 +1,8 @@
 #include "Logger.h"
 
 Logger* Logger::logInstance = NULL;
+Mutex Logger::constructorMutex;
 string Logger::logDir = "";
-mutex mtx;
 
 Logger::Logger(string config_dir) {
 
@@ -14,8 +14,8 @@ Logger::Logger(string config_dir) {
 	if (!json_file.good()) {
 		string configDir(config_dir);
 		string description = "Can't find the file " + configDir + ".";
-		FileNotFoundException * e = new FileNotFoundException(description);
-		throw *e;
+		FileNotFoundException e(description);
+		throw e;
 	}
 	bool parsingSuccessful = json_reader.parse(json_file, json_root, false);
 	json_file.close();
@@ -30,12 +30,9 @@ Logger::Logger(string config_dir) {
 }
 
 void Logger::write(loggingLevel level, string text) {
-
+	Lock(this->mutex);
 	if (this->file.is_open()) {
 		if (this->levels[level]) {
-
-			unique_lock<mutex> lock(mtx);
-
 			string toWrite = Date::getDate() + " | " + Time::getTime() + " | "
 					+ this->getWriteLevel(level) + ": " + text + "\n";
 			this->file.write(toWrite.c_str(), strlen(toWrite.c_str()));
@@ -44,8 +41,6 @@ void Logger::write(loggingLevel level, string text) {
 }
 
 void Logger::saveStatus() {
-
-	unique_lock<mutex> lock(mtx);
 	this->file.flush();
 }
 
@@ -75,7 +70,6 @@ string Logger::getWriteLevel(const loggingLevel& level) {
 }
 
 void Logger::setLoggingLevels() {
-
 	Json::Value loggingLevels = this->json_logger.get("loggingLevels", "");
 	this->levels[ERROR] = loggingLevels[ERROR].get("ERROR", false).asBool();
 	this->levels[WARN] = loggingLevels[WARN].get("WARNING", false).asBool();
@@ -88,9 +82,6 @@ string Logger::getLogDir() {
 }
 
 Logger::~Logger() {
-
-	unique_lock<mutex> lock(mtx);
-
 	if (this->file.is_open()) {
 		this->file.close();
 	}
@@ -99,11 +90,12 @@ Logger::~Logger() {
 }
 
 Logger* Logger::getLogger() {
-
-	unique_lock<mutex> lock(mtx);
-
-	if (logInstance == NULL)
-		logInstance = new Logger(JSON_CONFIG_FILE);
-
+	if (!logInstance){
+		constructorMutex.lock();
+		if (!logInstance){ // Sigue siendo poco thread-safe, pero muy poco
+			logInstance = new Logger(JSON_CONFIG_FILE);
+		}
+		constructorMutex.unlock();
+	}
 	return logInstance;
 }

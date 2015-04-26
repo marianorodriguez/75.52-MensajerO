@@ -15,10 +15,10 @@ void RestServerTest::setUp(){
 }
 
 void RestServerTest::tearDown(){
-    CppUnit::TestFixture::tearDown();
 	this->testServer->shutdown();
 	this->testServer->join();
 	delete this->testServer;
+	CppUnit::TestFixture::tearDown();
 }
 
 void RestServerTest::testConstructor(){
@@ -31,11 +31,12 @@ void RestServerTest::testEchoReply(){
 	RestClient client;
 	RestQuery query;
 	query.setBaseUri("127.0.0.1:8081/echo");
-	query.setParameter("param", "Param");
+	query.setParameter("param1", "foo");
+	query.setParameter("param2", "bar");
 	std::string response;
 	response = client.execute(RestClient::GET, query);
 	CPPUNIT_ASSERT(!response.empty());
 	CPPUNIT_ASSERT(response.find("echo") != std::string::npos);
-	CPPUNIT_ASSERT(response.find("param") != std::string::npos);
-	CPPUNIT_ASSERT(response.find("Param") != std::string::npos);
+	CPPUNIT_ASSERT(response.find("param1") != std::string::npos);
+	CPPUNIT_ASSERT(response.find("foo") != std::string::npos);
 }

@@ -4,12 +4,15 @@
 #include <cppunit/TestResult.h>
 #include <cppunit/TestResultCollector.h>
 #include <cppunit/TestRunner.h>
+#include <curl/curl.h>
 #include "services/RestServerTest.h"
 #include "services/ServiceFactoryTest.h"
 #include "logger/LoggerTest.h"
 #include "rest-client/RestClientTest.h"
 
 int main(int argc, char* argv[]){
+	curl_global_init(CURL_GLOBAL_ALL);
+
 	CPPUNIT_NS::TestResult controller;
 	CPPUNIT_NS::TestResultCollector result;
 
@@ -30,6 +33,8 @@ int main(int argc, char* argv[]){
 
 	CPPUNIT_NS::CompilerOutputter outputter( &result, CPPUNIT_NS::stdCOut() );
 	outputter.write();
+
+	curl_global_cleanup();
 
 	return result.wasSuccessful() ? 0 : 1;
 }

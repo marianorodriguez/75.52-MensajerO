@@ -19,8 +19,6 @@ public:
 	 * Compruebo que se puedan agregar servicios a la colección
 	 */
 	void testGetService();
-private:
-	ServiceFactory serviceFactory;
 };
 
 #endif // SERVICE_FACTORY_TEST_H

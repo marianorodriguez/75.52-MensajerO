@@ -1,14 +1,15 @@
 #include "RestClientTest.h"
 #include "RestClient.h"
+#include "../services/EchoService.h"
 
 CPPUNIT_TEST_SUITE_REGISTRATION(RestClientTest);
 
 void RestClientTest::setUp(){
-    CppUnit::TestFixture::setUp();
+	CppUnit::TestFixture::setUp();
 }
 
 void RestClientTest::tearDown(){
-    CppUnit::TestFixture::tearDown();
+	CppUnit::TestFixture::tearDown();
 }
 
 void RestClientTest::testBuildQuery(){
@@ -31,20 +32,4 @@ void RestClientTest::testGet(){
 	query.setBaseUri("http://www.google.com/");
 	std::string response = client.execute(RestClient::GET, query);
 	CPPUNIT_ASSERT(!response.empty());
-}
-
-void RestClientTest::testPost(){
-	ServerThread server;
-	server.run();
-
-	RestClient client;
-	RestQuery query;
-	query.setBaseUri("http://127.0.0.1:8081/echo");
-	query.setPostData("i'm posting some data");
-	std::string response = client.execute(RestClient::GET, query);
-
-	CPPUNIT_ASSERT(!response.empty());
-
-	server.shutdown();
-	server.join();
 }

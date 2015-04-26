@@ -1,6 +1,6 @@
 #include <cppunit/config/SourcePrefix.h>
+#include <thread>
 #include "LoggerTest.h"
-#include <stdio.h>
 #include "utilities/Logger.h"
 
 CPPUNIT_TEST_SUITE_REGISTRATION(LoggerTest);
@@ -15,13 +15,12 @@ void writeAllLevels(Logger* log) {
 	log->write(Logger::INFO, "This is an Info log.");
 }
 
-void write50Times(string thread) {
+void write50Times() {
 
 	logger = Logger::getLogger();
 
 	for (int i = 0; i < 50; i++) {
-		logger->write(Logger::DEBUG,
-				"I'm testing thread support on thread n" + thread);
+		logger->write(Logger::INFO, "I'm testing thread support");
 	}
 
 	logger->saveStatus();
@@ -34,10 +33,10 @@ string getTextFromFile(string dir) {
 	file.seekg(0, file.end);
 	int length = file.tellg();
 	file.seekg(0, file.beg);
-	char* buffer = new char[length];
-	file.read(buffer, length);
+	std::string text;
+	text.resize(length);
+	file.read(&text.at(0), length);
 
-	string text(buffer);
 	return text;
 }
 
@@ -194,81 +193,6 @@ void LoggerTest::should_write_only_an_info() {
 	CPPUNIT_ASSERT(debugFound == string::npos);
 	CPPUNIT_ASSERT(warnFound == string::npos);
 	CPPUNIT_ASSERT(errorFound == string::npos);
-
-	delete logger;
-}
-
-void LoggerTest::should_be_thread_safe() {
-
-	thread th1(write50Times, "1");
-	thread th2(write50Times, "2");
-	thread th3(write50Times, "3");
-	thread th4(write50Times, "4");
-
-	th1.join();
-	th2.join();
-	th3.join();
-	th4.join();
-
-	bool assert = false;
-	ifstream file(logger->getLogDir());
-
-	string line;
-	getline(file, line);
-
-	//veo si la primer linea es del thread 1 o del thread 2
-	size_t foundth1 = line.find("thread n1");
-	size_t foundth2 = line.find("thread n2");
-
-	if (foundth1 != string::npos && foundth2 == string::npos) { //si se encontró el thread 1, me aseguro que las siguientes 49 lineas sean del mismo thread
-
-		for (int i = 1; i < 50; i++) {
-			getline(file, line);
-			foundth1 = line.find("thread n1");
-			if (foundth1 == string::npos) {
-				assert = false;
-				break;
-			} else {
-				assert = true;
-			}
-		}
-
-		for (int i = 50; i < 100 && assert == true; i++) {	//las lineas 50 a 100 tienen que ser del thread n2
-			getline(file, line);
-			foundth2 = line.find("thread n2");
-			if (foundth2 == string::npos) {
-				assert = false;
-				break;
-			} else {
-				assert = true;
-			}
-		}
-	} else {	//lo mismo pero al reves
-
-		for (int i = 1; i < 50; i++) {
-			getline(file, line);
-			foundth2 = line.find("thread n2");
-			if (foundth2 == string::npos) {
-				assert = false;
-				break;
-			} else {
-				assert = true;
-			}
-		}
-
-		for (int i = 50; i < 100; i++) {	//las lineas 50 a 100 tienen que ser del thread n1
-			getline(file, line);
-			foundth1 = line.find("thread n1");
-			if (foundth1 == string::npos) {
-				assert = false;
-				break;
-			} else {
-				assert = true;
-			}
-		}
-	}
-
-	CPPUNIT_ASSERT(assert);
 
 	delete logger;
 }
