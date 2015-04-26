@@ -1,12 +1,8 @@
 #include "Time.h"
+#include <ctime>
+#include <cstring>
 
-Time::Time() {
-}
-
-Time::~Time() {
-}
-
-string Time::getTime() {
+std::string Time::getTime() {
 	time_t now = time(0);
 	struct tm tstruct;
 	char buf[80];
@@ -14,8 +10,8 @@ string Time::getTime() {
 	tstruct = *localtime(&now);
 	strftime(buf, sizeof(buf), "%X", &tstruct);
 
-	string hour;
-	string min;
+	std::string hour;
+	std::string min;
 	unsigned int i;
 
 	for (i = 0; (i < strlen(buf)) && (buf[i] != ':'); i++) {

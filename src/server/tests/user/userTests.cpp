@@ -9,16 +9,6 @@
 
 CPPUNIT_TEST_SUITE_REGISTRATION(userTests);
 
-void userTests::should_encrypt_password() {
-	string password = "someCoolPassword1234@";
-	User* user = new User("username", password);
-
-	string hashedPWD = user->encryptPassword(password);
-
-	CPPUNIT_ASSERT(md5(password) == hashedPWD);
-}
-
-
 void userTests::should_have_2_chats() {
 
 	User* user = new User("username", "password");
@@ -39,7 +29,7 @@ void userTests::should_instantiate_new_user() {
 	User* user = new User("username", "password");
 
 	CPPUNIT_ASSERT(user->getUsername() == "username");
-	CPPUNIT_ASSERT(user->getHashedPWD() == md5("password"));
+	CPPUNIT_ASSERT(user->getPassword() == "password");
 	CPPUNIT_ASSERT(user->getLocation() == DEFAULT_USER_LOCATION);
 	CPPUNIT_ASSERT(user->getStatus() == DEFAULT_USER_STATUS);
 	CPPUNIT_ASSERT(user->getHashedProfilePicture() == DEFAULT_USER_PROFILE_PICTURE);
@@ -105,7 +95,7 @@ void userTests::should_serialize_user() {
 	Json::Value jsonUser;
 
 	jsonUser[JSON_USER_ROOT][JSON_USER_NAME] = "username";
-	jsonUser[JSON_USER_ROOT][JSON_USER_PWD] = md5("password");
+	jsonUser[JSON_USER_ROOT][JSON_USER_PWD] = "password";
 	jsonUser[JSON_USER_ROOT][JSON_USER_LOCATION] = DEFAULT_USER_LOCATION;
 	jsonUser[JSON_USER_ROOT][JSON_USER_STATUS] = "newStatus";
 	jsonUser[JSON_USER_ROOT][JSON_USER_PROFILE_PICTURE] = DEFAULT_USER_PROFILE_PICTURE;
@@ -128,7 +118,7 @@ void userTests::should_deserialize_user() {
 	User* user2 = new User(serializedUser);
 
 	CPPUNIT_ASSERT(user1->username == user2->username);
-	CPPUNIT_ASSERT(user1->hashedPWD == user2->hashedPWD);
+	CPPUNIT_ASSERT(user1->password == user2->password);
 	CPPUNIT_ASSERT(user1->location == user2->location);
 	CPPUNIT_ASSERT(user1->status == user2->status);
 	CPPUNIT_ASSERT(user1->hashedProfilePicture == user2->hashedProfilePicture);

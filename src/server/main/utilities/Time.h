@@ -2,17 +2,12 @@
 #define TIME_H_
 
 #include <iostream>
-#include <string.h>
-#include <stdio.h>
-#include <time.h>
-
-using namespace std;
+#include <string>
 
 class Time {
 public:
-	Time();
-	virtual ~Time();
-	static string getTime();
+	static std::string getTime();
 };
+
 
 #endif /* TIME_H_ */

@@ -79,6 +79,10 @@ string User::getUsername() const {
 	return this->username;
 }
 
+string User::getPassword() const {
+	return this->password;
+}
+
 string User::getLocation() const {
 	return this->location;
 }

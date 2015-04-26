@@ -41,9 +41,9 @@ public:
 	string getUsername() const;
 
 	/**
-	 * Devuelve la contreseña encriptada del usuario.
+	 * Devuelve la contreseña del usuario.
 	 */
-	string getHashedPWD() const;
+	string getPassword() const;
 
 	/**
 	 * Devuelve la ubicación actual del usuario.

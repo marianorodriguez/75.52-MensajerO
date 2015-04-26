@@ -36,7 +36,9 @@ bool SignUpService::checkUsernameExists(const std::string& username,
 	try {
 		std::string value = DB.read(key);
 		exists = true;
-	} catch (KeyNotFoundException *e) {	}
+	} catch (KeyNotFoundException e) {
+		e.getDescription();
+	}
 
 	if (exists) {
 		connection.printMessage("Error: Username already exists.");

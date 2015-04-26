@@ -11,18 +11,26 @@ Database::Database() {
 	rocksdb::Options options;
 	options.create_if_missing = true;
 	rocksdb::Status status = rocksdb::DB::Open(options, DEFAULT_DATABASE_PATH , &database);
+	if (!database){
+		FileNotFoundException exception("Database file not found");
+		throw exception;
+	}
 }
 
 Database::Database(const string& path) {
 	rocksdb::Options options;
 	options.create_if_missing = true;
 	rocksdb::Status status = rocksdb::DB::Open(options, path , &database);
+	if (!database){
+		FileNotFoundException exception("Database file not found");
+		throw exception;
+	}
 }
 
 void Database::write(vector<string> key, const string& value) {
 	if (key.size() == 0) {
-		InvalidKeyException* e = new InvalidKeyException("Vector de keys esta vacio.");
-		throw *e;
+		InvalidKeyException exception("Vector de keys esta vacio.");
+		throw exception;
 	}
 	string compoundKey = this->getKey(key);
 	rocksdb::Status status = database->Put(rocksdb::WriteOptions(),compoundKey,value);
@@ -34,15 +42,15 @@ void Database::write(vector<string> key, const string& value) {
 
 string Database::read(vector<string> key) const{
 	if (key.size() == 0) {
-		InvalidKeyException* e = new InvalidKeyException("Vector de keys esta vacio.");
-		throw *e;
+		InvalidKeyException exception("Vector de keys esta vacio.");
+		throw exception;
 	}
 	string value = "";
 	string compoundKey = this->getKey(key);
 	rocksdb::Status status = database->Get(rocksdb::ReadOptions(),compoundKey,&value);
 	if (!status.ok()) {
-		KeyNotFoundException* e = new KeyNotFoundException("Key no encontrada: " + compoundKey );
-		throw *e;
+		KeyNotFoundException exception("Key no encontrada: " + compoundKey );
+		throw exception;
 	}
 	return value;
 }
@@ -65,7 +73,13 @@ string Database::getKey(vector<string> key) const{
 	return returnKey.toStyledString();
 }
 
-Database::~Database() {
+void Database::close(){
 	delete database;
+	database = 0;
+}
+
+
+Database::~Database() {
+	close();
 }
 

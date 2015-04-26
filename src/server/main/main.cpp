@@ -17,8 +17,7 @@ int main() {
 		}
 		server.shutdown();
 	}catch(BaseException &e){
-
-		cout<<e.what()<<endl;
+		cout<<e.getDescription()<<endl;
 	}
 	std::cout << "Apagando..." << std::endl;
 	server.join();

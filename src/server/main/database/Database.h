@@ -46,6 +46,10 @@ public:
 	 * Borra el @param key con el value asociado de la bd.
 	 */
 	void erase(vector<string> key);
+	/**
+	 * Cierra la base de datos
+	 */
+	void close();
 	virtual ~Database();
 
 private:
