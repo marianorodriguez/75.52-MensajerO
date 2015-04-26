@@ -34,3 +34,8 @@ void SendMessageService::executeRequest(const Connection& connection) const {
 	delete message;
 	delete db;
 }
+
+ServiceInterface* SendMessageServiceCreator::create(){
+	return new SendMessageService();
+}
+

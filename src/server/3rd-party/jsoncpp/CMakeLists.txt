@@ -1,2 +1,4 @@
+add_library(jsoncpp jsoncpp.cpp)
+
 FILE(GLOB INCLUDE_FILES "json/*.h")
 INSTALL(FILES ${INCLUDE_FILES} DESTINATION ${INCLUDE_INSTALL_DIR}/json)

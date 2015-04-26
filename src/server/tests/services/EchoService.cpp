@@ -18,3 +18,7 @@ void EchoService::executeRequest(const Connection& connection) const{
 		connection.printMessage(message);
 	}
 }
+
+ServiceInterface* EchoServiceCreator::create(){
+	return new EchoService();
+}

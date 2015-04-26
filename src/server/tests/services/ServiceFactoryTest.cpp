@@ -1,4 +1,5 @@
 #include "ServiceFactoryTest.h"
+#include "services/ServiceInterface.h"
 
 CPPUNIT_TEST_SUITE_REGISTRATION(ServiceFactoryTest);
 

@@ -2,12 +2,13 @@
 #define REST_SERVER_H
 
 #include "Connection.h"
+#include "ServiceFactory.h"
 
 // Forwards
 struct mg_server;
 struct mg_connection;
 
-class ServiceFactory;
+class ServiceCreatorInterface;
 
 /**
  * Servidor de servicios rest
@@ -34,6 +35,10 @@ public:
 	 * Atrapa los requests
 	 */
 	void handleConnection(struct mg_connection *connection) const;
+	/**
+	 * Agrega un servicio nuevo
+	 */
+	void addService(ServiceCreatorInterface* serviceCreator);
 private:
 	/**
 	 * Server mongoose
@@ -42,7 +47,7 @@ private:
 	/**
 	 * Servicios disponibles para ejecutar
 	 */
-	ServiceFactory* serviceFactory;
+	ServiceFactory serviceFactory;
 };
 
 #endif // REST_SERVER_H

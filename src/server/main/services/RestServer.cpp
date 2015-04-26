@@ -31,8 +31,6 @@ static int eventHandler(struct mg_connection *mgConnection, enum mg_event event)
  */
 RestServer::RestServer(){
 	this->server = mg_create_server(this, eventHandler);
-	//TODO: getter y setter o singleton
-	this->serviceFactory = new ServiceFactory();
 	mg_set_option(this->server, "listening_port", "8081");
 }
 
@@ -40,21 +38,23 @@ RestServer::RestServer(){
  * Destructor
  */
 RestServer::~RestServer(){
-	delete this->serviceFactory;
 	shutdownServer();
+}
+
+void RestServer::addService (ServiceCreatorInterface* serviceCreator ){
+	this->serviceFactory.addNewServiceCreator(serviceCreator);
 }
 
 void RestServer::pollServer(){
 	mg_poll_server(this->server, 1000);
 }
 
-
 void RestServer::handleConnection(struct mg_connection *mgConnection) const{
 	ServiceInterface* service;
 	Connection connectionWrap(mgConnection);
 	// Le saco la barra inicial
 	std::string serviceName(connectionWrap.getUri().substr(1));
-	service = this->serviceFactory->createService(serviceName);
+	service = this->serviceFactory.createService(serviceName);
 	service->executeRequest(connectionWrap);
 }
 

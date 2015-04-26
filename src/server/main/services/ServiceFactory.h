@@ -7,15 +7,10 @@
 
 // Forwards
 class ServiceInterface;
+class ServiceCreatorInterface;
 
 class ServiceFactory{
 public:
-	enum ServiceInterfaceId {
-		SIGNUP_SERVICE,
-		//TODO: remover
-		ECHO_SERVICE,
-		NULL_SERVICE
-	};
 	/**
 	 * Constructor
 	 */
@@ -29,15 +24,16 @@ public:
 	 */
 	ServiceInterface* createService(const std::string& serviceName) const;
 	/**
-	 * Devuelve un servicio según su Id
-	 */
-	ServiceInterface* createServiceById(ServiceInterfaceId id) const;
-	/**
 	 * Devuelve una lista de nombres de todos los servicios disponibles.
 	 */
 	std::vector<std::string> getServiceNameList() const;
+	/**
+	 * Agrega un creator, cuya clave es la que corresponde a la
+	 * URI del servicio que genera.
+	 */
+	void addNewServiceCreator(ServiceCreatorInterface* creator);
 private:
-	std::map<std::string, ServiceInterfaceId> serviceMap;
+	std::map<std::string, ServiceCreatorInterface*> serviceMap;
 };
 
 #endif // SERVICE_FACTORY_H

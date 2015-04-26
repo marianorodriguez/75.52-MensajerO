@@ -14,6 +14,10 @@ public:
 	 * Termina el ciclo de polling y libera recursos
 	 */
 	void shutdown();
+	/**
+	 * Agrega un servicio nuevo
+	 */
+	void addService(ServiceCreatorInterface* serviceCreator);
 protected:
 	virtual void runFunction();
 private:

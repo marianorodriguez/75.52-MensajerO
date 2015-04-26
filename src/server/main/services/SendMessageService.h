@@ -19,4 +19,9 @@ private:
 	static const std::string serviceName;
 };
 
+class SendMessageServiceCreator : public ServiceCreatorInterface{
+public:
+    virtual ServiceInterface* create();
+};
+
 #endif /* SENDMESSAGESERVICE_H_ */

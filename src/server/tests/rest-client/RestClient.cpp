@@ -25,6 +25,7 @@ std::string RestClient::execute(RestClient::RequestType requestType, const RestQ
 		curl_easy_setopt(curl, CURLOPT_URL, query.buildGetQuery().c_str());
 		break;
 	case POST:
+		curl_easy_setopt(curl, CURLOPT_HTTPPOST, 1L);
 		curl_easy_setopt(curl, CURLOPT_URL, query.buildGetQuery().c_str());
 		curl_easy_setopt(curl, CURLOPT_POSTFIELDS, query.getPostData().c_str());
 		break;

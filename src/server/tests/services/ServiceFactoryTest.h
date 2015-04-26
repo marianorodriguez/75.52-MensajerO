@@ -3,7 +3,6 @@
 
 #include "cppunit/extensions/HelperMacros.h"
 #include "services/ServiceFactory.h"
-#include "services/EchoService.h"
 
 /**
  * Tests sobre la colección de servicios

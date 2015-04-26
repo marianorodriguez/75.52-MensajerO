@@ -1,4 +1,5 @@
 #include "RestServerTest.h"
+#include "EchoService.h"
 #include "services/RestServer.h"
 #include "../rest-client/RestClient.h"
 
@@ -10,6 +11,7 @@ void RestServerTest::setUp(){
 	CppUnit::TestFixture::setUp();
 	this->testServer = new ServerThread();
 	this->testServer->run();
+	this->testServer->addService(new EchoServiceCreator());
 }
 
 void RestServerTest::tearDown(){

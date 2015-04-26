@@ -1,5 +1,5 @@
-#ifndef CREATE_USER_SERVICE_H
-#define CREATE_USER_SERVICE_H
+#ifndef SIGNUP_SERVICE_H
+#define SIGNUP_SERVICE_H
 #include "ServiceInterface.h"
 #include "user/User.h"
 #include "database/Database.h"
@@ -18,8 +18,13 @@ public:
 private:
 	static const std::string serviceName;
 
-	void checkusernameExists(const std::string& username,
-			const Connection& connection, bool& error) const;
+	bool checkUsernameExists(const std::string& username,
+			const Connection& connection) const;
 };
 
-#endif // CREATE_USER_SERVICE_H
+class SignUpServiceCreator : public ServiceCreatorInterface{
+public:
+    virtual ServiceInterface* create();
+};
+
+#endif // SIGNUP_SERVICE_H

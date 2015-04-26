@@ -1,7 +1,7 @@
 #ifndef ECHOSERVICE_H
 #define ECHOSERVICE_H
 
-#include "ServiceInterface.h"
+#include "services/ServiceInterface.h"
 
 class EchoService : public ServiceInterface{
 public:
@@ -16,6 +16,11 @@ public:
 	void executeRequest(const Connection& connection) const;
 private:
 	static const std::string serviceName;
+};
+
+class EchoServiceCreator : public ServiceCreatorInterface{
+public:
+    virtual ServiceInterface* create();
 };
 
 #endif // ECHOSERVICE_H

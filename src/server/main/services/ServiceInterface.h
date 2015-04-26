@@ -21,4 +21,12 @@ public:
 	virtual void executeRequest(const Connection& connection) const = 0;
 };
 
+class ServiceCreatorInterface{
+public:
+	/**
+	 * Devuelve un puntero a una instancia de un servicio
+	 */
+	virtual ServiceInterface* create() = 0;
+};
+
 #endif // SERVICE_INTERFACE_H

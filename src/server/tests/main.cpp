@@ -9,8 +9,7 @@
 #include "logger/LoggerTest.h"
 #include "rest-client/RestClientTest.h"
 
-int main( int argc, char* argv[] )
-{
+int main(int argc, char* argv[]){
 	CPPUNIT_NS::TestResult controller;
 	CPPUNIT_NS::TestResultCollector result;
 
