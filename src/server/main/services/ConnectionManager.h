@@ -21,14 +21,38 @@ public:
 	ConnectionManager();
 	virtual ~ConnectionManager();
 
+	/**
+	 * Inicia el thread para actualizar las conexiones cada cierto tiempo.
+	 */
 	void startUpdating();
+
+	/**
+	 * Devuelve una lista de los usuarios actualmente conectados, ordenada alfabeticamente.
+	 */
 	std::vector<std::string> getConnectedUsers();
+
+	/**
+	 * Actualiza el estado del usuario pasado en @param username.
+	 */
 	void updateUser(const std::string username);
+
+	/**
+	 * Detiene y destruye el thread para actualizar las conexiones.
+	 */
 	void stopUpdating();
 
 private:
+
+	/**
+	 * Recorre la lista de usuarios conectados, se fija cuando fue la ultima
+	 * vez que le llegó algo, y lo elimina de esa lista en caso de detectar
+	 * que se desconectó.
+	 */
 	static void updateConnection();
 
+	/**
+	 * Función que ejecuta el thread para automatizar las actualizaciones.
+	 */
 	static void* runFunction(void* args);
 
 	static Mutex mtx;

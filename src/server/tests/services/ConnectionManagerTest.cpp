@@ -68,6 +68,7 @@ void ConnectionManagerTest::testDisconnectUser() {
 
 void ConnectionManagerTest::testManageMultipleUsers() {
 
+	std::vector<std::string> connectedUsers;
 	std::string user_1 = "Mariano";
 	std::string user_2 = "Matias";
 	std::string user_3 = "Francisco";
@@ -135,4 +136,29 @@ void ConnectionManagerTest::testManageMultipleUsers() {
 
 	it = manager.connectedUsers.find(user_4);
 	CPPUNIT_ASSERT(it == manager.connectedUsers.end());
+}
+
+void ConnectionManagerTest::testGetConnectedUsers(){
+
+	manager.updateUser("Mariano");
+	manager.updateUser("Fernando");
+	manager.updateUser("Zidane");
+
+	std::vector<std::string> connectedUsers;
+
+	connectedUsers = manager.getConnectedUsers();
+
+	CPPUNIT_ASSERT(connectedUsers.at(0) == "Fernando");
+	CPPUNIT_ASSERT(connectedUsers.at(1) == "Mariano");
+	CPPUNIT_ASSERT(connectedUsers.at(2) == "Zidane");
+
+	for (int i = 0; i <= manager.deltaTime + 1; i++) {
+		sleep(1);
+		manager.updateUser("Fernando");
+		manager.updateUser("Zidane");
+	}
+
+	connectedUsers = manager.getConnectedUsers();
+	CPPUNIT_ASSERT(connectedUsers.at(0) == "Fernando");
+	CPPUNIT_ASSERT(connectedUsers.at(1) == "Zidane");
 }

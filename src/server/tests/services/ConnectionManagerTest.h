@@ -14,6 +14,7 @@
 class ConnectionManagerTest: public CppUnit::TestFixture {
 
 	CPPUNIT_TEST_SUITE(ConnectionManagerTest);
+	CPPUNIT_TEST(testGetConnectedUsers);
 	CPPUNIT_TEST(testAddRecentlyConnectedUser);
 	CPPUNIT_TEST(testUpdateAlreadyConnectedUser);
 	CPPUNIT_TEST(testDisconnectUser);
@@ -32,6 +33,7 @@ public:
 	void testUpdateAlreadyConnectedUser();
 	void testManageMultipleUsers();
 	void testDisconnectUser();
+	void testGetConnectedUsers();
 
 private:
 	ConnectionManager manager;
