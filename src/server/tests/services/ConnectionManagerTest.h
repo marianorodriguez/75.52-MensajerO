@@ -22,15 +22,16 @@ class ConnectionManagerTest: public CppUnit::TestFixture {
 
 public:
 
-	void setUp();
-	void tearDown();
+	ConnectionManagerTest();
+	virtual ~ConnectionManagerTest();
+
 	void testAddRecentlyConnectedUser();
 	void testUpdateAlreadyConnectedUser();
 	void testManageMultipleUsers();
 	void testDisconnectUser();
 
 private:
-	ConnectionManager* manager;
+	ConnectionManager manager;
 	std::map<std::string, int>::iterator it;
 
 };
