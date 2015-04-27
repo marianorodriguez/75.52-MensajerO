@@ -8,6 +8,8 @@ add_subdirectory(services)
 add_executable(tests
 	database/DatabaseTests.cpp
 	logger/LoggerTest.cpp
+	user/chat/ChatTests.cpp
+	user/chat/MessageTests.cpp
 	user/userTests.cpp
 	main.cpp)
 

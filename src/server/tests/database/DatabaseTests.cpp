@@ -122,37 +122,9 @@ void DatabaseTests::cant_write_without_keys() {
 }
 
 void DatabaseTests::should_not_find_values() {
-
 	Database db(pathTest);
 	vector<string> key;
 	key.push_back("invalidKey");
 	CPPUNIT_ASSERT_THROW(db.read(key), KeyNotFoundException);
 }
 
-void DatabaseTests::cant_use_invalid_key(){
-
-	Database db(pathTest);
-	vector<string> key1;
-	key1.push_back("");
-	CPPUNIT_ASSERT_THROW_MESSAGE("Can't have empty key", 
-						db.write(key1, "value"), InvalidKeyException);
-
-	vector<string> key2;
-	key2.push_back("validUsername");
-	key2.push_back("#$cantHave/Invalid%Characters");
-	CPPUNIT_ASSERT_THROW_MESSAGE("Can't have invalid characters", 
-						db.write(key2, "value"), InvalidKeyException);
-
-	vector<string> key3;
-	key3.push_back("   ");
-	key3.push_back("cantHaveOnlySpaces");
-	CPPUNIT_ASSERT_THROW(db.write(key3, "value"), InvalidKeyException);
-
-	vector<string> key4;
-	key4.push_back(" cantStartWithSpaces");
-	CPPUNIT_ASSERT_THROW(db.write(key4, "value"), InvalidKeyException);
-
-	vector<string> key5;
-	key5.push_back("cantEndWithSpaces  ");
-	CPPUNIT_ASSERT_THROW(db.write(key5, "value"), InvalidKeyException);
-}

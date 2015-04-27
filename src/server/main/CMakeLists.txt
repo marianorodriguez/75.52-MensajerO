@@ -18,7 +18,6 @@ add_library(mensajero-model
 	exceptions/InvalidUsernameException.cpp
 	exceptions/KeyNotFoundException.cpp
 	exceptions/NotSerializedDataException.cpp
-	interfaces/ISerializable.cpp
 	user/User.cpp
 	user/chat/Chat.cpp
 	user/chat/Message.cpp

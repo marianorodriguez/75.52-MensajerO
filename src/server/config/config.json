@@ -1,5 +1,5 @@
- {"logger": {
- 	"logDir": "logging.txt",
+{"logger": {
+	"logDir": "logging.txt",
 	"loggingLevels": [
 	   {"ERROR": true},
 	   {"WARNING": true},

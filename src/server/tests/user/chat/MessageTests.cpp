@@ -1,7 +1,7 @@
 #include <cppunit/config/SourcePrefix.h>
-#include "messageTests.h"
-#include "../../../main/user/chat/Message.h"
-#include "../../main/config.h"
+#include "MessageTests.h"
+#include "user/chat/Message.h"
+#include "../../../main/config.h"
 #include <stdio.h>
 #include <iostream>
 using namespace std;
@@ -23,9 +23,6 @@ void messageTests::should_instantiate_message() {
 }
 
 void messageTests::should_serialize_message() {
-
-	ISerializable serializer;
-
 	string from = "user1";
 	string to = "user2";
 	string message = "some random message to serialize";

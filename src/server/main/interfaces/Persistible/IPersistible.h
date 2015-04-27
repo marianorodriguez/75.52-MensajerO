@@ -19,17 +19,16 @@ using namespace std;
 
 class IPersistible {
 public:
-	IPersistible();
 	virtual ~IPersistible();
 
 	/*
 	 * Escribe informacion a partir de @params key y value.
 	 */
-	virtual void write(vector<string> key, const string& value);
+	virtual void write(vector<string> key, const string& value) = 0;
 	/*
 	 * Lee y retorna informacion en @param key.
 	 */
-	virtual string read(vector<string> key) const ;
+	virtual string read(vector<string> key) const = 0;
 };
 
 #endif /* IPERSISTIBLE_H_ */

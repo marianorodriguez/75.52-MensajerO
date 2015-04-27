@@ -15,6 +15,6 @@ void ServerThread::shutdown(){
 	this->exit = true;
 }
 
-void ServerThread::addService (ServiceCreatorInterface* serviceCreator ){
+void ServerThread::addService(ServiceCreatorInterface* serviceCreator){
 	this->server.addService(serviceCreator);
 }

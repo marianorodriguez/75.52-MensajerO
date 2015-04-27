@@ -18,13 +18,12 @@ using namespace std;
 class ISerializable{
 
 public:
-	ISerializable();
-	virtual ~ISerializable();
+	virtual ~ISerializable() {}
 
 	/**
 	 * @returns El objeto serializado como una cadena de texto.
 	 */
-	virtual string serialize() const;
+	virtual string serialize() const = 0;
 };
 
 #endif /* SERVER_MAIN_INTERFACES_ISERIALIZABLE_H_ */

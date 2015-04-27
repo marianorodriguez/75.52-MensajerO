@@ -1,11 +1,11 @@
 #ifndef SERVER_MAIN_USER_MESSAGE_H_
 #define SERVER_MAIN_USER_MESSAGE_H_
 #include "interfaces/ISerializable.h"
-#include "../../exceptions/NotSerializedDataException.h"
-#include "../../exceptions/InvalidUsernameException.h"
-#include "../../tests/user/chat/messageTests.h"
-#include "../../utilities/Date.h"
-#include "../../utilities/Time.h"
+#include "exceptions/NotSerializedDataException.h"
+#include "exceptions/InvalidUsernameException.h"
+#include "../../tests/user/chat/MessageTests.h"
+#include "utilities/Date.h"
+#include "utilities/Time.h"
 #include "json/json.h"
 #include<iostream>
 using namespace std;
@@ -66,6 +66,7 @@ public:
 	bool getSent() const;
 	void setAsSent();
 
+	
 private:
 	bool sent;
 	string userFromID;

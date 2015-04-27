@@ -21,7 +21,6 @@ class DatabaseTests: public CPPUNIT_NS::TestFixture  {
 	CPPUNIT_TEST(should_modify);
 	CPPUNIT_TEST(should_persist);
 	CPPUNIT_TEST(should_not_find_values);
-	CPPUNIT_TEST(cant_use_invalid_key);
 	CPPUNIT_TEST(cant_read_without_keys);
 	CPPUNIT_TEST(cant_write_without_keys);
 
@@ -39,7 +38,6 @@ protected:
 	void should_not_find_values();
 	void cant_read_without_keys();
 	void cant_write_without_keys();
-	void cant_use_invalid_key();
 };
 
 #endif /* DATABASETESTS_H_ */
