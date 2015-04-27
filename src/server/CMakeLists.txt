@@ -18,9 +18,11 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/3rd-party/Modu
 
 set(ROCKSDB_ROOT_DIR "${PROJECT_SOURCE_DIR}/3rd-party/rocksdb/")
 set(JSONCPP_ROOT_DIR "${PROJECT_SOURCE_DIR}/3rd-party/jsoncpp/")
+set(CPPUNIT_ROOT_DIR "${PROJECT_SOURCE_DIR}/3rd-party/cppunit/")
 
 find_package(RocksDB)
 find_package(JsonCpp)
+find_package(CppUnit)
 
 ############
 # Includes #
@@ -34,11 +36,14 @@ add_subdirectory(${MONGOOSECPP_PATH})
 
 include_directories(${ROCKSDB_INCLUDE_DIRS})
 include_directories(${JSONCPP_INCLUDE_DIRS})
+include_directories(${CPPUNIT_INCLUDE_DIRS})
 include_directories(${MONGOOSECPP_PATH})
 
 message(STATUS "JSONCPP_INCLUDE_DIRS = ${JSONCPP_INCLUDE_DIRS}")
 message(STATUS "JSONCPP_LIBRARIES = ${JSONCPP_LIBRARIES}")
 message(STATUS "ROCKSDB_INCLUDE_DIRS = ${ROCKSDB_INCLUDE_DIRS}")
+message(STATUS "CPPUNIT_INCLUDE_DIRS = ${CPPUNIT_INCLUDE_DIRS}")
+message(STATUS "CPPUNIT_LIBRARIES = ${CPPUNIT_LIBRARIES}")
 
 ###########
 # Modulos #
@@ -48,7 +53,6 @@ add_subdirectory(main)
 
 # Tests
 enable_testing()
-set (CPPUNIT_ROOT_DIR "${PROJECT_SOURCE_DIR}/3rd-party/cppunit")
 add_subdirectory(tests)
 
 #########
