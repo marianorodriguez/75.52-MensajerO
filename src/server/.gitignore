@@ -1,13 +1,6 @@
 # Auxiliares cmake
 CMakeFiles
 CMakeCache.txt
-*.cmake
-<<<<<<< HEAD
-*.kate-swp
-=======
-
-#Makefile
->>>>>>> dev
 
 *.a
 *~
