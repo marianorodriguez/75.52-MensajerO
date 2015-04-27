@@ -9,6 +9,10 @@
 #define SERVER_TESTS_SERVICES_SERVICESINTEGRATIONTESTS_H_
 #include "cppunit/extensions/HelperMacros.h"
 #include "config.h"
+#include "services/ServerThread.h"
+#include "rest-client/RestClient.h"
+#include "database/Database.h"
+#include "services/SignUpService.h"
 
 class ServicesIntegrationTests: public CppUnit::TestFixture {
 	CPPUNIT_TEST_SUITE(ServicesIntegrationTests);

@@ -23,11 +23,11 @@ void SendMessageService::executeRequest(const Connection& connection) const {
 	try {
 		string serializedChat = db.read(key);
 		Chat chat(serializedChat);
-		chat.addNewMessage(&message);
+		chat.addNewMessage(message);
 		db.write(key,chat.serialize());
 	} catch (KeyNotFoundException &e) {
 		Chat chat(userFrom,userTo);
-		chat.addNewMessage(&message);
+		chat.addNewMessage(message);
 		db.write(key,chat.serialize());
 	}
 
