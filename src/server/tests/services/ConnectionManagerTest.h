@@ -25,6 +25,9 @@ public:
 	ConnectionManagerTest();
 	virtual ~ConnectionManagerTest();
 
+	void setUp();
+	void tearDown();
+
 	void testAddRecentlyConnectedUser();
 	void testUpdateAlreadyConnectedUser();
 	void testManageMultipleUsers();

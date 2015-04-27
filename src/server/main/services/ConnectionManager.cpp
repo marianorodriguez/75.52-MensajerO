@@ -6,36 +6,79 @@
  */
 
 #include <services/ConnectionManager.h>
+#include <iostream>
+
+int ConnectionManager::deltaTime = 2; //MIN DELTA == 2
+bool ConnectionManager::running = false;
+std::map<std::string, int> ConnectionManager::connectedUsers;
+Mutex ConnectionManager::mtx;
 
 ConnectionManager::ConnectionManager() {
-	this->connectedUsers.clear();
-	this->deltaTime = 2;
+	connectedUsers.clear();
+	this->updateThread = 0;
 }
 
 ConnectionManager::~ConnectionManager() {
 }
 
+void ConnectionManager::startUpdating() {
+	running = true;
+	pthread_create(&updateThread, NULL, runFunction, this);
+}
+
+void ConnectionManager::stopUpdating() {
+	running = false;
+	pthread_join(updateThread, NULL);
+}
+
+void* ConnectionManager::runFunction(void* args) {
+
+	while (running) {
+		usleep(1000);
+		mtx.lock();
+		updateConnection();
+		mtx.unlock();
+	}
+	return NULL;
+}
+
+std::vector<std::string> ConnectionManager::getConnectedUsers() {
+
+	std::vector<std::string> usernames;
+	mtx.lock();
+	for (std::map<std::string, int>::iterator iter = connectedUsers.begin();
+			iter != connectedUsers.end(); ++iter) {
+
+		usernames.push_back(iter->first);
+	}
+	mtx.unlock();
+
+	return usernames;
+}
+
 void ConnectionManager::updateUser(const std::string username) {
 
-	this->connectedUsers[username] = time(0);
+	mtx.lock();
+	connectedUsers[username] = time(0);
+	mtx.unlock();
 }
 
 void ConnectionManager::updateConnection() {
 
-	int lastTimeConnected;
+	std::vector<std::string> disconnectedUsers;
 
 	for (std::map<std::string, int>::iterator it = connectedUsers.begin();
 			it != connectedUsers.end(); ++it) {
 
-		lastTimeConnected = it->second;
-
-		if (time(0) - lastTimeConnected > deltaTime) {
+		if (time(0) - it->second > deltaTime) {
 			//el usuario se desconectó, lo saco del map
-			this->connectedUsers.erase(it->first);
-
-		} else {
-			//actualizo al usuario
-			this->connectedUsers[it->first] = time(0);
+			disconnectedUsers.push_back(it->first);
 		}
 	}
+
+	for (unsigned int i = 0; i < disconnectedUsers.size(); i++) {
+
+		connectedUsers.erase(disconnectedUsers.at(i));
+	}
+
 }

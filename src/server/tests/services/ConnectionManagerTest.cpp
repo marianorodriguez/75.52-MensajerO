@@ -9,38 +9,47 @@
 
 CPPUNIT_TEST_SUITE_REGISTRATION(ConnectionManagerTest);
 
-ConnectionManagerTest::ConnectionManagerTest(){}
+ConnectionManagerTest::ConnectionManagerTest() {
+}
 
-ConnectionManagerTest::~ConnectionManagerTest(){}
+ConnectionManagerTest::~ConnectionManagerTest() {
+}
+
+void ConnectionManagerTest::setUp(){
+
+	manager.startUpdating();
+}
+
+void ConnectionManagerTest::tearDown(){
+
+	manager.stopUpdating();
+}
 
 void ConnectionManagerTest::testAddRecentlyConnectedUser() {
 
 	std::string newUser = "Mariano";
 
 	//verifico que el user no exista en la lista del manager
-	it = this->manager.connectedUsers.find(newUser);
-	CPPUNIT_ASSERT(it == this->manager.connectedUsers.end());
+	it = manager.connectedUsers.find(newUser);
+	CPPUNIT_ASSERT(it == manager.connectedUsers.end());
 
-	this->manager.updateUser(newUser);
+	manager.updateUser(newUser);
 
 	//verifico que el user se haya agregado a la lista
-	it = this->manager.connectedUsers.find(newUser);
-	CPPUNIT_ASSERT(it != this->manager.connectedUsers.end());
+	it = manager.connectedUsers.find(newUser);
+	CPPUNIT_ASSERT(it != manager.connectedUsers.end());
 }
 
 void ConnectionManagerTest::testUpdateAlreadyConnectedUser() {
 
 	std::string newUser = "Mariano";
-	this->manager.updateUser(newUser);
+	manager.updateUser(newUser);
+	int userTime_1 = manager.connectedUsers[newUser];
 
-	int userTime_1 = this->manager.connectedUsers[newUser];
+	sleep(manager.deltaTime-1); //dejo que pase 1 segundo para que se actualice el manager
 
-	sleep(1); //dejo que pase 1 segundo para modificar lasTimeConnected
-
-	//actualizo el user
-	this->manager.updateConnection();
-
-	int userTime_2 = this->manager.connectedUsers[newUser];
+	manager.updateUser(newUser);
+	int userTime_2 = manager.connectedUsers[newUser];
 
 	CPPUNIT_ASSERT(userTime_1 < userTime_2);
 }
@@ -48,17 +57,16 @@ void ConnectionManagerTest::testUpdateAlreadyConnectedUser() {
 void ConnectionManagerTest::testDisconnectUser() {
 
 	std::string newUser = "Mariano";
-	this->manager.updateUser(newUser);
+	manager.updateUser(newUser);
 
-	sleep(this->manager.deltaTime +1); //supero el timeOut para desconectar a un usuario
+	//supero el timeOut para que el manager desconecte al usuario
+	sleep(manager.deltaTime + 1);
 
-	this->manager.updateConnection();
-
-	it = this->manager.connectedUsers.find(newUser);
-	CPPUNIT_ASSERT(it == this->manager.connectedUsers.end());
+	it = manager.connectedUsers.find(newUser);
+	CPPUNIT_ASSERT(it == manager.connectedUsers.end());
 }
 
-void ConnectionManagerTest::testManageMultipleUsers(){
+void ConnectionManagerTest::testManageMultipleUsers() {
 
 	std::string user_1 = "Mariano";
 	std::string user_2 = "Matias";
@@ -66,73 +74,65 @@ void ConnectionManagerTest::testManageMultipleUsers(){
 	std::string user_4 = "Fernando";
 
 	//agrego a todos los usuarios
-	this->manager.updateUser(user_1);
-	this->manager.updateUser(user_2);
-	this->manager.updateUser(user_3);
-	this->manager.updateUser(user_4);
+	manager.updateUser(user_1);
+	manager.updateUser(user_2);
+	manager.updateUser(user_3);
+	manager.updateUser(user_4);
 
 	//se desconecta el user_1 (actualizo a todos menos a el)
-
-	for(int i=0; i <= this->manager.deltaTime +1; i++){
+	for (int i = 0; i <= manager.deltaTime + 1; i++) {
 		sleep(1);
-		this->manager.updateUser(user_2);
-		this->manager.updateUser(user_3);
-		this->manager.updateUser(user_4);
+		manager.updateUser(user_2);
+		manager.updateUser(user_3);
+		manager.updateUser(user_4);
 	}
 
-	this->manager.updateConnection();
-
 	//tienen que estar conectados los user 2, 3 y 4
+	it = manager.connectedUsers.find(user_1);
+	CPPUNIT_ASSERT(it == manager.connectedUsers.end());
 
-	it = this->manager.connectedUsers.find(user_1);
-	CPPUNIT_ASSERT(it == this->manager.connectedUsers.end());
+	it = manager.connectedUsers.find(user_2);
+	CPPUNIT_ASSERT(it != manager.connectedUsers.end());
 
-	it = this->manager.connectedUsers.find(user_2);
-	CPPUNIT_ASSERT(it != this->manager.connectedUsers.end());
+	it = manager.connectedUsers.find(user_3);
+	CPPUNIT_ASSERT(it != manager.connectedUsers.end());
 
-	it = this->manager.connectedUsers.find(user_3);
-	CPPUNIT_ASSERT(it != this->manager.connectedUsers.end());
-
-	it = this->manager.connectedUsers.find(user_4);
-	CPPUNIT_ASSERT(it != this->manager.connectedUsers.end());
+	it = manager.connectedUsers.find(user_4);
+	CPPUNIT_ASSERT(it != manager.connectedUsers.end());
 
 	//se desconecta el user_4 (actualizo a todos menos a el)
 
-	for(int i=0; i <= this->manager.deltaTime +1; i++){
+	for (int i = 0; i <= manager.deltaTime + 1; i++) {
 		sleep(1);
-		this->manager.updateUser(user_2);
-		this->manager.updateUser(user_3);
+		manager.updateUser(user_2);
+		manager.updateUser(user_3);
 	}
 
-	this->manager.updateConnection();
-
 	//tienen que estar conectados los user 2 y 3
-	it = this->manager.connectedUsers.find(user_1);
-	CPPUNIT_ASSERT(it == this->manager.connectedUsers.end());
+	it = manager.connectedUsers.find(user_1);
+	CPPUNIT_ASSERT(it == manager.connectedUsers.end());
 
-	it = this->manager.connectedUsers.find(user_2);
-	CPPUNIT_ASSERT(it != this->manager.connectedUsers.end());
+	it = manager.connectedUsers.find(user_2);
+	CPPUNIT_ASSERT(it != manager.connectedUsers.end());
 
-	it = this->manager.connectedUsers.find(user_3);
-	CPPUNIT_ASSERT(it != this->manager.connectedUsers.end());
+	it = manager.connectedUsers.find(user_3);
+	CPPUNIT_ASSERT(it != manager.connectedUsers.end());
 
-	it = this->manager.connectedUsers.find(user_4);
-	CPPUNIT_ASSERT(it == this->manager.connectedUsers.end());
+	it = manager.connectedUsers.find(user_4);
+	CPPUNIT_ASSERT(it == manager.connectedUsers.end());
 
-	sleep(manager.deltaTime +1);
-
-	this->manager.updateConnection();
+	sleep(manager.deltaTime + 1);
 
 	//todos desconectados
-	it = this->manager.connectedUsers.find(user_1);
-	CPPUNIT_ASSERT(it == this->manager.connectedUsers.end());
+	it = manager.connectedUsers.find(user_1);
+	CPPUNIT_ASSERT(it == manager.connectedUsers.end());
 
-	it = this->manager.connectedUsers.find(user_2);
-	CPPUNIT_ASSERT(it == this->manager.connectedUsers.end());
+	it = manager.connectedUsers.find(user_2);
+	CPPUNIT_ASSERT(it == manager.connectedUsers.end());
 
-	it = this->manager.connectedUsers.find(user_3);
-	CPPUNIT_ASSERT(it == this->manager.connectedUsers.end());
+	it = manager.connectedUsers.find(user_3);
+	CPPUNIT_ASSERT(it == manager.connectedUsers.end());
 
-	it = this->manager.connectedUsers.find(user_4);
-	CPPUNIT_ASSERT(it == this->manager.connectedUsers.end());
+	it = manager.connectedUsers.find(user_4);
+	CPPUNIT_ASSERT(it == manager.connectedUsers.end());
 }

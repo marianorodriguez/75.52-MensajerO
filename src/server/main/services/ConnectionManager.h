@@ -9,23 +9,34 @@
 #define SERVER_MAIN_SERVICES_CONNECTIONMANAGER_H_
 
 #include <map>
+#include <vector>
+#include <thread>
 #include <unistd.h>
+#include "utilities/Mutex.h"
 
-class ConnectionManager {
+class ConnectionManager{
 	friend class ConnectionManagerTest;
 
 public:
 	ConnectionManager();
 	virtual ~ConnectionManager();
-	void updateConnection();
-	void updateUser(const std::string username);
 
+	void startUpdating();
+	std::vector<std::string> getConnectedUsers();
+	void updateUser(const std::string username);
+	void stopUpdating();
 
 private:
+	static void updateConnection();
 
-	std::map<std::string, int> connectedUsers;
+	static void* runFunction(void* args);
+
+	static Mutex mtx;
+	pthread_t updateThread;
+	static std::map<std::string, int> connectedUsers;
 	std::map<std::string, int>::iterator it;
-	int deltaTime;
+	static int deltaTime;
+	static bool running;
 };
 
 #endif /* SERVER_MAIN_SERVICES_CONNECTIONMANAGER_H_ */
