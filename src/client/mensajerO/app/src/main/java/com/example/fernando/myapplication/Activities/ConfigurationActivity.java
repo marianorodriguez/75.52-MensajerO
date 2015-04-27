@@ -1,14 +1,13 @@
 package com.example.fernando.myapplication.Activities;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Pair;
 import android.view.View;
 import android.widget.Button;
 
-import com.example.fernando.myapplication.Common.ServletPostAsyncTask;
+import com.example.fernando.myapplication.Threads.ServletPostAsyncTask;
 import com.example.fernando.myapplication.R;
 
 /**

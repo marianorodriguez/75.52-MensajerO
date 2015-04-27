@@ -14,9 +14,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.fernando.myapplication.Common.Constants;
-import com.example.fernando.myapplication.Common.ServletPostAsyncTask;
+import com.example.fernando.myapplication.Threads.ServletPostAsyncTask;
 import com.example.fernando.myapplication.Common.User;
-import com.example.fernando.myapplication.Common.UserSessionManager;
 import com.example.fernando.myapplication.R;
 
 import java.io.UnsupportedEncodingException;

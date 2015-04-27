@@ -9,24 +9,31 @@ import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.fernando.myapplication.Common.Constants;
-import com.example.fernando.myapplication.Common.ServletPostAsyncTask;
+import com.example.fernando.myapplication.Threads.GetUsersAsyncTask;
+import com.example.fernando.myapplication.Threads.RefreshChatsHallAsyncTask;
+import com.example.fernando.myapplication.Threads.ServletPostAsyncTask;
 import com.example.fernando.myapplication.Common.User;
 import com.example.fernando.myapplication.R;
+import com.example.fernando.myapplication.Threads.SomethingForMeAsyncTask;
 
-import java.util.logging.Handler;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by fernando on 10/04/15.
  */
 public class ChatsHallActivity extends ActionBarActivity implements View.OnClickListener {
 
-    ServletPostAsyncTask somethingForMePost;
-    ServletPostAsyncTask usersPost;
-    ServletPostAsyncTask refreshChats;
+    SomethingForMeAsyncTask somethingForMePost;
+    GetUsersAsyncTask usersPost;
+    RefreshChatsHallAsyncTask refreshChats;
     public String something;
     String package_;
 
@@ -48,12 +55,13 @@ public class ChatsHallActivity extends ActionBarActivity implements View.OnClick
             Button button2 = (Button) findViewById(R.id.button2);
             button2.setOnClickListener(this);
 
-            somethingForMePost = new ServletPostAsyncTask();
+            somethingForMePost = new SomethingForMeAsyncTask();
             something = "";
-            refreshChats = new ServletPostAsyncTask();
-            usersPost = new ServletPostAsyncTask();
+            refreshChats = new RefreshChatsHallAsyncTask();
+            usersPost = new GetUsersAsyncTask();
 
-//            dibujar los chats que vienen de login
+            //dibujar los chats que vienen de login
+            drawCurrentChats();
 
             String username = Constants.mSharedPreferences.getString(Constants.PREF_NAME, "");
             String password = Constants.mSharedPreferences.getString(Constants.PREF_PASS, "");
@@ -67,14 +75,6 @@ public class ChatsHallActivity extends ActionBarActivity implements View.OnClick
                     new Pair<Context, String>(this, Constants.somethingForMeUrl),
                     new Pair<Context, String>(this, "post"));
 
-            while (something.compareTo("") == 0) {}
-
-            if (something.contains("Error")) {
-                // tirar toast (no se puede conectar con el server)
-            } else {
-                // si llega algo tirar pop up, y actualizar lista de chats (o hacerlo directo en el hilo!!!)
-                something = "";
-            }
 
             usersPost.execute(new Pair<Context, String>(this, package_),
                     new Pair<Context, String>(this, Constants.usersUrl),
@@ -161,4 +161,161 @@ public class ChatsHallActivity extends ActionBarActivity implements View.OnClick
 
         }
     }
+
+    private void drawCurrentChats() {
+
+        final ListView listview = (ListView) findViewById(R.id.listview);
+
+        ArrayList<String> otherUsersChatingWith = new ArrayList<>();
+
+        for (int chat = 0; chat < Constants.user.chats.size(); chat++) {
+            otherUsersChatingWith.add(Constants.user.chats.get(chat).otherUser);
+        }
+
+        final StableArrayAdapter adapter = new StableArrayAdapter(this,
+                android.R.layout.simple_list_item_1, otherUsersChatingWith);
+        listview.setAdapter(adapter);
+
+        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, final View view,
+                                    int position, long id) {
+                final String chatSelected = (String) parent.getItemAtPosition(position);
+
+                for (int chat = 0; chat < Constants.user.chats.size(); chat++) {
+                    if (Constants.user.chats.get(chat).otherUser.compareTo(chatSelected) == 0) {
+                        Constants.chatEditor.setChat(Constants.user.chats.get(chat));
+
+                        Intent chat_ = new Intent(getApplicationContext(), ChatActivity.class);
+                        startActivity(chat_);
+
+                    }
+                }
+
+//                adapter.add("Andrea");
+//                listview.setAdapter(adapter);
+//                                list.remove(item);
+//                                adapter.notifyDataSetChanged();
+            }
+        });
+    }
+
+    private class StableArrayAdapter extends ArrayAdapter<String> {
+
+        HashMap<String, Integer> mIdMap = new HashMap<>();
+
+        public StableArrayAdapter(Context context, int textViewResourceId,
+                                  ArrayList<String> objects) {
+            super(context, textViewResourceId, objects);
+            for (int i = 0; i < objects.size(); ++i) {
+                mIdMap.put(objects.get(i), i);
+            }
+        }
+
+        @Override
+        public long getItemId(int position) {
+            String item = getItem(position);
+            return mIdMap.get(item);
+        }
+
+        @Override
+        public boolean hasStableIds() {
+            return true;
+        }
+
+        @Override
+        public void add(String object) {
+            super.add(object);
+            mIdMap.size();
+            mIdMap.put(object, Constants.user.chats.size());
+        }
+
+    }
 }
+
+//    private void drawCurrentChats() {
+//
+//        final ListView listview = (ListView) findViewById(R.id.listview);
+//        String[] values = new String[] { "Android", "iPhone", "WindowsMobile",
+//                "Blackberry", "WebOS", "Ubuntu", "Windows7", "Max OS X",
+//                "Linux", "OS/2", "Ubuntu", "Windows7", "Max OS X", "Linux",
+//                "OS/2", "Ubuntu", "Windows7", "Max OS X", "Linux", "OS/2",
+//                "Android", "iPhone", "WindowsMobile" };
+//
+//        final ArrayList<String> list = new ArrayList<>();
+//        for (int i = 0; i < values.length; ++i) {
+//            list.add(values[i]);
+//        }
+//        final StableArrayAdapter adapter = new StableArrayAdapter(this,
+//                android.R.layout.simple_list_item_1, list);
+//        listview.setAdapter(adapter);
+//
+//        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, final View view,
+//                                    int position, long id) {
+//                final String item = (String) parent.getItemAtPosition(position);
+//
+////                adapter = null;
+////                list.add("Andrea");
+//
+//                adapter.add("Andrea");
+//                listview.setAdapter(adapter);
+////                adapter.notifyDataSetChanged();
+//
+////                tirarToast();
+////                view.animate().setDuration(2000).alpha(0)
+////                        .withEndAction(new Runnable() {
+////                            @Override
+////                            public void run() {
+////                                list.remove(item);
+////
+////
+////                                list.add("Andrea");
+////                                StableArrayAdapter adapter2 = new StableArrayAdapter(getApplicationContext(), android.R.layout.simple_list_item_1, list);
+////                                listview.setAdapter(adapter2);
+//////                                adapter2.notifyDataSetChanged();
+////
+//////                                adapter.notifyDataSetChanged();
+////                                view.setAlpha(1);
+////                            }
+////                        });
+//            }
+//
+//        });
+//    }
+//
+//private class StableArrayAdapter extends ArrayAdapter<String> {
+//
+//    HashMap<String, Integer> mIdMap = new HashMap<>();
+//
+//    public StableArrayAdapter(Context context, int textViewResourceId,
+//                              ArrayList<String> objects) {
+//        super(context, textViewResourceId, objects);
+//        for (int i = 0; i < objects.size(); ++i) {
+//            mIdMap.put(objects.get(i), i);
+//        }
+//    }
+//
+//    @Override
+//    public long getItemId(int position) {
+//        String item = getItem(position);
+//        return mIdMap.get(item);
+//    }
+//
+//    @Override
+//    public boolean hasStableIds() {
+//        return true;
+//    }
+//
+//    @Override
+//    public void add(String object) {
+//        super.add(object);
+//        mIdMap.size();
+//        //            Toast.makeText(getApplicationContext(),mIdMap.size(), Toast.LENGTH_LONG ).show();
+//        mIdMap.put(object, 23);
+//    }
+//
+//}

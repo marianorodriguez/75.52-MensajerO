@@ -28,6 +28,7 @@ final public class Constants//final to prevent instantiation
 
     public static final Packager packager = new Packager();
     public static ArrayList<Pair<String, String>> users = new ArrayList<>();
+    public static final ChatEditor chatEditor = new ChatEditor();
 
     //private constructor to prevent instantiation/inheritance
     private Constants() {}
