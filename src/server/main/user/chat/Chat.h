@@ -9,7 +9,7 @@
 #define SERVER_MAIN_USER_CHAT_CHAT_H_
 
 #include "../../../tests/user/chat/ChatTests.h"
-#include "interfaces/ISerializable.h"
+#include "user/ISerializable.h"
 #include "exceptions/InvalidUsernameException.h"
 #include "Message.h"
 

@@ -6,7 +6,6 @@
  */
 
 #include "User.h"
-#include "utilities/MD5.h"
 
 User::User(const string& username, const string& password) {
 

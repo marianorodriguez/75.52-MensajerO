@@ -1,7 +1,7 @@
 #ifndef SERVER_MAIN_USER_USER_H_
 #define SERVER_MAIN_USER_USER_H_
 
-#include "interfaces/ISerializable.h"
+#include "ISerializable.h"
 #include "exceptions/InvalidUsernameException.h"
 #include "../exceptions/NotSerializedDataException.h"
 #include "../../tests/user/userTests.h"
