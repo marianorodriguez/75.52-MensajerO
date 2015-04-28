@@ -62,6 +62,10 @@ void Chat::addNewMessage(const Message& message) {
 
 }
 
+vector<Message> Chat::getMessages() const {
+	return this->sentMessages;
+}
+
 string Chat::serialize() const{
 
 	Json::Value JsonChat;

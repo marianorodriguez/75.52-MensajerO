@@ -42,7 +42,8 @@
 
 //# DATABASE ##################################
 #define DEFAULT_DATABASE_PATH "database"
-#define DATABASE_CHAT_PATH "database/chat"
+#define DATABASE_CHATS_PATH "database/chats"
+#define DATABASE_USERS_PATH "database/users"
 
 
 //# LOGGER ####################################
@@ -53,9 +54,25 @@
 
 //# SERVICES ##################################
 
+#define SERVICE_USERNAME "username"
+#define SERVICE_PASSWORD "password"
+
 //# SERVICIO DE SIGNUP
 const std::string SERVICE_SIGNUP_NAME = "signUp";
-#define SERVICE_SIGNUP_USERNAME "username"
-#define SERVICE_SIGNUP_PASSWORD "password"
+
+//# SERVICIO DE LOGIN
+const std::string SERVICE_LOGIN_NAME = "logIn";
+
+//# SERVICIO DE SENDMESSAGE
+const std::string SERVICE_SENDMESSAGE_NAME = "sendMessage";
+#define SERVICE_SENDMESSAGE_USERNAME_FROM "userFrom"
+#define SERVICE_SENDMESSAGE_USERNAME_TO "userTo"
+#define SERVICE_SENDMESSAGE_MESSAGE "message"
+
+//# SERVICIO DE SOMETHINGFORME
+const std::string SERVICE_SOMETHINGFORME_NAME = "sendMessage";
+
+//# SERVICIO DE CURRENTCHATS
+const std::string SERVICE_CURRENTCHATS_NAME = "currentChats";
 
 #endif /* CONFIG_CONFIG_H_ */

@@ -8,13 +8,13 @@ std::string SignUpService::getUri() const {
 
 void SignUpService::executeRequest(const Connection& connection) const {
 
-	std::string username = connection.getParamMap()[SERVICE_SIGNUP_USERNAME];
-	std::string password = connection.getParamMap()[SERVICE_SIGNUP_PASSWORD];
+	std::string username = connection.getParamMap()[SERVICE_USERNAME];
+	std::string password = connection.getParamMap()[SERVICE_PASSWORD];
 	bool exists = checkUsernameExists(username, connection);
 
 	//si no hay error, guardo el usuario en la BD y devuelvo OK
 	if (!exists) {
-		Database DB;
+		Database DB(DATABASE_USERS_PATH);
 		User newUser(username, password);
 
 		std::vector<std::string> key;

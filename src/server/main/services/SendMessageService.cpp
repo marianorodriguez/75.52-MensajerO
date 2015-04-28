@@ -1,6 +1,6 @@
 #include <services/SendMessageService.h>
 
-const std::string SendMessageService::serviceName = "sendMessage";
+const std::string SendMessageService::serviceName = SERVICE_SENDMESSAGE_NAME;
 
 std::string SendMessageService::getUri() const {
 	return SendMessageService::serviceName;
@@ -9,26 +9,39 @@ std::string SendMessageService::getUri() const {
 void SendMessageService::executeRequest(const Connection& connection) const {
 
 	map<string,string> params = connection.getParamMap();
-	string userFrom;	// = params["userFrom"];
-	string userTo;		// = params["userTo"];
-	string sentMessage;		// = params["message"];
+	string userFrom = params[SERVICE_SENDMESSAGE_USERNAME_FROM];
+	string userTo = params[SERVICE_SENDMESSAGE_USERNAME_TO];
+	string sentMessage = params[SERVICE_SENDMESSAGE_MESSAGE];
 
 	Message message(userFrom,userTo,sentMessage);
 
-	Database db(DATABASE_CHAT_PATH);
-	vector<string> key;
-	key.push_back(userFrom);
-	key.push_back(userTo);
+	Database dbChats(DATABASE_CHATS_PATH);
+	vector<string> keyChat;
+	keyChat.push_back(userFrom);
+	keyChat.push_back(userTo);
 
 	try {
-		string serializedChat = db.read(key);
+		string serializedChat = dbChats.read(keyChat);
 		Chat chat(serializedChat);
 		chat.addNewMessage(message);
-		db.write(key,chat.serialize());
+		dbChats.write(keyChat,chat.serialize());
 	} catch (KeyNotFoundException &e) {
 		Chat chat(userFrom,userTo);
 		chat.addNewMessage(message);
-		db.write(key,chat.serialize());
+		dbChats.write(keyChat,chat.serialize());
+
+		Database dbUsers(DATABASE_USERS_PATH);
+		vector<string> keyUserFrom; keyUserFrom.push_back(userFrom);
+		User userF(dbUsers.read(keyUserFrom));
+		userF.addChatWithUser(userTo);
+
+		vector<string> keyUserTo; keyUserTo.push_back(userTo);
+		User userT(dbUsers.read(keyUserTo));
+		userT.addChatWithUser(userFrom);
+
+		dbUsers.write(keyUserFrom,userF.serialize());
+		dbUsers.write(keyUserTo,userT.serialize());
+
 	}
 
 }

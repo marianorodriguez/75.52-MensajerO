@@ -61,6 +61,11 @@ public:
 	string getHashedProfilePicture() const;
 
 	/**
+	 * Devuelve los usuarios con los que tiene chats.
+	 */
+	vector<string> getChats() const;
+
+	/**
 	 * Cambia la ubicación del usuario por la que es pasada como parametro.
 	 * @params newLocation La nueva ubicación del usuario.
 	 */
