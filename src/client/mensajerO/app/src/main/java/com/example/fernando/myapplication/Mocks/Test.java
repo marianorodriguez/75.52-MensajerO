@@ -1,4 +1,4 @@
-package com.example.fernando.myapplication.Common;
+package com.example.fernando.myapplication.Mocks;
 
 import junit.framework.Assert;
 import junit.framework.TestCase;

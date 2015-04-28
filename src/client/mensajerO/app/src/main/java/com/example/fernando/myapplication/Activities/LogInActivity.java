@@ -14,7 +14,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.fernando.myapplication.Common.Constants;
-import com.example.fernando.myapplication.Threads.ServletPostAsyncTask;
+import com.example.fernando.myapplication.Threads.CurrentChatsPostAsyncTask;
+import com.example.fernando.myapplication.Threads.LogInPostAsyncTask;
 import com.example.fernando.myapplication.Common.User;
 import com.example.fernando.myapplication.R;
 
@@ -34,10 +35,8 @@ public class LogInActivity extends ActionBarActivity implements View.OnClickList
 
     EditText txtUsername, txtPassword;
 
-    ServletPostAsyncTask logInPost;
-    ServletPostAsyncTask currentChatsPost;
-    public String ok;
-    public String chats;
+    LogInPostAsyncTask logInPost;
+    CurrentChatsPostAsyncTask currentChatsPost;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,10 +59,8 @@ public class LogInActivity extends ActionBarActivity implements View.OnClickList
 
         Constants.mSharedPreferences = getSharedPreferences(Constants.PREFS, MODE_PRIVATE);
 
-        logInPost = new ServletPostAsyncTask();
-        currentChatsPost = new ServletPostAsyncTask();
-        ok = "";
-        chats = "";
+        logInPost = new LogInPostAsyncTask();
+        currentChatsPost = new CurrentChatsPostAsyncTask();
 
     }
 
@@ -104,7 +101,7 @@ public class LogInActivity extends ActionBarActivity implements View.OnClickList
                 password = md5(password);
                 User currentUser = new User(username, password);
 
-                String package_ = Constants.packager.doPackage("logIn", currentUser);
+                String package_ = Constants.packager.wrap("logIn", currentUser);
 
                 System.out.println(package_);
 
@@ -112,11 +109,11 @@ public class LogInActivity extends ActionBarActivity implements View.OnClickList
                         new Pair<Context, String>(this, Constants.logInUrl),
                         new Pair<Context, String>(this, "post"));
 
-                while (ok.compareTo("") == 0) {}
+                while (Constants.logInOk.compareTo("") == 0) {}
 
-                if (ok.contains("Error")) {}
+                if (Constants.logInOk.contains("Error")) {}
 
-                if (ok.compareTo("true") == 0) {
+                if (Constants.logInOk.compareTo("true") == 0) {
                     Constants.user = currentUser;
 
                     SharedPreferences.Editor e = Constants.mSharedPreferences.edit();
@@ -125,7 +122,8 @@ public class LogInActivity extends ActionBarActivity implements View.OnClickList
                     e.commit();
 
                 } else {
-                    Toast.makeText(this, "Nombre de usuario o conyrasenia invalido. Ingrese nuevamente.", Toast.LENGTH_LONG).show();
+
+                    Toast.makeText(this, "Nombre de usuario y/o contrasenia invalidos. Ingrese nuevamente.", Toast.LENGTH_LONG).show();
                     currentUser = null;
                     txtUsername.setText("");
                     txtPassword.setText("");
@@ -137,9 +135,12 @@ public class LogInActivity extends ActionBarActivity implements View.OnClickList
                     new Pair<Context, String>(this, Constants.currentChatsUrl),
                     new Pair<Context, String>(this, "post"));
 
-                while (chats.compareTo("") == 0) {}
+                while (Constants.userChats.size() == 0) {}
 
-                // user.chats = desempaquetar chats
+                if (Constants.userChats.contains("Error")) {}
+
+                Constants.user = currentUser;
+                Constants.user.chats = Constants.userChats;
 
                 Intent chatsHall = new Intent(this, ChatsHallActivity.class);
                 startActivity(chatsHall);

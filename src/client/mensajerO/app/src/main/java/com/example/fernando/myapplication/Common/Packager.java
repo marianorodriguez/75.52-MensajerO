@@ -2,6 +2,9 @@ package com.example.fernando.myapplication.Common;
 
 import android.util.Base64;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.UnsupportedEncodingException;
 
 /**
@@ -36,7 +39,7 @@ public class Packager {
         return null;
     }
 
-    public String doPackage(String service, User user) {
+    public String wrap(String service, User user) {
 
         String jsonPackage = toJson(service, user);
         System.out.println(jsonPackage);
@@ -53,6 +56,24 @@ public class Packager {
         packageEncoded = packageEncoded.replaceAll("(?:\\r\\n|\\n\\r|\\n|\\r)", "");
 
         return packageEncoded;
+    }
+
+    public JSONObject unwrap (String responsePackage) {
+
+        int flags = Base64.NO_WRAP | Base64.URL_SAFE;
+        byte[] jsonBytes = Base64.decode(responsePackage, flags);
+
+//        System.out.println(json);
+        String json = new String (jsonBytes);
+
+        try {
+            JSONObject resp = new JSONObject(json);
+            return resp;
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 }

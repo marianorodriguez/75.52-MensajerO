@@ -14,6 +14,7 @@ import com.example.fernando.myapplication.Common.Constants;
 import com.example.fernando.myapplication.Threads.ServletPostAsyncTask;
 import com.example.fernando.myapplication.Common.User;
 import com.example.fernando.myapplication.R;
+import com.example.fernando.myapplication.Threads.SignUpPostAsyncTask;
 
 /**
  * Created by fernando on 10/04/15.
@@ -23,8 +24,7 @@ public class SignUpActivity extends ActionBarActivity implements View.OnClickLis
 
     // To user enter password and username
     EditText txtUsername, txtPassword;
-    ServletPostAsyncTask signUpPost;
-    String ok;
+    SignUpPostAsyncTask signUpPost;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,8 +43,7 @@ public class SignUpActivity extends ActionBarActivity implements View.OnClickLis
 
         Constants.mSharedPreferences = getSharedPreferences(Constants.PREFS, MODE_PRIVATE);
 
-        signUpPost = new ServletPostAsyncTask();
-        ok = "";
+        signUpPost = new SignUpPostAsyncTask();
     }
 
     @Override
@@ -61,17 +60,17 @@ public class SignUpActivity extends ActionBarActivity implements View.OnClickLis
                 password = LogInActivity.md5(password);
                 User currentUser = new User(username, password);
 
-                String package_ = Constants.packager.doPackage("logIn", currentUser);
+                String package_ = Constants.packager.wrap("logIn", currentUser);
 
                 signUpPost.execute(new Pair<Context, String>(this, package_),
                         new Pair<Context, String>(this,Constants.signUpUrl),
                         new Pair<Context, String>(this, "post"));
 
-                while (ok.compareTo("") == 0) {}
+                while (Constants.signUpOk.compareTo("") == 0) {}
 
-                if (ok.contains("Error")) {}
+                if (Constants.signUpOk.contains("Error")) {}
 
-                if (ok.compareTo("true") == 0) {
+                if (Constants.signUpOk.compareTo("true") == 0) {
                     Constants.user = currentUser;
 
                     SharedPreferences.Editor e = Constants.mSharedPreferences.edit();

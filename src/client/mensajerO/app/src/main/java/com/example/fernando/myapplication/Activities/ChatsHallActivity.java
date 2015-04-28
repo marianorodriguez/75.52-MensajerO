@@ -69,7 +69,7 @@ public class ChatsHallActivity extends ActionBarActivity implements View.OnClick
 
             User currentUser = new User(username, password);
 
-            package_ = Constants.packager.doPackage("logIn", currentUser);
+            package_ = Constants.packager.wrap("logIn", currentUser);
 
             somethingForMePost.execute(new Pair<Context, String>(this, package_),
                     new Pair<Context, String>(this, Constants.somethingForMeUrl),
@@ -104,6 +104,7 @@ public class ChatsHallActivity extends ActionBarActivity implements View.OnClick
         int id = item.getItemId();
 
         if (id == R.id.users) {
+
             Intent users = new Intent(this, UsersActivity.class);
             startActivity(users);
             return true;
@@ -119,6 +120,9 @@ public class ChatsHallActivity extends ActionBarActivity implements View.OnClick
             // y mandar al server que lo
             // guarde porque si abre en otro device no va a estar)
             // SI LO HACE ON DESTROY NO HACERLO ACA ESTO
+
+            Constants.logInOk = "";
+            Constants.userChats.clear();
 
             Intent login = new Intent(this, LogInActivity.class);
             startActivity(login);

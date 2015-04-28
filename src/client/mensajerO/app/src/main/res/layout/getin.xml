@@ -10,29 +10,41 @@
     tools:context=".MainActivity"
     android:background="@mipmap/back">
 
-    <TextView
-        android:text="@string/textview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/textView"
-        android:autoText="false"
-        android:textColor="#ffffffff"
-        android:layout_marginTop="37dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginLeft="65dp"
-        android:layout_marginStart="65dp" />
-
-        <!-- Set OnClickListener to trigger results when pressed -->
+    <!-- Set OnClickListener to trigger results when pressed -->
         <Button
             android:id="@+id/button1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/b.getIn"
-            android:layout_alignBottom="@+id/textView"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginRight="40dp"
-            android:layout_marginEnd="40dp" />
+            android:layout_marginTop="54dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true" />
+
+    <RadioButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New RadioButton"
+        android:id="@+id/radioButton4"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="71dp" />
+
+    <RadioButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New RadioButton"
+        android:id="@+id/radioButton5"
+        android:layout_above="@+id/radioButton4"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <RadioButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New RadioButton"
+        android:id="@+id/radioButton6"
+        android:layout_above="@+id/radioButton5"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 </RelativeLayout>

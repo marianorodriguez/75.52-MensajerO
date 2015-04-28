@@ -29,12 +29,12 @@ public class User {
     }
 
     public JSONObject toJsonForServer () {
-        JSONObject juser = new JSONObject();
+        JSONObject juser_ = new JSONObject();
         try {
-            juser.put("username", username);
-            juser.put("password", password);
+            juser_.put("username", username);
+            juser_.put("password", password);
 
-            return juser;
+            return juser_;
         } catch (JSONException e) {
             e.printStackTrace();
             return null;
