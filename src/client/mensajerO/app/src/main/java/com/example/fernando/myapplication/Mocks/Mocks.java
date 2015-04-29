@@ -1,5 +1,10 @@
 package com.example.fernando.myapplication.Mocks;
 
+import com.example.fernando.myapplication.Common.Constants;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 /**
  * Created by fernando on 27/04/15.
  */
@@ -25,8 +30,17 @@ public class Mocks {
 
     }
 
-    private String wrapLogInResponse() {
-        return "";
+    public static String wrapLogInResponse(String bool) {
+
+        JSONObject resp = new JSONObject();
+        try {
+            resp.put("ok", bool);
+
+            return Constants.packager.wrap(resp);
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     private String wrapCurrentChats() {

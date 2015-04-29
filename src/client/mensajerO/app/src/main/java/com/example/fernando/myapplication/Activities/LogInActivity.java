@@ -6,13 +6,16 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Pair;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.fernando.myapplication.Common.Chat;
 import com.example.fernando.myapplication.Common.Constants;
 import com.example.fernando.myapplication.Threads.CurrentChatsPostAsyncTask;
 import com.example.fernando.myapplication.Threads.LogInPostAsyncTask;
@@ -22,6 +25,8 @@ import com.example.fernando.myapplication.R;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Created by fernando on 07/04/15.
@@ -125,15 +130,20 @@ public class LogInActivity extends ActionBarActivity implements View.OnClickList
 
                     Toast.makeText(this, "Nombre de usuario y/o contrasenia invalidos. Ingrese nuevamente.", Toast.LENGTH_LONG).show();
                     currentUser = null;
-                    txtUsername.setText("");
                     txtPassword.setText("");
+                    txtUsername.setText("");
+
+
+                    Constants.logInOk = "";
+                    logInPost = new LogInPostAsyncTask();
                     return;
                 }
 
-                // posteo el mismo package_ de arriba
+                Constants.logInOk = "";
+
                 currentChatsPost.execute(new Pair<Context, String>(this, package_),
-                    new Pair<Context, String>(this, Constants.currentChatsUrl),
-                    new Pair<Context, String>(this, "post"));
+                        new Pair<Context, String>(this, Constants.currentChatsUrl),
+                        new Pair<Context, String>(this, "post"));
 
                 while (Constants.userChats.size() == 0) {}
 

@@ -2,9 +2,12 @@ package com.example.fernando.myapplication.Threads;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.text.format.Time;
 import android.util.Pair;
 
+import com.example.fernando.myapplication.Common.Chat;
 import com.example.fernando.myapplication.Common.Constants;
+import com.example.fernando.myapplication.Common.Message;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -20,6 +23,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -38,36 +42,44 @@ public class CurrentChatsPostAsyncTask extends AsyncTask<Pair<Context, String>, 
         HttpClient httpClient = new DefaultHttpClient();
         HttpPost httpPost = new HttpPost(url);
 
-        try {
-            // Add name data to request
-            List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
-            nameValuePairs.add(new BasicNameValuePair("name", name));
-            httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+        ArrayList<Chat> chats = new ArrayList<>();
+        Chat oneChat = new Chat("juancito");
+        Message message = new Message("pepito", "juancito", new Date(), new Time());
+        oneChat.messages.add(message);
+        chats.add(oneChat);
 
-            // Execute HTTP Post Request
-            HttpResponse response = httpClient.execute(httpPost);
-            if (response.getStatusLine().getStatusCode() == 200) {
-                return EntityUtils.toString(response.getEntity());
-            }
-            return "Error: " + response.getStatusLine().getStatusCode() + " " + response.getStatusLine().getReasonPhrase();
+        Constants.userChats = chats;
+        return "";
 
-//            // Execute HTTP GET Request
-//            HttpResponse responseGET = httpClient.execute(httpGet);
-//            if (responseGET.getStatusLine().getStatusCode() == 200) {
-//                return EntityUtils.toString(responseGET.getEntity());
+//        try {
+//            // Add name data to request
+//            List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
+//            nameValuePairs.add(new BasicNameValuePair("name", name));
+//            httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+//
+//            // Execute HTTP Post Request
+//            HttpResponse response = httpClient.execute(httpPost);
+//            if (response.getStatusLine().getStatusCode() == 200) {
+//                return EntityUtils.toString(response.getEntity());
 //            }
-//            return "Error: " + responseGET.getStatusLine().getStatusCode() + " " + responseGET.getStatusLine().getReasonPhrase();
-
-        } catch (ClientProtocolException e) {
-            return e.getMessage();
-        } catch (IOException e) {
-            return e.getMessage();
-        }
+//            return "Error: " + response.getStatusLine().getStatusCode() + " " + response.getStatusLine().getReasonPhrase();
+//
+////            // Execute HTTP GET Request
+////            HttpResponse responseGET = httpClient.execute(httpGet);
+////            if (responseGET.getStatusLine().getStatusCode() == 200) {
+////                return EntityUtils.toString(responseGET.getEntity());
+////            }
+////            return "Error: " + responseGET.getStatusLine().getStatusCode() + " " + responseGET.getStatusLine().getReasonPhrase();
+//
+//        } catch (ClientProtocolException e) {
+//            return e.getMessage();
+//        } catch (IOException e) {
+//            return e.getMessage();
+//        }
     }
 
     @Override
     protected void onPostExecute(String result) {
-        // aca desempaqueto el package respuesta
 //        try {
 
         JSONObject response = Constants.packager.unwrap(result);

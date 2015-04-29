@@ -87,6 +87,25 @@ public class Packager {
 //        return packageEncoded;
     }
 
+    public String wrap(JSONObject mockResponse) {
+
+        String resp = mockResponse.toString();
+
+        byte[] data;
+        try {
+            data = resp.getBytes("UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+        String packageEncoded = Base64.encodeToString(data, Base64.NO_WRAP);
+        packageEncoded = packageEncoded.replaceAll("(?:\\r\\n|\\n\\r|\\n|\\r)", "");
+
+        return packageEncoded;
+
+    }
+
     public JSONObject unwrap (String responsePackage) {
 
         int flags = Base64.NO_WRAP | Base64.URL_SAFE;

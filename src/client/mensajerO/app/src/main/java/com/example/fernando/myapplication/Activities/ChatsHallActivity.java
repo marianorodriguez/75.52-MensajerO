@@ -5,22 +5,19 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.fernando.myapplication.Common.Constants;
-import com.example.fernando.myapplication.Threads.GetUsersAsyncTask;
-import com.example.fernando.myapplication.Threads.RefreshChatsHallAsyncTask;
-import com.example.fernando.myapplication.Threads.ServletPostAsyncTask;
 import com.example.fernando.myapplication.Common.User;
 import com.example.fernando.myapplication.R;
+import com.example.fernando.myapplication.Threads.GetUsersAsyncTask;
+import com.example.fernando.myapplication.Threads.RefreshChatsHallAsyncTask;
 import com.example.fernando.myapplication.Threads.SomethingForMeAsyncTask;
 
 import java.util.ArrayList;
@@ -37,10 +34,16 @@ public class ChatsHallActivity extends ActionBarActivity implements View.OnClick
     public String something;
     String package_;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.chatshall);
+
+        Constants.mSharedPreferences = getSharedPreferences(Constants.PREFS, MODE_PRIVATE);
+        SharedPreferences.Editor e = Constants.mSharedPreferences.edit();
+        e.clear();
+        e.commit();
 
         Constants.mSharedPreferences = getSharedPreferences(Constants.PREFS, MODE_PRIVATE);
 
@@ -51,9 +54,6 @@ public class ChatsHallActivity extends ActionBarActivity implements View.OnClick
             finish();
 
         } else {
-
-            Button button2 = (Button) findViewById(R.id.button2);
-            button2.setOnClickListener(this);
 
             somethingForMePost = new SomethingForMeAsyncTask();
             something = "";
@@ -71,18 +71,18 @@ public class ChatsHallActivity extends ActionBarActivity implements View.OnClick
 
             package_ = Constants.packager.wrap("somethingForMe", currentUser);
 
-            somethingForMePost.execute(new Pair<Context, String>(this, package_),
-                    new Pair<Context, String>(this, Constants.somethingForMeUrl),
-                    new Pair<Context, String>(this, "post"));
-
-
-            usersPost.execute(new Pair<Context, String>(this, package_),
-                    new Pair<Context, String>(this, Constants.usersUrl),
-                    new Pair<Context, String>(this, "post"));
+//            somethingForMePost.execute(new Pair<Context, String>(this, package_),
+//                    new Pair<Context, String>(this, Constants.somethingForMeUrl),
+//                    new Pair<Context, String>(this, "post"));
+//
+//
+//            usersPost.execute(new Pair<Context, String>(this, package_),
+//                    new Pair<Context, String>(this, Constants.usersUrl),
+//                    new Pair<Context, String>(this, "post"));
             // tirar un hilo que llame a users, que tire todos los usuarios del sistema y cargarlos en constants.users
             // loopea, se hace constantemente. el server manda todos los users
 
-            refreshChats.execute();
+//            refreshChats.execute();
             // hilo que ve si hay chats nuevos en la lista de chats y si los hay
             // o si hay mensajes nuevo los muestre y los ordene
 
