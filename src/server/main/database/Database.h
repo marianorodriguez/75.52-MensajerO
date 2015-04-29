@@ -42,6 +42,11 @@ public:
 	 */
 	string read(vector<string> key) const override;
 
+	/**
+	 * Devuelve un vector con todas las keys guardadas en la base de datos.
+	 */
+	std::vector<std::string> getAllKeys() const;
+
 	/*
 	 * Borra el @param key con el value asociado de la bd.
 	 */
@@ -57,6 +62,7 @@ private:
 	 * Forma una key a partir de un vector de strings.
 	 */
 	string getKey(vector<string> key) const;
+	std::string pathDB;
 };
 
 #endif /* DATABASE_H_ */

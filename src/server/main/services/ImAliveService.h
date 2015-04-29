@@ -12,6 +12,9 @@
 #include "ServiceInterface.h"
 #include "config.h"
 
+/**
+ * Encargada de actualizar el tiempo de ultima conexion del user que la invoque.
+ */
 class ImAliveService: public ServiceInterface {
 public:
 	ImAliveService();
@@ -25,7 +28,7 @@ private:
 	static const std::string serviceName;
 };
 
-class ImAliveServiceCreator: public ServiceCreatorInterface{
+class ImAliveServiceCreator: public ServiceCreatorInterface {
 public:
 	virtual ServiceInterface* create();
 };

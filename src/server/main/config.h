@@ -41,7 +41,7 @@
 
 
 //# DATABASE ##################################
-#define DEFAULT_DATABASE_PATH "database"
+const std::string DEFAULT_DATABASE_PATH = "database";
 #define DATABASE_CHATS_PATH "database/chats"
 #define DATABASE_USERS_PATH "database/users"
 
@@ -77,5 +77,8 @@ const std::string SERVICE_CURRENTCHATS_NAME = "currentChats";
 
 //# SERVICIO DE IMALIVE
 const std::string SERVICE_IMALIVE_NAME = "imAlive";
+
+//# SERVICIO DE USERS
+const std::string SERVICE_USERS_NAME = "users";
 
 #endif /* CONFIG_CONFIG_H_ */

@@ -14,6 +14,9 @@
 #include <unistd.h>
 #include "utilities/Mutex.h"
 
+/**
+ * Encargada de detectar usuarios desconectados.
+ */
 class ConnectionManager{
 	friend class ConnectionManagerTest;
 

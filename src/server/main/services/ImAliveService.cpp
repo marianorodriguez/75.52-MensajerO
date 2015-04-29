@@ -22,6 +22,8 @@ void ImAliveService::executeRequest(const Connection& connection) const{
 	std::string username = connection.getParamMap()[SERVICE_USERNAME];
 
 	ConnectionManager::getInstance()->updateUser(username);
+
+	//TODO ver si hay que retornar algo
 }
 
 ServiceInterface* ImAliveServiceCreator::create(){

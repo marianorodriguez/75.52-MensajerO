@@ -23,6 +23,7 @@ class DatabaseTests: public CPPUNIT_NS::TestFixture  {
 	CPPUNIT_TEST(should_not_find_values);
 	CPPUNIT_TEST(cant_read_without_keys);
 	CPPUNIT_TEST(cant_write_without_keys);
+	CPPUNIT_TEST(should_return_all_keys_in_db);
 
 	CPPUNIT_TEST_SUITE_END();
 
@@ -38,6 +39,7 @@ protected:
 	void should_not_find_values();
 	void cant_read_without_keys();
 	void cant_write_without_keys();
+	void should_return_all_keys_in_db();
 };
 
 #endif /* DATABASETESTS_H_ */
