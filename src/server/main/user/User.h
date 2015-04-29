@@ -3,10 +3,10 @@
 
 #include "ISerializable.h"
 #include "exceptions/InvalidUsernameException.h"
-#include "../exceptions/NotSerializedDataException.h"
-#include "../../tests/user/userTests.h"
+#include "exceptions/NotSerializedDataException.h"
 #include <vector>
 #include <iostream>
+#include "config.h"
 using namespace std;
 
 /**

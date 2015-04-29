@@ -18,4 +18,8 @@ private:
 	static const std::string serviceName;
 };
 
+class LogInServiceCreator: public ServiceCreatorInterface{
+	virtual ServiceInterface* create();
+};
+
 #endif /* LOGINSERVICE_H_ */

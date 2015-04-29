@@ -19,4 +19,8 @@ private:
 	static const std::string serviceName;
 };
 
+class SomethingForMeServiceCreator: public ServiceCreatorInterface{
+	virtual ServiceInterface* create();
+};
+
 #endif /* SOMETHINGFORMESERVICE_H_ */

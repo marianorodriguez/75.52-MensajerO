@@ -18,7 +18,8 @@ class ConnectionManager{
 	friend class ConnectionManagerTest;
 
 public:
-	ConnectionManager();
+
+	static ConnectionManager* getInstance();
 	virtual ~ConnectionManager();
 
 	/**
@@ -43,6 +44,9 @@ public:
 
 private:
 
+	ConnectionManager();
+	static ConnectionManager* managerInstance;
+
 	/**
 	 * Recorre la lista de usuarios conectados, se fija cuando fue la ultima
 	 * vez que le llegó algo, y lo elimina de esa lista en caso de detectar
@@ -56,6 +60,7 @@ private:
 	static void* runFunction(void* args);
 
 	static Mutex mtx;
+	static Mutex constructorMutex;
 	pthread_t updateThread;
 	static std::map<std::string, int> connectedUsers;
 	std::map<std::string, int>::iterator it;

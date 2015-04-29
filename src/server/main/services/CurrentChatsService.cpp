@@ -37,3 +37,7 @@ void CurrentChatsService::executeRequest(const Connection& connection) const {
 		connection.printMessage("Error: Usuario inválido");
 	}
 }
+
+ServiceInterface* CurrentChatsServiceCreator::create(){
+	return new CurrentChatsService();
+}

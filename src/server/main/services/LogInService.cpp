@@ -29,3 +29,7 @@ void LogInService::executeRequest(const Connection& connection) const {
 		connection.printMessage("Error: Usuario incorrecto");
 	}
 }
+
+ServiceInterface* LogInServiceCreator::create(){
+	return new LogInService();
+}

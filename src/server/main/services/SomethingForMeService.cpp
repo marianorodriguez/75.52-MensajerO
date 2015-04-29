@@ -50,3 +50,7 @@ void SomethingForMeService::executeRequest(const Connection& connection) const {
 		connection.printMessage("Error: Usuario inválido");
 	}
 }
+
+ServiceInterface* SomethingForMeServiceCreator::create(){
+	return new SomethingForMeService();
+}

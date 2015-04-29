@@ -19,4 +19,9 @@ private:
 	static const std::string serviceName;
 };
 
+class CurrentChatsServiceCreator: public ServiceCreatorInterface{
+
+	virtual ServiceInterface* create();
+};
+
 #endif /* CURRENTCHATSSERVICE_H_ */

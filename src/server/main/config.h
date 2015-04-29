@@ -75,4 +75,7 @@ const std::string SERVICE_SOMETHINGFORME_NAME = "sendMessage";
 //# SERVICIO DE CURRENTCHATS
 const std::string SERVICE_CURRENTCHATS_NAME = "currentChats";
 
+//# SERVICIO DE IMALIVE
+const std::string SERVICE_IMALIVE_NAME = "imAlive";
+
 #endif /* CONFIG_CONFIG_H_ */

@@ -8,10 +8,25 @@
 #include <services/ConnectionManager.h>
 #include <iostream>
 
-int ConnectionManager::deltaTime = 2; //MIN DELTA == 2
+int ConnectionManager::deltaTime = 2; //MIN DELTA == 2 TODO des-hardcodear
 bool ConnectionManager::running = false;
 std::map<std::string, int> ConnectionManager::connectedUsers;
+
+ConnectionManager* ConnectionManager::managerInstance = NULL;
 Mutex ConnectionManager::mtx;
+Mutex ConnectionManager::constructorMutex;
+
+ConnectionManager* ConnectionManager::getInstance() {
+
+	if (!managerInstance) {
+		constructorMutex.lock();
+		if (!managerInstance) {
+			managerInstance = new ConnectionManager();
+		}
+		constructorMutex.unlock();
+	}
+	return managerInstance;
+}
 
 ConnectionManager::ConnectionManager() {
 	connectedUsers.clear();

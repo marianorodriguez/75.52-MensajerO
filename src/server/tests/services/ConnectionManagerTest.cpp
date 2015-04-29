@@ -9,19 +9,17 @@
 
 CPPUNIT_TEST_SUITE_REGISTRATION(ConnectionManagerTest);
 
-ConnectionManagerTest::ConnectionManagerTest() {
-}
+ConnectionManagerTest::ConnectionManagerTest() {}
 
-ConnectionManagerTest::~ConnectionManagerTest() {
-}
+ConnectionManagerTest::~ConnectionManagerTest() {}
 
 void ConnectionManagerTest::setUp(){
-
+	TestFixture::setUp();
 	manager.startUpdating();
 }
 
 void ConnectionManagerTest::tearDown(){
-
+	TestFixture::tearDown();
 	manager.stopUpdating();
 }
 
