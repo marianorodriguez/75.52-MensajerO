@@ -3,6 +3,7 @@
 
 #include "Connection.h"
 #include "ServiceFactory.h"
+#include "services/ConnectionManager.h"
 
 // Forwards
 struct mg_server;
@@ -48,6 +49,7 @@ private:
 	 * Servicios disponibles para ejecutar
 	 */
 	ServiceFactory serviceFactory;
+	ConnectionManager* connectionManager;
 };
 
 #endif // REST_SERVER_H

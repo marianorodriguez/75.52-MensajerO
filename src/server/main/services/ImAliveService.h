@@ -8,6 +8,7 @@
 #ifndef SERVER_MAIN_SERVICES_IMALIVESERVICE_H_
 #define SERVER_MAIN_SERVICES_IMALIVESERVICE_H_
 
+#include "services/ConnectionManager.h"
 #include "ServiceInterface.h"
 #include "config.h"
 

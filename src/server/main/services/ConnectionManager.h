@@ -20,6 +20,7 @@ class ConnectionManager{
 public:
 
 	static ConnectionManager* getInstance();
+	static void destroyInstance();
 	virtual ~ConnectionManager();
 
 	/**

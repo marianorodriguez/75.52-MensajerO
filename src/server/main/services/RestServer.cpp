@@ -32,12 +32,16 @@ static int eventHandler(struct mg_connection *mgConnection, enum mg_event event)
 RestServer::RestServer(){
 	this->server = mg_create_server(this, eventHandler);
 	mg_set_option(this->server, "listening_port", "8081");
+	connectionManager = ConnectionManager::getInstance();
+	connectionManager->startUpdating();
 }
 
 /**
  * Destructor
  */
 RestServer::~RestServer(){
+	connectionManager->stopUpdating();
+	ConnectionManager::destroyInstance();
 	shutdownServer();
 }
 

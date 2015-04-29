@@ -28,6 +28,13 @@ ConnectionManager* ConnectionManager::getInstance() {
 	return managerInstance;
 }
 
+void ConnectionManager::destroyInstance(){
+	constructorMutex.lock();
+	delete managerInstance;
+	managerInstance = NULL;
+	constructorMutex.unlock();
+}
+
 ConnectionManager::ConnectionManager() {
 	connectedUsers.clear();
 	this->updateThread = 0;
