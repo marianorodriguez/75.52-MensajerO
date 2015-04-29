@@ -58,6 +58,12 @@ public class ChatEditor {
         }
     }
 
+    public void renderNewMessage(Message newMessage) {
+        ArrayList<Message> tmp = new ArrayList<>();
+        tmp.add(newMessage);
+        renderNewMessages(tmp);
+    }
+
     public void setChat(Chat chat) {
         this.chat = chat;
     }

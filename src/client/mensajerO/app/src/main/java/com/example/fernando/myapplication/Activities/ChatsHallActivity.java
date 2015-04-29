@@ -60,7 +60,7 @@ public class ChatsHallActivity extends ActionBarActivity implements View.OnClick
             refreshChats = new RefreshChatsHallAsyncTask();
             usersPost = new GetUsersAsyncTask();
 
-            //dibujar los chats que vienen de login
+            //dibujar los chats que vienen de login en Constansts.user.chat
             drawCurrentChats();
 
             String username = Constants.mSharedPreferences.getString(Constants.PREF_NAME, "");
@@ -69,7 +69,7 @@ public class ChatsHallActivity extends ActionBarActivity implements View.OnClick
 
             User currentUser = new User(username, password);
 
-            package_ = Constants.packager.wrap("logIn", currentUser);
+            package_ = Constants.packager.wrap("somethingForMe", currentUser);
 
             somethingForMePost.execute(new Pair<Context, String>(this, package_),
                     new Pair<Context, String>(this, Constants.somethingForMeUrl),
@@ -82,9 +82,7 @@ public class ChatsHallActivity extends ActionBarActivity implements View.OnClick
             // tirar un hilo que llame a users, que tire todos los usuarios del sistema y cargarlos en constants.users
             // loopea, se hace constantemente. el server manda todos los users
 
-            refreshChats.execute(new Pair<Context, String>(this, ""),
-                    new Pair<Context, String>(this, ""),
-                    new Pair<Context, String>(this, ""));
+            refreshChats.execute();
             // hilo que ve si hay chats nuevos en la lista de chats y si los hay
             // o si hay mensajes nuevo los muestre y los ordene
 
@@ -116,10 +114,9 @@ public class ChatsHallActivity extends ActionBarActivity implements View.OnClick
             e.clear();
             e.commit();
 
-            // GUARDAR CHATS en archivo con nombre de username (o crear el json
-            // y mandar al server que lo
-            // guarde porque si abre en otro device no va a estar)
-            // SI LO HACE ON DESTROY NO HACERLO ACA ESTO
+
+            // EL SERVER YA TIENE LOS CHATS ! TIENE LOS CHATS QUE YO TENGO EN EL TELEFONO
+            // MANDAR POST CUANDO BORRO UN CHAT !
 
             Constants.logInOk = "";
             Constants.userChats.clear();
@@ -144,12 +141,8 @@ public class ChatsHallActivity extends ActionBarActivity implements View.OnClick
     protected void onDestroy() {
         super.onDestroy();
 
-        new ServletPostAsyncTask().execute(new Pair<Context, String>(this, package_),
-                new Pair<Context, String>(this, Constants.currentChatsUrl),
-                new Pair<Context, String>(this, "post"));
-
         // getResponse
-        // GUARDAR CHATS sharedPreferences !
+        // GUARDAR CHATS en sharedPreferences !
 
     }
 

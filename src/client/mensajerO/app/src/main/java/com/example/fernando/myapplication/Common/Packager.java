@@ -12,16 +12,21 @@ import java.io.UnsupportedEncodingException;
  */
 public class Packager {
 
+    String otherUser;
+    String message;
+
     private String toJson (String service, User user) {
 
         switch (service) {
+
             case "logIn":
                 return user.toJsonForServer().toString();
+
             case "signUp":
                 return user.toJsonForServer().toString();
 
             case "setConfig":
-                return user.toJsonForServer().toString();
+                return user.toJsonForServer(0).toString();
 
             case "somethingForMe":
                 return user.toJsonForServer().toString();
@@ -33,7 +38,7 @@ public class Packager {
                 return user.toJsonForServer().toString();
 
             case "sendMessage":
-                return user.toJsonForServer().toString();
+                return user.toJsonForServer(otherUser, message).toString();
 
         }
         return null;
@@ -56,6 +61,30 @@ public class Packager {
         packageEncoded = packageEncoded.replaceAll("(?:\\r\\n|\\n\\r|\\n|\\r)", "");
 
         return packageEncoded;
+    }
+
+    public String wrap(String service, User user, String otherUser, String message) {
+
+        this.otherUser = otherUser;
+        this.message = message;
+
+        return wrap(service, user);
+
+//        String jsonPackage = toJson(service, user);
+//        System.out.println(jsonPackage);
+//
+//        byte[] data;
+//        try {
+//            data = jsonPackage.getBytes("UTF-8");
+//        } catch (UnsupportedEncodingException e) {
+//            e.printStackTrace();
+//            return null;
+//        }
+//
+//        String packageEncoded = Base64.encodeToString(data, Base64.NO_WRAP);
+//        packageEncoded = packageEncoded.replaceAll("(?:\\r\\n|\\n\\r|\\n|\\r)", "");
+//
+//        return packageEncoded;
     }
 
     public JSONObject unwrap (String responsePackage) {

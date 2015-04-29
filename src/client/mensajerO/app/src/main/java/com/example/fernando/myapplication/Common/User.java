@@ -33,6 +33,7 @@ public class User {
         try {
             juser_.put("username", username);
             juser_.put("password", password);
+            juser_.put("location", location);
 
             return juser_;
         } catch (JSONException e) {
@@ -41,14 +42,26 @@ public class User {
         }
     }
 
-    public JSONObject toJsonForServer (int a) {
-        JSONObject juser = toJsonForServer();
+    public JSONObject toJsonForServer (int flag) {
+        JSONObject juser_ = toJsonForServer();
         try {
-            juser.put("picture", profilePicture);
-            juser.put("location", location);
-            juser.put("status", status);
+            juser_.put("picture", profilePicture);
+            juser_.put("status", status);
 
-            return juser;
+            return juser_;
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public JSONObject toJsonForServer (String otherUser, String message) {
+        JSONObject juser_ = toJsonForServer();
+        try {
+            juser_.put("msg_toID", otherUser);
+            juser_.put("msg_text", message);
+
+            return juser_;
         } catch (JSONException e) {
             e.printStackTrace();
             return null;

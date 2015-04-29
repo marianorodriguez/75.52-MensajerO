@@ -13,6 +13,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
 
+import com.example.fernando.myapplication.Common.Constants;
+import com.example.fernando.myapplication.Common.User;
+import com.example.fernando.myapplication.Threads.ConfigPostAsyncTask;
 import com.example.fernando.myapplication.Threads.ServletPostAsyncTask;
 import com.example.fernando.myapplication.R;
 
@@ -23,6 +26,8 @@ import java.io.FilenameFilter;
  * Created by fernando on 10/04/15.
  */
 public class ConfigurationActivity extends ActionBarActivity implements View.OnClickListener {
+
+    ConfigPostAsyncTask configPost;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,11 +57,15 @@ public class ConfigurationActivity extends ActionBarActivity implements View.OnC
         } else if (v.getId() == R.id.button2 ) {
             //Done button
 
+            String package_ = Constants.packager.wrap("setConfig", Constants.user);
+
             //ARMAR EL PAQETE CORRESPONDIENTE CON FOTO DE USER
             // HACER EL POST
-            new ServletPostAsyncTask().execute(new Pair<Context, String>(this, "packageToServer"),
-                    new Pair<Context, String>(this, "http://10.0.2.2:8080/config"),
+
+            configPost.execute(new Pair<Context, String>(this, package_),
+                    new Pair<Context, String>(this, Constants.setConfigUrl),
                     new Pair<Context, String>(this, "post"));
+
             boolean ok = true;
             if (ok) {
 //                TOCAR CONSTANTS

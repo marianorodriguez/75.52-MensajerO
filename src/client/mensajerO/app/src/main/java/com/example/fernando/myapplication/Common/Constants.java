@@ -2,8 +2,10 @@ package com.example.fernando.myapplication.Common;
 
 import android.content.SharedPreferences;
 import android.support.v4.util.Pair;
+import android.text.format.Time;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Created by fernando on 22/04/15.
@@ -31,9 +33,15 @@ final public class Constants//final to prevent instantiation
     public static final ChatEditor chatEditor = new ChatEditor();
     public static String logInOk = "";
     public static ArrayList<Chat> userChats = new ArrayList<>();
+
     public static String signUpOk = "";
+    public static String configOK = "";
+
+    public static String sendMessageOk = "";
+    public static String chatWith = "";
+    public static Date messageDate = null;
+    public static Time messageTime = null;
 
     //private constructor to prevent instantiation/inheritance
     private Constants() {}
-
 }

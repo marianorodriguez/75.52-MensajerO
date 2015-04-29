@@ -39,9 +39,7 @@ public class UsersActivity extends ActionBarActivity implements View.OnClickList
         drawCurrentUsers();
 
         refreshUsers = new RefreshUsersAsyncTask();
-        refreshUsers.execute(new Pair<Context, String>(this, ""),
-                new Pair<Context, String>(this, Constants.usersUrl),
-                new Pair<Context, String>(this, ""));
+        refreshUsers.execute();
         // tirar hilo que compruebe si hay nuevos usuarios y los dibuje
 
     }

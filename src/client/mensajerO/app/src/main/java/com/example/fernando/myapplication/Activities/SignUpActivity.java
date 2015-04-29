@@ -60,7 +60,7 @@ public class SignUpActivity extends ActionBarActivity implements View.OnClickLis
                 password = LogInActivity.md5(password);
                 User currentUser = new User(username, password);
 
-                String package_ = Constants.packager.wrap("logIn", currentUser);
+                String package_ = Constants.packager.wrap("signUp", currentUser);
 
                 signUpPost.execute(new Pair<Context, String>(this, package_),
                         new Pair<Context, String>(this,Constants.signUpUrl),
@@ -92,7 +92,7 @@ public class SignUpActivity extends ActionBarActivity implements View.OnClickLis
                 Intent config = new Intent(this, ConfigurationActivity.class);
                 startActivity(config);
 
-                // y hacer finish de log IN tambien !!!!!!!!!!!!!
+                // y hacer finish de log in tambien !!!!!!!!!!!!!
                 Intent myIntent = new Intent(LogInActivity.ACTION_CLOSE);
                 sendBroadcast(myIntent);
 

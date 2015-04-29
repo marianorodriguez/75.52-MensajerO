@@ -1,18 +1,19 @@
 package com.example.fernando.myapplication.Activities;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Pair;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.fernando.myapplication.Common.Chat;
 import com.example.fernando.myapplication.Common.Constants;
+import com.example.fernando.myapplication.Common.Message;
 import com.example.fernando.myapplication.Threads.RefreshChatAsyncTask;
 import com.example.fernando.myapplication.R;
-import com.example.fernando.myapplication.Threads.SendMessageAsyncTask;
+import com.example.fernando.myapplication.Threads.SendMessagePostAsyncTask;
 
 /**
  * Created by fernando on 10/04/15.
@@ -20,7 +21,7 @@ import com.example.fernando.myapplication.Threads.SendMessageAsyncTask;
 public class ChatActivity extends ActionBarActivity implements View.OnClickListener {
 
     RefreshChatAsyncTask refreshChat;
-    SendMessageAsyncTask sendMessage;
+    SendMessagePostAsyncTask sendMessage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,10 +45,25 @@ public class ChatActivity extends ActionBarActivity implements View.OnClickListe
 
         if (v.getId() == R.id.sendButton) {
 
-            // hacer el post con el mensagge en edit text
-            // borrar el edittext
-            // crear el nuevo mensaje y apendearlo al textview
+            EditText edTxt = (EditText) findViewById(R.id.editText);
+            String message = edTxt.getText().toString();
 
+            String package_ = Constants.packager.wrap("logIn", Constants.user, Constants.chatWith, message);
+
+            sendMessage.execute(new Pair<Context, String>(this, package_),
+                    new Pair<Context, String>(this, Constants.sendMessageUrl),
+                    new Pair<Context, String>(this, "post"));
+
+            while (Constants.sendMessageOk.compareTo("") == 0) {}
+
+            if (Constants.sendMessageOk.contains("Error")) {}
+
+            if (Constants.sendMessageOk.compareTo("true") == 0) {
+                edTxt.setText("");
+                Message newMessage = new Message(Constants.user.username, message,
+                        Constants.messageDate, Constants.messageTime);
+                Constants.chatEditor.renderNewMessage(newMessage);
+            }
         }
     }
 

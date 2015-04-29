@@ -4,8 +4,6 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Pair;
 
-import com.example.fernando.myapplication.Activities.LogInActivity;
-import com.example.fernando.myapplication.Common.Chat;
 import com.example.fernando.myapplication.Common.Constants;
 
 import org.apache.http.HttpResponse;
@@ -17,7 +15,6 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -26,9 +23,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by fernando on 27/04/15.
+ * Created by fernando on 28/04/15.
  */
-public class LogInPostAsyncTask extends AsyncTask<Pair<Context, String>, String, String> {
+public class ConfigPostAsyncTask extends AsyncTask<Pair<Context, String>, String, String> {
     @Override
     protected String doInBackground(Pair<Context, String>... params) {
         //        context = params[0].first;
@@ -75,11 +72,13 @@ public class LogInPostAsyncTask extends AsyncTask<Pair<Context, String>, String,
 
             JSONObject response = Constants.packager.unwrap(result);
 
-            Constants.signUpOk = response.getString("ok");
+            Constants.configOK = response.getString("ok");
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
     }
+
+
 
 }
