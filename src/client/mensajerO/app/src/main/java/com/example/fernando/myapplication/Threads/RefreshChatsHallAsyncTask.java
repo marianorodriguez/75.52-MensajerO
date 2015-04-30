@@ -23,13 +23,15 @@ public class RefreshChatsHallAsyncTask extends AsyncTask<Pair<Context, String>, 
             }
             if (Constants.userChats.size() > currentChatsSize) {
                 currentChatsSize = Constants.userChats.size();
-                .drawCurrentChats();
+
+                for (int chat = (Constants.userChats.size() - currentChatsSize);
+                     chat < Constants.userChats.size();
+                        chat++) {
+
+                    Constants.chatsAdapter.add(Constants.userChats.get(chat).otherUser);
+                }
+                Constants.chatListView.setAdapter(Constants.chatsAdapter);
             }
-            // O HACER ESTOO !!!!! PROBAR AMBOS Y VER EL MEJOR
-            // si el sizeactual de la lista de chats es mayor que sizeActual
-//               adapter.add("chatAgregado1");
-            //               adapter.add("chatAgregado2"); ....
-//               listview.setAdapter(adapter);
         }
 
         return null;

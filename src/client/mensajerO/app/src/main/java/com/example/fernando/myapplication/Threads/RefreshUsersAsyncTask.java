@@ -22,14 +22,18 @@ public class RefreshUsersAsyncTask extends AsyncTask<Pair<Context, String>, Stri
                 e.printStackTrace();
             }
             if (Constants.otherUsers.size() > currentUsersSize) {
+
                 currentUsersSize = Constants.otherUsers.size();
-                .drawCurrentUsers();
+
+                for (int user = (Constants.otherUsers.size() - currentUsersSize);
+                     user < Constants.otherUsers.size();
+                     user++) {
+
+                    Constants.usersAdapter.add(Constants.otherUsers.get(user).username);
+                }
+                Constants.usersListView.setAdapter(Constants.usersAdapter);
+
             }
-            // O HACER ESTOO !!!!! PROBAR AMBOS Y VER EL MEJOR
-            // si el sizeactual de la lista de chats es mayor que sizeActual
-//               adapter.add("chatAgregado1");
-            //               adapter.add("chatAgregado2"); ....
-//               listview.setAdapter(adapter);
         }
 
         return null;

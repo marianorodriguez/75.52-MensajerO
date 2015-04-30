@@ -13,6 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 
+import com.example.fernando.myapplication.Common.Chat;
 import com.example.fernando.myapplication.Common.Constants;
 import com.example.fernando.myapplication.Threads.RefreshUsersAsyncTask;
 import com.example.fernando.myapplication.R;
@@ -86,6 +87,8 @@ public class UsersActivity extends ActionBarActivity implements View.OnClickList
 
         final ListView listview = (ListView) findViewById(R.id.listview);
 
+        Constants.usersListView = listview;
+
         ArrayList<String> users = new ArrayList<>();
 
         for (int user = 0; user < Constants.otherUsers.size(); user++) {
@@ -96,33 +99,46 @@ public class UsersActivity extends ActionBarActivity implements View.OnClickList
                 android.R.layout.simple_list_item_1, users);
         listview.setAdapter(adapter);
 
+        Constants.usersAdapter = adapter;
+
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> parent, final View view,
                                     int position, long id) {
+
                 final String userSelected = (String) parent.getItemAtPosition(position);
+                boolean hasChat = false;
 
-                for (int user = 0; user < Constants.otherUsers.size(); user++) {
-                    if (Constants.otherUsers.get(user).username.compareTo(userSelected) == 0) {
+                Constants.chatWith = userSelected;
 
-                        // ABRIR EL CHAT CON EL USER USERNAME
-                        // SINO EXISTE CREAR UN CHAT NUEVO y add a constants.user.chats
+                for (int chat = 0; chat < Constants.user.chats.size(); chat++) {
+                    if (Constants.user.chats.get(chat).otherUser.compareTo(userSelected) == 0) {
+                        hasChat = true;
+
                         Constants.chatEditor.setChat(Constants.user.chats.get(chat));
-
-                        Constants.chatWith = userSelected;
 
                         Intent chat_ = new Intent(getApplicationContext(), ChatActivity.class);
                         startActivity(chat_);
-
+                        break;
                     }
+                }
+                if (!hasChat) {
+                    Chat newChat = new Chat(userSelected);
+                    Constants.userChats.add(newChat);
+
+                    Constants.chatEditor.setChat(newChat);
+
+                    Intent chat_ = new Intent(getApplicationContext(), ChatActivity.class);
+                    startActivity(chat_);
+
                 }
             }
 
         });
     }
 
-    private class StableArrayAdapter extends ArrayAdapter<String> {
+    public class StableArrayAdapter extends ArrayAdapter<String> {
 
         HashMap<String, Integer> mIdMap = new HashMap<>();
 

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -147,6 +148,7 @@ public class ChatsHallActivity extends ActionBarActivity implements View.OnClick
     public void drawCurrentChats() {
 
         final ListView listview = (ListView) findViewById(R.id.listview);
+        Constants.chatListView = listview;
 
         ArrayList<String> otherUsersChatingWith = new ArrayList<>();
 
@@ -158,6 +160,8 @@ public class ChatsHallActivity extends ActionBarActivity implements View.OnClick
                 android.R.layout.simple_list_item_1, otherUsersChatingWith);
         listview.setAdapter(adapter);
 
+        Constants.chatsAdapter = adapter;
+
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
@@ -167,13 +171,14 @@ public class ChatsHallActivity extends ActionBarActivity implements View.OnClick
 
                 for (int chat = 0; chat < Constants.user.chats.size(); chat++) {
                     if (Constants.user.chats.get(chat).otherUser.compareTo(chatSelected) == 0) {
+
                         Constants.chatEditor.setChat(Constants.user.chats.get(chat));
 
                         Constants.chatWith = chatSelected;
 
                         Intent chat_ = new Intent(getApplicationContext(), ChatActivity.class);
                         startActivity(chat_);
-
+                        break;
                     }
                 }
 
@@ -185,7 +190,7 @@ public class ChatsHallActivity extends ActionBarActivity implements View.OnClick
         });
     }
 
-    private class StableArrayAdapter extends ArrayAdapter<String> {
+    public class StableArrayAdapter extends ArrayAdapter<String> {
 
         HashMap<String, Integer> mIdMap = new HashMap<>();
 

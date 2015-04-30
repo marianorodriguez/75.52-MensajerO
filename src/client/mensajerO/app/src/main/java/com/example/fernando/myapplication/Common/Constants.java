@@ -3,6 +3,10 @@ package com.example.fernando.myapplication.Common;
 import android.content.SharedPreferences;
 import android.support.v4.util.Pair;
 import android.text.format.Time;
+import android.widget.ListView;
+
+import com.example.fernando.myapplication.Activities.ChatsHallActivity;
+import com.example.fernando.myapplication.Activities.UsersActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -47,6 +51,11 @@ final public class Constants//final to prevent instantiation
     public static String chatWith = "";
     public static Date messageDate = null;
     public static Time messageTime = null;
+
+    public static ListView chatListView = null;
+    public static ChatsHallActivity.StableArrayAdapter chatsAdapter = null;
+    public static ListView usersListView = null;
+    public static UsersActivity.StableArrayAdapter usersAdapter = null;
 
     //private constructor to prevent instantiation/inheritance
     private Constants() {}
