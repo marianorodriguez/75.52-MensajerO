@@ -80,9 +80,9 @@ const std::string SERVICE_IMALIVE_NAME = "imAlive";
 
 //# SERVICIO DE UserConfig
 const std::string SERVICE_USERCONFIG_NAME = "config";
-const std::string SERVICE_USERCONFIG_LOCATION = "location"
-const std::string SERVICE_USERCONFIG_STATUS = "status"
-const std::string SERVICE_USERCONFIG_PICTURE = "picture"
+const std::string SERVICE_USERCONFIG_LOCATION = "location";
+const std::string SERVICE_USERCONFIG_STATUS = "status";
+const std::string SERVICE_USERCONFIG_PICTURE = "picture";
 
 //# SERVICIO DE USERS
 const std::string SERVICE_USERS_NAME = "users";

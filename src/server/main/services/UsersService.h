@@ -3,6 +3,7 @@
 
 #include "services/ServiceInterface.h"
 #include "database/Database.h"
+#include "user/User.h"
 #include "config.h"
 
 class UsersService: public ServiceInterface {

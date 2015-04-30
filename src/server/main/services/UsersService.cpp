@@ -15,11 +15,9 @@ void UsersService::executeRequest(const Connection& connection) const {
 	key.push_back(username);
 	Database DB(DATABASE_USERS_PATH);
 	std::string userValue = DB.read(key);
+	User user(userValue);
 
-	Json::Value jsonUser(userValue);
-	std::string userPWD = jsonUser[JSON_USER_ROOT][JSON_USER_PWD].asString();
-
-	if (password == userPWD) {
+	if (password == user.getPassword()) {
 
 		Json::Value registeredUsers;
 		vector<string> keys = DB.getAllKeys();
