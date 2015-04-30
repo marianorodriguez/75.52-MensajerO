@@ -7,7 +7,7 @@
 
 #include <services/UserConfigService.h>
 
-std::string UserConfigService::serviceName = "config";
+const std::string UserConfigService::serviceName = "config";
 
 std::string UserConfigService::getUri() const {
 	return UserConfigService::serviceName;

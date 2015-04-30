@@ -1,4 +1,5 @@
 #include "services/ServerThread.h"
+#include "services/ServerConfig.h"
 #include "exceptions/BaseException.h"
 #include <iostream>
 
@@ -8,6 +9,8 @@ int main() {
 	std::string text;
 	bool exit = false;
 	ServerThread server;
+	ServerConfig config;
+	server.addConfig(config);
 	try{
 		server.run();
 		cout<< "Levantando server..."<<endl<<"Para terminar, escriba 'salir'.";

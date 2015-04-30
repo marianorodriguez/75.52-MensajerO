@@ -70,7 +70,7 @@ const std::string SERVICE_SENDMESSAGE_NAME = "sendMessage";
 #define SERVICE_SENDMESSAGE_MESSAGE "message"
 
 //# SERVICIO DE SOMETHINGFORME
-const std::string SERVICE_SOMETHINGFORME_NAME = "sendMessage";
+const std::string SERVICE_SOMETHINGFORME_NAME = "somethingForMe";
 
 //# SERVICIO DE CURRENTCHATS
 const std::string SERVICE_CURRENTCHATS_NAME = "currentChats";

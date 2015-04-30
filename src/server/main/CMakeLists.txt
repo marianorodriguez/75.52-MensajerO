@@ -8,6 +8,7 @@ endif(coverage-test)
 
 add_executable(server
 	main.cpp
+	services/ServerConfig.cpp
 	)
 
 # Archivos del modelo en general

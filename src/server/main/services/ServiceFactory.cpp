@@ -32,12 +32,13 @@ std::vector<std::string> ServiceFactory::getServiceNameList() const{
 }
 
 void ServiceFactory::addNewServiceCreator(ServiceCreatorInterface* creator){
-	std::map<std::string, ServiceCreatorInterface*>::const_iterator it;
+	std::map<std::string, ServiceCreatorInterface*>::iterator it;
 	ServiceInterface* service = creator->create();
 	it = this->serviceMap.find(service->getUri());
-	if (it == serviceMap.cbegin()){
-		std::pair<std::string, ServiceCreatorInterface*> pair(service->getUri(), creator);
-		serviceMap.insert(it, pair);
+	if (it != serviceMap.end()){
+		delete it->second;
 	}
+	std::pair<std::string, ServiceCreatorInterface*> pair(service->getUri(), creator);
+	serviceMap.insert(it, pair);
 	delete service;
 }

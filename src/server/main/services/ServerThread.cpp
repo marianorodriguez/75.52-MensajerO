@@ -1,3 +1,4 @@
+#include "ServerConfig.h"
 #include "ServerThread.h"
 
 ServerThread::ServerThread(){
@@ -17,4 +18,8 @@ void ServerThread::shutdown(){
 
 void ServerThread::addService(ServiceCreatorInterface* serviceCreator){
 	this->server.addService(serviceCreator);
+}
+
+void ServerThread::addConfig(ServerConfig& config){
+	config.configure(this->server);
 }
