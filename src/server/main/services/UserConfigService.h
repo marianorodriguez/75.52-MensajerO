@@ -9,12 +9,18 @@
 #define SERVER_MAIN_SERVICES_USERCONFIGSERVICE_H_
 
 #include "services/ServiceInterface.h"
+#include "../database/Database.h"
+#include "../user/User.h"
 #include "config.h"
+
+using namespace std;
 
 class UserConfigService: public ServiceInterface {
 public:
 
 	std::string getUri() const;
+
+	//Actualiza datos del user
 	void executeRequest(const Connection& connection) const;
 
 private:
