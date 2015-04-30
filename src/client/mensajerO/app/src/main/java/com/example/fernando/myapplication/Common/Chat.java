@@ -37,4 +37,23 @@ public class Chat {
         }
     }
 
+    public static Chat toChat(JSONObject jsonChat) {
+        try {
+            Chat newChat = new Chat(jsonChat.getString("otherUser"));
+
+            JSONArray jsonMessages = jsonChat.getJSONArray("messages");
+
+            for (int message = 0; message < jsonMessages.length(); message++) {
+                JSONObject oneMessage = (JSONObject) jsonMessages.get(message);
+
+                newChat.messages.add(Message.toMessage(oneMessage));
+            }
+
+            return newChat;
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
 }

@@ -11,12 +11,12 @@ import java.util.Date;
  * Created by fernando on 19/04/15.
  */
 public class Message {
-    public Date date;
-    public Time hour;
+    public String date;
+    public String hour;
     public String emisor;
     public String text;
 
-    public Message (String emisor, String text, Date date, Time hour) {
+    public Message (String emisor, String text, String date, String hour) {
         this.emisor = emisor;
         this.text = text;
         this.date = date;
@@ -29,6 +29,7 @@ public class Message {
             jmess.put("date", date.toString());
             jmess.put("hour", hour.toString());
             jmess.put("text", text);
+            jmess.put("emisor", emisor);
 
             return jmess;
         } catch (JSONException e) {
@@ -37,4 +38,22 @@ public class Message {
         }
 
     }
+
+    public static Message toMessage(JSONObject jsonMessage) {
+        try {
+            Message newMessage = new Message(
+                    jsonMessage.getString("emisor"),
+                    jsonMessage.getString("text"),
+                    jsonMessage.getString("date"),
+                    jsonMessage.getString("hour") );
+
+            return newMessage;
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+
+    }
+
 }

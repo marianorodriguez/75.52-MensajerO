@@ -82,19 +82,18 @@ public class UsersActivity extends ActionBarActivity implements View.OnClickList
         }
     }
 
-    private void drawCurrentUsers(){final ListView listview = (ListView) findViewById(R.id.listview);
-        String[] values = new String[] { "Android", "iPhone", "WindowsMobile",
-                "Blackberry", "WebOS", "Ubuntu", "Windows7", "Max OS X",
-                "Linux", "OS/2", "Ubuntu", "Windows7", "Max OS X", "Linux",
-                "OS/2", "Ubuntu", "Windows7", "Max OS X", "Linux", "OS/2",
-                "Android", "iPhone", "WindowsMobile" };
+    private void drawCurrentUsers(){
 
-        final ArrayList<String> list = new ArrayList<>();
-        for (int i = 0; i < values.length; ++i) {
-            list.add(values[i]);
+        final ListView listview = (ListView) findViewById(R.id.listview);
+
+        ArrayList<String> users = new ArrayList<>();
+
+        for (int user = 0; user < Constants.otherUsers.size(); user++) {
+            users.add(Constants.otherUsers.get(user).username);
         }
+
         final StableArrayAdapter adapter = new StableArrayAdapter(this,
-                android.R.layout.simple_list_item_1, list);
+                android.R.layout.simple_list_item_1, users);
         listview.setAdapter(adapter);
 
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -102,32 +101,22 @@ public class UsersActivity extends ActionBarActivity implements View.OnClickList
             @Override
             public void onItemClick(AdapterView<?> parent, final View view,
                                     int position, long id) {
-                final String item = (String) parent.getItemAtPosition(position);
+                final String userSelected = (String) parent.getItemAtPosition(position);
 
-//                adapter = null;
-//                list.add("Andrea");
+                for (int user = 0; user < Constants.otherUsers.size(); user++) {
+                    if (Constants.otherUsers.get(user).username.compareTo(userSelected) == 0) {
 
-                adapter.add("Andrea");
-                listview.setAdapter(adapter);
-//                adapter.notifyDataSetChanged();
+                        // ABRIR EL CHAT CON EL USER USERNAME
+                        // SINO EXISTE CREAR UN CHAT NUEVO y add a constants.user.chats
+                        Constants.chatEditor.setChat(Constants.user.chats.get(chat));
 
-//                tirarToast();
-//                view.animate().setDuration(2000).alpha(0)
-//                        .withEndAction(new Runnable() {
-//                            @Override
-//                            public void run() {
-//                                list.remove(item);
-//
-//
-//                                list.add("Andrea");
-//                                StableArrayAdapter adapter2 = new StableArrayAdapter(getApplicationContext(), android.R.layout.simple_list_item_1, list);
-//                                listview.setAdapter(adapter2);
-////                                adapter2.notifyDataSetChanged();
-//
-////                                adapter.notifyDataSetChanged();
-//                                view.setAlpha(1);
-//                            }
-//                        });
+                        Constants.chatWith = userSelected;
+
+                        Intent chat_ = new Intent(getApplicationContext(), ChatActivity.class);
+                        startActivity(chat_);
+
+                    }
+                }
             }
 
         });

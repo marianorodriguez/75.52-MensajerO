@@ -152,6 +152,10 @@ public class LogInActivity extends ActionBarActivity implements View.OnClickList
                 Constants.user = currentUser;
                 Constants.user.chats = Constants.userChats;
 
+                SharedPreferences.Editor e = Constants.mSharedPreferences.edit();
+                e.putString(Constants.PREF_CHATS, Constants.user.chatsToJson().toString());
+                e.commit();
+
                 Intent chatsHall = new Intent(this, ChatsHallActivity.class);
                 startActivity(chatsHall);
                 finish();
