@@ -21,13 +21,13 @@ final public class Constants//final to prevent instantiation
 {
     public static String ipServer = "127.0.0.1";
     public static String portServer = "8080";
-    public static final String logInUrl = "http://"+ipServer+":"+portServer+"+/logIn";
-    public static final String signUpUrl = "http://"+ipServer+":"+portServer+"+/signUp";
-    public static final String currentChatsUrl = "http://"+ipServer+":"+portServer+"+/currentChats";
-    public static final String setConfigUrl = "http://"+ipServer+":"+portServer+"+/setConfig";
-    public static final String somethingForMeUrl = "http://"+ipServer+":"+portServer+"+/somethingForMe";
-    public static final String usersUrl = "http://"+ipServer+":"+portServer+"+/users";
-    public static final String sendMessageUrl = "http://"+ipServer+":"+portServer+"+/sendMessage";
+    public static final String logInUrl = "http://" + ipServer +":" + portServer + "/logIn";
+    public static final String signUpUrl = "http://" + ipServer + ":" + portServer + "/signUp";
+    public static final String currentChatsUrl = "http://" + ipServer+ ":" +portServer + "/currentChats";
+    public static final String setConfigUrl = "http://" + ipServer + ":" + portServer + "/setConfig";
+    public static final String somethingForMeUrl = "http://" + ipServer + ":" + portServer + "/somethingForMe";
+    public static final String usersUrl = "http://" + ipServer + ":" + portServer + "/users";
+    public static final String sendMessageUrl = "http://" + ipServer + ":" + portServer + "/sendMessage";
 
     public static User user = null;
 
@@ -70,7 +70,7 @@ final public class Constants//final to prevent instantiation
             JSONArray chats = new JSONArray(Constants.mSharedPreferences.getString(PREF_CHATS, ""));
 
             for (int chat = 0; chat < chats.length(); chat++) {
-                Constants.userChats.add(Chat.toChat((org.json.JSONObject) chats.get(chat)));
+                Constants.user.chats.add(Chat.toChat((org.json.JSONObject) chats.get(chat)));
             }
 
             JSONArray users = new JSONArray(Constants.mSharedPreferences.getString(PREF_USERS, ""));

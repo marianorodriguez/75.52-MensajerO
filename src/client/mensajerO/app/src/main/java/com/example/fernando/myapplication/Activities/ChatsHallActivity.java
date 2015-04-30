@@ -42,6 +42,11 @@ public class ChatsHallActivity extends ActionBarActivity implements View.OnClick
         super.onCreate(savedInstanceState);
         setContentView(R.layout.chatshall);
 
+//        Constants.mSharedPreferences = getSharedPreferences(Constants.PREFS, MODE_PRIVATE);
+//        SharedPreferences.Editor e = Constants.mSharedPreferences.edit();
+//        e.clear();
+//        e.commit();
+
         Constants.mSharedPreferences = getSharedPreferences(Constants.PREFS, MODE_PRIVATE);
 
         if (Constants.mSharedPreferences.getString(Constants.PREF_NAME, "").isEmpty()) {
@@ -60,25 +65,26 @@ public class ChatsHallActivity extends ActionBarActivity implements View.OnClick
             refreshChats = new RefreshChatsHallAsyncTask();
             usersPost = new GetUsersPostAsyncTask();
 
-            //dibujar los chats que vienen de login en Constansts.user.chat
+            //dibujar los chats que vienen de login en Constants.user.chat
             drawCurrentChats();
 
-            Toast.makeText(getApplicationContext(), "Welcome, " + Constants.user.username + "!", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Welcome, " + Constants.user.username + "!", Toast.LENGTH_LONG).show();
 
             package_ = Constants.packager.wrap("somethingForMe", Constants.user);
 
-//            somethingForMePost.execute(new Pair<Context, String>(this, package_),
-//                    new Pair<Context, String>(this, Constants.somethingForMeUrl),
-//                    new Pair<Context, String>(this, "post"));
-//
-//
-//            usersPost.execute(new Pair<Context, String>(this, package_),
-//                    new Pair<Context, String>(this, Constants.usersUrl),
-//                    new Pair<Context, String>(this, "post"));
+            somethingForMePost.execute(new Pair<Context, String>(this, package_),
+                    new Pair<Context, String>(this, Constants.somethingForMeUrl),
+                    new Pair<Context, String>(this, "post"));
+
+
+            usersPost.execute(new Pair<Context, String>(this, package_),
+                    new Pair<Context, String>(this, Constants.usersUrl),
+                    new Pair<Context, String>(this, "post"));
+
             // tirar un hilo que llame a users, que tire todos los usuarios del sistema y cargarlos en constants.users
             // loopea, se hace constantemente. el server manda todos los users
 
-//            refreshChats.execute();
+            refreshChats.execute();
             // hilo que ve si hay chats nuevos en la lista de chats y si los hay
             // o si hay mensajes nuevo los muestre y los ordene
 
@@ -111,7 +117,7 @@ public class ChatsHallActivity extends ActionBarActivity implements View.OnClick
             e.commit();
 
             Constants.logInOk = "";
-            Constants.userChats = null;
+            Constants.userChats.clear();
 
             Intent login = new Intent(this, LogInActivity.class);
             startActivity(login);
@@ -133,12 +139,17 @@ public class ChatsHallActivity extends ActionBarActivity implements View.OnClick
     protected void onDestroy() {
         super.onDestroy();
 
-        // GUARDAR CHATS en sharedPreferences !
-        SharedPreferences.Editor e = Constants.mSharedPreferences.edit();
-        e.putString(Constants.PREF_CHATS,
-                Constants.user.chatsToJson().toString());
-        e.commit();
+        somethingForMePost.cancel(true);
+        usersPost.cancel(true);
+        refreshChats.cancel(true);
 
+        // GUARDAR CHATS en sharedPreferences !
+        if (Constants.user != null) {
+            SharedPreferences.Editor e = Constants.mSharedPreferences.edit();
+            e.putString(Constants.PREF_CHATS,
+                    Constants.user.chatsToJson().toString());
+            e.commit();
+        }
     }
 
     @Override

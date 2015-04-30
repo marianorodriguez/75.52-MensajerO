@@ -66,6 +66,16 @@ public class LogInPostAsyncTask extends AsyncTask<Pair<Context, String>, String,
 //            // Execute HTTP Post Request
 ////            HttpResponse response = httpClient.execute(httpPost);
 ////            if (response.getStatusLine().getStatusCode() == 200) {
+
+//                    try {
+//
+//                        JSONObject response = Constants.packager.unwrap(EntityUtils.toString(response.getEntity());
+//
+//                        Constants.logInOk = response.getString("ok");
+//
+//                    } catch (JSONException e) {
+//                        e.printStackTrace();
+//                    }
 ////                return EntityUtils.toString(response.getEntity());
 ////            }
 ////            return "Error: " + response.getStatusLine().getStatusCode() + " " + response.getStatusLine().getReasonPhrase();
@@ -86,15 +96,15 @@ public class LogInPostAsyncTask extends AsyncTask<Pair<Context, String>, String,
 
     @Override
     protected void onPostExecute(String result) {
-        try {
-
-            JSONObject response = Constants.packager.unwrap(result);
-
-            Constants.logInOk = response.getString("ok");
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+//        try {
+//
+//            JSONObject response = Constants.packager.unwrap(result);
+//
+//            Constants.logInOk = response.getString("ok");
+//
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
     }
 
 }

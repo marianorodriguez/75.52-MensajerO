@@ -15,6 +15,7 @@ import android.widget.ListView;
 
 import com.example.fernando.myapplication.Common.Chat;
 import com.example.fernando.myapplication.Common.Constants;
+import com.example.fernando.myapplication.Mocks.Mocks;
 import com.example.fernando.myapplication.Threads.RefreshUsersAsyncTask;
 import com.example.fernando.myapplication.R;
 
@@ -33,8 +34,9 @@ public class UsersActivity extends ActionBarActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.users);
 
-        Button button2 = (Button) findViewById(R.id.button2);
-        button2.setOnClickListener(this);
+        Mocks.createFakeUsers();
+        Constants.otherUsers = Mocks.otherUsers;
+
 
         // dibujar los usuarios de la lista de usuarios Constants.users
         drawCurrentUsers();
@@ -72,15 +74,6 @@ public class UsersActivity extends ActionBarActivity implements View.OnClickList
 
     @Override
     public void onClick(View v) {
-
-        if (v.getId() == R.id.button2) {
-
-            //setear constante string chatwith para saber q chat mostrar en chat activity
-
-            Intent chat = new Intent(this, ChatActivity.class);
-            startActivity(chat);
-
-        }
     }
 
     private void drawCurrentUsers(){
@@ -125,7 +118,7 @@ public class UsersActivity extends ActionBarActivity implements View.OnClickList
                 }
                 if (!hasChat) {
                     Chat newChat = new Chat(userSelected);
-                    Constants.userChats.add(newChat);
+                    Constants.user.chats.add(newChat);
 
                     Constants.chatEditor.setChat(newChat);
 

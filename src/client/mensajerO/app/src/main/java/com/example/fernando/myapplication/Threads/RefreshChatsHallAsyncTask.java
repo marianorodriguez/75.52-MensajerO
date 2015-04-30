@@ -13,7 +13,7 @@ import com.example.fernando.myapplication.Common.Constants;
 public class RefreshChatsHallAsyncTask extends AsyncTask<Pair<Context, String>, String, String> {
     @Override
     protected String doInBackground(Pair<Context, String>... params) {
-        int currentChatsSize = Constants.userChats.size();
+        int currentChatsSize = Constants.user.chats.size();
         // sizeActual de la lista de chats
         while (!isCancelled()) {
             try {
@@ -21,19 +21,28 @@ public class RefreshChatsHallAsyncTask extends AsyncTask<Pair<Context, String>, 
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            if (Constants.userChats.size() > currentChatsSize) {
-                currentChatsSize = Constants.userChats.size();
+            if (Constants.user.chats.size() > currentChatsSize) {
+                currentChatsSize = Constants.user.chats.size();
 
-                for (int chat = (Constants.userChats.size() - currentChatsSize);
-                     chat < Constants.userChats.size();
+                for (int chat = (Constants.user.chats.size() - currentChatsSize);
+                     chat < Constants.user.chats.size();
                         chat++) {
 
-                    Constants.chatsAdapter.add(Constants.userChats.get(chat).otherUser);
+                    publishProgress(Constants.user.chats.get(chat).otherUser);
+//                    Constants.chatsAdapter.add(Constants.user.chats.get(chat).otherUser);
                 }
-                Constants.chatListView.setAdapter(Constants.chatsAdapter);
+//                Constants.chatListView.setAdapter(Constants.chatsAdapter);
             }
         }
 
         return null;
+    }
+
+    @Override
+    protected void onProgressUpdate(String... values) {
+        super.onProgressUpdate(values);
+
+        Constants.chatsAdapter.add(values[0]);
+        Constants.chatListView.setAdapter(Constants.chatsAdapter);
     }
 }

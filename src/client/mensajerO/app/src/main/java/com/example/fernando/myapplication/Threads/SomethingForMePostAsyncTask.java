@@ -32,7 +32,8 @@ import java.util.List;
  * Created by fernando on 27/04/15.
  */
 public class SomethingForMePostAsyncTask extends AsyncTask<Pair<Context, String>, String, String> {
-
+    boolean serverError = false;
+    private Context context;
     @Override
     protected String doInBackground(Pair<Context, String>... params) {
 
@@ -40,7 +41,7 @@ public class SomethingForMePostAsyncTask extends AsyncTask<Pair<Context, String>
             try {
 
                 Thread.sleep(1000);
-
+                context = params[0].first;
                 String packageToSend = params[0].second;
                 String url = params[1].second;
                 String type = params[2].second;
@@ -50,7 +51,7 @@ public class SomethingForMePostAsyncTask extends AsyncTask<Pair<Context, String>
 
                 // Add name data to request
                 List<NameValuePair> nameValuePairs = new ArrayList<>(1);
-                nameValuePairs.add(new BasicNameValuePair("package", packageToSend));
+                nameValuePairs.add(new BasicNameValuePair("name", packageToSend));
                 httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 
                 //Execute HTTP Post Request
@@ -58,8 +59,10 @@ public class SomethingForMePostAsyncTask extends AsyncTask<Pair<Context, String>
                 if (response.getStatusLine().getStatusCode() == 200) {
                     allocateMessages(EntityUtils.toString(response.getEntity()));
 
+                }else {
+
+                    Toast.makeText(params[0].first, "Could't connect with server", Toast.LENGTH_LONG).show();
                 }
-                Toast.makeText(params[0].first, "Could't connect with server", Toast.LENGTH_LONG).show();
     //
     ////            // Execute HTTP GET Request
     ////            HttpResponse responseGET = httpClient.execute(httpGet);
@@ -69,15 +72,27 @@ public class SomethingForMePostAsyncTask extends AsyncTask<Pair<Context, String>
     ////            return "Error: " + responseGET.getStatusLine().getStatusCode() + " " + responseGET.getStatusLine().getReasonPhrase();
     //
             } catch (ClientProtocolException e) {
+                serverError = true;
                 return e.getMessage();
             } catch (IOException e) {
+                serverError = true;
                 return e.getMessage();
             } catch (InterruptedException e) {
+                serverError = true;
                 e.printStackTrace();
-                return null;
+                return "";
             }
         }
         return null;
+    }
+
+    @Override
+    protected void onPostExecute(String s) {
+        super.onPostExecute(s);
+
+        if (serverError)
+            Toast.makeText(context, "Could't connect with server", Toast.LENGTH_LONG).show();
+
     }
 
     private void allocateMessages(String response) {
@@ -88,10 +103,10 @@ public class SomethingForMePostAsyncTask extends AsyncTask<Pair<Context, String>
             try {
                 Message newMessage = Message.toMessage((JSONObject) newMessages.get(message));
 
-                for (int chat = 0; chat < Constants.userChats.size(); chat++) {
-                    if (Constants.userChats.get(chat).otherUser.compareTo(newMessage.emisor) == 0) {
-                        Constants.userChats.get(chat).messages.add(newMessage);
-                        chat = Constants.userChats.size();
+                for (int chat = 0; chat < Constants.user.chats.size(); chat++) {
+                    if (Constants.user.chats.get(chat).otherUser.compareTo(newMessage.emisor) == 0) {
+                        Constants.user.chats.get(chat).messages.add(newMessage);
+                        chat = Constants.user.chats.size();
                         createNewChat = false;
                     }
                 }

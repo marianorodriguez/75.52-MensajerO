@@ -163,8 +163,8 @@ public class LogInActivity extends ActionBarActivity implements View.OnClickList
             } else {
 
                 // user didn't entered username or password
-                Toast.makeText(getApplicationContext(), "Please enter username and password", Toast.LENGTH_LONG).show();
-
+                Toast.makeText(this,
+                        "Please enter username and password", Toast.LENGTH_LONG).show();
             }
 
         } else if (v.getId() == R.id.button2) {

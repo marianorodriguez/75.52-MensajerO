@@ -43,12 +43,16 @@ public class CurrentChatsPostAsyncTask extends AsyncTask<Pair<Context, String>, 
         HttpPost httpPost = new HttpPost(url);
 
         ArrayList<Chat> chats = new ArrayList<>();
+
         Chat oneChat = new Chat("juancito");
-        Message message = new Message(
-                "pepito",
-                "hola capo",
-                new Date().toString(),
-                new Time().toString() );
+        Message message = new Message("pepito", "hola capo", new Date().toString(), new Time().toString() );
+        oneChat.messages.add(message);
+        message = new Message("juancito", "hola genio", new Date().toString(), new Time().toString() );
+        oneChat.messages.add(message);
+        chats.add(oneChat);
+
+        oneChat = new Chat("fernando");
+        message = new Message("pepito", "hola capo", new Date().toString(), new Time().toString() );
         oneChat.messages.add(message);
         chats.add(oneChat);
 
