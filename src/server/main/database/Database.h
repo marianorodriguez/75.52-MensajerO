@@ -10,6 +10,7 @@
 
 #include <iostream>
 #include <algorithm>
+#include <string>
 #include <rocksdb/db.h>
 #include "json/json.h"
 #include "IPersistible.h"

@@ -37,14 +37,11 @@ void Database::write(vector<string> key, const string& value) {
 		throw exception;
 	}
 	string compoundKey = this->getKey(key);
-	rocksdb::Status status = database->Put(rocksdb::WriteOptions(), compoundKey,
-			value);
+	rocksdb::Status status = database->Put(rocksdb::WriteOptions(), compoundKey,value);
 	if (!status.ok()) {
 		InvalidKeyException exception("Invalid key.");
 		Logger* logger1 = Logger::getLogger();
-		logger1->write(Logger::ERROR,
-				"Error: " + status.ToString()
-						+ " Hubo un error al escribir en la base de datos de: "
+		logger1->write(Logger::ERROR, "Error: " + status.ToString()	+ " Hubo un error al escribir en la base de datos de: "
 						+ database->GetName() + " la key: " + compoundKey);
 	}
 }
@@ -56,8 +53,7 @@ string Database::read(vector<string> key) const {
 	}
 	string value = "";
 	string compoundKey = this->getKey(key);
-	rocksdb::Status status = database->Get(rocksdb::ReadOptions(), compoundKey,
-			&value);
+	rocksdb::Status status = database->Get(rocksdb::ReadOptions(), compoundKey,	&value);
 	if (!status.ok()) {
 		KeyNotFoundException exception("Key no encontrada: " + compoundKey);
 		throw exception;
@@ -72,8 +68,7 @@ void Database::erase(vector<string> key) {
 	if (!status.ok()) {
 		Logger* logger1 = Logger::getLogger();
 		logger1->write(Logger::ERROR,
-				"Error: " + status.ToString()
-						+ " Hubo un error al borrar de la base de datos de: "
+				"Error: " + status.ToString()	+ " Hubo un error al borrar de la base de datos de: "
 						+ database->GetName() + "la key: " + compoundKey);
 	}
 }
@@ -82,7 +77,9 @@ string Database::getKey(vector<string> key) const {
 	sort(key.begin(), key.end());
 	Json::Value returnKey;
 	for (unsigned int i = 0; i < key.size(); i++) {
-		returnKey["key"][key[i]] = key[i];
+		string integer = to_string(i);
+		//returnKey["key"][key[i]] = key[i];
+		returnKey.append(key[i]);
 	}
 	return returnKey.toStyledString();
 }
@@ -91,24 +88,28 @@ vector<string> Database::getAllKeys() const {
 
 	vector<string> keys;
 
-	//TODO implementar
-	/**
-	 * db.write("marian", "value1");
-	 * db.write("fran", "value2");
-	 *
-	 * vector<string> keys = db.getAllKeys();
-	 *
-	 * keys.size() == 2
-	 * keys.at(0) == "marian"
-	 * keys.at(1) == "fran"
-	 */
+	rocksdb::Iterator* it = this->database->NewIterator(rocksdb::ReadOptions());
+	for (it->SeekToFirst(); it->Valid(); it->Next()) {
+		Json::Value value;
+		Json::Reader reader;
+		reader.parse(it->key().ToString(),value);
+		string str (value[0].toStyledString());
+		str.erase (0, 1);
+		str.erase (str.size()-2,string::npos);
+		keys.push_back(str);
+	}
+	if (!it->status().ok()) {// Check for any errors found during the scan
+		Logger* logger1 = Logger::getLogger();
+		logger1->write(Logger::ERROR, "Error: Hubo un error al scannear la base de datos de: " + database->GetName());
+	}
+	delete it;
 
 	return keys;
 }
 
 void Database::close() {
 	delete database;
-	database = 0;
+	database = NULL;
 }
 
 Database::~Database() {
