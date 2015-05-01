@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Pair;
 
-import com.example.fernando.myapplication.Activities.ChatsHallActivity;
 import com.example.fernando.myapplication.Common.Constants;
 
 /**
@@ -22,16 +21,14 @@ public class RefreshChatsHallAsyncTask extends AsyncTask<Pair<Context, String>, 
                 e.printStackTrace();
             }
             if (Constants.user.chats.size() > currentChatsSize) {
-                currentChatsSize = Constants.user.chats.size();
 
-                for (int chat = (Constants.user.chats.size() - currentChatsSize);
+                for (int chat = currentChatsSize;
                      chat < Constants.user.chats.size();
                         chat++) {
 
                     publishProgress(Constants.user.chats.get(chat).otherUser);
-//                    Constants.chatsAdapter.add(Constants.user.chats.get(chat).otherUser);
                 }
-//                Constants.chatListView.setAdapter(Constants.chatsAdapter);
+                currentChatsSize = Constants.user.chats.size();
             }
         }
 

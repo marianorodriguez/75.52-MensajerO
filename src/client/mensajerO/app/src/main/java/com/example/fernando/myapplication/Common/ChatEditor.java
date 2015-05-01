@@ -26,8 +26,8 @@ public class ChatEditor {
 
             messageToRender = chat.messages.get(message);
 
-            chatView.append(messageToRender.date.toString());
-            chatView.append(" - " + messageToRender.hour.toString());
+            chatView.append(messageToRender.date);
+//            chatView.append(" - " + messageToRender.hour);
             chatView.append(" - " + messageToRender.emisor);
             chatView.append(": " + messageToRender.text + "\n");
 
@@ -45,8 +45,8 @@ public class ChatEditor {
 
             messageToRender = newMessages.get(message);
 
-            chatView.append(messageToRender.date.toString());
-            chatView.append(" - " + messageToRender.hour.toString());
+            chatView.append(messageToRender.date);
+//            chatView.append(" - " + messageToRender.hour);
             chatView.append(" - " + messageToRender.emisor);
             chatView.append(": " + messageToRender.text + "\n");
 

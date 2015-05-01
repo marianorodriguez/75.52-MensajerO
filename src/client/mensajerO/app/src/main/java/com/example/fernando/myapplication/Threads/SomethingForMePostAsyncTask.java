@@ -60,8 +60,8 @@ public class SomethingForMePostAsyncTask extends AsyncTask<Pair<Context, String>
                     allocateMessages(EntityUtils.toString(response.getEntity()));
 
                 }else {
-
-                    Toast.makeText(params[0].first, "Could't connect with server", Toast.LENGTH_LONG).show();
+                    publishProgress("serverError");
+                    //Toast.makeText(params[0].first, "Could't connect with server", Toast.LENGTH_LONG).show();
                 }
     //
     ////            // Execute HTTP GET Request
@@ -84,6 +84,15 @@ public class SomethingForMePostAsyncTask extends AsyncTask<Pair<Context, String>
             }
         }
         return null;
+    }
+
+    @Override
+    protected void onProgressUpdate(String... values) {
+        super.onProgressUpdate(values);
+
+        if (values[0].compareTo("serverError") == 0)
+            Toast.makeText(context, "Could't connect with server", Toast.LENGTH_LONG).show();
+
     }
 
     @Override

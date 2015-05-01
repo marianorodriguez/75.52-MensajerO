@@ -34,9 +34,10 @@ public class UsersActivity extends ActionBarActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.users);
 
-        Mocks.createFakeUsers();
-        Constants.otherUsers = Mocks.otherUsers;
-
+        if (Constants.otherUsers.size() == 0) {
+            Mocks.createFakeUsers();
+            Constants.otherUsers = Mocks.otherUsers;
+        }
 
         // dibujar los usuarios de la lista de usuarios Constants.users
         drawCurrentUsers();
@@ -74,6 +75,13 @@ public class UsersActivity extends ActionBarActivity implements View.OnClickList
 
     @Override
     public void onClick(View v) {
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        refreshUsers.cancel(true);
     }
 
     private void drawCurrentUsers(){

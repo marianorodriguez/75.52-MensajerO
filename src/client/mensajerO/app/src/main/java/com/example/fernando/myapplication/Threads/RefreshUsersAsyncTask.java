@@ -23,16 +23,15 @@ public class RefreshUsersAsyncTask extends AsyncTask<Pair<Context, String>, Stri
             }
             if (Constants.otherUsers.size() > currentUsersSize) {
 
-                currentUsersSize = Constants.otherUsers.size();
 
-                for (int user = (Constants.otherUsers.size() - currentUsersSize);
+
+                for (int user = currentUsersSize;
                      user < Constants.otherUsers.size();
                      user++) {
 
-                    Constants.usersAdapter.add(Constants.otherUsers.get(user).username);
+                    publishProgress(Constants.otherUsers.get(user).username);
                 }
-                Constants.usersListView.setAdapter(Constants.usersAdapter);
-
+                currentUsersSize = Constants.otherUsers.size();
             }
         }
 

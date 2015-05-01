@@ -114,7 +114,13 @@ public class LogInActivity extends ActionBarActivity implements View.OnClickList
                         new Pair<Context, String>(this, Constants.logInUrl),
                         new Pair<Context, String>(this, "post"));
 
-                while (Constants.logInOk.compareTo("") == 0) {}
+                while (Constants.logInOk.compareTo("") == 0) {
+                    try {
+                        Thread.sleep(10);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
 
                 if (Constants.logInOk.contains("Error")) {}
 

@@ -75,6 +75,7 @@ public class ChatActivity extends ActionBarActivity implements View.OnClickListe
     @Override
     protected void onDestroy() {
         super.onDestroy();
+
         refreshChat.cancel(true);
     }
 }

@@ -139,9 +139,11 @@ public class ChatsHallActivity extends ActionBarActivity implements View.OnClick
     protected void onDestroy() {
         super.onDestroy();
 
-        somethingForMePost.cancel(true);
-        usersPost.cancel(true);
-        refreshChats.cancel(true);
+        if (somethingForMePost != null) {
+            somethingForMePost.cancel(true);
+            usersPost.cancel(true);
+            refreshChats.cancel(true);
+        }
 
         // GUARDAR CHATS en sharedPreferences !
         if (Constants.user != null) {

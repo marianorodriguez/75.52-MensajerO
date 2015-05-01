@@ -52,7 +52,11 @@ public class Mocks {
         otherUsers.add(newUser);
         newUser = new User("fernando");
         otherUsers.add(newUser);
-        newUser = new User("mariano");
+        newUser = new User("marian");
+        otherUsers.add(newUser);
+        newUser = new User("fran");
+        otherUsers.add(newUser);
+        newUser = new User("matias");
         otherUsers.add(newUser);
     }
 
