@@ -88,13 +88,11 @@ public class Packager {
 //        return packageEncoded;
     }
 
-    public String wrap(JSONObject mockResponse) {
-
-        String resp = mockResponse.toString();
+    public String wrap(String response) {
 
         byte[] data;
         try {
-            data = resp.getBytes("UTF-8");
+            data = response.getBytes("UTF-8");
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
             return null;
@@ -104,6 +102,13 @@ public class Packager {
         packageEncoded = packageEncoded.replaceAll("(?:\\r\\n|\\n\\r|\\n|\\r)", "");
 
         return packageEncoded;
+    }
+
+    public String wrap(JSONObject mockResponse) {
+
+        String resp = mockResponse.toString();
+
+        return wrap(resp);
 
     }
 

@@ -1,13 +1,13 @@
 <resources>
     <string name="app_name">MensajerO</string>
 
-    <string name="logIn">MensajerO - LogIn</string>
-    <string name="signUp">MensajerO - SignUp</string>
+    <string name="logIn">LOG IN</string>
+    <string name="signUp">SIGN UP</string>
 
-    <string name="config">MensajerO - Configuration</string>
-    <string name="users">MensajerO - Users</string>
-    <string name="chatsHall">MensajerO</string>
-    <string name="chat">MensajerO - Chat with: </string>
+    <string name="config">SETTINGS</string>
+    <string name="users">USERS</string>
+    <string name="chatsHall">CHATS</string>
+    <string name="chat">Chat with </string>
 
     <string name="textview">- WELCOME -</string>
     <string name="action_settings">Settings</string>
