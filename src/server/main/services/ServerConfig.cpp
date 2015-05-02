@@ -8,7 +8,7 @@
 #include "services/UsersService.h"
 #include "SomethingForMeService.h"
 
-ServerConfig::ServerConfig(const std::string& configPath){
+ServerConfig::ServerConfig(const ServerOptions& options){
 }
 
 void ServerConfig::configure(RestServer& server){

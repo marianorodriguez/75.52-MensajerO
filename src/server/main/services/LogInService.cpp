@@ -10,6 +10,7 @@ void LogInService::executeRequest(const Connection& connection) const {
 	string username = connection.getParamMap()[SERVICE_USERNAME];
 	string password = connection.getParamMap()[SERVICE_PASSWORD];
 
+	// TODO quitar hardcodeo
 	Database db(DATABASE_USERS_PATH);
 	vector<string> key;
 	key.push_back(username);

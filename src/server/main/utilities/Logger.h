@@ -36,6 +36,12 @@ public:
 	static Logger* getLogger();
 
 	/**
+	 * Usado para llamar al logger. Si nunca antes fue llamado, se instanciará.
+	 * La dirección del archivo de texto puede ser configurada en config.h
+	 */
+	static void destroy();
+
+	/**
 	 * @param level El tipo de evento.
 	 * @param text Descripcion del evento.
 	 *

@@ -93,11 +93,16 @@ Logger::~Logger() {
 
 Logger* Logger::getLogger() {
 	if (!logInstance){
-		constructorMutex.lock();
+		Lock lock(constructorMutex);
 		if (!logInstance){ // Sigue siendo poco thread-safe, pero muy poco
 			logInstance = new Logger(JSON_CONFIG_FILE);
 		}
-		constructorMutex.unlock();
 	}
 	return logInstance;
+}
+
+void Logger::destroy(){
+	Lock lock(constructorMutex);
+	delete logInstance;
+	logInstance = 0;
 }

@@ -1,20 +1,17 @@
 #ifndef SERVERCONFIG_H
 #define SERVERCONFIG_H
-#include <string>
 #include "services/RestServer.h"
+#include <ServerOptions.h>
 
 class ServerConfig{
 public:
-	//TODO Analizar que parámetros requiere para cargar configuraciones
-	ServerConfig(const std::string& configPath = "");
+	ServerConfig(const ServerOptions& options);
 	/**
 	 * Configura el servidor
 	 */
 	void configure(RestServer& server);
 protected:
 	void addServiceCreators(RestServer& server);
-private:	
-	static const std::string kDefaultConfigPath;
 };
 
 #endif // SERVERCONFIG_H

@@ -14,14 +14,14 @@ void ArgsParserTests::tearDown(){
 void ArgsParserTests::testEmptyArgs(){
 	// Argumentos a main() cuando llamo la aplicación sin argumentos
 	int argc = 1;
-	char* argv[] = {"test"};
+	const char* argv[] = {"test"};
 	OptionMap map = ArgsParser::parseArgs(argc, argv);
 	CPPUNIT_ASSERT_MESSAGE("El mapa deberia ser vacio", map.size() == 0);
 }
 
 void ArgsParserTests::testValidArgs(){
 	int argc = 4;
-	char* argv[] = {"test", "-p", "8080", "-ddb/path"};
+	const char* argv[] = {"test", "-p", "8080", "-ddb/path"};
 	OptionMap map = ArgsParser::parseArgs(argc, argv);
 	OptionMap::const_iterator it = map.find(ArgsParser::kServerPortKey);
 	CPPUNIT_ASSERT_MESSAGE("No se encontro la opcion de puerto",
@@ -37,7 +37,7 @@ void ArgsParserTests::testValidArgs(){
 
 void ArgsParserTests::testLongValidArgs(){
 	int argc = 4;
-	char* argv[] = {"test", "-p", "8080", "--database=db/path"};
+	const char* argv[] = {"test", "-p", "8080", "--database=db/path"};
 	OptionMap map = ArgsParser::parseArgs(argc, argv);
 	OptionMap::const_iterator it = map.find(ArgsParser::kServerPortKey);
 	CPPUNIT_ASSERT_MESSAGE("No se encontro la opcion larga de puerto",
@@ -53,7 +53,7 @@ void ArgsParserTests::testLongValidArgs(){
 
 void ArgsParserTests::testInvalidArgs(){
 	int argc = 4;
-	char* argv[] = {"test", "-x", "--config", "config/path", "-a"};
+	const char* argv[] = {"test", "-x", "--config", "config/path", "-a"};
 	OptionMap map = ArgsParser::parseArgs(argc, argv);
 	CPPUNIT_ASSERT_MESSAGE("No se parsearon los argumentos correctamente",
 							map.size() == 1);

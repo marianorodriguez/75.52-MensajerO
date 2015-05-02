@@ -17,6 +17,10 @@ public:
 	 */
 	ServerOptions(const OptionMap& optionMap);
 	/**
+	 * Carga las opciones del mapa
+	 */
+	void loadOptions(const OptionMap& optionMap);
+	/**
 	 * Obtiene la ruta al directorio del archivo de configuracion
 	 */
 	std::string getConfigPath();
@@ -69,7 +73,7 @@ public:
 	 * Toma los argumentos con los que fue iniciada la aplicación y los
 	 * carga en un mapa de strings
 	 */
-	static OptionMap parseArgs(int argc, char** argv);
+	static OptionMap parseArgs(int argc, const char** argv);
 	static const std::string kAliveTimeKey;
 	static const std::string kConfigKey;
 	static const std::string kDatabaseKey;

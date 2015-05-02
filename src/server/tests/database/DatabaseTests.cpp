@@ -12,7 +12,7 @@
 
 CPPUNIT_TEST_SUITE_REGISTRATION(DatabaseTests);
 
-string pathTest = "src/server/tests/database/testdb";
+string pathTest = "tests/database/testdb";
 
 void DatabaseTests::should_write_and_read_single_key() {
 	Database db(pathTest);

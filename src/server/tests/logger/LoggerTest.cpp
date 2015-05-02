@@ -51,7 +51,7 @@ void LoggerTest::should_be_singleton() {
 	CPPUNIT_ASSERT(logger2 == logger3);
 	CPPUNIT_ASSERT(logger1 == logger3);
 
-	delete logger1;
+	Logger::destroy();
 }
 
 void LoggerTest::should_instantiate_logger() {
@@ -60,7 +60,7 @@ void LoggerTest::should_instantiate_logger() {
 
 	CPPUNIT_ASSERT(logger != NULL);
 
-	delete logger;
+	Logger::destroy();
 }
 
 void LoggerTest::should_return_log_path() {
@@ -80,7 +80,7 @@ void LoggerTest::should_return_log_path() {
 
 	CPPUNIT_ASSERT(logDir == logger->getLogDir());
 
-	delete logger;
+	Logger::destroy();
 }
 
 void LoggerTest::should_return_loggingLevels() {
@@ -91,7 +91,7 @@ void LoggerTest::should_return_loggingLevels() {
 	CPPUNIT_ASSERT(logger->getWriteLevel(Logger::INFO) == "INFO");
 	CPPUNIT_ASSERT(logger->getWriteLevel(Logger::DEBUG) == "DEBUG");
 
-	delete logger;
+	Logger::destroy();
 }
 
 void LoggerTest::should_write_only_a_debug() {
@@ -117,7 +117,7 @@ void LoggerTest::should_write_only_a_debug() {
 	CPPUNIT_ASSERT(errorFound == string::npos);
 	CPPUNIT_ASSERT(InfoFound == string::npos);
 
-	delete logger;
+	Logger::destroy();
 }
 
 void LoggerTest::should_write_only_an_error() {
@@ -143,7 +143,7 @@ void LoggerTest::should_write_only_an_error() {
 	CPPUNIT_ASSERT(warnFound == string::npos);
 	CPPUNIT_ASSERT(InfoFound == string::npos);
 
-	delete logger;
+	Logger::destroy();
 }
 
 void LoggerTest::should_write_only_a_warning() {
@@ -169,7 +169,7 @@ void LoggerTest::should_write_only_a_warning() {
 	CPPUNIT_ASSERT(errorFound == string::npos);
 	CPPUNIT_ASSERT(InfoFound == string::npos);
 
-	delete logger;
+	Logger::destroy();
 }
 
 void LoggerTest::should_write_only_an_info() {
@@ -195,7 +195,7 @@ void LoggerTest::should_write_only_an_info() {
 	CPPUNIT_ASSERT(warnFound == string::npos);
 	CPPUNIT_ASSERT(errorFound == string::npos);
 
-	delete logger;
+	Logger::destroy();
 }
 
 void LoggerTest::should_throw_file_not_found_exception() {

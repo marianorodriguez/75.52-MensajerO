@@ -1,12 +1,15 @@
 #include <getopt.h>
 #include <iostream>
 #include <fstream>
+#include <map>
 #include "json.h"
 #include "ServerOptions.h"
+#include "utilities/NumberConverter.h"
 
 
 const std::string ServerOptions::kJsonServerRoot("server");
 const std::string ServerOptions::kDefaultConfigPath("config.json");
+// Valores default de onfigurables
 const std::string ServerOptions::kDefaultDatabasePath("database");
 const int ServerOptions::kDefaultPollDelay = 1000;
 const int ServerOptions::kDefaultServerPort = 8081;
@@ -17,14 +20,38 @@ ServerOptions::ServerOptions(){
 	OptionMap fileOptions = loadValuesFromFile();
 }
 
-ServerOptions::ServerOptions(const OptionMap& optionMap){
+ServerOptions::ServerOptions(const OptionMap& consoleOptions){
 	loadDefaultValues();
-	OptionMap::const_iterator it = optionMap.find(ArgsParser::kConfigKey);
-	if (it != optionMap.end()){
+	OptionMap::const_iterator it = consoleOptions.find(ArgsParser::kConfigKey);
+	if (it != consoleOptions.end()){
 		this->configPath = it->second;
 	}
+	OptionMap optionMap(consoleOptions);
 	OptionMap fileOptions = loadValuesFromFile();
+	// Priorizo los valores de la consola a los del json
+	optionMap.insert(fileOptions.begin(), fileOptions.end());
+	loadOptions(optionMap);
 }
+
+void ServerOptions::loadOptions(const OptionMap& optionMap){
+	OptionMap::const_iterator it = optionMap.find(ArgsParser::kDatabaseKey);
+	if (it != optionMap.end()){
+		this->databasePath = it->second;
+	}
+	it = optionMap.find(ArgsParser::kServerPortKey);
+	if (it != optionMap.end()){
+		this->serverPort = NumberConverter::getNumber(it->second);
+	}
+	it = optionMap.find(ArgsParser::kPollDelayKey);
+	if (it != optionMap.end()){
+		this->pollDelay = NumberConverter::getNumber(it->second);
+	}
+	it = optionMap.find(ArgsParser::kAliveTimeKey);
+	if (it != optionMap.end()){
+		this->userAliveTime = NumberConverter::getNumber(it->second);
+	}
+}
+
 
 void ServerOptions::loadDefaultValues(){
 	this->configPath = kDefaultConfigPath;
@@ -37,10 +64,6 @@ void ServerOptions::loadDefaultValues(){
 OptionMap ServerOptions::loadValuesFromFile(){
 	// Intento levantar con la ruta completa
 	std::ifstream configFile(this->configPath);
-	if (!configFile.is_open()){
-		this->configPath.append(kDefaultConfigPath);
-		configFile.open(this->configPath);
-	}
 	if (!configFile.is_open()){
 		OptionMap map;
 		return map;
@@ -58,9 +81,14 @@ OptionMap ServerOptions::parseJson(std::ifstream& configFile){
 	if (parsingSuccessful) {
 		// TODO integrar configuracion del logger
 		serverNode = jsonRoot[kJsonServerRoot];
-		/**logDir = json_logger.get("logDir", DEFAULT_LOGGING_FILE).asString();
-		this->file.open(this->logDir.c_str(), ofstream::trunc);
-		setLoggingLevels();**/
+		options[ArgsParser::kAliveTimeKey] = serverNode.get(
+			ArgsParser::kAliveTimeKey, kDefaultUserAliveTime).asString();
+		options[ArgsParser::kDatabaseKey] = serverNode.get(
+			ArgsParser::kDatabaseKey, kDefaultDatabasePath).asString();
+		options[ArgsParser::kPollDelayKey] = serverNode.get(
+			ArgsParser::kPollDelayKey, kDefaultPollDelay).asString();
+		options[ArgsParser::kServerPortKey] = serverNode.get(
+			ArgsParser::kServerPortKey, kDefaultServerPort).asString();
 	}
 	return options;
 }
@@ -92,8 +120,9 @@ const std::string ArgsParser::kDatabaseKey("database");
 const std::string ArgsParser::kPollDelayKey("pollDelay");
 const std::string ArgsParser::kServerPortKey("port");
 
-OptionMap ArgsParser::parseArgs(int argc, char** argv){
+OptionMap ArgsParser::parseArgs(int argc, const char** argv){
 	OptionMap optionMap;
+	char** optv = const_cast<char**>(argv);
 	struct option longOptions[] =
 	{
 		{kAliveTimeKey.c_str(), required_argument, 0, 'a'},
@@ -106,7 +135,7 @@ OptionMap ArgsParser::parseArgs(int argc, char** argv){
 	};
 	bool hasOptions = true;
 	while (hasOptions){
-		char c = getopt_long (argc, argv, "a:c:d:p:P:h", longOptions, 0);
+		char c = getopt_long (argc, optv, "a:c:d:p:P:h", longOptions, 0);
 		if (c == -1){
 			hasOptions = false;
 		}
