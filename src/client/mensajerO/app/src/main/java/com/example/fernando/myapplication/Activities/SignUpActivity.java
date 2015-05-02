@@ -66,7 +66,13 @@ public class SignUpActivity extends ActionBarActivity implements View.OnClickLis
                         new Pair<Context, String>(this,Constants.signUpUrl),
                         new Pair<Context, String>(this, "post"));
 
-                while (Constants.signUpOk.compareTo("") == 0) {}
+                while (Constants.signUpOk.compareTo("") == 0) {
+                    try {
+                        Thread.sleep(10);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
 
                 if (Constants.signUpOk.contains("Error")) {}
 
@@ -79,10 +85,13 @@ public class SignUpActivity extends ActionBarActivity implements View.OnClickLis
                     e.commit();
 
                 } else {
-                    Toast.makeText(this, "Nombre de usuario invalido. Ingrese nuevamente.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, "Invalid username. Try another one.", Toast.LENGTH_LONG).show();
                     currentUser = null;
                     txtUsername.setText("");
                     txtPassword.setText("");
+
+                    Constants.signUpOk = "";
+                    signUpPost = new SignUpPostAsyncTask();
                     return;
                 }
 
@@ -92,7 +101,7 @@ public class SignUpActivity extends ActionBarActivity implements View.OnClickLis
                 Intent config = new Intent(this, ConfigurationActivity.class);
                 startActivity(config);
 
-                // y hacer finish de log in tambien !!!!!!!!!!!!!
+                // hago finish de log in tambien
                 Intent myIntent = new Intent(LogInActivity.ACTION_CLOSE);
                 sendBroadcast(myIntent);
 
@@ -101,7 +110,8 @@ public class SignUpActivity extends ActionBarActivity implements View.OnClickLis
             } else {
 
                 // user didn't entered username or password
-                Toast.makeText(getApplicationContext(), "Please enter username and password", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(),
+                        "Please enter username and password", Toast.LENGTH_LONG).show();
 
             }
 

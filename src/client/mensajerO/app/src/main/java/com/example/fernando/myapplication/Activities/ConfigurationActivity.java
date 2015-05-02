@@ -12,6 +12,7 @@ import android.util.Pair;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
+import android.widget.Toast;
 
 import com.example.fernando.myapplication.Common.Constants;
 import com.example.fernando.myapplication.Common.User;
@@ -29,6 +30,10 @@ public class ConfigurationActivity extends ActionBarActivity implements View.OnC
 
     ConfigPostAsyncTask configPost;
 
+    RadioButton online;
+    RadioButton offline;
+    RadioButton out;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,6 +46,14 @@ public class ConfigurationActivity extends ActionBarActivity implements View.OnC
 
         Button button2 = (Button) findViewById(R.id.button2);
         button2.setOnClickListener(this);
+
+        offline = (RadioButton) findViewById(R.id.offline);
+        out = (RadioButton) findViewById(R.id.out);
+        online = (RadioButton) findViewById(R.id.online);
+        offline.setOnClickListener(this);
+        out.setOnClickListener(this);
+        online.setOnClickListener(this);
+
 
         // PARA AGARRAR LA FOTO DEL FILE SYSTEM !!
 //        loadFileList();
@@ -66,27 +79,31 @@ public class ConfigurationActivity extends ActionBarActivity implements View.OnC
                     new Pair<Context, String>(this, Constants.setConfigUrl),
                     new Pair<Context, String>(this, "post"));
 
-            boolean ok = true;
-            if (ok) {
-//                TOCAR CONSTANTS
+            while (Constants.configOK.compareTo("") == 0) {
+                try {
+                    Thread.sleep(10);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            if (Constants.configOK.contains("Error")) {
+                Toast.makeText(this, "Could't connect with server", Toast.LENGTH_LONG).show();
+            }
+
+            if (Constants.signUpOk.compareTo("true") == 0) {
                 finish();
             } else {
-                // tirar toast de que no se pudo conectar con el server, verifique su conexion
+                finish();
             }
 
         } else if (v.getId() == R.id.online) {
-            RadioButton offline = (RadioButton) findViewById(R.id.offline);
-            RadioButton out = (RadioButton) findViewById(R.id.out);
             offline.setChecked(false);
             out.setChecked(false);
         } else if (v.getId() == R.id.offline) {
-            RadioButton online = (RadioButton) findViewById(R.id.online);
-            RadioButton out = (RadioButton) findViewById(R.id.out);
             online.setChecked(false);
             out.setChecked(false);
         } else if (v.getId() == R.id.out) {
-            RadioButton offline = (RadioButton) findViewById(R.id.offline);
-            RadioButton online = (RadioButton) findViewById(R.id.online);
             offline.setChecked(false);
             online.setChecked(false);
         }
@@ -95,7 +112,8 @@ public class ConfigurationActivity extends ActionBarActivity implements View.OnC
     private String[] mFileList;
     private File mPath = new File(Environment.getExternalStorageDirectory() + "/Download");
     private String mChosenFile;
-    private static final String FTYPE = ".apk";
+    private static final String FTYPE = ".jpg";
+    private static final String FTYPE2 = ".png";
     private static final int DIALOG_LOAD_FILE = 1000;
 
     private void loadFileList() {
@@ -111,7 +129,7 @@ public class ConfigurationActivity extends ActionBarActivity implements View.OnC
                 @Override
                 public boolean accept(File dir, String filename) {
                     File sel = new File(dir, filename);
-                    return filename.contains(FTYPE) || sel.isDirectory();
+                    return filename.contains(FTYPE) || filename.contains(FTYPE2) || sel.isDirectory();
                 }
 
             };

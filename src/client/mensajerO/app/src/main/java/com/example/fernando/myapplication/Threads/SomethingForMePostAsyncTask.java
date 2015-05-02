@@ -25,6 +25,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,29 +40,28 @@ public class SomethingForMePostAsyncTask extends AsyncTask<Pair<Context, String>
 
         while (!isCancelled()) {
             try {
-
                 Thread.sleep(1000);
                 context = params[0].first;
-                String packageToSend = params[0].second;
-                String url = params[1].second;
-                String type = params[2].second;
 
-                HttpClient httpClient = new DefaultHttpClient();
-                HttpPost httpPost = new HttpPost(url);
+                if ( Constants.server != null ) {
+                    String response = Constants.server.somethingForMe(params[0].second);
 
-                // Add name data to request
-                List<NameValuePair> nameValuePairs = new ArrayList<>(1);
-                nameValuePairs.add(new BasicNameValuePair("name", packageToSend));
-                httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+                    allocateMessages(response);
+                    return "";
 
-                //Execute HTTP Post Request
-                HttpResponse response = httpClient.execute(httpPost);
-                if (response.getStatusLine().getStatusCode() == 200) {
-                    allocateMessages(EntityUtils.toString(response.getEntity()));
+                } else {
+                    HttpResponse response = doRequest(params);
 
-                }else {
-                    publishProgress("serverError");
-                    //Toast.makeText(params[0].first, "Could't connect with server", Toast.LENGTH_LONG).show();
+                    if (response.getStatusLine().getStatusCode() == 200) {
+
+                        allocateMessages(EntityUtils.toString(response.getEntity()));
+                        return EntityUtils.toString(response.getEntity());
+
+                    } else {
+                        publishProgress("serverError");
+                        //Toast.makeText(params[0].first, "Could't connect with server", Toast.LENGTH_LONG).show();
+                    }
+                    return "Error: " + response.getStatusLine().getStatusCode() + " " + response.getStatusLine().getReasonPhrase();
                 }
     //
     ////            // Execute HTTP GET Request
@@ -71,17 +71,44 @@ public class SomethingForMePostAsyncTask extends AsyncTask<Pair<Context, String>
     ////            }
     ////            return "Error: " + responseGET.getStatusLine().getStatusCode() + " " + responseGET.getStatusLine().getReasonPhrase();
     //
-            } catch (ClientProtocolException e) {
-                serverError = true;
-                return e.getMessage();
-            } catch (IOException e) {
-                serverError = true;
-                return e.getMessage();
+
             } catch (InterruptedException e) {
                 serverError = true;
                 e.printStackTrace();
                 return "";
+            } catch (IOException e) {
+                serverError = true;
+                e.printStackTrace();
+                return "";
             }
+        }
+        return null;
+    }
+
+    private HttpResponse doRequest(Pair<Context, String>... params) {
+        try {
+            String package_ = params[0].second;
+            String url = params[1].second;
+            String type = params[2].second;
+
+            HttpClient httpClient = new DefaultHttpClient();
+            HttpPost httpPost = new HttpPost(url);
+
+            // Add name data to request
+            List<NameValuePair> nameValuePairs = new ArrayList<>(1);
+            nameValuePairs.add(new BasicNameValuePair("package", package_));
+            httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+
+            // Execute HTTP Post Request
+            HttpResponse response = httpClient.execute(httpPost);
+
+            return response;
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (ClientProtocolException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
         return null;
     }

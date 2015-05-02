@@ -22,6 +22,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -87,6 +88,34 @@ public class CurrentChatsPostAsyncTask extends AsyncTask<Pair<Context, String>, 
 //        } catch (IOException e) {
 //            return e.getMessage();
 //        }
+    }
+
+    private HttpResponse doRequest(Pair<Context, String>... params) {
+        try {
+            String package_ = params[0].second;
+            String url = params[1].second;
+            String type = params[2].second;
+
+            HttpClient httpClient = new DefaultHttpClient();
+            HttpPost httpPost = new HttpPost(url);
+
+            // Add name data to request
+            List<NameValuePair> nameValuePairs = new ArrayList<>(1);
+            nameValuePairs.add(new BasicNameValuePair("package", package_));
+            httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+
+            // Execute HTTP Post Request
+            HttpResponse response = httpClient.execute(httpPost);
+
+            return response;
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (ClientProtocolException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @Override

@@ -7,6 +7,7 @@ import android.widget.ListView;
 
 import com.example.fernando.myapplication.Activities.ChatsHallActivity;
 import com.example.fernando.myapplication.Activities.UsersActivity;
+import com.example.fernando.myapplication.Mocks.Server;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -56,6 +57,7 @@ final public class Constants//final to prevent instantiation
     public static ChatsHallActivity.StableArrayAdapter chatsAdapter = null;
     public static ListView usersListView = null;
     public static UsersActivity.StableArrayAdapter usersAdapter = null;
+    public static Server server = new Server();
 
     //private constructor to prevent instantiation/inheritance
     private Constants() {}

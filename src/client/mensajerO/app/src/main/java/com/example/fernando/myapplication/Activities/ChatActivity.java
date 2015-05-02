@@ -28,7 +28,7 @@ public class ChatActivity extends ActionBarActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.chat);
 
-        setTitle(getResources().getString(R.string.chat).concat(Constants.chatWith));
+        setTitle(getResources().getString(R.string.chat).concat(" " + Constants.chatWith));
 
         TextView chat = (TextView) findViewById(R.id.chat);
 

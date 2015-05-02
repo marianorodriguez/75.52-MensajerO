@@ -6,7 +6,7 @@
 
     <string name="config">SETTINGS</string>
     <string name="users">USERS</string>
-    <string name="chatsHall">CHATS</string>
+    <string name="chatsHall">MensajerO</string>
     <string name="chat">Chat with </string>
 
     <string name="textview">- WELCOME -</string>

@@ -23,6 +23,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,78 +34,81 @@ public class LogInPostAsyncTask extends AsyncTask<Pair<Context, String>, String,
     @Override
     protected String doInBackground(Pair<Context, String>... params) {
         //        context = params[0].first;
-        String name = params[0].second;
 
-        String url = params[1].second;
+        if ( Constants.server != null ) {
+            String response = Constants.server.logIn(params[0].second);
 
-        String type = params[2].second;
+            try {
 
-        HttpClient httpClient = new DefaultHttpClient();
-        HttpPost httpPost = new HttpPost(url);
+                JSONObject resp = Constants.packager.unwrap(response);
 
-//        Constants.logInOk = "true";
+                Constants.logInOk = resp.getString("ok");
 
-        try {
+                return "";
 
-            JSONObject response = Constants.packager.unwrap(Mocks.wrapLogInResponse("true"));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return null;
+        } else {
+            HttpResponse response = doRequest(params);
 
-            Constants.logInOk = response.getString("ok");
+            if (response.getStatusLine().getStatusCode() == 200) {
+                try {
 
-        } catch (JSONException e) {
-            e.printStackTrace();
+                    JSONObject respons = Constants.packager.unwrap(EntityUtils.toString(response.getEntity()));
+
+                    Constants.logInOk = respons.getString("ok");
+
+                    return EntityUtils.toString(response.getEntity());
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            return "Error: " + response.getStatusLine().getStatusCode() + " " + response.getStatusLine().getReasonPhrase();
         }
-        return "";
+//            // Execute HTTP GET Request
+//            HttpResponse responseGET = httpClient.execute(httpGet);
+//            if (responseGET.getStatusLine().getStatusCode() == 200) {
+//                return EntityUtils.toString(responseGET.getEntity());
+//            }
+//            return "Error: " + responseGET.getStatusLine().getStatusCode() + " " + responseGET.getStatusLine().getReasonPhrase();
 
-//        try {
-//            // Add name data to request
-//            List<NameValuePair> nameValuePairs = new ArrayList<>(1);
-//            nameValuePairs.add(new BasicNameValuePair("package", name));
-//            httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-//
-//
-//
-//            // Execute HTTP Post Request
-////            HttpResponse response = httpClient.execute(httpPost);
-////            if (response.getStatusLine().getStatusCode() == 200) {
+    }
 
-//                    try {
-//
-//                        JSONObject response = Constants.packager.unwrap(EntityUtils.toString(response.getEntity());
-//
-//                        Constants.logInOk = response.getString("ok");
-//
-//                    } catch (JSONException e) {
-//                        e.printStackTrace();
-//                    }
-////                return EntityUtils.toString(response.getEntity());
-////            }
-////            return "Error: " + response.getStatusLine().getStatusCode() + " " + response.getStatusLine().getReasonPhrase();
-//
-////            // Execute HTTP GET Request
-////            HttpResponse responseGET = httpClient.execute(httpGet);
-////            if (responseGET.getStatusLine().getStatusCode() == 200) {
-////                return EntityUtils.toString(responseGET.getEntity());
-////            }
-////            return "Error: " + responseGET.getStatusLine().getStatusCode() + " " + responseGET.getStatusLine().getReasonPhrase();
-//
-////        } catch (ClientProtocolException e) {
-////            return e.getMessage();
-//        } catch (IOException e) {
-//            return e.getMessage();
-//        }
+    private HttpResponse doRequest(Pair<Context, String>... params) {
+        try {
+            String package_ = params[0].second;
+            String url = params[1].second;
+            String type = params[2].second;
+
+            HttpClient httpClient = new DefaultHttpClient();
+            HttpPost httpPost = new HttpPost(url);
+
+            // Add name data to request
+            List<NameValuePair> nameValuePairs = new ArrayList<>(1);
+            nameValuePairs.add(new BasicNameValuePair("package", package_));
+            httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+
+            // Execute HTTP Post Request
+            HttpResponse response = httpClient.execute(httpPost);
+
+            return response;
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            } catch (ClientProtocolException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        return null;
     }
 
     @Override
     protected void onPostExecute(String result) {
-//        try {
-//
-//            JSONObject response = Constants.packager.unwrap(result);
-//
-//            Constants.logInOk = response.getString("ok");
-//
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
-    }
 
+    }
 }

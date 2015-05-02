@@ -108,8 +108,6 @@ public class LogInActivity extends ActionBarActivity implements View.OnClickList
 
                 String package_ = Constants.packager.wrap("logIn", currentUser);
 
-                System.out.println(package_);
-
                 logInPost.execute(new Pair<Context, String>(this, package_),
                         new Pair<Context, String>(this, Constants.logInUrl),
                         new Pair<Context, String>(this, "post"));
@@ -134,7 +132,7 @@ public class LogInActivity extends ActionBarActivity implements View.OnClickList
 
                 } else {
 
-                    Toast.makeText(this, "Nombre de usuario y/o contrasenia invalidos. Ingrese nuevamente.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, "Invalid username and/or password. Enter data again or sign up in MensajerO.", Toast.LENGTH_LONG).show();
                     currentUser = null;
                     txtPassword.setText("");
                     txtUsername.setText("");

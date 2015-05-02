@@ -1,8 +1,10 @@
 package com.example.fernando.myapplication.Mocks;
 
 import android.annotation.TargetApi;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.util.ArrayMap;
+import android.util.Pair;
 
 import com.example.fernando.myapplication.Common.Chat;
 import com.example.fernando.myapplication.Common.Constants;
@@ -13,15 +15,21 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import android.content.SharedPreferences;
 
 /**
  * Created by fernando on 01/05/15.
  */
+@TargetApi(Build.VERSION_CODES.KITKAT)
 public class Server {
-    ArrayList<String> loguedUsers;
+    public ArrayList<String> loguedUsers = new ArrayList<>();
 
     // user para el qe es el message, mensajes
-    ArrayMap<String, ArrayList<Message>> newMessages;
+    ArrayList<Pair<String, ArrayList<Message>>> newMessages = new ArrayList<>();
+
+    public Server() {
+
+    }
 
     public String logIn (String userPackage) {
 
@@ -90,7 +98,6 @@ public class Server {
         }
     }
 
-    @TargetApi(Build.VERSION_CODES.KITKAT)
     public String somethingForMe (String userPackage) {
         JSONObject userP = Constants.packager.unwrap(userPackage);
 
@@ -99,8 +106,15 @@ public class Server {
             String username = userP.getString("username");
 
             JSONObject response = new JSONObject();
+            ArrayList<Message> newM = new ArrayList<>();
 
-            ArrayList<Message> newM = newMessages.get(username);
+            for (int user = 0; user < newMessages.size(); user++) {
+                if (newMessages.get(user).first.compareTo(username) == 0) {
+                    newM = newMessages.get(user).second;
+                    break;
+                }
+            }
+
             JSONArray messages = new JSONArray();
 
             for (int message = 0; message < newM.size(); message++) {
@@ -110,7 +124,7 @@ public class Server {
 
             response.put("messages", messages);
 
-            newMessages.get(username).clear();
+            newM.clear();
 
             String resp = Constants.packager.wrap(response);
             return resp;
@@ -160,7 +174,6 @@ public class Server {
 
     }
 
-    @TargetApi(Build.VERSION_CODES.KITKAT)
     public String sendMessage (String userPackage) {
         JSONObject userP = Constants.packager.unwrap(userPackage);
 
@@ -172,7 +185,12 @@ public class Server {
             Message newMessage = new Message(username, msg_text,
                     "date", "hour");
 
-            newMessages.get(msg_to).add(newMessage);
+            for (int user = 0; user < newMessages.size(); user++) {
+                if (newMessages.get(user).first.compareTo(username) == 0) {
+                    newMessages.get(user).second.add(newMessage);
+                    break;
+                }
+            }
 
             JSONObject response = new JSONObject();
 
