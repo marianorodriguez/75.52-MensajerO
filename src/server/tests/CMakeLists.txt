@@ -2,8 +2,6 @@ project(mensajero)
 
 include_directories(${PROJECT_SOURCE_DIR}/../main)
 
-message (STATUS ${CPPUNIT_INCLUDE_DIRS} asdf)
-
 add_subdirectory(rest-client)
 add_subdirectory(services)
 

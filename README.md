@@ -41,6 +41,20 @@ Para limpiar el proyecto:
 
     $ make clean
 
+### Ejecutar servidor
+
+Para correr el servidor, desde *build* ejecutar:
+
+    $ main/server
+
+La aplicación soporta varios flags para la configuración:
+
+* **-c**, **--config** <path/to/config.json>: dirección del archivo de configuración.
+* **-p**, **--port** <numPuerto>: selecciona el puerto de escucha del servidor.
+* **-d**, **--database** <path/to/db>: directorio de base de datos
+* **-P**, **--pollDelay** <msec>: demora entre lecturas del socket(mongoose)
+* **-a**, **--aliveTime** <msec>: tiempo que se considera que un usuario esta conectado
+
 Para correr coverage de las pruebas
 
 * Si el proyecto fue compilado con soporte para coverage, correr desde *src/server*
@@ -52,3 +66,15 @@ Para correr coverage de las pruebas
 * Para reiniciar los contadores (en caso de que se quiera volver a correr las pruebas)
 
     $ lcov -z -d main/
+
+### Scripts prearmados
+
+Para facilitar la instalación de la aplicación, se armaron algunos scripts en bash que agrupan varios de los comandos detallados arriba.
+
+** build.sh ** : Compila la aplicación en una carpeta llamada *build*, y copia en su interior a *run.sh*, *runTests.sh*, *coverage.sh*. Además, si se le agrega el parametro "coverage" compila con soporte para pruebas de cobertura.
+
+** run.sh ** : Ejecuta el servidor, y crea una carpeta para las bases de datos si es necesario.
+
+** runTests.sh ** : Ejecuta las pruebas, limpiando los contenidos creados por pruebas anteriores, 
+
+** coverage.sh ** : Ejecuta las pruebas y recolecta los datos de los tests de coverage.
