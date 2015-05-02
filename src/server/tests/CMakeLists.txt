@@ -13,6 +13,8 @@ add_executable(tests
 	user/chat/ChatTests.cpp
 	user/chat/MessageTests.cpp
 	user/userTests.cpp
+	#ArgsParserTests.cpp
+	NumberConverterTests.cpp
 	main.cpp)
 
 target_link_libraries(tests ${CPPUNIT_LIBRARIES} mensajero-utilities service-test rest-client ${JSONCPP_LIBRARIES})

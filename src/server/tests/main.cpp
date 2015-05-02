@@ -9,6 +9,8 @@
 #include "services/ServiceFactoryTest.h"
 #include "logger/LoggerTest.h"
 #include "rest-client/RestClientTest.h"
+//#include "ArgsParserTests.h"
+#include "NumberConverterTests.h"
 
 int main(int argc, char* argv[]){
 	curl_global_init(CURL_GLOBAL_ALL);
@@ -23,10 +25,12 @@ int main(int argc, char* argv[]){
 	CPPUNIT_NS::TestRunner runner;
 
 	// Instancio para que ejecuten las pruebas
+	//ArgsParserTests apt;
 	LoggerTest lt;
 	RestClientTest rct;
 	RestServerTest rst;
 	ServiceFactoryTest sft;
+	NumberConverterTests nct;
 
 	runner.addTest( CPPUNIT_NS::TestFactoryRegistry::getRegistry().makeTest() );
 	runner.run( controller );
