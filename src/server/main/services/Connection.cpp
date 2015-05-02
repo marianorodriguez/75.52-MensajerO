@@ -3,6 +3,7 @@
 
 #include "Connection.h"
 #include "QueryParams.h"
+#include <utilities/JsonMap.h>
 
 // Constantes
 const std::string Connection::getMethodName = "GET";
@@ -51,5 +52,11 @@ void Connection::parseGetParams(){
 }
 
 void Connection::parsePostParams(){
+	//TODO mlafroce: hacer más genérico
+	
+	if (this->rawConnection->content){
+		JsonMap jsonMap(this->rawConnection->content);
+		this->paramMap = jsonMap.getMap();
+	}
 }
 
