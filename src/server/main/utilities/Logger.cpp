@@ -1,4 +1,5 @@
 #include "Logger.h"
+#include "json.h"
 
 Logger* Logger::logInstance = NULL;
 Mutex Logger::constructorMutex;
@@ -8,6 +9,7 @@ Logger::Logger(string config_dir) {
 
 	Json::Value json_root;
 	Json::Reader json_reader;
+	Json::Value json_logger;
 
 	std::ifstream json_file(config_dir);
 
@@ -21,10 +23,10 @@ Logger::Logger(string config_dir) {
 	json_file.close();
 
 	if (parsingSuccessful) {
-		this->json_logger = json_root["logger"];
+		json_logger = json_root["logger"];
 		logDir = json_logger.get("logDir", DEFAULT_LOGGING_FILE).asString();
 		this->file.open(this->logDir.c_str(), ofstream::trunc);
-		setLoggingLevels();
+		setLoggingLevels(json_logger);
 	}
 
 }
@@ -69,8 +71,8 @@ string Logger::getWriteLevel(const loggingLevel& level) {
 	return ret;
 }
 
-void Logger::setLoggingLevels() {
-	Json::Value loggingLevels = this->json_logger.get("loggingLevels", "");
+void Logger::setLoggingLevels(const Json::Value& jsonLogger) {
+	Json::Value loggingLevels = jsonLogger.get("loggingLevels", "");
 	this->levels[ERROR] = loggingLevels[ERROR].get("ERROR", false).asBool();
 	this->levels[WARN] = loggingLevels[WARN].get("WARNING", false).asBool();
 	this->levels[DEBUG] = loggingLevels[DEBUG].get("DEBUG", false).asBool();

@@ -2,6 +2,7 @@
 #include <thread>
 #include "LoggerTest.h"
 #include "utilities/Logger.h"
+#include "json.h"
 
 CPPUNIT_TEST_SUITE_REGISTRATION(LoggerTest);
 

@@ -5,6 +5,7 @@ add_library(mensajero-utilities
 	Date.cpp
 	Logger.cpp
 	Mutex.cpp
+	NumberConverter.cpp
 	Thread.cpp
 	Time.cpp
 	)

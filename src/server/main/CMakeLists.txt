@@ -22,6 +22,7 @@ add_library(mensajero-model
 	user/User.cpp
 	user/chat/Chat.cpp
 	user/chat/Message.cpp
+	ServerOptions.cpp
 	)
 
 target_link_libraries(server ${JSONCPP_LIBRARIES} mensajero-database

@@ -1,14 +1,17 @@
 #include "services/ServerThread.h"
 #include "services/ServerConfig.h"
 #include "exceptions/BaseException.h"
+#include "ServerOptions.h"
 #include <iostream>
 
 using namespace std;
 
-int main() {
+int main(int argc, char** argv) {
 	std::string text;
 	bool exit = false;
 	ServerThread server;
+	OptionMap optionMap = ArgsParser::parseArgs(argc, argv);
+	ServerOptions options(optionMap);
 	ServerConfig config;
 	server.addConfig(config);
 	try{

@@ -9,7 +9,7 @@
 #include "services/ServiceFactoryTest.h"
 #include "logger/LoggerTest.h"
 #include "rest-client/RestClientTest.h"
-//#include "ArgsParserTests.h"
+#include "ArgsParserTests.h"
 #include "NumberConverterTests.h"
 
 int main(int argc, char* argv[]){

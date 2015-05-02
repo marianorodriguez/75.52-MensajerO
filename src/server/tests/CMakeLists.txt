@@ -13,7 +13,7 @@ add_executable(tests
 	user/chat/ChatTests.cpp
 	user/chat/MessageTests.cpp
 	user/userTests.cpp
-	#ArgsParserTests.cpp
+	ArgsParserTests.cpp
 	NumberConverterTests.cpp
 	main.cpp)
 

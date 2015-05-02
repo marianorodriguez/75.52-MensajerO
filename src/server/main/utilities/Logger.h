@@ -9,7 +9,7 @@
 #include "Mutex.h"
 #include "utilities/Date.h"
 #include "utilities/Time.h"
-#include "json.h"
+#include <json-forwards.h>
 
 using namespace std;
 
@@ -57,7 +57,6 @@ public:
 
 private:
 
-	Json::Value json_logger;
 	bool levels[4];
 	static Logger* logInstance;
 	ofstream file;
@@ -65,7 +64,7 @@ private:
 
 	Logger(string loggerDir);
 	string getWriteLevel(const loggingLevel& level);
-	void setLoggingLevels();
+	void setLoggingLevels(const Json::Value& jsonLogger);
 	
 	Mutex mutex;
 	static Mutex constructorMutex;

@@ -1,6 +1,7 @@
 # Auxiliares cmake
 CMakeFiles
 CMakeCache.txt
+*.cmake
 
 *.a
 *~
