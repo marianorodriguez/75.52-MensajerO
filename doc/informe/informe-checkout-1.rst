@@ -30,7 +30,6 @@ Features:
 	* El servidor puede cambiar los datos de un usuario registrado.
 
 Known bugs / TODO:
-	* El servidor no valida que un usuario exista al momento de registrar uno con el mismo nombre.
 	* Falta tests de varios servicios.
 	* La configuración del servidor es ignorada.
 	* Llamar a un servicio inexistente no devuelve ninguna respuesta, dejando al cliente en espera
