@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,11 +15,10 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.fernando.myapplication.Common.Constants;
-import com.example.fernando.myapplication.Common.User;
 import com.example.fernando.myapplication.R;
-import com.example.fernando.myapplication.Threads.GetUsersAsyncTask;
+import com.example.fernando.myapplication.Threads.GetUsersPostAsyncTask;
 import com.example.fernando.myapplication.Threads.RefreshChatsHallAsyncTask;
-import com.example.fernando.myapplication.Threads.SomethingForMeAsyncTask;
+import com.example.fernando.myapplication.Threads.SomethingForMePostAsyncTask;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,22 +28,24 @@ import java.util.HashMap;
  */
 public class ChatsHallActivity extends ActionBarActivity implements View.OnClickListener {
 
-    SomethingForMeAsyncTask somethingForMePost;
-    GetUsersAsyncTask usersPost;
+    SomethingForMePostAsyncTask somethingForMePost;
+    GetUsersPostAsyncTask usersPost;
     RefreshChatsHallAsyncTask refreshChats;
     public String something;
     String package_;
 
+    // EL SERVER YA TIENE LOS CHATS ! TIENE LOS CHATS QUE YO TENGO EN EL TELEFONO
+    // MANDAR POST CUANDO BORRO UN CHAT ! -----------------------------------------
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.chatshall);
 
-        Constants.mSharedPreferences = getSharedPreferences(Constants.PREFS, MODE_PRIVATE);
-        SharedPreferences.Editor e = Constants.mSharedPreferences.edit();
-        e.clear();
-        e.commit();
+//        Constants.mSharedPreferences = getSharedPreferences(Constants.PREFS, MODE_PRIVATE);
+//        SharedPreferences.Editor e = Constants.mSharedPreferences.edit();
+//        e.clear();
+//        e.commit();
 
         Constants.mSharedPreferences = getSharedPreferences(Constants.PREFS, MODE_PRIVATE);
 
@@ -55,34 +57,34 @@ public class ChatsHallActivity extends ActionBarActivity implements View.OnClick
 
         } else {
 
-            somethingForMePost = new SomethingForMeAsyncTask();
+            if (Constants.user == null)
+                Constants.initialize();
+
+            somethingForMePost = new SomethingForMePostAsyncTask();
             something = "";
             refreshChats = new RefreshChatsHallAsyncTask();
-            usersPost = new GetUsersAsyncTask();
+            usersPost = new GetUsersPostAsyncTask();
 
-            //dibujar los chats que vienen de login en Constansts.user.chat
+            //dibujar los chats que vienen de login en Constants.user.chat
             drawCurrentChats();
 
-            String username = Constants.mSharedPreferences.getString(Constants.PREF_NAME, "");
-            String password = Constants.mSharedPreferences.getString(Constants.PREF_PASS, "");
-            Toast.makeText(getApplicationContext(), "Welcome, " + username + "!", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Welcome, " + Constants.user.username + "!", Toast.LENGTH_LONG).show();
 
-            User currentUser = new User(username, password);
+            package_ = Constants.packager.wrap("somethingForMe", Constants.user);
 
-            package_ = Constants.packager.wrap("somethingForMe", currentUser);
+            somethingForMePost.execute(new Pair<Context, String>(this, package_),
+                    new Pair<Context, String>(this, Constants.somethingForMeUrl),
+                    new Pair<Context, String>(this, "post"));
 
-//            somethingForMePost.execute(new Pair<Context, String>(this, package_),
-//                    new Pair<Context, String>(this, Constants.somethingForMeUrl),
-//                    new Pair<Context, String>(this, "post"));
-//
-//
-//            usersPost.execute(new Pair<Context, String>(this, package_),
-//                    new Pair<Context, String>(this, Constants.usersUrl),
-//                    new Pair<Context, String>(this, "post"));
+
+            usersPost.execute(new Pair<Context, String>(this, package_),
+                    new Pair<Context, String>(this, Constants.usersUrl),
+                    new Pair<Context, String>(this, "post"));
+
             // tirar un hilo que llame a users, que tire todos los usuarios del sistema y cargarlos en constants.users
             // loopea, se hace constantemente. el server manda todos los users
 
-//            refreshChats.execute();
+            refreshChats.execute();
             // hilo que ve si hay chats nuevos en la lista de chats y si los hay
             // o si hay mensajes nuevo los muestre y los ordene
 
@@ -114,10 +116,6 @@ public class ChatsHallActivity extends ActionBarActivity implements View.OnClick
             e.clear();
             e.commit();
 
-
-            // EL SERVER YA TIENE LOS CHATS ! TIENE LOS CHATS QUE YO TENGO EN EL TELEFONO
-            // MANDAR POST CUANDO BORRO UN CHAT !
-
             Constants.logInOk = "";
             Constants.userChats.clear();
 
@@ -141,27 +139,29 @@ public class ChatsHallActivity extends ActionBarActivity implements View.OnClick
     protected void onDestroy() {
         super.onDestroy();
 
-        // getResponse
-        // GUARDAR CHATS en sharedPreferences !
+        if (somethingForMePost != null) {
+            somethingForMePost.cancel(true);
+            usersPost.cancel(true);
+            refreshChats.cancel(true);
+        }
 
+        // GUARDAR CHATS en sharedPreferences !
+        if (Constants.user != null) {
+            SharedPreferences.Editor e = Constants.mSharedPreferences.edit();
+            e.putString(Constants.PREF_CHATS,
+                    Constants.user.chatsToJson().toString());
+            e.commit();
+        }
     }
 
     @Override
     public void onClick(View v) {
-
-        if (v.getId() == R.id.button2) {
-
-            //setear constante string chatwith para saber q chat mostrar en chat activity
-
-            Intent chat = new Intent(this, ChatActivity.class);
-            startActivity(chat);
-
-        }
     }
 
-    private void drawCurrentChats() {
+    public void drawCurrentChats() {
 
         final ListView listview = (ListView) findViewById(R.id.listview);
+        Constants.chatListView = listview;
 
         ArrayList<String> otherUsersChatingWith = new ArrayList<>();
 
@@ -173,6 +173,8 @@ public class ChatsHallActivity extends ActionBarActivity implements View.OnClick
                 android.R.layout.simple_list_item_1, otherUsersChatingWith);
         listview.setAdapter(adapter);
 
+        Constants.chatsAdapter = adapter;
+
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
@@ -182,11 +184,14 @@ public class ChatsHallActivity extends ActionBarActivity implements View.OnClick
 
                 for (int chat = 0; chat < Constants.user.chats.size(); chat++) {
                     if (Constants.user.chats.get(chat).otherUser.compareTo(chatSelected) == 0) {
+
                         Constants.chatEditor.setChat(Constants.user.chats.get(chat));
+
+                        Constants.chatWith = chatSelected;
 
                         Intent chat_ = new Intent(getApplicationContext(), ChatActivity.class);
                         startActivity(chat_);
-
+                        break;
                     }
                 }
 
@@ -198,7 +203,7 @@ public class ChatsHallActivity extends ActionBarActivity implements View.OnClick
         });
     }
 
-    private class StableArrayAdapter extends ArrayAdapter<String> {
+    public class StableArrayAdapter extends ArrayAdapter<String> {
 
         HashMap<String, Integer> mIdMap = new HashMap<>();
 

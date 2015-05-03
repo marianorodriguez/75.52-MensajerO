@@ -21,11 +21,15 @@ public class User {
     JsonUtil jsonU;
     public ArrayList<Chat> chats;
 
-    public User(String _username, String _password) {
-        username = _username;
-        password = _password;
-        jsonU = new JsonUtil();
-        chats = new ArrayList<>();
+    public User(String username, String password) {
+        this.username = username;
+        this.password = password;
+        this.jsonU = new JsonUtil();
+        this.chats = new ArrayList<>();
+    }
+
+    public User(String username) {
+        this.username = username;
     }
 
     public JSONObject toJsonForServer () {
@@ -84,4 +88,27 @@ public class User {
         }
     }
 
+    public JSONArray chatsToJson () {
+        JSONArray jchats = new JSONArray();
+        for (int i = 0; i < chats.size(); i++) {
+            jchats.put(chats.get(i).toJson());
+        }
+
+        return jchats;
+    }
+
+    public static User toUser(JSONObject jsonObject) {
+        try {
+            User newUser = new User(jsonObject.getString("username"));
+
+            newUser.location = jsonObject.getString("location");
+            newUser.location = jsonObject.getString("picture");
+            newUser.location = jsonObject.getString("status");
+
+            return newUser;
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 }

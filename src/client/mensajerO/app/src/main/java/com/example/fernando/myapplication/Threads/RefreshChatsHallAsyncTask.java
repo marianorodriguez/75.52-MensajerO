@@ -4,21 +4,42 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Pair;
 
+import com.example.fernando.myapplication.Common.Constants;
+
 /**
  * Created by fernando on 27/04/15.
  */
 public class RefreshChatsHallAsyncTask extends AsyncTask<Pair<Context, String>, String, String> {
     @Override
     protected String doInBackground(Pair<Context, String>... params) {
+        int currentChatsSize = Constants.user.chats.size();
         // sizeActual de la lista de chats
         while (!isCancelled()) {
-            // si el sizeactual de la lista de chats es mayor que sizeActual
-//               adapter.add("chatAgregado1");
-            //               adapter.add("chatAgregado2"); ....
-//               listview.setAdapter(adapter);
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            if (Constants.user.chats.size() > currentChatsSize) {
 
+                for (int chat = currentChatsSize;
+                     chat < Constants.user.chats.size();
+                        chat++) {
+
+                    publishProgress(Constants.user.chats.get(chat).otherUser);
+                }
+                currentChatsSize = Constants.user.chats.size();
+            }
         }
 
         return null;
+    }
+
+    @Override
+    protected void onProgressUpdate(String... values) {
+        super.onProgressUpdate(values);
+
+        Constants.chatsAdapter.add(values[0]);
+        Constants.chatListView.setAdapter(Constants.chatsAdapter);
     }
 }

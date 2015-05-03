@@ -114,7 +114,13 @@ public class LogInActivity extends ActionBarActivity implements View.OnClickList
                         new Pair<Context, String>(this, Constants.logInUrl),
                         new Pair<Context, String>(this, "post"));
 
-                while (Constants.logInOk.compareTo("") == 0) {}
+                while (Constants.logInOk.compareTo("") == 0) {
+                    try {
+                        Thread.sleep(10);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
 
                 if (Constants.logInOk.contains("Error")) {}
 
@@ -152,6 +158,10 @@ public class LogInActivity extends ActionBarActivity implements View.OnClickList
                 Constants.user = currentUser;
                 Constants.user.chats = Constants.userChats;
 
+                SharedPreferences.Editor e = Constants.mSharedPreferences.edit();
+                e.putString(Constants.PREF_CHATS, Constants.user.chatsToJson().toString());
+                e.commit();
+
                 Intent chatsHall = new Intent(this, ChatsHallActivity.class);
                 startActivity(chatsHall);
                 finish();
@@ -159,8 +169,8 @@ public class LogInActivity extends ActionBarActivity implements View.OnClickList
             } else {
 
                 // user didn't entered username or password
-                Toast.makeText(getApplicationContext(), "Please enter username and password", Toast.LENGTH_LONG).show();
-
+                Toast.makeText(this,
+                        "Please enter username and password", Toast.LENGTH_LONG).show();
             }
 
         } else if (v.getId() == R.id.button2) {

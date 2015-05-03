@@ -22,7 +22,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -43,8 +45,17 @@ public class CurrentChatsPostAsyncTask extends AsyncTask<Pair<Context, String>, 
         HttpPost httpPost = new HttpPost(url);
 
         ArrayList<Chat> chats = new ArrayList<>();
+        Calendar c = Calendar.getInstance();
+
         Chat oneChat = new Chat("juancito");
-        Message message = new Message("pepito", "juancito", new Date(), new Time());
+        Message message = new Message("pepito", "hola capo", c.getTime().toString(), "" );
+        oneChat.messages.add(message);
+        message = new Message("juancito", "hola genio", c.getTime().toString(), "" );
+        oneChat.messages.add(message);
+        chats.add(oneChat);
+
+        oneChat = new Chat("fernando");
+        message = new Message("pepito", "hola capo", c.getTime().toString(), "" );
         oneChat.messages.add(message);
         chats.add(oneChat);
 

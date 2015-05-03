@@ -27,7 +27,9 @@ public class RefreshChatAsyncTask extends AsyncTask<Pair<Context, Chat>, String,
             if (chatToUpdate.messages.size() > messagesSize) {
 
                 ArrayList<Message> newMessages = new ArrayList<>();
-                for (int message = messagesSize; message < chatToUpdate.messages.size(); message++) {
+                for (int message = messagesSize;
+                     message < chatToUpdate.messages.size();
+                     message++) {
                     newMessages.add(chatToUpdate.messages.get(message));
                 }
                 messagesSize = chatToUpdate.messages.size();

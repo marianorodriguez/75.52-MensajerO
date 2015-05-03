@@ -13,7 +13,9 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 
+import com.example.fernando.myapplication.Common.Chat;
 import com.example.fernando.myapplication.Common.Constants;
+import com.example.fernando.myapplication.Mocks.Mocks;
 import com.example.fernando.myapplication.Threads.RefreshUsersAsyncTask;
 import com.example.fernando.myapplication.R;
 
@@ -32,8 +34,10 @@ public class UsersActivity extends ActionBarActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.users);
 
-        Button button2 = (Button) findViewById(R.id.button2);
-        button2.setOnClickListener(this);
+        if (Constants.otherUsers.size() == 0) {
+            Mocks.createFakeUsers();
+            Constants.otherUsers = Mocks.otherUsers;
+        }
 
         // dibujar los usuarios de la lista de usuarios Constants.users
         drawCurrentUsers();
@@ -71,69 +75,71 @@ public class UsersActivity extends ActionBarActivity implements View.OnClickList
 
     @Override
     public void onClick(View v) {
-
-        if (v.getId() == R.id.button2) {
-
-            //setear constante string chatwith para saber q chat mostrar en chat activity
-
-            Intent chat = new Intent(this, ChatActivity.class);
-            startActivity(chat);
-
-        }
     }
 
-    private void drawCurrentUsers(){final ListView listview = (ListView) findViewById(R.id.listview);
-        String[] values = new String[] { "Android", "iPhone", "WindowsMobile",
-                "Blackberry", "WebOS", "Ubuntu", "Windows7", "Max OS X",
-                "Linux", "OS/2", "Ubuntu", "Windows7", "Max OS X", "Linux",
-                "OS/2", "Ubuntu", "Windows7", "Max OS X", "Linux", "OS/2",
-                "Android", "iPhone", "WindowsMobile" };
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
 
-        final ArrayList<String> list = new ArrayList<>();
-        for (int i = 0; i < values.length; ++i) {
-            list.add(values[i]);
+        refreshUsers.cancel(true);
+    }
+
+    private void drawCurrentUsers(){
+
+        final ListView listview = (ListView) findViewById(R.id.listview);
+
+        Constants.usersListView = listview;
+
+        ArrayList<String> users = new ArrayList<>();
+
+        for (int user = 0; user < Constants.otherUsers.size(); user++) {
+            users.add(Constants.otherUsers.get(user).username);
         }
+
         final StableArrayAdapter adapter = new StableArrayAdapter(this,
-                android.R.layout.simple_list_item_1, list);
+                android.R.layout.simple_list_item_1, users);
         listview.setAdapter(adapter);
+
+        Constants.usersAdapter = adapter;
 
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> parent, final View view,
                                     int position, long id) {
-                final String item = (String) parent.getItemAtPosition(position);
 
-//                adapter = null;
-//                list.add("Andrea");
+                final String userSelected = (String) parent.getItemAtPosition(position);
+                boolean hasChat = false;
 
-                adapter.add("Andrea");
-                listview.setAdapter(adapter);
-//                adapter.notifyDataSetChanged();
+                Constants.chatWith = userSelected;
 
-//                tirarToast();
-//                view.animate().setDuration(2000).alpha(0)
-//                        .withEndAction(new Runnable() {
-//                            @Override
-//                            public void run() {
-//                                list.remove(item);
-//
-//
-//                                list.add("Andrea");
-//                                StableArrayAdapter adapter2 = new StableArrayAdapter(getApplicationContext(), android.R.layout.simple_list_item_1, list);
-//                                listview.setAdapter(adapter2);
-////                                adapter2.notifyDataSetChanged();
-//
-////                                adapter.notifyDataSetChanged();
-//                                view.setAlpha(1);
-//                            }
-//                        });
+                for (int chat = 0; chat < Constants.user.chats.size(); chat++) {
+                    if (Constants.user.chats.get(chat).otherUser.compareTo(userSelected) == 0) {
+                        hasChat = true;
+
+                        Constants.chatEditor.setChat(Constants.user.chats.get(chat));
+
+                        Intent chat_ = new Intent(getApplicationContext(), ChatActivity.class);
+                        startActivity(chat_);
+                        break;
+                    }
+                }
+                if (!hasChat) {
+                    Chat newChat = new Chat(userSelected);
+                    Constants.user.chats.add(newChat);
+
+                    Constants.chatEditor.setChat(newChat);
+
+                    Intent chat_ = new Intent(getApplicationContext(), ChatActivity.class);
+                    startActivity(chat_);
+
+                }
             }
 
         });
     }
 
-    private class StableArrayAdapter extends ArrayAdapter<String> {
+    public class StableArrayAdapter extends ArrayAdapter<String> {
 
         HashMap<String, Integer> mIdMap = new HashMap<>();
 

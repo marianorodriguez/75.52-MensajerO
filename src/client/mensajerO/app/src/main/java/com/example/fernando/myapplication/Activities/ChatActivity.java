@@ -28,6 +28,8 @@ public class ChatActivity extends ActionBarActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.chat);
 
+        setTitle(getResources().getString(R.string.chat).concat(Constants.chatWith));
+
         TextView chat = (TextView) findViewById(R.id.chat);
 
         // SETEAR EL CHAT CORRESPONDIENTE A CHATEDITOR ANTES DE PASAR A ESTA ACTIVITY
@@ -60,8 +62,11 @@ public class ChatActivity extends ActionBarActivity implements View.OnClickListe
 
             if (Constants.sendMessageOk.compareTo("true") == 0) {
                 edTxt.setText("");
-                Message newMessage = new Message(Constants.user.username, message,
-                        Constants.messageDate, Constants.messageTime);
+                Message newMessage = new Message(
+                        Constants.user.username,
+                        message,
+                        Constants.messageDate.toString(),
+                        Constants.messageTime.toString());
                 Constants.chatEditor.renderNewMessage(newMessage);
             }
         }
@@ -70,6 +75,7 @@ public class ChatActivity extends ActionBarActivity implements View.OnClickListe
     @Override
     protected void onDestroy() {
         super.onDestroy();
+
         refreshChat.cancel(true);
     }
 }
