@@ -12,4 +12,5 @@ Contenidos:
    :maxdepth: 2
 
    Informe <informe-checkout-1>
+   Esquema de servicios <service-schema>
 
