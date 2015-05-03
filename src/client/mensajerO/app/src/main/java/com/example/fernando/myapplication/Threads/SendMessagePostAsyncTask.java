@@ -30,7 +30,7 @@ public class SendMessagePostAsyncTask extends AsyncTask<Pair<Context, String>, S
 
     @Override
     protected String doInBackground(Pair<Context, String>... params) {
-        //        context = params[0].first;
+
         if ( Constants.server != null ) {
             String response = Constants.server.sendMessage(params[0].second);
 
@@ -99,14 +99,14 @@ public class SendMessagePostAsyncTask extends AsyncTask<Pair<Context, String>, S
     @Override
     protected void onPostExecute(String result) {
         // aca desempaqueto el packagela respuesta
-        try {
-
-            JSONObject response = Constants.packager.unwrap(result);
-
-            Constants.sendMessageOk = response.getString("ok");
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+//        try {
+//
+//            JSONObject response = Constants.packager.unwrap(result);
+//
+//            Constants.sendMessageOk = response.getString("ok");
+//
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
     }
 }

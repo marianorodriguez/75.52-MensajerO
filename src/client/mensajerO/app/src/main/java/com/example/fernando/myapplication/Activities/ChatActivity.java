@@ -21,8 +21,8 @@ import com.example.fernando.myapplication.Threads.SendMessagePostAsyncTask;
  */
 public class ChatActivity extends ActionBarActivity implements View.OnClickListener {
 
-    RefreshChatAsyncTask refreshChat;
-    SendMessagePostAsyncTask sendMessage;
+    public static RefreshChatAsyncTask refreshChat;
+    public static SendMessagePostAsyncTask sendMessage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +42,8 @@ public class ChatActivity extends ActionBarActivity implements View.OnClickListe
 
         sendMessage = new SendMessagePostAsyncTask();
         refreshChat = new RefreshChatAsyncTask();
+
+        Constants.messagesSize = Constants.chatEditor.getChat().messages.size();
         refreshChat.execute(new Pair<Context, Chat>(this, Constants.chatEditor.getChat()));
         // tirar hilo que se fije si de en la lista de chats hay cambios con este user y actualice la vista
     }
@@ -54,7 +56,7 @@ public class ChatActivity extends ActionBarActivity implements View.OnClickListe
             EditText edTxt = (EditText) findViewById(R.id.editText);
             String message = edTxt.getText().toString();
 
-            String package_ = Constants.packager.wrap("logIn", Constants.user, Constants.chatWith, message);
+            String package_ = Constants.packager.wrap("sendMessage", Constants.user, Constants.chatWith, message);
 
             sendMessage.execute(new Pair<Context, String>(this, package_),
                     new Pair<Context, String>(this, Constants.sendMessageUrl),
@@ -77,7 +79,8 @@ public class ChatActivity extends ActionBarActivity implements View.OnClickListe
                         message,
                         "date",
                         "hour");
-                Constants.chatEditor.renderNewMessage(newMessage);
+                Constants.chatEditor.getChat().messages.add(newMessage);
+//                Constants.chatEditor.renderNewMessage(newMessage);
             }
 
             sendMessage = new SendMessagePostAsyncTask();
@@ -88,7 +91,7 @@ public class ChatActivity extends ActionBarActivity implements View.OnClickListe
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
+        Constants.messagesSize = 0;
         refreshChat.cancel(true);
     }
 }

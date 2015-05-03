@@ -62,7 +62,7 @@ public class User {
     public JSONObject toJsonForServer (String otherUser, String message) {
         JSONObject juser_ = toJsonForServer();
         try {
-            juser_.put("msg_toID", otherUser);
+            juser_.put("msg_to", otherUser);
             juser_.put("msg_text", message);
 
             return juser_;

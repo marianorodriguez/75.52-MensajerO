@@ -57,7 +57,10 @@ final public class Constants//final to prevent instantiation
     public static UsersActivity.StableArrayAdapter usersAdapter = null;
 
     public static Server server = new Server();
-    public static int currentChatsSize;
+
+    public static int currentChatsSize = 0;
+    public static int currentUsersSize;
+    public static int messagesSize;
 
     //private constructor to prevent instantiation/inheritance
     private Constants() {}

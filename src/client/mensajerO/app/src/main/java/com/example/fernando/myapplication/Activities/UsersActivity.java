@@ -27,7 +27,7 @@ import java.util.HashMap;
  */
 public class UsersActivity extends ActionBarActivity implements View.OnClickListener {
 
-    RefreshUsersAsyncTask refreshUsers;
+    public static RefreshUsersAsyncTask refreshUsers;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +43,9 @@ public class UsersActivity extends ActionBarActivity implements View.OnClickList
         drawCurrentUsers();
 
         refreshUsers = new RefreshUsersAsyncTask();
-        refreshUsers.execute();
+        refreshUsers.execute(new Pair<Context, String>(this, ""),
+                new Pair<Context, String>(this, Constants.usersUrl),
+                new Pair<Context, String>(this, "post"));
         // tirar hilo que compruebe si hay nuevos usuarios y los dibuje
 
     }

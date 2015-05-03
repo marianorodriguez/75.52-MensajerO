@@ -17,7 +17,7 @@ public class RefreshChatsHallAsyncTask extends AsyncTask<Pair<Context, String>, 
     @Override
     protected String doInBackground(Pair<Context, String>... params) {
 
-        Constants.currentChatsSize = Constants.user.chats.size();
+        //Constants.currentChatsSize = Constants.user.chats.size();
         context = params[0].first;
         try {
             Thread.sleep(5000);
