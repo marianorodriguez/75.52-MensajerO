@@ -59,13 +59,13 @@ Para limpiar el proyecto:
 
 Para facilitar la instalación de la aplicación, se armaron algunos scripts en bash que agrupan varios de los comandos detallados abajo.
 
-** build.sh ** : Compila la aplicación en una carpeta llamada *build*, y copia en su interior a *run.sh*, *runTests.sh*, *coverage.sh*. Además, si se le agrega el parametro "coverage" compila con soporte para pruebas de cobertura.
+**build.sh** : Compila la aplicación en una carpeta llamada *build*, y copia en su interior a *run.sh*, *runTests.sh*, *coverage.sh*. Además, si se le agrega el parametro "coverage" compila con soporte para pruebas de cobertura.
 
-** run.sh ** : Ejecuta el servidor, y crea una carpeta para las bases de datos si es necesario.
+**run.sh** : Ejecuta el servidor, y crea una carpeta para las bases de datos si es necesario.
 
-** runTests.sh ** : Ejecuta las pruebas, limpiando los contenidos creados por pruebas anteriores, 
+**runTests.sh** : Ejecuta las pruebas, limpiando los contenidos creados por pruebas anteriores, 
 
-** coverage.sh ** : Ejecuta las pruebas y recolecta los datos de los tests de coverage.
+**coverage.sh** : Ejecuta las pruebas y recolecta los datos de los tests de coverage.
 
 
 ### Ejecutar servidor
