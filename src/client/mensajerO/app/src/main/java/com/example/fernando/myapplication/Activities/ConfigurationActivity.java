@@ -54,7 +54,6 @@ public class ConfigurationActivity extends ActionBarActivity implements View.OnC
         out.setOnClickListener(this);
         online.setOnClickListener(this);
 
-
         // PARA AGARRAR LA FOTO DEL FILE SYSTEM !!
 //        loadFileList();
 //        onCreateDialog(1000);

@@ -36,28 +36,28 @@ final public class Constants//final to prevent instantiation
     public static final String PREFS = "prefs";
     public static final String PREF_NAME = "name";
     public static final String PREF_PASS = "password";
-    public static final String PREF_CHATS = "chats";
-    private static final String PREF_USERS = "users";
+//    public static final String PREF_CHATS = "chats";
+//    private static final String PREF_USERS = "users";
 
     public static final Packager packager = new Packager();
     public static ArrayList<User> otherUsers = new ArrayList<>();
     public static final ChatEditor chatEditor = new ChatEditor();
     public static String logInOk = "";
-    public static ArrayList<Chat> userChats = new ArrayList<>();
+    public static String currentChatsOk = "";
 
     public static String signUpOk = "";
     public static String configOK = "";
 
     public static String sendMessageOk = "";
     public static String chatWith = "";
-    public static Date messageDate = null;
-    public static Time messageTime = null;
 
     public static ListView chatListView = null;
     public static ChatsHallActivity.StableArrayAdapter chatsAdapter = null;
     public static ListView usersListView = null;
     public static UsersActivity.StableArrayAdapter usersAdapter = null;
+
     public static Server server = new Server();
+    public static int currentChatsSize;
 
     //private constructor to prevent instantiation/inheritance
     private Constants() {}
@@ -69,17 +69,17 @@ final public class Constants//final to prevent instantiation
         Constants.user = new User(username, password);
 
         try {
-            JSONArray chats = new JSONArray(Constants.mSharedPreferences.getString(PREF_CHATS, ""));
+            JSONArray chats = new JSONArray(Constants.mSharedPreferences.getString(username+"chats", ""));
 
             for (int chat = 0; chat < chats.length(); chat++) {
                 Constants.user.chats.add(Chat.toChat((org.json.JSONObject) chats.get(chat)));
             }
 
-            JSONArray users = new JSONArray(Constants.mSharedPreferences.getString(PREF_USERS, ""));
-
-            for (int user = 0; user < users.length(); user++) {
-                Constants.otherUsers.add(User.toUser((org.json.JSONObject) users.get(user)));
-            }
+//            JSONArray users = new JSONArray(Constants.mSharedPreferences.getString(PREF_USERS, ""));
+//
+//            for (int user = 0; user < users.length(); user++) {
+//                Constants.otherUsers.add(User.toUser((org.json.JSONObject) users.get(user)));
+//            }
 
         } catch (JSONException e) {
             e.printStackTrace();

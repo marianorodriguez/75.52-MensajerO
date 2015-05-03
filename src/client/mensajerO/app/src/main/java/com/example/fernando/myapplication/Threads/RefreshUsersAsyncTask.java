@@ -26,7 +26,6 @@ public class RefreshUsersAsyncTask extends AsyncTask<Pair<Context, String>, Stri
                      user < Constants.otherUsers.size();
                      user++) {
 
-                    // AGREGAR A Constants.otherUser
                     publishProgress(Constants.otherUsers.get(user).username);
                 }
                 currentUsersSize = Constants.otherUsers.size();
@@ -44,9 +43,9 @@ public class RefreshUsersAsyncTask extends AsyncTask<Pair<Context, String>, Stri
     @Override
     protected void onProgressUpdate(String... values) {
         super.onProgressUpdate(values);
-//
-//        Constants.usersAdapter.add(values[0]);
-//        Constants.usersListView.setAdapter(Constants.usersAdapter);
+
+        Constants.usersAdapter.add(values[0]);
+        Constants.usersListView.setAdapter(Constants.usersAdapter);
     }
 
 }

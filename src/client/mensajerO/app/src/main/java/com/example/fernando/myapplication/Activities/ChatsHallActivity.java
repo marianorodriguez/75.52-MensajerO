@@ -28,10 +28,9 @@ import java.util.HashMap;
  */
 public class ChatsHallActivity extends ActionBarActivity implements View.OnClickListener {
 
-    SomethingForMePostAsyncTask somethingForMePost;
-    GetUsersPostAsyncTask usersPost;
-    RefreshChatsHallAsyncTask refreshChats;
-    public String something;
+    public static SomethingForMePostAsyncTask somethingForMePost;
+    public static GetUsersPostAsyncTask usersPost;
+    public static RefreshChatsHallAsyncTask refreshChats;
     String package_;
 
     // EL SERVER YA TIENE LOS CHATS ! TIENE LOS CHATS QUE YO TENGO EN EL TELEFONO
@@ -64,12 +63,11 @@ public class ChatsHallActivity extends ActionBarActivity implements View.OnClick
             finish();
 
         } else {
-
+            // cuando queda guardada la sesion e inicia en CHATS
             if (Constants.user == null)
                 Constants.initialize();
 
             somethingForMePost = new SomethingForMePostAsyncTask();
-            something = "";
             refreshChats = new RefreshChatsHallAsyncTask();
             usersPost = new GetUsersPostAsyncTask();
 
@@ -88,12 +86,15 @@ public class ChatsHallActivity extends ActionBarActivity implements View.OnClick
             usersPost.execute(new Pair<Context, String>(this, package_),
                     new Pair<Context, String>(this, Constants.usersUrl),
                     new Pair<Context, String>(this, "post"));
+
             // tirar un hilo que llame a users, que tire todos los usuarios del sistema y cargarlos en constants.users
             // loopea, se hace constantemente. el server manda todos los users
 
-            refreshChats.execute();
-            // hilo que ve si hay chats nuevos en la lista de chats y si los hay
-            // o si hay mensajes nuevo los muestre y los ordene
+            refreshChats.execute(new Pair<Context, String>(this, package_),
+                    new Pair<Context, String>(this, Constants.usersUrl),
+                    new Pair<Context, String>(this, "post"));
+//            hilo que ve si hay chats nuevos en la lista de chats y si los hay
+//            o si hay mensajes nuevo los muestre y los ordene
 
         }
 
@@ -120,11 +121,24 @@ public class ChatsHallActivity extends ActionBarActivity implements View.OnClick
 
             Constants.mSharedPreferences = getSharedPreferences(Constants.PREFS, MODE_PRIVATE);
             SharedPreferences.Editor e = Constants.mSharedPreferences.edit();
-            e.clear();
+
+            String username = Constants.mSharedPreferences.getString(Constants.PREF_NAME, "");
+            e.putString(username+"chats", Constants.user.chatsToJson().toString());
+            // TAMBIEN GUARDAR LA CONFIGURACION
+//            e.putString(username+"config", Constants.user.toJsonForDisk());
+
+            e.putString(Constants.PREF_NAME, "");
+            e.putString(Constants.PREF_PASS, "");
+
             e.commit();
 
             Constants.logInOk = "";
-            Constants.userChats.clear();
+            Constants.currentChatsOk = "";
+            Constants.chatListView = null;
+            Constants.chatsAdapter = null;
+            Constants.usersListView = null;
+            Constants.usersAdapter = null;
+            Constants.otherUsers.clear();
 
             Intent login = new Intent(this, LogInActivity.class);
             startActivity(login);
@@ -155,8 +169,8 @@ public class ChatsHallActivity extends ActionBarActivity implements View.OnClick
         // GUARDAR CHATS en sharedPreferences !
         if (Constants.user != null) {
             SharedPreferences.Editor e = Constants.mSharedPreferences.edit();
-            e.putString(Constants.user.username,
-                    Constants.user.chatsToJson().toString());
+            e.putString(Constants.user.username + "chats",
+                   Constants.user.chatsToJson().toString());
             e.commit();
         }
     }

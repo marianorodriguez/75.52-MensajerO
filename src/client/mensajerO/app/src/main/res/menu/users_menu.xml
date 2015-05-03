@@ -5,8 +5,7 @@
     tools:context=".MainActivity">
 
     <item android:id="@+id/chatsHall"
-        android:icon="@drawable/gotochats"
-        android:title="goToChats"
+        android:title="CHATS"
         app:showAsAction="always" />
 
 </menu>

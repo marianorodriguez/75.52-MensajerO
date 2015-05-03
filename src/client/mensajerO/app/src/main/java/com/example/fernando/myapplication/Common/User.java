@@ -88,13 +88,18 @@ public class User {
         }
     }
 
-    public JSONArray chatsToJson () {
+    public JSONObject chatsToJson () {
+        JSONObject allChats = new JSONObject();
         JSONArray jchats = new JSONArray();
         for (int i = 0; i < chats.size(); i++) {
             jchats.put(chats.get(i).toJson());
         }
-
-        return jchats;
+        try {
+            allChats.put("chats", jchats);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return allChats;
     }
 
     public static User toUser(JSONObject jsonObject) {

@@ -82,6 +82,7 @@ public class SignUpActivity extends ActionBarActivity implements View.OnClickLis
                     SharedPreferences.Editor e = Constants.mSharedPreferences.edit();
                     e.putString(Constants.PREF_NAME, username);
                     e.putString(Constants.PREF_PASS, password);
+                    e.putString(username+"chats", "");
                     e.commit();
 
                 } else {

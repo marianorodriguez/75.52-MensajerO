@@ -104,9 +104,9 @@ public class Packager {
         return packageEncoded;
     }
 
-    public String wrap(JSONObject mockResponse) {
+    public String wrap(JSONObject response) {
 
-        String resp = mockResponse.toString();
+        String resp = response.toString();
 
         return wrap(resp);
 
@@ -130,7 +130,7 @@ public class Packager {
         return null;
     }
 
-    public JSONArray unwrap (String responsePackage, int flag) {
+    public JSONArray unwrap (String responsePackage, String key) {
 
         int flags = Base64.NO_WRAP | Base64.URL_SAFE;
         byte[] jsonBytes = Base64.decode(responsePackage, flags);
@@ -139,13 +139,30 @@ public class Packager {
         String json = new String (jsonBytes);
 
         try {
-            JSONArray resp = new JSONArray(json);
-            return resp;
+
+            JSONObject package_ = new JSONObject(json);
+            JSONArray jArray = (JSONArray) package_.get(key);
+
+            return jArray;
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        return null;
+        JSONObject package_ = null;
+        try {
+            package_ = new JSONObject(json);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        JSONArray jArray = null;
+        if (package_ != null) {
+            try {
+                jArray = (JSONArray) package_.get(key);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        return jArray;
     }
 
 }

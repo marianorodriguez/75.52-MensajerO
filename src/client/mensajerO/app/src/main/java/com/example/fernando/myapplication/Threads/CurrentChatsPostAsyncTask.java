@@ -18,6 +18,7 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -36,58 +37,47 @@ public class CurrentChatsPostAsyncTask extends AsyncTask<Pair<Context, String>, 
     @Override
     protected String doInBackground(Pair<Context, String>... params) {
         //        context = params[0].first;
-        String name = params[0].second;
+        if ( Constants.server != null ) {
+            String response = Constants.server.currentChats(params[0].second);
 
-        String url = params[1].second;
+            try {
 
-        String type = params[2].second;
+                JSONObject resp = Constants.packager.unwrap(response);
 
-        HttpClient httpClient = new DefaultHttpClient();
-        HttpPost httpPost = new HttpPost(url);
+                JSONArray chats = new JSONArray(resp.getString("chats"));
 
-        ArrayList<Chat> chats = new ArrayList<>();
-        Calendar c = Calendar.getInstance();
+                for (int chat = 0; chat < chats.length(); chat++) {
+                    Constants.user.chats.add(Chat.toChat(chats.getJSONObject(chat)));
+                }
 
-        Chat oneChat = new Chat("juancito");
-        Message message = new Message("pepito", "hola capo", c.getTime().toString(), "" );
-        oneChat.messages.add(message);
-        message = new Message("juancito", "hola genio", c.getTime().toString(), "" );
-        oneChat.messages.add(message);
-        chats.add(oneChat);
+                Constants.currentChatsOk = resp.getString("chats");
 
-        oneChat = new Chat("fernando");
-        message = new Message("pepito", "hola capo", c.getTime().toString(), "" );
-        oneChat.messages.add(message);
-        chats.add(oneChat);
+                return "";
 
-        Constants.userChats = chats;
-        return "";
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return null;
+        } else {
+            HttpResponse response = doRequest(params);
 
-//        try {
-//            // Add name data to request
-//            List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
-//            nameValuePairs.add(new BasicNameValuePair("name", name));
-//            httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-//
-//            // Execute HTTP Post Request
-//            HttpResponse response = httpClient.execute(httpPost);
-//            if (response.getStatusLine().getStatusCode() == 200) {
-//                return EntityUtils.toString(response.getEntity());
-//            }
-//            return "Error: " + response.getStatusLine().getStatusCode() + " " + response.getStatusLine().getReasonPhrase();
-//
-////            // Execute HTTP GET Request
-////            HttpResponse responseGET = httpClient.execute(httpGet);
-////            if (responseGET.getStatusLine().getStatusCode() == 200) {
-////                return EntityUtils.toString(responseGET.getEntity());
-////            }
-////            return "Error: " + responseGET.getStatusLine().getStatusCode() + " " + responseGET.getStatusLine().getReasonPhrase();
-//
-//        } catch (ClientProtocolException e) {
-//            return e.getMessage();
-//        } catch (IOException e) {
-//            return e.getMessage();
-//        }
+            if (response.getStatusLine().getStatusCode() == 200) {
+                try {
+
+                    JSONObject respons = Constants.packager.unwrap(EntityUtils.toString(response.getEntity()));
+
+                    Constants.signUpOk = respons.getString("ok");
+
+                    return EntityUtils.toString(response.getEntity());
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            return "Error: " + response.getStatusLine().getStatusCode() + " " + response.getStatusLine().getReasonPhrase();
+        }
     }
 
     private HttpResponse doRequest(Pair<Context, String>... params) {

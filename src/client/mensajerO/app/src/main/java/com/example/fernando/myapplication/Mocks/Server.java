@@ -15,6 +15,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+
 import android.content.SharedPreferences;
 
 /**
@@ -140,9 +142,13 @@ public class Server {
         try {
             JSONArray users = new JSONArray();
 
+            loguedUsers.remove(userP.getString("username"));
+
             for (int user = 0; user < loguedUsers.size(); user++) {
                 users.put(loguedUsers.get(user));
             }
+
+            loguedUsers.add(userP.getString("username"));
 
             JSONObject response = new JSONObject();
             response.put("users", users);
@@ -162,7 +168,7 @@ public class Server {
         try {
             String username = userP.getString("username");
 
-            String jsonChats = Constants.mSharedPreferences.getString(username, "");
+            String jsonChats = Constants.mSharedPreferences.getString(username+"chats", "");
 
             String resp = Constants.packager.wrap(jsonChats);
             return resp;
@@ -182,8 +188,10 @@ public class Server {
             String msg_to = userP.getString("msg_to");
             String msg_text = userP.getString("msg_text");
 
+            Calendar c = Calendar.getInstance();
+
             Message newMessage = new Message(username, msg_text,
-                    "date", "hour");
+                    c.getTime().toString(), "" );
 
             for (int user = 0; user < newMessages.size(); user++) {
                 if (newMessages.get(user).first.compareTo(username) == 0) {

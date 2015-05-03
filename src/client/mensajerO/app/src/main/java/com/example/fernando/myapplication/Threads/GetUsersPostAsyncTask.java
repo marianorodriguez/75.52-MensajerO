@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import android.util.Pair;
 import android.widget.Toast;
 
+import com.example.fernando.myapplication.Activities.ChatsHallActivity;
 import com.example.fernando.myapplication.Common.Constants;
 import com.example.fernando.myapplication.Common.User;
 
@@ -36,43 +37,69 @@ public class GetUsersPostAsyncTask extends AsyncTask<Pair<Context, String>, Stri
     @Override
     protected String doInBackground(Pair<Context, String>... params) {
 
-        while (!isCancelled()) {
-            try {
-                Thread.sleep(1500);
-                context = params[0].first;
+        try {
+            Thread.sleep(5000);
+            context = params[0].first;
 
-                if ( Constants.server != null ) {
-                    String response = Constants.server.users(params[0].second);
+            if ( Constants.server != null ) {
+                String response = Constants.server.users(params[0].second);
 
-                    resizeUsers(response);
-                    return "";
+                resizeUsers(response);
 
-                } else {
-                    HttpResponse response = doRequest(params);
-                    if (response.getStatusLine().getStatusCode() == 200) {
+                publishProgress("run again", params[0].second,
+                        params[1].second, params[2].second);
 
-                        resizeUsers(EntityUtils.toString(response.getEntity()));
-                        return EntityUtils.toString(response.getEntity());
+                return "";
 
-                    }
-                    return "Error: " + response.getStatusLine().getStatusCode() + " " + response.getStatusLine().getReasonPhrase();
+            } else {
+                HttpResponse response = doRequest(params);
+                if (response.getStatusLine().getStatusCode() == 200) {
+
+                    resizeUsers(EntityUtils.toString(response.getEntity()));
+
+                    publishProgress("run again", params[0].second,
+                            params[1].second, params[2].second);
+
+                    return EntityUtils.toString(response.getEntity());
+
                 }
-                //
-                ////            // Execute HTTP GET Request
-                ////            HttpResponse responseGET = httpClient.execute(httpGet);
-                ////            if (responseGET.getStatusLine().getStatusCode() == 200) {
-                ////                return EntityUtils.toString(responseGET.getEntity());
-                ////            }
-                ////            return "Error: " + responseGET.getStatusLine().getStatusCode() + " " + responseGET.getStatusLine().getReasonPhrase();
-                //
 
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
+                publishProgress("run again", params[0].second,
+                        params[1].second, params[2].second);
+
+                return "Error: " + response.getStatusLine().getStatusCode() + " " + response.getStatusLine().getReasonPhrase();
             }
+            //
+            ////            // Execute HTTP GET Request
+            ////            HttpResponse responseGET = httpClient.execute(httpGet);
+            ////            if (responseGET.getStatusLine().getStatusCode() == 200) {
+            ////                return EntityUtils.toString(responseGET.getEntity());
+            ////            }
+            ////            return "Error: " + responseGET.getStatusLine().getStatusCode() + " " + responseGET.getStatusLine().getReasonPhrase();
+            //
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
         return null;
+    }
+
+    @Override
+    protected void onProgressUpdate(String... values) {
+        super.onProgressUpdate(values);
+
+        if (values[0].compareTo("serverError") == 0)
+            Toast.makeText(context, "Could't connect with server", Toast.LENGTH_LONG).show();
+        else {
+            Toast.makeText(context, "new user thread", Toast.LENGTH_LONG).show();
+            ChatsHallActivity.usersPost = new GetUsersPostAsyncTask();
+            ChatsHallActivity.usersPost.execute(new Pair<>(context, values[1]),
+                    new Pair<>(context, values[2]),
+                    new Pair<>(context, values[3]));
+            this.cancel(true);
+        }
     }
 
     private HttpResponse doRequest(Pair<Context, String>... params) {
@@ -104,14 +131,16 @@ public class GetUsersPostAsyncTask extends AsyncTask<Pair<Context, String>, Stri
     }
 
     private void resizeUsers(String response) {
-        JSONArray users = Constants.packager.unwrap(response, 0);
+        JSONArray users = Constants.packager.unwrap(response, "users");
 
+        if (users == null) return;
         if (users.length() > Constants.otherUsers.size()) {
-            for (int user = (users.length()-Constants.otherUsers.size());
+            for (int user = Constants.otherUsers.size();
                     user < users.length();
                     user++ ) {
                 try {
-                    Constants.otherUsers.add(User.toUser((org.json.JSONObject) users.get(user)));
+                    Constants.otherUsers.add(new User(users.getString(user)));
+//                    Constants.otherUsers.add(User.toUser((org.json.JSONObject) users.get(user)));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

@@ -6,6 +6,7 @@ import android.os.SystemClock;
 import android.util.Pair;
 import android.widget.Toast;
 
+import com.example.fernando.myapplication.Activities.ChatsHallActivity;
 import com.example.fernando.myapplication.Common.Chat;
 import com.example.fernando.myapplication.Common.Constants;
 import com.example.fernando.myapplication.Common.Message;
@@ -38,51 +39,61 @@ public class SomethingForMePostAsyncTask extends AsyncTask<Pair<Context, String>
     @Override
     protected String doInBackground(Pair<Context, String>... params) {
 
-        while (!isCancelled()) {
-            try {
-                Thread.sleep(1000);
-                context = params[0].first;
+        try {
+            Thread.sleep(2000);
+            context = params[0].first;
 
-                if ( Constants.server != null ) {
-                    String response = Constants.server.somethingForMe(params[0].second);
+            if ( Constants.server != null ) {
+                String response = Constants.server.somethingForMe(params[0].second);
 
-                    allocateMessages(response);
-                    return "";
+                allocateMessages(response);
+
+                publishProgress("run again", params[0].second,
+                        params[1].second, params[2].second);
+
+                return "";
+
+            } else {
+                HttpResponse response = doRequest(params);
+
+                if (response.getStatusLine().getStatusCode() == 200) {
+
+                    allocateMessages(EntityUtils.toString(response.getEntity()));
+
+                    publishProgress("run again", params[0].second,
+                            params[1].second, params[2].second);
+
+                    return EntityUtils.toString(response.getEntity());
 
                 } else {
-                    HttpResponse response = doRequest(params);
+                    publishProgress("serverError");
 
-                    if (response.getStatusLine().getStatusCode() == 200) {
+                    publishProgress("run again", params[0].second,
+                            params[1].second, params[2].second);
 
-                        allocateMessages(EntityUtils.toString(response.getEntity()));
-                        return EntityUtils.toString(response.getEntity());
-
-                    } else {
-                        publishProgress("serverError");
-                        //Toast.makeText(params[0].first, "Could't connect with server", Toast.LENGTH_LONG).show();
-                    }
-                    return "Error: " + response.getStatusLine().getStatusCode() + " " + response.getStatusLine().getReasonPhrase();
+                    //Toast.makeText(params[0].first, "Could't connect with server", Toast.LENGTH_LONG).show();
                 }
-    //
-    ////            // Execute HTTP GET Request
-    ////            HttpResponse responseGET = httpClient.execute(httpGet);
-    ////            if (responseGET.getStatusLine().getStatusCode() == 200) {
-    ////                return EntityUtils.toString(responseGET.getEntity());
-    ////            }
-    ////            return "Error: " + responseGET.getStatusLine().getStatusCode() + " " + responseGET.getStatusLine().getReasonPhrase();
-    //
-
-            } catch (InterruptedException e) {
-                serverError = true;
-                e.printStackTrace();
-                return "";
-            } catch (IOException e) {
-                serverError = true;
-                e.printStackTrace();
-                return "";
+                return "Error: " + response.getStatusLine().getStatusCode() + " " + response.getStatusLine().getReasonPhrase();
             }
+//
+////            // Execute HTTP GET Request
+////            HttpResponse responseGET = httpClient.execute(httpGet);
+////            if (responseGET.getStatusLine().getStatusCode() == 200) {
+////                return EntityUtils.toString(responseGET.getEntity());
+////            }
+////            return "Error: " + responseGET.getStatusLine().getStatusCode() + " " + responseGET.getStatusLine().getReasonPhrase();
+//
+
+        } catch (InterruptedException e) {
+            serverError = true;
+            e.printStackTrace();
+            return "";
+        } catch (IOException e) {
+            serverError = true;
+            e.printStackTrace();
+            return "";
         }
-        return null;
+
     }
 
     private HttpResponse doRequest(Pair<Context, String>... params) {
@@ -119,7 +130,15 @@ public class SomethingForMePostAsyncTask extends AsyncTask<Pair<Context, String>
 
         if (values[0].compareTo("serverError") == 0)
             Toast.makeText(context, "Could't connect with server", Toast.LENGTH_LONG).show();
-
+        else {
+            Toast.makeText(context, "new hilo", Toast.LENGTH_LONG).show();
+            ChatsHallActivity.somethingForMePost = new SomethingForMePostAsyncTask();
+            ChatsHallActivity.somethingForMePost.execute(new Pair<>(context, values[1]),
+                    new Pair<>(context, values[2]),
+                    new Pair<>(context, values[3]));
+            Toast.makeText(context, "new hilo ds", Toast.LENGTH_LONG).show();
+            this.cancel(true);
+        }
     }
 
     @Override
@@ -132,8 +151,10 @@ public class SomethingForMePostAsyncTask extends AsyncTask<Pair<Context, String>
     }
 
     private void allocateMessages(String response) {
-        JSONArray newMessages = Constants.packager.unwrap(response, 0);
+        JSONArray newMessages = Constants.packager.unwrap(response, "messages");
         boolean createNewChat;
+
+        if (newMessages == null) return;
         for (int message = 0; message < newMessages.length(); message++) {
             createNewChat = true;
             try {
@@ -150,6 +171,7 @@ public class SomethingForMePostAsyncTask extends AsyncTask<Pair<Context, String>
                 if (createNewChat) {
                     Chat newChat = new Chat(newMessage.emisor);
                     newChat.messages.add(newMessage);
+                    Constants.user.chats.add(newChat);
                 }
 
             } catch (JSONException e) {

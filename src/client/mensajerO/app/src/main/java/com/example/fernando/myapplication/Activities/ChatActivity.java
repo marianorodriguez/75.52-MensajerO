@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Pair;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -32,11 +33,14 @@ public class ChatActivity extends ActionBarActivity implements View.OnClickListe
 
         TextView chat = (TextView) findViewById(R.id.chat);
 
+        Button sendButton = (Button) findViewById(R.id.sendButton);
+        sendButton.setOnClickListener(this);
+
         // SETEAR EL CHAT CORRESPONDIENTE A CHATEDITOR ANTES DE PASAR A ESTA ACTIVITY
         Constants.chatEditor.renderChat(chat);
         // dibujar los mensajes del chat actual con chatwith user
 
-
+        sendMessage = new SendMessagePostAsyncTask();
         refreshChat = new RefreshChatAsyncTask();
         refreshChat.execute(new Pair<Context, Chat>(this, Constants.chatEditor.getChat()));
         // tirar hilo que se fije si de en la lista de chats hay cambios con este user y actualice la vista
@@ -56,7 +60,13 @@ public class ChatActivity extends ActionBarActivity implements View.OnClickListe
                     new Pair<Context, String>(this, Constants.sendMessageUrl),
                     new Pair<Context, String>(this, "post"));
 
-            while (Constants.sendMessageOk.compareTo("") == 0) {}
+            while (Constants.sendMessageOk.compareTo("") == 0) {
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
 
             if (Constants.sendMessageOk.contains("Error")) {}
 
@@ -65,10 +75,13 @@ public class ChatActivity extends ActionBarActivity implements View.OnClickListe
                 Message newMessage = new Message(
                         Constants.user.username,
                         message,
-                        Constants.messageDate.toString(),
-                        Constants.messageTime.toString());
+                        "date",
+                        "hour");
                 Constants.chatEditor.renderNewMessage(newMessage);
             }
+
+            sendMessage = new SendMessagePostAsyncTask();
+
         }
     }
 

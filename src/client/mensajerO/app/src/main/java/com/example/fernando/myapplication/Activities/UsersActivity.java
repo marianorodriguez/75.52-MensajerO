@@ -34,10 +34,10 @@ public class UsersActivity extends ActionBarActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.users);
 
-        if (Constants.otherUsers.size() == 0) {
-            Mocks.createFakeUsers();
-            Constants.otherUsers = Mocks.otherUsers;
-        }
+//        if (Constants.otherUsers.size() == 0) {
+//            Mocks.createFakeUsers();
+//            Constants.otherUsers = Mocks.otherUsers;
+//        }
 
         // dibujar los usuarios de la lista de usuarios Constants.users
         drawCurrentUsers();
@@ -84,7 +84,13 @@ public class UsersActivity extends ActionBarActivity implements View.OnClickList
         refreshUsers.cancel(true);
     }
 
-    private void drawCurrentUsers(){
+    private void drawCurrentUsers() {
+
+//        if ( Constants.usersListView != null ) {
+//            Constants.usersListView.setAdapter(Constants.usersAdapter);
+//            return;
+//        }
+
 
         final ListView listview = (ListView) findViewById(R.id.listview);
 
