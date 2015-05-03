@@ -41,6 +41,8 @@ Configurar script de compilación
 
     $ cmake .. -Dcoverage-test=true
 
+Se compila desde src/server:
+
 Para compilar las pruebas:
 
     $ make tests
@@ -53,10 +55,25 @@ Para limpiar el proyecto:
 
     $ make clean
 
+### Scripts prearmados
+
+Para facilitar la instalación de la aplicación, se armaron algunos scripts en bash que agrupan varios de los comandos detallados abajo.
+
+** build.sh ** : Compila la aplicación en una carpeta llamada *build*, y copia en su interior a *run.sh*, *runTests.sh*, *coverage.sh*. Además, si se le agrega el parametro "coverage" compila con soporte para pruebas de cobertura.
+
+** run.sh ** : Ejecuta el servidor, y crea una carpeta para las bases de datos si es necesario.
+
+** runTests.sh ** : Ejecuta las pruebas, limpiando los contenidos creados por pruebas anteriores, 
+
+** coverage.sh ** : Ejecuta las pruebas y recolecta los datos de los tests de coverage.
+
+
 ### Ejecutar servidor
 
-Para correr el servidor, desde *build* ejecutar:
+Para correr el servidor, desde *src/server* ejecutar:
 
+    $ mkdir -p database/users
+    $ mkdir -p database/chats
     $ main/server
 
 La aplicación soporta varios flags para la configuración:
@@ -79,14 +96,4 @@ Para correr coverage de las pruebas
 
     $ lcov -z -d main/
 
-### Scripts prearmados
 
-Para facilitar la instalación de la aplicación, se armaron algunos scripts en bash que agrupan varios de los comandos detallados arriba.
-
-** build.sh ** : Compila la aplicación en una carpeta llamada *build*, y copia en su interior a *run.sh*, *runTests.sh*, *coverage.sh*. Además, si se le agrega el parametro "coverage" compila con soporte para pruebas de cobertura.
-
-** run.sh ** : Ejecuta el servidor, y crea una carpeta para las bases de datos si es necesario.
-
-** runTests.sh ** : Ejecuta las pruebas, limpiando los contenidos creados por pruebas anteriores, 
-
-** coverage.sh ** : Ejecuta las pruebas y recolecta los datos de los tests de coverage.

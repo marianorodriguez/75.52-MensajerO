@@ -29,7 +29,7 @@ void SignUpService::executeRequest(const Connection& connection) const {
 bool SignUpService::checkUsernameExists(const std::string& username,
 		const Connection& connection) const {
 	bool exists = false;
-	Database DB;
+	Database DB(DATABASE_USERS_PATH);
 	vector<string> key;
 	key.push_back(username);
 
