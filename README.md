@@ -4,6 +4,18 @@
 Taller de Programacion II
 -------------------------
 
+### Documentación
+
+Además de este Readme, se encuentra documentación en formato restructured text, en el directorio *doc*.
+
+Dentro de ese directorio se encuentra el informe correspondiente a la primer entrega de la aplicación, en la carpeta *informe*.
+La documentación fue generada con sphinx-doc.
+
+Para compilar se debe escribir make <formato de salida>.
+En caso de no elegir ningún formato, se desplegará un texto informativo que indica que formatos se pueden elegir.
+
+### Compilación
+
 Desde consola dirigirse a la carpeta del proyecto y ejecutar los siguientes comandos:
 
 Instalar dependencias

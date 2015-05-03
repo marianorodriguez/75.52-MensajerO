@@ -6,7 +6,7 @@
 Documentación de MensajerO
 ==========================
 
-Contents:
+Contenidos:
 
 .. toctree::
    :maxdepth: 2
