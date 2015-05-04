@@ -16,6 +16,8 @@ import com.example.fernando.myapplication.Threads.RefreshChatAsyncTask;
 import com.example.fernando.myapplication.R;
 import com.example.fernando.myapplication.Threads.SendMessagePostAsyncTask;
 
+import java.util.Calendar;
+
 /**
  * Created by fernando on 10/04/15.
  */
@@ -23,6 +25,7 @@ public class ChatActivity extends ActionBarActivity implements View.OnClickListe
 
     public static RefreshChatAsyncTask refreshChat;
     public static SendMessagePostAsyncTask sendMessage;
+    private Calendar calendar = Calendar.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +67,7 @@ public class ChatActivity extends ActionBarActivity implements View.OnClickListe
 
             while (Constants.sendMessageOk.compareTo("") == 0) {
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(1);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -77,8 +80,8 @@ public class ChatActivity extends ActionBarActivity implements View.OnClickListe
                 Message newMessage = new Message(
                         Constants.user.username,
                         message,
-                        "date",
-                        "hour");
+                        calendar.getTime().toString(),
+                        "");
                 Constants.chatEditor.getChat().messages.add(newMessage);
 //                Constants.chatEditor.renderNewMessage(newMessage);
             }

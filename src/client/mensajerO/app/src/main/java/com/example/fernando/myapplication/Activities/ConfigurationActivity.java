@@ -15,9 +15,7 @@ import android.widget.RadioButton;
 import android.widget.Toast;
 
 import com.example.fernando.myapplication.Common.Constants;
-import com.example.fernando.myapplication.Common.User;
 import com.example.fernando.myapplication.Threads.ConfigPostAsyncTask;
-import com.example.fernando.myapplication.Threads.ServletPostAsyncTask;
 import com.example.fernando.myapplication.R;
 
 import java.io.File;
@@ -53,6 +51,8 @@ public class ConfigurationActivity extends ActionBarActivity implements View.OnC
         offline.setOnClickListener(this);
         out.setOnClickListener(this);
         online.setOnClickListener(this);
+
+        configPost = new ConfigPostAsyncTask();
 
         // PARA AGARRAR LA FOTO DEL FILE SYSTEM !!
 //        loadFileList();

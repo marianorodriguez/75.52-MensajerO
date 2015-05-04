@@ -40,7 +40,7 @@ public class SomethingForMePostAsyncTask extends AsyncTask<Pair<Context, String>
     protected String doInBackground(Pair<Context, String>... params) {
 
         try {
-            Thread.sleep(2000);
+            Thread.sleep(200);
             context = params[0].first;
 
             if ( Constants.server != null ) {
@@ -131,12 +131,12 @@ public class SomethingForMePostAsyncTask extends AsyncTask<Pair<Context, String>
         if (values[0].compareTo("serverError") == 0)
             Toast.makeText(context, "Could't connect with server", Toast.LENGTH_LONG).show();
         else {
-            Toast.makeText(context, "new hilo", Toast.LENGTH_LONG).show();
+//            Toast.makeText(context, "new hilo", Toast.LENGTH_LONG).show();
             ChatsHallActivity.somethingForMePost = new SomethingForMePostAsyncTask();
             ChatsHallActivity.somethingForMePost.execute(new Pair<>(context, values[1]),
                     new Pair<>(context, values[2]),
                     new Pair<>(context, values[3]));
-            Toast.makeText(context, "new hilo ds", Toast.LENGTH_LONG).show();
+//            Toast.makeText(context, "new hilo ds", Toast.LENGTH_LONG).show();
             this.cancel(true);
         }
     }

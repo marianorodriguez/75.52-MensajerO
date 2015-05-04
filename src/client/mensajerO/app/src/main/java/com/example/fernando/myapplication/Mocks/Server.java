@@ -104,7 +104,6 @@ public class Server {
         JSONObject userP = Constants.packager.unwrap(userPackage);
 
         try {
-
             String username = userP.getString("username");
 
             JSONObject response = new JSONObject();
@@ -181,6 +180,7 @@ public class Server {
     }
 
     public String sendMessage (String userPackage) {
+        boolean founded = false;
         JSONObject userP = Constants.packager.unwrap(userPackage);
 
         try {
@@ -194,10 +194,15 @@ public class Server {
                     c.getTime().toString(), "" );
 
             for (int user = 0; user < newMessages.size(); user++) {
-                if (newMessages.get(user).first.compareTo(username) == 0) {
+                if (newMessages.get(user).first.compareTo(msg_to) == 0) {
                     newMessages.get(user).second.add(newMessage);
+                    founded = true;
                     break;
                 }
+            }
+            if (!founded) {
+                newMessages.add(new Pair<>(msg_to, new ArrayList<Message>()));
+                newMessages.get(newMessages.size()-1).second.add(newMessage);
             }
 
             JSONObject response = new JSONObject();

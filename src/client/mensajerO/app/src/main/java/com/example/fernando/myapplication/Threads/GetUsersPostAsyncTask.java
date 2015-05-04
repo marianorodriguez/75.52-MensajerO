@@ -93,7 +93,7 @@ public class GetUsersPostAsyncTask extends AsyncTask<Pair<Context, String>, Stri
         if (values[0].compareTo("serverError") == 0)
             Toast.makeText(context, "Could't connect with server", Toast.LENGTH_LONG).show();
         else {
-            Toast.makeText(context, "new user thread", Toast.LENGTH_LONG).show();
+//            Toast.makeText(context, "new user thread", Toast.LENGTH_LONG).show();
             ChatsHallActivity.usersPost = new GetUsersPostAsyncTask();
             ChatsHallActivity.usersPost.execute(new Pair<>(context, values[1]),
                     new Pair<>(context, values[2]),

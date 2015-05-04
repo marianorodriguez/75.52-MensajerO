@@ -11,7 +11,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 import com.example.fernando.myapplication.Common.Constants;
-import com.example.fernando.myapplication.Threads.ServletPostAsyncTask;
 import com.example.fernando.myapplication.Common.User;
 import com.example.fernando.myapplication.R;
 import com.example.fernando.myapplication.Threads.SignUpPostAsyncTask;

@@ -22,7 +22,7 @@ public class RefreshUsersAsyncTask extends AsyncTask<Pair<Context, String>, Stri
         Constants.currentUsersSize = Constants.otherUsers.size();
         context = params[0].first;
             try {
-                Thread.sleep(2000);
+                Thread.sleep(200);
 
                 if (Constants.otherUsers.size() > Constants.currentUsersSize) {
 
@@ -49,7 +49,7 @@ public class RefreshUsersAsyncTask extends AsyncTask<Pair<Context, String>, Stri
         super.onProgressUpdate(values);
 
         if (values[0].compareTo("run again") == 0) {
-            Toast.makeText(context, "new refresh users", Toast.LENGTH_LONG).show();
+//            Toast.makeText(context, "new refresh users", Toast.LENGTH_LONG).show();
             UsersActivity.refreshUsers = new RefreshUsersAsyncTask();
             UsersActivity.refreshUsers.execute(new Pair<>(context, values[1]),
                     new Pair<>(context, values[2]),

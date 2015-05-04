@@ -20,7 +20,7 @@ public class RefreshChatsHallAsyncTask extends AsyncTask<Pair<Context, String>, 
         //Constants.currentChatsSize = Constants.user.chats.size();
         context = params[0].first;
         try {
-            Thread.sleep(5000);
+            Thread.sleep(200);
 
             if (Constants.user.chats.size() > Constants.currentChatsSize) {
 
@@ -28,7 +28,7 @@ public class RefreshChatsHallAsyncTask extends AsyncTask<Pair<Context, String>, 
                      chat < Constants.user.chats.size();
                      chat++) {
 
-                    publishProgress(Constants.user.chats.get(chat).otherUser);
+                    publishProgress("refresh", Constants.user.chats.get(chat).otherUser);
                 }
                 Constants.currentChatsSize = Constants.user.chats.size();
             }
@@ -46,14 +46,14 @@ public class RefreshChatsHallAsyncTask extends AsyncTask<Pair<Context, String>, 
         super.onProgressUpdate(values);
 
         if (values[0].compareTo("run again") == 0) {
-            Toast.makeText(context, "new refresh", Toast.LENGTH_LONG).show();
+//            Toast.makeText(context, "new refresh", Toast.LENGTH_LONG).show();
             ChatsHallActivity.refreshChats = new RefreshChatsHallAsyncTask();
             ChatsHallActivity.refreshChats.execute(new Pair<>(context, values[1]),
                     new Pair<>(context, values[2]),
                     new Pair<>(context, values[3]));
             this.cancel(true);
-        } else {
-            Constants.chatsAdapter.add(values[0]);
+        } else if (values[0].compareTo("refresh") == 0){
+            Constants.chatsAdapter.add(values[1]);
             Constants.chatListView.setAdapter(Constants.chatsAdapter);
         }
     }

@@ -134,6 +134,8 @@ public class ChatsHallActivity extends ActionBarActivity implements View.OnClick
 
             Constants.logInOk = "";
             Constants.currentChatsOk = "";
+            Constants.currentChatsSize = 0;
+//            Constants.currentChatsSize = 0;
             Constants.chatListView = null;
             Constants.chatsAdapter = null;
             Constants.usersListView = null;

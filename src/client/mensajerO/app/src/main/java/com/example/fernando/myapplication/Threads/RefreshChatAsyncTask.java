@@ -43,7 +43,7 @@ public class RefreshChatAsyncTask extends AsyncTask<Pair<Context, Chat>, String,
 //        Constants.messagesSize = chatToUpdate.messages.size();
 
         try {
-            Thread.sleep(2000);
+            Thread.sleep(200);
 
             if (chatToUpdate.messages.size() > Constants.messagesSize) {
 
@@ -70,7 +70,7 @@ public class RefreshChatAsyncTask extends AsyncTask<Pair<Context, Chat>, String,
         super.onProgressUpdate(values);
 
         if (values[0].compareTo("run again") == 0) {
-            Toast.makeText(context, "new refresh chat", Toast.LENGTH_LONG).show();
+//            Toast.makeText(context, "new refresh chat", Toast.LENGTH_LONG).show();
             ChatActivity.refreshChat = new RefreshChatAsyncTask();
             ChatActivity.refreshChat.execute(new Pair<>(context, chatToUpdate));
             this.cancel(true);
