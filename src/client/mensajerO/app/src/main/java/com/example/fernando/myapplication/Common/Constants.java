@@ -1,8 +1,6 @@
 package com.example.fernando.myapplication.Common;
 
 import android.content.SharedPreferences;
-import android.support.v4.util.Pair;
-import android.text.format.Time;
 import android.widget.ListView;
 
 import com.example.fernando.myapplication.Activities.ChatsHallActivity;
@@ -13,7 +11,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 /**
  * Created by fernando on 22/04/15.

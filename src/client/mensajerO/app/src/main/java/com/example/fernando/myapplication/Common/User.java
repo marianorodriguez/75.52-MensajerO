@@ -1,7 +1,5 @@
 package com.example.fernando.myapplication.Common;
 
-import android.util.Pair;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -18,13 +16,11 @@ public class User {
     public String profilePicture;
     public String location;
     public String status;
-    JsonUtil jsonU;
     public ArrayList<Chat> chats;
 
     public User(String username, String password) {
         this.username = username;
         this.password = password;
-        this.jsonU = new JsonUtil();
         this.chats = new ArrayList<>();
     }
 

@@ -6,16 +6,13 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Pair;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.fernando.myapplication.Common.Chat;
 import com.example.fernando.myapplication.Common.Constants;
 import com.example.fernando.myapplication.Threads.CurrentChatsPostAsyncTask;
 import com.example.fernando.myapplication.Threads.LogInPostAsyncTask;
@@ -25,8 +22,6 @@ import com.example.fernando.myapplication.R;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  * Created by fernando on 07/04/15.
