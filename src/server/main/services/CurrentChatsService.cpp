@@ -32,14 +32,14 @@ Json::Value CurrentChatsService::doCurrentChats(const Json::Value &data) {
 		if (user.getPassword() == data[SERVICE_PASSWORD].asString()) {
 
 			vector<string> chats = user.getChats();
-			Json::Value jsonChats;
+			output[SERVICE_CURRENTCHATS_CHATS] = Json::Value(Json::arrayValue);
 
 			for (unsigned int i = 0; i < chats.size(); i++) {
 				vector<string> keyChats;
 				keyChats.push_back(data[SERVICE_USERNAME].asString());
 				keyChats.push_back(chats[i]);
 				Chat chat(dbChats.read(keyChats));
-				output[SERVICE_CURRENTCHATS_CHATS][i] = chat.serialize();
+				output[SERVICE_CURRENTCHATS_CHATS].append(chat.serialize());
 			}
 
 			output[SERVICE_OUT_OK] = true;

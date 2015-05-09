@@ -3,7 +3,7 @@
 
 #include "Connection.h"
 #include "QueryParams.h"
-#include <utilities/JsonMap.h>
+#include "utilities/JsonMap.h"
 #include "utilities/Base64.h"
 
 // Constantes
@@ -43,7 +43,9 @@ std::map<std::string, std::string> Connection::getParamMap() const{
 }
 
 void Connection::printMessage(const std::string& message) const{
-	mg_printf_data(this->rawConnection, message.c_str());
+	std::string data = base64::encode((unsigned char*)(message.c_str()),
+									  message.length());
+	mg_printf_data(this->rawConnection, data.c_str());
 }
 
 void Connection::parseGetParams(){
@@ -59,7 +61,12 @@ void Connection::parsePostParams(){
 	//TODO mlafroce: hacer más genérico
 	
 	if (this->rawConnection->content){
-		JsonMap jsonMap(this->rawConnection->content);
+		// TODO mlafroce: verificar si es un bug de mongoose
+		this->rawConnection->content[this->rawConnection->content_len] = 0;
+		std::string content(this->rawConnection->content);
+		std::string prefix("package=");
+		std::string decodedContent = base64::decode(content);
+		JsonMap jsonMap(decodedContent.substr(prefix.length()));
 		this->paramMap = jsonMap.getMap();
 	}
 }
