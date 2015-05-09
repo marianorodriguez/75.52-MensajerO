@@ -15,6 +15,7 @@
 #include "services/LogInServiceTest.h"
 #include "services/SignUpServiceTest.h"
 #include "services/UserConfigServiceTest.h"
+#include "services/SomethingForMeServiceTest.h"
 
 int main(int argc, char* argv[]){
 	curl_global_init(CURL_GLOBAL_ALL);
@@ -39,6 +40,7 @@ int main(int argc, char* argv[]){
 	LogInServiceTest lst;
 	SignUpServiceTest sust;
 	UserConfigServiceTest ucst;
+	SomethingForMeServiceTest sfmst;
 
 	runner.addTest( CPPUNIT_NS::TestFactoryRegistry::getRegistry().makeTest() );
 	runner.run( controller );

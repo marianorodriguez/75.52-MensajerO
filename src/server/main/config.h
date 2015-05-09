@@ -71,6 +71,7 @@ const std::string SERVICE_SENDMESSAGE_NAME = "sendMessage";
 
 //# SERVICIO DE SOMETHINGFORME
 const std::string SERVICE_SOMETHINGFORME_NAME = "somethingForMe";
+const std::string SERVICE_SOMETHINGFORME_MESSAGES = "messages";
 
 //# SERVICIO DE CURRENTCHATS
 const std::string SERVICE_CURRENTCHATS_NAME = "currentChats";
@@ -79,7 +80,7 @@ const std::string SERVICE_CURRENTCHATS_NAME = "currentChats";
 const std::string SERVICE_IMALIVE_NAME = "imAlive";
 
 //# SERVICIO DE UserConfig
-const std::string SERVICE_USERCONFIG_NAME = "config";
+const std::string SERVICE_USERCONFIG_NAME = "setConfig";
 const std::string SERVICE_USERCONFIG_LOCATION = "location";
 const std::string SERVICE_USERCONFIG_STATUS = "status";
 const std::string SERVICE_USERCONFIG_PICTURE = "profile_picture";

@@ -66,6 +66,11 @@ vector<Message> Chat::getMessages() const {
 	return this->sentMessages;
 }
 
+void Chat::updateMessages(const vector<Message> msgs){
+
+	this->sentMessages = msgs;
+}
+
 string Chat::serialize() const{
 
 	Json::Value JsonChat;

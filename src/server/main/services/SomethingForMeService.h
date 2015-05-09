@@ -6,6 +6,7 @@
 #include "database/Database.h"
 
 class SomethingForMeService: public ServiceInterface {
+	friend class SomethingForMeServiceTest;
 public:
 	/**
 	* Devuelve el nombre del servicio: somethingForMe
@@ -17,6 +18,8 @@ public:
 	virtual void executeRequest(const Connection& connection) const;
 private:
 	static const std::string serviceName;
+
+	static Json::Value doSomethingForMe(const Json::Value &data);
 };
 
 class SomethingForMeServiceCreator: public ServiceCreatorInterface{

@@ -77,7 +77,7 @@ string Database::getKey(vector<string> key) const {
 	sort(key.begin(), key.end());
 	Json::Value returnKey;
 	for (unsigned int i = 0; i < key.size(); i++) {
-		string integer = to_string(i);
+		//string integer = to_string(i);
 		//returnKey["key"][key[i]] = key[i];
 		returnKey.append(key[i]);
 	}
