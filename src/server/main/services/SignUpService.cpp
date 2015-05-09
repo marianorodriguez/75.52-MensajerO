@@ -1,4 +1,4 @@
-#include <services/SignUpService.h>
+#include "services/SignUpService.h"
 
 const std::string SignUpService::serviceName = SERVICE_SIGNUP_NAME;
 
@@ -8,6 +8,7 @@ std::string SignUpService::getUri() const {
 
 void SignUpService::executeRequest(const Connection& connection) const {
 
+	std::cout<<"SIGNUP SERVICES EJECUTANDOSE"<<std::endl;
 	std::string username = connection.getParamMap()[SERVICE_USERNAME];
 	std::string password = connection.getParamMap()[SERVICE_PASSWORD];
 	bool exists = checkUsernameExists(username, connection);

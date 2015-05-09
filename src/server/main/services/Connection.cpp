@@ -4,6 +4,7 @@
 #include "Connection.h"
 #include "QueryParams.h"
 #include <utilities/JsonMap.h>
+#include "utilities/Base64.h"
 
 // Constantes
 const std::string Connection::getMethodName = "GET";
@@ -13,6 +14,9 @@ Connection::Connection(mg_connection* const rawConnection){
 	this->rawConnection = rawConnection;
 	const char* requestType = rawConnection->request_method;
 	printf("get: %s, method: %s \n", getMethodName.c_str(), rawConnection->request_method);
+	printf("content: %s \n", rawConnection->content);
+
+
 	if (!requestType){
 		throw "No request type specified"; 
 	}

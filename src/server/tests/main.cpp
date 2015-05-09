@@ -11,6 +11,8 @@
 #include "rest-client/RestClientTest.h"
 #include "ArgsParserTests.h"
 #include "NumberConverterTests.h"
+#include "database/DatabaseTests.h"
+#include "services/LogInServiceTest.h"
 
 int main(int argc, char* argv[]){
 	curl_global_init(CURL_GLOBAL_ALL);
@@ -27,10 +29,12 @@ int main(int argc, char* argv[]){
 	// Instancio para que ejecuten las pruebas
 	//ArgsParserTests apt;
 	LoggerTest lt;
+	DatabaseTests dbt;
 	RestClientTest rct;
 	RestServerTest rst;
 	ServiceFactoryTest sft;
 	NumberConverterTests nct;
+	LogInServiceTest lst;
 
 	runner.addTest( CPPUNIT_NS::TestFactoryRegistry::getRegistry().makeTest() );
 	runner.run( controller );

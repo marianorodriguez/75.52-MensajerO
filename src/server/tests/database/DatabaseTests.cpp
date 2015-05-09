@@ -7,7 +7,7 @@
 
 #include <cppunit/config/SourcePrefix.h>
 #include "DatabaseTests.h"
-#include "../../main/database/Database.h"
+#include "database/Database.h"
 #include <stdio.h>
 
 CPPUNIT_TEST_SUITE_REGISTRATION(DatabaseTests);

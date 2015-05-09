@@ -1,4 +1,4 @@
-#include <services/LogInService.h>
+#include "services/LogInService.h"
 const std::string LogInService::serviceName = SERVICE_LOGIN_NAME;
 
 std::string LogInService::getUri() const {
@@ -7,30 +7,46 @@ std::string LogInService::getUri() const {
 
 void LogInService::executeRequest(const Connection& connection) const {
 
-	string username = connection.getParamMap()[SERVICE_USERNAME];
-	string password = connection.getParamMap()[SERVICE_PASSWORD];
+	Json::Value data;
+	data[SERVICE_USERNAME] = connection.getParamMap()[SERVICE_USERNAME];
+	data[SERVICE_PASSWORD] = connection.getParamMap()[SERVICE_PASSWORD];
+	data["latitude"] = 0;
+	data["longitude"] = 0;
 
-	// TODO quitar hardcodeo
+	Json::Value output = doLogIn(data);
+
+	connection.printMessage(output.toStyledString());
+}
+
+ServiceInterface* LogInServiceCreator::create() {
+	return new LogInService();
+}
+
+Json::Value LogInService::doLogIn(const Json::Value& data) {
+
 	Database db(DATABASE_USERS_PATH);
 	vector<string> key;
-	key.push_back(username);
+	key.push_back(data[SERVICE_USERNAME].asString());
+
+	//TODO FALTA PROCESAR LA LOCATION
+
+	Json::Value output;
 
 	try {
 		string serializedUser = db.read(key);
 		User user(serializedUser);
-		if (user.getPassword() == password) {
-			//Devuelvo datos al user.
-			connection.printMessage(serializedUser);
-			return;
+		if (user.getPassword() == data[SERVICE_PASSWORD].asString()) {
+			output["ok"] = true;
+			output["what"] = "";
 		} else {
-			connection.printMessage("Error: Contraseña incorrecta");
+			output["ok"] = false;
+			output["what"] = "Error: Invalid password.";
 		}
 
 	} catch (KeyNotFoundException &e) {
-		connection.printMessage("Error: Usuario incorrecto");
+		output["ok"] = false;
+		output["what"] = "Error: Invalid username.";
 	}
-}
 
-ServiceInterface* LogInServiceCreator::create(){
-	return new LogInService();
+	return output;
 }
