@@ -5,6 +5,7 @@
 #include <string>
 #include <vector>
 
+#include "ServiceInterface.h"
 // Forwards
 class ServiceInterface;
 

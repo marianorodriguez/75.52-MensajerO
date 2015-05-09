@@ -3,8 +3,6 @@ CMakeFiles
 CMakeCache.txt
 *.cmake
 
-Makefile
-
 *.a
 *~
 
@@ -12,3 +10,5 @@ Makefile
 *.kdev4
 build
 
+Makefile
+Testing/

@@ -1,18 +1,11 @@
 #ifndef DATE_H_
 #define DATE_H_
 
-#include <iostream>
-#include <string.h>
-#include <stdio.h>
-#include <time.h>
-
-using namespace std;
+#include <string>
 
 class Date {
 public:
-	Date();
-	virtual ~Date();
-	static string getDate();
+	static std::string getDate();
 };
 
 #endif /* DATE_H_ */

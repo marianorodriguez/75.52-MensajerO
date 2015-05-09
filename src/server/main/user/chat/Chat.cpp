@@ -7,16 +7,16 @@
 
 #include "Chat.h"
 
-Chat::Chat(string serializedChat) {
+Chat::Chat(const string& serializedChat) {
 
 	Json::Value parsedFromString;
 	Json::Reader reader;
 	bool wasParsed = reader.parse(serializedChat, parsedFromString);
 
 	if (not wasParsed) {
-		NotSerializedDataException* e = new NotSerializedDataException(
-				"'" + serializedChat + "' is not a JSON serialized chat.");
-		throw *e;
+		NotSerializedDataException exception("'" + serializedChat +
+							"' is not a JSON serialized chat.");
+		throw exception;
 	}
 
 	this->username_1 =
@@ -30,19 +30,17 @@ Chat::Chat(string serializedChat) {
 
 		string serializedMessage =
 				parsedFromString[JSON_CHAT_ROOT][JSON_CHAT_MESSAGES][i].asString();
-		Message* m = new Message(serializedMessage);
-		this->addNewMessage(m);
+		Message message(serializedMessage);
+		this->addNewMessage(message);
 
 	}
 }
 
-Chat::Chat(string user_1, string user_2) {
+Chat::Chat(const string& user_1, const string& user_2) {
 
 	if (user_1 == user_2) {
-		InvalidUsernameException *e = new InvalidUsernameException(
-				"Can't create a new chat between a single user");
-
-		throw *e;
+		InvalidUsernameException exception("Can't create a new chat between a single user");
+		throw exception;
 	}
 
 	this->username_1 = user_1;
@@ -50,22 +48,30 @@ Chat::Chat(string user_1, string user_2) {
 	this->numberOfMessages = 0;
 }
 
-void Chat::addNewMessage(Message* newMsg) {
+void Chat::addNewMessage(const Message& message) {
 
-	if (isAValidMessage(*newMsg)) {
+	if (isAValidMessage(message)) {
 
-		this->sentMessages.push_back(newMsg);
+		this->sentMessages.push_back(message);
 		this->numberOfMessages++;
 
 	} else {
-		InvalidUsernameException* e = new InvalidUsernameException(
-				"Can't add a message between invalid users");
-		throw *e;
+		InvalidUsernameException exception("Can't add a message between invalid users");
+		throw exception;
 	}
 
 }
 
-string Chat::serialize() {
+vector<Message> Chat::getMessages() const {
+	return this->sentMessages;
+}
+
+void Chat::updateMessages(const vector<Message> msgs){
+
+	this->sentMessages = msgs;
+}
+
+string Chat::serialize() const{
 
 	Json::Value JsonChat;
 	JsonChat[JSON_CHAT_ROOT][JSON_CHAT_USER_1] = this->username_1;
@@ -74,7 +80,7 @@ string Chat::serialize() {
 
 	for (int i = 0; i < this->numberOfMessages; i++) {
 		JsonChat[JSON_CHAT_ROOT][JSON_CHAT_MESSAGES][i] = this->sentMessages.at(
-				i)->serialize();
+				i).serialize();
 	}
 
 	return JsonChat.toStyledString();
@@ -83,7 +89,7 @@ string Chat::serialize() {
 Chat::~Chat() {
 }
 
-bool Chat::isAValidMessage(Message m) {
+bool Chat::isAValidMessage(const Message& m) const{
 
 	string from = m.getUserFrom();
 	string to = m.getUserTo();

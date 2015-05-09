@@ -18,4 +18,9 @@ private:
 	static const std::string serviceName;
 };
 
+class EchoServiceCreator : public ServiceCreatorInterface{
+public:
+    virtual ServiceInterface* create();
+};
+
 #endif // ECHOSERVICE_H

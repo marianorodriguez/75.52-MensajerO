@@ -1,12 +1,8 @@
 #include "Date.h"
+#include <ctime>
+#include <cstring>
 
-Date::Date() {
-}
-
-Date::~Date() {
-}
-
-string Date::getDate() {
+std::string Date::getDate() {
 
 	time_t now = time(0);
 	struct tm tstruct;

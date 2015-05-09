@@ -9,5 +9,16 @@ std::string EchoService::getUri() const{
 
 void EchoService::executeRequest(const Connection& connection) const{
 	std::string uri(connection.getUri());
-	mg_printf_data(connection.getRawConnection(), uri.c_str());
+	connection.printMessage(uri);
+	std::map<std::string, std::string>::const_iterator it;
+	std::map<std::string, std::string> paramMap;
+	paramMap = connection.getParamMap();
+	for (it = paramMap.begin(); it != paramMap.end(); ++it){
+		std::string message(it->first + " = " + it->second);
+		connection.printMessage(message);
+	}
+}
+
+ServiceInterface* EchoServiceCreator::create(){
+	return new EchoService();
 }

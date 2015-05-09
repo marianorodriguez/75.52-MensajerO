@@ -1,17 +1,25 @@
 #include <cstdio>
 #include <cstring>
+#include<iostream>
+
+#include "mongoose.h"
+#include "json.h"
+#include "utilities/Base64.h"
 
 #include "RestServer.h"
-#include "mongoose.h"
+#include "ServiceFactory.h"
+#include "ServiceInterface.h"
 
-static int ev_handler(struct mg_connection *conn, enum mg_event ev) {
-	RestServer* server = static_cast<RestServer*>(conn->server_param);
-	Connection connectionWrap(conn);
-	switch (ev) {
+/**
+* Captura los requests que le llegan al servidor
+*/
+static int eventHandler(struct mg_connection *mgConnection, enum mg_event event) {
+	RestServer* server = static_cast<RestServer*>(mgConnection->server_param);
+	switch (event) {
 		case MG_AUTH:
 			return MG_TRUE;
 		case MG_REQUEST:
-			server->handleConnection(connectionWrap);
+			server->handleConnection(mgConnection);
 			return MG_TRUE;
 		default:
 			return MG_FALSE;
@@ -22,26 +30,42 @@ static int ev_handler(struct mg_connection *conn, enum mg_event ev) {
  * Constructor
  */
 RestServer::RestServer(){
-	this->server = mg_create_server(this, ev_handler);
+	this->server = mg_create_server(this, eventHandler);
 	mg_set_option(this->server, "listening_port", "8081");
-	for (;;) {
-		mg_poll_server(server, 1000);
-	}
+	connectionManager = ConnectionManager::getInstance();
+	connectionManager->startUpdating();
 }
 
 /**
  * Destructor
  */
 RestServer::~RestServer(){
+	connectionManager->stopUpdating();
+	ConnectionManager::destroyInstance();
 	shutdownServer();
 }
 
-void RestServer::handleConnection(const Connection& connection) const{
+void RestServer::addService (ServiceCreatorInterface* serviceCreator ){
+	this->serviceFactory.addNewServiceCreator(serviceCreator);
+}
+
+void RestServer::pollServer(){
+	mg_poll_server(this->server, 1000);
+}
+
+void RestServer::handleConnection(struct mg_connection *mgConnection) const{
+	ServiceInterface* service;
+	Connection connectionWrap(mgConnection);
+	// Le saco la barra inicial
+	std::string serviceName(connectionWrap.getUri().substr(1));
+	service = this->serviceFactory.createService(serviceName);
+	service->executeRequest(connectionWrap);
+	delete service;
 }
 
 /**
  * Apago el servidor
  */
-int RestServer::shutdownServer(){
+void RestServer::shutdownServer(){
 	mg_destroy_server(&this->server);
 }

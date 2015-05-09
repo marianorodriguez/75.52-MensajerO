@@ -1,27 +1,56 @@
-
 #include <cppunit/BriefTestProgressListener.h>
 #include <cppunit/CompilerOutputter.h>
 #include <cppunit/extensions/TestFactoryRegistry.h>
 #include <cppunit/TestResult.h>
 #include <cppunit/TestResultCollector.h>
 #include <cppunit/TestRunner.h>
+#include <curl/curl.h>
+#include "services/RestServerTest.h"
+#include "services/ServiceFactoryTest.h"
+#include "logger/LoggerTest.h"
+#include "rest-client/RestClientTest.h"
+#include "ArgsParserTests.h"
+#include "NumberConverterTests.h"
+#include "database/DatabaseTests.h"
+#include "services/LogInServiceTest.h"
+#include "services/SignUpServiceTest.h"
+#include "services/UserConfigServiceTest.h"
+#include "services/SomethingForMeServiceTest.h"
+#include "services/CurrentChatsServiceTest.h"
 
-int main( int argc, char* argv[] )
-{
-  CPPUNIT_NS::TestResult controller;
-  CPPUNIT_NS::TestResultCollector result;
+int main(int argc, char* argv[]){
+	curl_global_init(CURL_GLOBAL_ALL);
 
-  controller.addListener( &result );
-  CPPUNIT_NS::BriefTestProgressListener progress;
+	CPPUNIT_NS::TestResult controller;
+	CPPUNIT_NS::TestResultCollector result;
 
-  controller.addListener( &progress );
-  CPPUNIT_NS::TestRunner runner;
+	controller.addListener( &result );
+	CPPUNIT_NS::BriefTestProgressListener progress;
 
-  runner.addTest( CPPUNIT_NS::TestFactoryRegistry::getRegistry().makeTest() );
-  runner.run( controller );
+	controller.addListener( &progress );
+	CPPUNIT_NS::TestRunner runner;
 
-  CPPUNIT_NS::CompilerOutputter outputter( &result, CPPUNIT_NS::stdCOut() );
-  outputter.write();
+	// Instancio para que ejecuten las pruebas
+	//ArgsParserTests apt;
+	LoggerTest lt;
+	DatabaseTests dbt;
+	RestClientTest rct;
+	RestServerTest rst;
+	ServiceFactoryTest sft;
+	NumberConverterTests nct;
+	LogInServiceTest lst;
+	SignUpServiceTest sust;
+	UserConfigServiceTest ucst;
+	SomethingForMeServiceTest sfmst;
+	CurrentChatsServiceTest ccst;
 
-  return result.wasSuccessful() ? 0 : 1;
+	runner.addTest( CPPUNIT_NS::TestFactoryRegistry::getRegistry().makeTest() );
+	runner.run( controller );
+
+	CPPUNIT_NS::CompilerOutputter outputter( &result, CPPUNIT_NS::stdCOut() );
+	outputter.write();
+
+	curl_global_cleanup();
+
+	return result.wasSuccessful() ? 0 : 1;
 }

@@ -8,9 +8,9 @@
 #ifndef SERVER_MAIN_USER_CHAT_CHAT_H_
 #define SERVER_MAIN_USER_CHAT_CHAT_H_
 
-#include "../../../tests/user/chat/chatTests.h"
-#include "../../interfaces/Serializable/ISerializable.h"
-#include "../../exceptions/InvalidUsernameException.h"
+#include "../../../tests/user/chat/ChatTests.h"
+#include "user/ISerializable.h"
+#include "exceptions/InvalidUsernameException.h"
 #include "Message.h"
 
 class chatTests;
@@ -26,35 +26,38 @@ public:
 	/**
 	 * Inicializa un chat existente pasandole por parametros una cadena de texto con los datos del chat.
 	 */
-	Chat(string serializedChat);
+	Chat(const string &serializedChat);
 
 	/**
 	 * Inicializa un nuevo chat pasandole como parametro los usuarios vinculados.
 	 */
-	Chat(string user1, string user2);
+	Chat(const string& user1, const string& user2);
 	virtual ~Chat();
 
 	/**
 	 * Agrega un nuevo mensaje al chat actual.
-	 * @params msg Puntero al mensaje a agregar.
+	 * @param message Puntero al mensaje a agregar.
 	 */
-	void addNewMessage(Message* msg);
+	void addNewMessage(const Message& message);
 
+	void updateMessages(const vector<Message> msgs);
+
+	vector<Message> getMessages() const;
 	/**
 	 * Serializa el chat en una cadena de texto.
 	 */
-	string serialize() override;
+	string serialize() const override;
 
 private:
 	string username_1;
 	string username_2;
 	int numberOfMessages;
-	vector<Message*> sentMessages;
+	vector<Message> sentMessages;
 
 	/**
 	 * Chequea si el mensaje pasado por parametro puede ser un mensaje valido para el chat actual.
 	 */
-	bool isAValidMessage(Message m);
+	bool isAValidMessage(const Message& message) const;
 };
 
 #endif /* SERVER_MAIN_USER_CHAT_CHAT_H_ */

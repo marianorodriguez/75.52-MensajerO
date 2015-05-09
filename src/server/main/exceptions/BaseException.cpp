@@ -13,7 +13,7 @@ BaseException::BaseException(string what) {
 
 BaseException::~BaseException() {}
 
-string BaseException::getDescription(){
+string BaseException::getDescription() const{
 	return this->description;
 }
 
