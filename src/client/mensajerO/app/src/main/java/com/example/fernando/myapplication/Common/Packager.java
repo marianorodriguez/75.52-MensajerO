@@ -120,11 +120,14 @@ public class Packager {
 //        System.out.println(json);
         String json = new String (jsonBytes);
 
+        //json = "{\"ok\":\"true\",\"what\":\"\"}";
+
+
         try {
             JSONObject resp = new JSONObject(json);
             return resp;
 
-        } catch (JSONException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;

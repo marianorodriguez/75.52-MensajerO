@@ -75,14 +75,6 @@ public class SomethingForMePostAsyncTask extends AsyncTask<Pair<Context, String>
                 }
                 return "Error: " + response.getStatusLine().getStatusCode() + " " + response.getStatusLine().getReasonPhrase();
             }
-//
-////            // Execute HTTP GET Request
-////            HttpResponse responseGET = httpClient.execute(httpGet);
-////            if (responseGET.getStatusLine().getStatusCode() == 200) {
-////                return EntityUtils.toString(responseGET.getEntity());
-////            }
-////            return "Error: " + responseGET.getStatusLine().getStatusCode() + " " + responseGET.getStatusLine().getReasonPhrase();
-//
 
         } catch (InterruptedException e) {
             serverError = true;

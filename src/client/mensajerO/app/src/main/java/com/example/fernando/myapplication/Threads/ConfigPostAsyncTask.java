@@ -55,7 +55,7 @@ public class ConfigPostAsyncTask extends AsyncTask<Pair<Context, String>, String
 
                     Constants.configOK = respons.getString("ok");
 
-                    return EntityUtils.toString(response.getEntity());
+                    return "";
 
                 } catch (JSONException e) {
                     e.printStackTrace();

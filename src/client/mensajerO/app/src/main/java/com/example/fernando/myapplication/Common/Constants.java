@@ -17,8 +17,8 @@ import java.util.ArrayList;
  */
 final public class Constants//final to prevent instantiation
 {
-    public static String ipServer = "127.0.0.1";
-    public static String portServer = "8080";
+    public static String ipServer = "192.168.1.104";
+    public static String portServer = "8081";
     public static final String logInUrl = "http://" + ipServer +":" + portServer + "/logIn";
     public static final String signUpUrl = "http://" + ipServer + ":" + portServer + "/signUp";
     public static final String currentChatsUrl = "http://" + ipServer+ ":" +portServer + "/currentChats";
@@ -53,7 +53,7 @@ final public class Constants//final to prevent instantiation
     public static ListView usersListView = null;
     public static UsersActivity.StableArrayAdapter usersAdapter = null;
 
-    public static Server server = new Server();
+    public static Server server = null;
 
     public static int currentChatsSize = 0;
     public static int currentUsersSize;

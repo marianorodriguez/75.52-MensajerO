@@ -55,7 +55,7 @@ public class SignUpPostAsyncTask extends AsyncTask<Pair<Context, String>, String
 
                     Constants.signUpOk = respons.getString("ok");
 
-                    return EntityUtils.toString(response.getEntity());
+                    return "";
 
                 } catch (JSONException e) {
                     e.printStackTrace();
