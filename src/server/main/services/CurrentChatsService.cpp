@@ -8,36 +8,55 @@ std::string CurrentChatsService::getUri() const {
 
 void CurrentChatsService::executeRequest(const Connection& connection) const {
 
-	std::string username = connection.getParamMap()[SERVICE_USERNAME];
-	std::string password = connection.getParamMap()[SERVICE_PASSWORD];
+	Json::Value data;
+	data[SERVICE_USERNAME] = connection.getParamMap()[SERVICE_USERNAME];
+	data[SERVICE_PASSWORD] = connection.getParamMap()[SERVICE_PASSWORD];
+
+	Json::Value output = doCurrentChats(data);
+
+	connection.printMessage(output.toStyledString());
+}
+
+Json::Value CurrentChatsService::doCurrentChats(const Json::Value &data) {
 
 	Database dbUsers(DATABASE_USERS_PATH);
 	Database dbChats(DATABASE_CHATS_PATH);
 
 	vector<string> keyUser;
-	keyUser.push_back(username);
+	keyUser.push_back(data[SERVICE_USERNAME].asString());
+
+	Json::Value output;
+
 	try {
 		User user(dbUsers.read(keyUser));
-		if (user.getPassword() != password){
-			connection.printMessage("Error: Contraseña incorrecta");
-			return;
+		if (user.getPassword() == data[SERVICE_PASSWORD].asString()) {
+
+			vector<string> chats = user.getChats();
+			Json::Value jsonChats;
+
+			for (unsigned int i = 0; i < chats.size(); i++) {
+				vector<string> keyChats;
+				keyChats.push_back(data[SERVICE_USERNAME].asString());
+				keyChats.push_back(chats[i]);
+				Chat chat(dbChats.read(keyChats));
+				output[SERVICE_CURRENTCHATS_CHATS][i] = chat.serialize();
+			}
+
+			output[SERVICE_OUT_OK] = true;
+			output[SERVICE_OUT_WHAT] = "";
+
+		} else {
+			output[SERVICE_OUT_OK] = false;
+			output[SERVICE_OUT_WHAT] = SERVICE_OUT_INVALIDPWD;
 		}
-		vector<string> chats = user.getChats();
-		Json::Value jsonChats;
-		for(unsigned int i = 0; i < chats.size(); i++){
-			vector<string> keyChats;
-			keyChats.push_back(username);
-			keyChats.push_back(chats[i]);
-			Chat chat(dbChats.read(keyChats));
-			jsonChats["chat" + i] = chat.serialize();
-		}
-		//Devuelvo los mensajes serializados.
-		connection.printMessage(jsonChats.toStyledString());
-	}catch (KeyNotFoundException &e) {
-		connection.printMessage("Error: Usuario inválido");
+	} catch (KeyNotFoundException &e) {
+		output[SERVICE_OUT_OK] = false;
+		output[SERVICE_OUT_WHAT] = SERVICE_OUT_INVALIDUSER;
 	}
+
+	return output;
 }
 
-ServiceInterface* CurrentChatsServiceCreator::create(){
+ServiceInterface* CurrentChatsServiceCreator::create() {
 	return new CurrentChatsService();
 }

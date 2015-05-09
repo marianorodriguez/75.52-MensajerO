@@ -6,6 +6,7 @@
 #include "user/chat/Chat.h"
 
 class CurrentChatsService: public ServiceInterface  {
+	friend class CurrentChatsServiceTest;
 public:
 	/*
 	* Devuelve el nombre del servicio: CurrentChats
@@ -17,6 +18,8 @@ public:
 	virtual void executeRequest(const Connection& connection) const;
 private:
 	static const std::string serviceName;
+
+	static Json::Value doCurrentChats(const Json::Value &data);
 };
 
 class CurrentChatsServiceCreator: public ServiceCreatorInterface{
