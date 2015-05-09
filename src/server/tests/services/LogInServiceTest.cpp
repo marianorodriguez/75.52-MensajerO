@@ -42,8 +42,8 @@ void LogInServiceTest::testLogIn() {
 
 	Json::Value output = LogInService::doLogIn(input);
 
-	CPPUNIT_ASSERT(output["ok"].asBool() == true);
-	CPPUNIT_ASSERT(output["what"].asString() == "");
+	CPPUNIT_ASSERT(output[SERVICE_OUT_OK].asBool() == true);
+	CPPUNIT_ASSERT(output[SERVICE_OUT_WHAT].asString() == "");
 }
 
 void LogInServiceTest::testShouldThrowInvalidPassword() {
@@ -53,8 +53,9 @@ void LogInServiceTest::testShouldThrowInvalidPassword() {
 
 	Json::Value output = LogInService::doLogIn(input);
 
-	CPPUNIT_ASSERT(output["ok"].asBool() == false);
-	CPPUNIT_ASSERT(output["what"].asString() == "Error: Invalid password.");
+	CPPUNIT_ASSERT(output[SERVICE_OUT_OK].asBool() == false);
+	CPPUNIT_ASSERT(
+			output[SERVICE_OUT_WHAT].asString() == SERVICE_OUT_INVALIDPWD);
 }
 
 void LogInServiceTest::testShouldThrowInvalidUsername() {
@@ -64,7 +65,8 @@ void LogInServiceTest::testShouldThrowInvalidUsername() {
 
 	Json::Value output = LogInService::doLogIn(input);
 
-	CPPUNIT_ASSERT(output["ok"].asBool() == false);
-	CPPUNIT_ASSERT(output["what"].asString() == "Error: Invalid username.");
+	CPPUNIT_ASSERT(output[SERVICE_OUT_OK].asBool() == false);
+	CPPUNIT_ASSERT(
+			output[SERVICE_OUT_WHAT].asString() == SERVICE_OUT_INVALIDUSER);
 }
 

@@ -36,16 +36,16 @@ Json::Value LogInService::doLogIn(const Json::Value& data) {
 		string serializedUser = db.read(key);
 		User user(serializedUser);
 		if (user.getPassword() == data[SERVICE_PASSWORD].asString()) {
-			output["ok"] = true;
-			output["what"] = "";
+			output[SERVICE_OUT_OK] = true;
+			output[SERVICE_OUT_WHAT] = "";
 		} else {
-			output["ok"] = false;
-			output["what"] = "Error: Invalid password.";
+			output[SERVICE_OUT_OK] = false;
+			output[SERVICE_OUT_WHAT] = SERVICE_OUT_INVALIDPWD;
 		}
 
 	} catch (KeyNotFoundException &e) {
-		output["ok"] = false;
-		output["what"] = "Error: Invalid username.";
+		output[SERVICE_OUT_OK] = false;
+		output[SERVICE_OUT_WHAT] = SERVICE_OUT_INVALIDUSER;
 	}
 
 	return output;

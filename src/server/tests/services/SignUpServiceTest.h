@@ -28,8 +28,6 @@ public:
 	void testUserShouldSignUp();
 	void testSignUpShouldRegisterUserInDatabase();
 	void testUsernameShouldAlreadyExist();
-
-
 };
 
 #endif /* TESTS_SERVICES_SIGNUPSERVICETEST_H_ */

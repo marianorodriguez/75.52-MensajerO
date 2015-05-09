@@ -82,9 +82,16 @@ const std::string SERVICE_IMALIVE_NAME = "imAlive";
 const std::string SERVICE_USERCONFIG_NAME = "config";
 const std::string SERVICE_USERCONFIG_LOCATION = "location";
 const std::string SERVICE_USERCONFIG_STATUS = "status";
-const std::string SERVICE_USERCONFIG_PICTURE = "picture";
+const std::string SERVICE_USERCONFIG_PICTURE = "profile_picture";
 
 //# SERVICIO DE USERS
 const std::string SERVICE_USERS_NAME = "users";
+
+//# OUTPUT DE LOS SERVICES
+const std::string SERVICE_OUT_OK = "ok";
+const std::string SERVICE_OUT_WHAT = "what";
+const std::string SERVICE_OUT_INVALIDUSER = "Error: Invalid username.";
+const std::string SERVICE_OUT_USERNAMEEXISTS = "Error: Username already exists.";
+const std::string SERVICE_OUT_INVALIDPWD = "Error: Invalid password.";
 
 #endif /* CONFIG_CONFIG_H_ */

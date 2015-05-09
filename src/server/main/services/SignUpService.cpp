@@ -58,11 +58,11 @@ Json::Value SignUpService::doSignUp(const Json::Value& data) {
 		DB.write(key, newUser.serialize());
 
 		//le envio sus datos al user como confirmacion
-		output["ok"] = true;
-		output["what"] = "";
+		output[SERVICE_OUT_OK] = true;
+		output[SERVICE_OUT_WHAT] = "";
 	} else {
-		output["ok"] = false;
-		output["what"] = "Error: Username already exists.";
+		output[SERVICE_OUT_OK] = false;
+		output[SERVICE_OUT_WHAT] = SERVICE_OUT_USERNAMEEXISTS;
 	}
 
 	return output;

@@ -16,6 +16,7 @@
 using namespace std;
 
 class UserConfigService: public ServiceInterface {
+	friend class UserConfigServiceTest;
 public:
 
 	std::string getUri() const;
@@ -26,6 +27,8 @@ public:
 private:
 
 	static const std::string serviceName;
+
+	static Json::Value doUserConfig(const Json::Value &data);
 };
 
 class UserConfigServiceCreator: public ServiceCreatorInterface{

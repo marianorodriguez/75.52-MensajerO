@@ -6,6 +6,7 @@ add_library(service-test
 	ServiceFactoryTest.cpp
 	ConnectionManagerTest.cpp
 	LogInServiceTest.cpp
-	SignUpServiceTest.cpp)
+	SignUpServiceTest.cpp
+	UserConfigServiceTest.cpp)
 
 target_link_libraries(service-test mensajero-services mensajero-utilities)

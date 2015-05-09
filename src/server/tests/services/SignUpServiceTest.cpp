@@ -41,8 +41,8 @@ void SignUpServiceTest::testUserShouldSignUp(){
 
 	Json::Value output = SignUpService::doSignUp(input);
 
-	CPPUNIT_ASSERT(output["ok"].asBool() == true);
-	CPPUNIT_ASSERT(output["what"].asString() == "");
+	CPPUNIT_ASSERT(output[SERVICE_OUT_OK].asBool() == true);
+	CPPUNIT_ASSERT(output[SERVICE_OUT_WHAT].asString() == "");
 
 	Database DB(DATABASE_USERS_PATH);
 	std::vector<std::string> key;
@@ -76,6 +76,6 @@ void SignUpServiceTest::testUsernameShouldAlreadyExist(){
 
 	Json::Value output = SignUpService::doSignUp(input);
 
-	CPPUNIT_ASSERT(output["ok"].asBool() == false);
-	CPPUNIT_ASSERT(output["what"].asString() == "Error: Username already exists.");
+	CPPUNIT_ASSERT(output[SERVICE_OUT_OK].asBool() == false);
+	CPPUNIT_ASSERT(output[SERVICE_OUT_WHAT].asString() == SERVICE_OUT_USERNAMEEXISTS);
 }
