@@ -157,6 +157,12 @@ public class LogInActivity extends ActionBarActivity implements View.OnClickList
                 Constants.user = currentUser;
 //                Constants.user.chats = Constants.userChats;
 
+                // currentchats te da todos los chats actualizados
+                //aca deberia guardar los chats que recibe en Constants.users.chats con jsontoChats() para que los dibuje refresh chats cuando arranque.
+                // tocar jsontochats para que ponga en otherUser el nombre del otro usuario.
+                // currentChatsSize deberia ser 0. pero ponerlo en 0 por las dudas.
+                // lo de aca abajo que guarda los chats en shared no deberia estar aca.
+
                 SharedPreferences.Editor e = Constants.mSharedPreferences.edit();
                 e.putString(username+"chats", Constants.user.chatsToJson().toString());
                 e.commit();

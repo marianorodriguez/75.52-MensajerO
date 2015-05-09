@@ -56,7 +56,7 @@ public class SendMessagePostAsyncTask extends AsyncTask<Pair<Context, String>, S
 
                     Constants.sendMessageOk = respons.getString("ok");
 
-                    return EntityUtils.toString(response.getEntity());
+                    return "";
 
                 } catch (JSONException e) {
                     e.printStackTrace();

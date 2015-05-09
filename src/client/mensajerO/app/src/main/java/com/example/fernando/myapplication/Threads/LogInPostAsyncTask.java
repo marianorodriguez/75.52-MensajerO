@@ -121,7 +121,6 @@ public class LogInPostAsyncTask extends AsyncTask<Pair<Context, String>, String,
                 e.printStackTrace();
             }
             return null;
-
     }
 
     @Override

@@ -18,7 +18,7 @@ public class Chat {
         this.otherUser = otherUser;
     }
 
-    public JSONObject toJson() {
+    public JSONObject toJson() {  // AGREGAR MI PROPIO USERNAME AL JSON CHAT
         JSONObject jchat = new JSONObject();
         JSONArray jmessages = new JSONArray();
         try {

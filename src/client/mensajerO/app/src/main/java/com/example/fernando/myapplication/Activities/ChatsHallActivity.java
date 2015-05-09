@@ -135,6 +135,8 @@ public class ChatsHallActivity extends ActionBarActivity implements View.OnClick
 
             e.commit();
 
+            // HACER FUNCION QUE RESETEE TODOS ESTOS PARAMETROS !!!
+
             Constants.logInOk = "";
             Constants.currentChatsOk = "";
             Constants.currentChatsSize = 0;

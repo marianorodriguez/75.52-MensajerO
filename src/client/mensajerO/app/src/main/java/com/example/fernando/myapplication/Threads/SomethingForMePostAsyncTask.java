@@ -63,7 +63,7 @@ public class SomethingForMePostAsyncTask extends AsyncTask<Pair<Context, String>
                     publishProgress("run again", params[0].second,
                             params[1].second, params[2].second);
 
-                    return EntityUtils.toString(response.getEntity());
+                    return "";
 
                 } else {
                     publishProgress("serverError");
