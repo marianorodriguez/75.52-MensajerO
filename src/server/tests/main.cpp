@@ -13,6 +13,7 @@
 #include "NumberConverterTests.h"
 #include "database/DatabaseTests.h"
 #include "services/LogInServiceTest.h"
+#include "services/SignUpServiceTest.h"
 
 int main(int argc, char* argv[]){
 	curl_global_init(CURL_GLOBAL_ALL);
@@ -35,6 +36,7 @@ int main(int argc, char* argv[]){
 	ServiceFactoryTest sft;
 	NumberConverterTests nct;
 	LogInServiceTest lst;
+	SignUpServiceTest sust;
 
 	runner.addTest( CPPUNIT_NS::TestFactoryRegistry::getRegistry().makeTest() );
 	runner.run( controller );

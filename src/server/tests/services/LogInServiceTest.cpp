@@ -5,7 +5,7 @@
  *      Author: marian
  */
 
-#include "services/LogInServiceTest.h"
+#include "LogInServiceTest.h"
 
 CPPUNIT_TEST_SUITE_REGISTRATION(LogInServiceTest);
 

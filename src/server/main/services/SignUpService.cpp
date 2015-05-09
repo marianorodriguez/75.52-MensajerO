@@ -8,27 +8,19 @@ std::string SignUpService::getUri() const {
 
 void SignUpService::executeRequest(const Connection& connection) const {
 
-	std::cout<<"SIGNUP SERVICES EJECUTANDOSE"<<std::endl;
-	std::string username = connection.getParamMap()[SERVICE_USERNAME];
-	std::string password = connection.getParamMap()[SERVICE_PASSWORD];
-	bool exists = checkUsernameExists(username, connection);
+	Json::Value data;
+	data[SERVICE_USERNAME] = connection.getParamMap()[SERVICE_USERNAME];
+	data[SERVICE_PASSWORD] = connection.getParamMap()[SERVICE_PASSWORD];
+	data["latitude"] = 0;
+	data["longitude"] = 0;
 
-	//si no hay error, guardo el usuario en la BD y devuelvo OK
-	if (!exists) {
-		Database DB(DATABASE_USERS_PATH);
-		User newUser(username, password);
+	Json::Value output = doSignUp(data);
 
-		std::vector<std::string> key;
-		key.push_back(username);
-		DB.write(key, newUser.serialize());
-
-		//le envio sus datos al user como confirmacion
-		connection.printMessage(newUser.serialize());
-	}
+	connection.printMessage(output.toStyledString());
 }
 
-bool SignUpService::checkUsernameExists(const std::string& username,
-		const Connection& connection) const {
+bool checkUsernameExists(const std::string& username){
+
 	bool exists = false;
 	Database DB(DATABASE_USERS_PATH);
 	vector<string> key;
@@ -37,17 +29,42 @@ bool SignUpService::checkUsernameExists(const std::string& username,
 	try {
 		std::string value = DB.read(key);
 		exists = true;
-	} catch (KeyNotFoundException e) {
-		e.getDescription();
+	} catch (KeyNotFoundException &e) {
 	}
 
-	if (exists) {
-		connection.printMessage("Error: Username already exists.");
-		//todo setear connection status
-	}
 	return exists;
 }
 
-ServiceInterface* SignUpServiceCreator::create(){
+ServiceInterface* SignUpServiceCreator::create() {
 	return new SignUpService();
 }
+
+Json::Value SignUpService::doSignUp(const Json::Value& data) {
+
+	//si no hay error, guardo el usuario en la BD y devuelvo OK
+
+	bool exists = checkUsernameExists(data[SERVICE_USERNAME].asString());
+
+	Json::Value output;
+
+	if (!exists) {
+		Database DB(DATABASE_USERS_PATH);
+		std::string username = data[SERVICE_USERNAME].asString();
+		std::string password = data[SERVICE_PASSWORD].asString();
+		User newUser(username, password);
+
+		std::vector<std::string> key;
+		key.push_back(username);
+		DB.write(key, newUser.serialize());
+
+		//le envio sus datos al user como confirmacion
+		output["ok"] = true;
+		output["what"] = "";
+	} else {
+		output["ok"] = false;
+		output["what"] = "Error: Username already exists.";
+	}
+
+	return output;
+}
+

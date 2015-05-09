@@ -41,9 +41,9 @@
 
 
 //# DATABASE ##################################
-const std::string DEFAULT_DATABASE_PATH = "/database";
-#define DATABASE_CHATS_PATH "/database/chats"
-#define DATABASE_USERS_PATH "/database/users"
+const std::string DEFAULT_DATABASE_PATH = "database";
+#define DATABASE_CHATS_PATH "database/chats"
+#define DATABASE_USERS_PATH "database/users"
 
 
 //# LOGGER ####################################

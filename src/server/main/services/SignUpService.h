@@ -5,7 +5,7 @@
 #include "database/Database.h"
 
 class SignUpService: public ServiceInterface {
-	friend class ServicesIntegrationTests;
+	friend class SignUpServiceTest;
 public:
 	/**
 	 * Devuelve el nombre del servicio: createUser
@@ -18,8 +18,8 @@ public:
 private:
 	static const std::string serviceName;
 
-	bool checkUsernameExists(const std::string& username,
-			const Connection& connection) const;
+	static Json::Value doSignUp(const Json::Value& data);
+
 };
 
 class SignUpServiceCreator : public ServiceCreatorInterface{
