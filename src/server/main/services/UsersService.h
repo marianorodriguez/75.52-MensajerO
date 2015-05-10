@@ -7,6 +7,7 @@
 #include "config.h"
 
 class UsersService: public ServiceInterface {
+	friend class UsersServiceTest;
 public:
 
 	virtual std::string getUri() const;
@@ -15,6 +16,8 @@ public:
 private:
 
 	static const std::string serviceName;
+	static Json::Value doUsers(const Json::Value &data);
+
 };
 
 class UsersServiceCreator: public ServiceCreatorInterface{

@@ -8,33 +8,53 @@ std::string UsersService::getUri() const {
 
 void UsersService::executeRequest(const Connection& connection) const {
 
-	std::string username = connection.getParamMap()[SERVICE_USERNAME];
-	std::string password = connection.getParamMap()[SERVICE_PASSWORD];
+	Json::Value data;
+	data[SERVICE_USERNAME] = connection.getParamMap()[SERVICE_USERNAME];
+	data[SERVICE_PASSWORD] = connection.getParamMap()[SERVICE_PASSWORD];
+	//TODO procesar location
 
-	std::vector<std::string> key;
-	key.push_back(username);
+	Json::Value output = doUsers(data);
+
+	connection.printMessage(output.toStyledString());
+}
+
+Json::Value UsersService::doUsers(const Json::Value &data) {
+
 	Database DB(DATABASE_USERS_PATH);
-	std::string userValue = DB.read(key);
-	User user(userValue);
 
-	if (password == user.getPassword()) {
+	Json::Value output;
 
-		Json::Value registeredUsers;
-		vector<string> keys = DB.getAllKeys();
-		vector<string> key;
+	try {
 
-		for (int i = 0; i < keys.size(); i++) {
-			key.push_back(keys.at(i));
-			registeredUsers["users"][keys.at(i)] = DB.read(key);
-			key.clear();
+		std::vector<std::string> key;
+		key.push_back(data[SERVICE_USERNAME].asString());
+		std::string userValue = DB.read(key);
+		User user(userValue);
+
+		if (data[SERVICE_PASSWORD].asString() == user.getPassword()) {
+
+			vector<string> keys = DB.getAllKeys();
+			vector<string> key;
+
+			for (int i = 0; i < keys.size(); i++) {
+				key.push_back(keys.at(i));
+				output["users"][i] = DB.read(key);
+				key.clear();
+			}
+
+			output[SERVICE_OUT_OK] = true;
+			output[SERVICE_OUT_WHAT] = "";
+
+		} else {
+			output[SERVICE_OUT_OK] = false;
+			output[SERVICE_OUT_WHAT] = SERVICE_OUT_INVALIDPWD;
 		}
-
-		connection.printMessage(registeredUsers.toStyledString());
-
-	} else {
-
-		connection.printMessage("ERROR");
+	} catch (KeyNotFoundException &e) {
+		output[SERVICE_OUT_OK] = false;
+		output[SERVICE_OUT_WHAT] = SERVICE_OUT_INVALIDUSER;
 	}
+
+	return output;
 }
 
 ServiceInterface* UsersServiceCreator::create() {

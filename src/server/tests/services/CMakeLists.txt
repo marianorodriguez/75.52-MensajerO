@@ -9,6 +9,7 @@ add_library(service-test
 	SignUpServiceTest.cpp
 	UserConfigServiceTest.cpp
 	SomethingForMeServiceTest.cpp
-	CurrentChatsServiceTest.cpp)
+	CurrentChatsServiceTest.cpp
+	UsersServiceTest.cpp)
 
 target_link_libraries(service-test mensajero-services mensajero-utilities)
