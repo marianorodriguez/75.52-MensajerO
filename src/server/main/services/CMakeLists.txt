@@ -4,7 +4,6 @@ add_library(mensajero-services
 	Connection.cpp
 	ConnectionManager.cpp
 	CurrentChatsService.cpp
-	ImAliveService.cpp
 	LogInService.cpp
 	NullService.cpp
 	QueryParams.cpp

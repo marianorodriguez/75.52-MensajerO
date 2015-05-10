@@ -18,6 +18,7 @@
 #include "services/SomethingForMeServiceTest.h"
 #include "services/CurrentChatsServiceTest.h"
 #include "services/UsersServiceTest.h"
+#include "services/SendMessageServiceTest.h"
 
 int main(int argc, char* argv[]){
 	curl_global_init(CURL_GLOBAL_ALL);
@@ -45,6 +46,7 @@ int main(int argc, char* argv[]){
 	SomethingForMeServiceTest sfmst;
 	CurrentChatsServiceTest ccst;
 	UsersServiceTest ust;
+	SendMessageServiceTest smst;
 
 	runner.addTest( CPPUNIT_NS::TestFactoryRegistry::getRegistry().makeTest() );
 	runner.run( controller );

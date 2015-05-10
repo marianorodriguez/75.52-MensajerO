@@ -8,45 +8,83 @@ std::string SendMessageService::getUri() const {
 
 void SendMessageService::executeRequest(const Connection& connection) const {
 
-	map<string,string> params = connection.getParamMap();
-	string userFrom = params[SERVICE_SENDMESSAGE_USERNAME_FROM];
-	string userTo = params[SERVICE_SENDMESSAGE_USERNAME_TO];
-	string sentMessage = params[SERVICE_SENDMESSAGE_MESSAGE];
+	Json::Value data;
+	data[SERVICE_USERNAME] = connection.getParamMap()[SERVICE_USERNAME];
+	data[SERVICE_PASSWORD] = connection.getParamMap()[SERVICE_PASSWORD];
+	data[SERVICE_SENDMESSAGE_USERNAME_TO] =
+			connection.getParamMap()[SERVICE_SENDMESSAGE_USERNAME_TO];
+	data[SERVICE_SENDMESSAGE_MESSAGE] =
+			connection.getParamMap()[SERVICE_SENDMESSAGE_MESSAGE];
 
-	Message message(userFrom,userTo,sentMessage);
+	// TODO location
 
-	Database dbChats(DATABASE_CHATS_PATH);
-	vector<string> keyChat;
-	keyChat.push_back(userFrom);
-	keyChat.push_back(userTo);
+	Json::Value output = doSendMessage(data);
 
-	try {
-		string serializedChat = dbChats.read(keyChat);
-		Chat chat(serializedChat);
-		chat.addNewMessage(message);
-		dbChats.write(keyChat,chat.serialize());
-	} catch (KeyNotFoundException &e) {
-		Chat chat(userFrom,userTo);
-		chat.addNewMessage(message);
-		dbChats.write(keyChat,chat.serialize());
-
-		Database dbUsers(DATABASE_USERS_PATH);
-		vector<string> keyUserFrom; keyUserFrom.push_back(userFrom);
-		User userF(dbUsers.read(keyUserFrom));
-		userF.addChatWithUser(userTo);
-
-		vector<string> keyUserTo; keyUserTo.push_back(userTo);
-		User userT(dbUsers.read(keyUserTo));
-		userT.addChatWithUser(userFrom);
-
-		dbUsers.write(keyUserFrom,userF.serialize());
-		dbUsers.write(keyUserTo,userT.serialize());
-
-	}
-
+	ConnectionManager::getInstance()->updateUser(data[SERVICE_USERNAME].asString());
+	connection.printMessage(output.toStyledString());
 }
 
-ServiceInterface* SendMessageServiceCreator::create(){
+Json::Value SendMessageService::doSendMessage(const Json::Value &data) {
+
+	string userFrom = data[SERVICE_USERNAME].asString();
+	string password = data[SERVICE_PASSWORD].asString();
+	string userTo = data[SERVICE_SENDMESSAGE_USERNAME_TO].asString();
+	string text = data[SERVICE_SENDMESSAGE_MESSAGE].asString();
+
+	Message message(userFrom, userTo, text);
+
+	Database dbChats(DATABASE_CHATS_PATH);
+	Database dbUsers(DATABASE_USERS_PATH);
+	vector<string> keyChat, keyUser;
+	keyChat.push_back(userFrom);
+	keyChat.push_back(userTo);
+	keyUser.push_back(userFrom);
+
+	Json::Value output;
+
+	try {
+		User user(dbUsers.read(keyUser));
+
+		if (user.getPassword() == password) {
+			try {
+				string serializedChat = dbChats.read(keyChat);
+				Chat chat(serializedChat);
+				chat.addNewMessage(message);
+				dbChats.write(keyChat, chat.serialize());
+			} catch (KeyNotFoundException &e) {
+				Chat chat(userFrom, userTo);
+				chat.addNewMessage(message);
+				dbChats.write(keyChat, chat.serialize());
+
+				vector<string> keyUserFrom;
+				keyUserFrom.push_back(userFrom);
+				User userF(dbUsers.read(keyUserFrom));
+				userF.addChatWithUser(userTo);
+
+				vector<string> keyUserTo;
+				keyUserTo.push_back(userTo);
+				User userT(dbUsers.read(keyUserTo));
+				userT.addChatWithUser(userFrom);
+
+				dbUsers.write(keyUserFrom, userF.serialize());
+				dbUsers.write(keyUserTo, userT.serialize());
+
+			}
+			output[SERVICE_OUT_OK] = true;
+			output[SERVICE_OUT_WHAT] = "";
+		} else {
+			output[SERVICE_OUT_OK] = false;
+			output[SERVICE_OUT_WHAT] = SERVICE_OUT_INVALIDPWD;
+		}
+	} catch (KeyNotFoundException &e) {
+		output[SERVICE_OUT_OK] = false;
+		output[SERVICE_OUT_WHAT] = SERVICE_OUT_INVALIDUSER;
+	}
+
+	return output;
+}
+
+ServiceInterface* SendMessageServiceCreator::create() {
 	return new SendMessageService();
 }
 

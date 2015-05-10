@@ -14,6 +14,7 @@ void CurrentChatsService::executeRequest(const Connection& connection) const {
 
 	Json::Value output = doCurrentChats(data);
 
+	ConnectionManager::getInstance()->updateUser(data[SERVICE_USERNAME].asString());
 	connection.printMessage(output.toStyledString());
 }
 

@@ -2,6 +2,7 @@
 #define SERVICE_INTERFACE_H
 
 #include "Connection.h"
+#include "services/ConnectionManager.h"
 
 class ServiceInterface{
 public:

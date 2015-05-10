@@ -24,6 +24,7 @@ void UserConfigService::executeRequest(const Connection& connection) const {
 
 	Json::Value output = doUserConfig(data);
 
+	ConnectionManager::getInstance()->updateUser(data[SERVICE_USERNAME].asString());
 	connection.printMessage(output.toStyledString());
 }
 

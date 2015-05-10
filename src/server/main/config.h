@@ -65,9 +65,8 @@ const std::string SERVICE_LOGIN_NAME = "logIn";
 
 //# SERVICIO DE SENDMESSAGE
 const std::string SERVICE_SENDMESSAGE_NAME = "sendMessage";
-#define SERVICE_SENDMESSAGE_USERNAME_FROM "userFrom"
-#define SERVICE_SENDMESSAGE_USERNAME_TO "userTo"
-#define SERVICE_SENDMESSAGE_MESSAGE "message"
+#define SERVICE_SENDMESSAGE_USERNAME_TO "msg_toID"
+#define SERVICE_SENDMESSAGE_MESSAGE "msg_text"
 
 //# SERVICIO DE SOMETHINGFORME
 const std::string SERVICE_SOMETHINGFORME_NAME = "somethingForMe";
@@ -76,9 +75,6 @@ const std::string SERVICE_SOMETHINGFORME_MESSAGES = "messages";
 //# SERVICIO DE CURRENTCHATS
 const std::string SERVICE_CURRENTCHATS_NAME = "currentChats";
 const std::string SERVICE_CURRENTCHATS_CHATS = "chats";
-
-//# SERVICIO DE IMALIVE
-const std::string SERVICE_IMALIVE_NAME = "imAlive";
 
 //# SERVICIO DE UserConfig
 const std::string SERVICE_USERCONFIG_NAME = "setConfig";
