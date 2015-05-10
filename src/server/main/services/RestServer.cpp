@@ -59,7 +59,8 @@ void RestServer::handleConnection(struct mg_connection *mgConnection) const{
 	// Le saco la barra inicial
 	std::string serviceName(connectionWrap.getUri().substr(1));
 	service = this->serviceFactory.createService(serviceName);
-	service->executeRequest(connectionWrap);
+	std::string response = service->executeRequest(connectionWrap.getParamMap());
+	connectionWrap.printMessage(response);
 	delete service;
 }
 

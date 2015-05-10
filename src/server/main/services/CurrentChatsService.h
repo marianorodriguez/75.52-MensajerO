@@ -15,7 +15,7 @@ public:
 	/**
 	 * Devuelve chats activos
 	 */
-	virtual void executeRequest(const Connection& connection) const;
+	virtual std::string executeRequest(const std::map<std::string, std::string> &paramMap) const;
 private:
 	static const std::string serviceName;
 

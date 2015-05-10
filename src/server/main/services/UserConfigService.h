@@ -22,7 +22,7 @@ public:
 	std::string getUri() const;
 
 	//Actualiza datos del user
-	void executeRequest(const Connection& connection) const;
+	std::string executeRequest(const std::map<std::string, std::string> &paramMap) const;
 
 private:
 

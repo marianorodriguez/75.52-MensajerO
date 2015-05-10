@@ -6,22 +6,23 @@ std::string SendMessageService::getUri() const {
 	return SendMessageService::serviceName;
 }
 
-void SendMessageService::executeRequest(const Connection& connection) const {
+std::string SendMessageService::executeRequest(
+		const std::map<std::string, std::string> &paramMap) const {
 
 	Json::Value data;
-	data[SERVICE_USERNAME] = connection.getParamMap()[SERVICE_USERNAME];
-	data[SERVICE_PASSWORD] = connection.getParamMap()[SERVICE_PASSWORD];
-	data[SERVICE_SENDMESSAGE_USERNAME_TO] =
-			connection.getParamMap()[SERVICE_SENDMESSAGE_USERNAME_TO];
-	data[SERVICE_SENDMESSAGE_MESSAGE] =
-			connection.getParamMap()[SERVICE_SENDMESSAGE_MESSAGE];
+	data[SERVICE_USERNAME] = paramMap.at(SERVICE_USERNAME);
+	data[SERVICE_PASSWORD] = paramMap.at(SERVICE_PASSWORD);
+	data[SERVICE_SENDMESSAGE_USERNAME_TO] = paramMap.at(
+			SERVICE_SENDMESSAGE_USERNAME_TO);
+	data[SERVICE_SENDMESSAGE_MESSAGE] = paramMap.at(SERVICE_SENDMESSAGE_MESSAGE);
 
 	// TODO location
 
 	Json::Value output = doSendMessage(data);
 
-	ConnectionManager::getInstance()->updateUser(data[SERVICE_USERNAME].asString());
-	connection.printMessage(output.toStyledString());
+	ConnectionManager::getInstance()->updateUser(
+			data[SERVICE_USERNAME].asString());
+	return output.toStyledString();
 }
 
 Json::Value SendMessageService::doSendMessage(const Json::Value &data) {

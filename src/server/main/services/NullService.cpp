@@ -6,4 +6,6 @@ std::string NullService::getUri() const{
 	return NullService::serviceName;
 }
 
-void NullService::executeRequest(const Connection& connection) const{}
+std::string NullService::executeRequest(const std::map<std::string, std::string> &paramMap) const{
+	return "";
+}

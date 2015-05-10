@@ -6,18 +6,18 @@ std::string SignUpService::getUri() const {
 	return SignUpService::serviceName;
 }
 
-void SignUpService::executeRequest(const Connection& connection) const {
+std::string SignUpService::executeRequest(const std::map<std::string, std::string> &paramMap) const {
 
 	Json::Value data;
-	data[SERVICE_USERNAME] = connection.getParamMap()[SERVICE_USERNAME];
-	data[SERVICE_PASSWORD] = connection.getParamMap()[SERVICE_PASSWORD];
+	data[SERVICE_USERNAME] = paramMap.at(SERVICE_USERNAME);
+	data[SERVICE_PASSWORD] = paramMap.at(SERVICE_PASSWORD);
 	data["latitude"] = 0;
 	data["longitude"] = 0;
 
 	Json::Value output = doSignUp(data);
 
 	ConnectionManager::getInstance()->updateUser(data[SERVICE_USERNAME].asString());
-	connection.printMessage(output.toStyledString());
+	return output.toStyledString();
 }
 
 bool checkUsernameExists(const std::string& username){

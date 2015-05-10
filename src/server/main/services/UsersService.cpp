@@ -6,17 +6,17 @@ std::string UsersService::getUri() const {
 	return UsersService::serviceName;
 }
 
-void UsersService::executeRequest(const Connection& connection) const {
+std::string UsersService::executeRequest(const std::map<std::string, std::string> &paramMap) const {
 
 	Json::Value data;
-	data[SERVICE_USERNAME] = connection.getParamMap()[SERVICE_USERNAME];
-	data[SERVICE_PASSWORD] = connection.getParamMap()[SERVICE_PASSWORD];
+	data[SERVICE_USERNAME] = paramMap.at(SERVICE_USERNAME);
+	data[SERVICE_PASSWORD] = paramMap.at(SERVICE_PASSWORD);
 	//TODO procesar location
 
 	Json::Value output = doUsers(data);
 
 	ConnectionManager::getInstance()->updateUser(data[SERVICE_USERNAME].asString());
-	connection.printMessage(output.toStyledString());
+	return output.toStyledString();
 }
 
 Json::Value UsersService::doUsers(const Json::Value &data) {

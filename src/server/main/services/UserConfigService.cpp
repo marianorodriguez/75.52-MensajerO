@@ -13,19 +13,19 @@ std::string UserConfigService::getUri() const {
 	return UserConfigService::serviceName;
 }
 
-void UserConfigService::executeRequest(const Connection& connection) const {
+std::string UserConfigService::executeRequest(const std::map<std::string, std::string> &paramMap) const {
 
 	Json::Value data;
-	data[SERVICE_USERNAME] = connection.getParamMap()[SERVICE_USERNAME];
-	data[SERVICE_PASSWORD] = connection.getParamMap()[SERVICE_PASSWORD];
-	data[SERVICE_USERCONFIG_LOCATION] = connection.getParamMap()[SERVICE_USERCONFIG_LOCATION];
-	data[SERVICE_USERCONFIG_STATUS] = connection.getParamMap()[SERVICE_USERCONFIG_STATUS];
-	data[SERVICE_USERCONFIG_PICTURE] = connection.getParamMap()[SERVICE_USERCONFIG_PICTURE];
+	data[SERVICE_USERNAME] = paramMap.at(SERVICE_USERNAME);
+	data[SERVICE_PASSWORD] = paramMap.at(SERVICE_PASSWORD);
+	data[SERVICE_USERCONFIG_LOCATION] = paramMap.at(SERVICE_USERCONFIG_LOCATION);
+	data[SERVICE_USERCONFIG_STATUS] = paramMap.at(SERVICE_USERCONFIG_STATUS);
+	data[SERVICE_USERCONFIG_PICTURE] = paramMap.at(SERVICE_USERCONFIG_PICTURE);
 
 	Json::Value output = doUserConfig(data);
 
 	ConnectionManager::getInstance()->updateUser(data[SERVICE_USERNAME].asString());
-	connection.printMessage(output.toStyledString());
+	return output.toStyledString();
 }
 
 Json::Value UserConfigService::doUserConfig(const Json::Value &data){

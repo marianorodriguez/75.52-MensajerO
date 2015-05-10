@@ -7,18 +7,18 @@ std::string SomethingForMeService::getUri() const {
 	return SomethingForMeService::serviceName;
 }
 
-void SomethingForMeService::executeRequest(const Connection& connection) const {
+std::string SomethingForMeService::executeRequest(const std::map<std::string, std::string> &paramMap) const {
 
 	Json::Value data;
-	data[SERVICE_USERNAME] = connection.getParamMap()[SERVICE_USERNAME];
-	data[SERVICE_PASSWORD] = connection.getParamMap()[SERVICE_PASSWORD];
+	data[SERVICE_USERNAME] = paramMap.at(SERVICE_USERNAME);
+	data[SERVICE_PASSWORD] = paramMap.at(SERVICE_PASSWORD);
 
 	//TODO falta procesar location
 
 	Json::Value output = doSomethingForMe(data);
 
 	ConnectionManager::getInstance()->updateUser(data[SERVICE_USERNAME].asString());
-	connection.printMessage(output.toStyledString());
+	return output.toStyledString();
 }
 
 Json::Value SomethingForMeService::doSomethingForMe(const Json::Value &data) {

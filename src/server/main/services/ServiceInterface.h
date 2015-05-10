@@ -19,7 +19,7 @@ public:
 	 * Ejecuta el servicio instanciado
 	 * @param connection contiene los datos de la conexion con el cliente.
 	 */
-	virtual void executeRequest(const Connection& connection) const = 0;
+	virtual std::string executeRequest(const std::map<std::string, std::string> &paramMap) const = 0;
 };
 
 class ServiceCreatorInterface{

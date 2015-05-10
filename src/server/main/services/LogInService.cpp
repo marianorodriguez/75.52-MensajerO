@@ -5,18 +5,18 @@ std::string LogInService::getUri() const {
 	return LogInService::serviceName;
 }
 
-void LogInService::executeRequest(const Connection& connection) const {
+std::string LogInService::executeRequest(const std::map<std::string, std::string> &paramMap) const {
 
 	Json::Value data;
-	data[SERVICE_USERNAME] = connection.getParamMap()[SERVICE_USERNAME];
-	data[SERVICE_PASSWORD] = connection.getParamMap()[SERVICE_PASSWORD];
+	data[SERVICE_USERNAME] = paramMap.at(SERVICE_USERNAME);
+	data[SERVICE_PASSWORD] = paramMap.at(SERVICE_PASSWORD);
 	data["latitude"] = 0;
 	data["longitude"] = 0;
 
 	Json::Value output = doLogIn(data);
 
 	ConnectionManager::getInstance()->updateUser(data[SERVICE_USERNAME].asString());
-	connection.printMessage(output.toStyledString());
+	return output.toStyledString();
 }
 
 ServiceInterface* LogInServiceCreator::create() {

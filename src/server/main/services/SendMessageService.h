@@ -16,7 +16,7 @@ public:
 	/*
 	 * Agrega mensaje a la lista de conversaciones
 	 */
-	virtual void executeRequest(const Connection& connection) const;
+	virtual std::string executeRequest(const std::map<std::string, std::string> &paramMap) const;
 private:
 	static const std::string serviceName;
 	static Json::Value doSendMessage(const Json::Value &data);
