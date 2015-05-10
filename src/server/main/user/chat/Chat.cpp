@@ -20,16 +20,15 @@ Chat::Chat(const string& serializedChat) {
 	}
 
 	this->username_1 =
-			parsedFromString[JSON_CHAT_ROOT][JSON_CHAT_USER_1].asString();
+			parsedFromString[JSON_CHAT_USER_1].asString();
 	this->username_2 =
-			parsedFromString[JSON_CHAT_ROOT][JSON_CHAT_USER_2].asString();
-	this->numberOfMessages = 0;
+			parsedFromString[JSON_CHAT_USER_2].asString();
 
-	int num_msg = parsedFromString[JSON_CHAT_ROOT][JSON_CHAT_NUM_MSG].asInt();
+	int num_msg = parsedFromString[JSON_CHAT_MESSAGES].size();
 	for (int i = 0; i < num_msg; i++) {
 
 		string serializedMessage =
-				parsedFromString[JSON_CHAT_ROOT][JSON_CHAT_MESSAGES][i].asString();
+				parsedFromString[JSON_CHAT_MESSAGES][i].asString();
 		Message message(serializedMessage);
 		this->addNewMessage(message);
 
@@ -45,7 +44,6 @@ Chat::Chat(const string& user_1, const string& user_2) {
 
 	this->username_1 = user_1;
 	this->username_2 = user_2;
-	this->numberOfMessages = 0;
 }
 
 void Chat::addNewMessage(const Message& message) {
@@ -53,7 +51,6 @@ void Chat::addNewMessage(const Message& message) {
 	if (isAValidMessage(message)) {
 
 		this->sentMessages.push_back(message);
-		this->numberOfMessages++;
 
 	} else {
 		InvalidUsernameException exception("Can't add a message between invalid users");
@@ -74,12 +71,11 @@ void Chat::updateMessages(const vector<Message> msgs){
 string Chat::serialize() const{
 
 	Json::Value JsonChat;
-	JsonChat[JSON_CHAT_ROOT][JSON_CHAT_USER_1] = this->username_1;
-	JsonChat[JSON_CHAT_ROOT][JSON_CHAT_USER_2] = this->username_2;
-	JsonChat[JSON_CHAT_ROOT][JSON_CHAT_NUM_MSG] = this->numberOfMessages;
+	JsonChat[JSON_CHAT_USER_1] = this->username_1;
+	JsonChat[JSON_CHAT_USER_2] = this->username_2;
 
-	for (int i = 0; i < this->numberOfMessages; i++) {
-		JsonChat[JSON_CHAT_ROOT][JSON_CHAT_MESSAGES][i] = this->sentMessages.at(
+	for (unsigned int i = 0; i < this->sentMessages.size(); i++) {
+		JsonChat[JSON_CHAT_MESSAGES][i] = this->sentMessages.at(
 				i).serialize();
 	}
 

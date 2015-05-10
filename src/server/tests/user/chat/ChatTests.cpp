@@ -11,7 +11,6 @@ void chatTests::should_instantiate_new_chat() {
 
 	CPPUNIT_ASSERT(chat.username_1 == username_1);
 	CPPUNIT_ASSERT(chat.username_2 == username_2);
-	CPPUNIT_ASSERT(chat.numberOfMessages == 0);
 	CPPUNIT_ASSERT(chat.sentMessages.size() == 0);
 }
 
@@ -45,7 +44,7 @@ void chatTests::should_have_3_sent_messages() {
 	chat.addNewMessage(Message(to, from, "second message"));
 	chat.addNewMessage(Message(from, to, "third message"));
 
-	CPPUNIT_ASSERT(chat.numberOfMessages == 3);
+	CPPUNIT_ASSERT(chat.sentMessages.size() == 3);
 }
 
 void chatTests::should_serialize_chat() {
@@ -62,12 +61,11 @@ void chatTests::should_serialize_chat() {
 	chat.addNewMessage(m3);
 
 	Json::Value JsonChat;
-	JsonChat[JSON_CHAT_ROOT][JSON_CHAT_USER_1] = from;
-	JsonChat[JSON_CHAT_ROOT][JSON_CHAT_USER_2] = to;
-	JsonChat[JSON_CHAT_ROOT][JSON_CHAT_NUM_MSG] = 3;
-	JsonChat[JSON_CHAT_ROOT][JSON_CHAT_MESSAGES][0] = m1.serialize();
-	JsonChat[JSON_CHAT_ROOT][JSON_CHAT_MESSAGES][1] = m2.serialize();
-	JsonChat[JSON_CHAT_ROOT][JSON_CHAT_MESSAGES][2] = m3.serialize();
+	JsonChat[JSON_CHAT_USER_1] = from;
+	JsonChat[JSON_CHAT_USER_2] = to;
+	JsonChat[JSON_CHAT_MESSAGES][0] = m1.serialize();
+	JsonChat[JSON_CHAT_MESSAGES][1] = m2.serialize();
+	JsonChat[JSON_CHAT_MESSAGES][2] = m3.serialize();
 
 	CPPUNIT_ASSERT(JsonChat.toStyledString() == chat.serialize());
 }
@@ -95,7 +93,7 @@ void chatTests::should_deserialize_chat() {
 
 	CPPUNIT_ASSERT(chat1.username_1 == chat2.username_1);
 	CPPUNIT_ASSERT(chat1.username_2 == chat2.username_2);
-	CPPUNIT_ASSERT(chat1.numberOfMessages == chat2.numberOfMessages);
+	CPPUNIT_ASSERT(chat1.sentMessages.size() == chat2.sentMessages.size());
 	CPPUNIT_ASSERT(
 			chat1.sentMessages.at(0).getText()
 					== chat2.sentMessages.at(0).getText());

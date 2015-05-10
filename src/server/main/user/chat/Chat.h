@@ -51,7 +51,6 @@ public:
 private:
 	string username_1;
 	string username_2;
-	int numberOfMessages;
 	vector<Message> sentMessages;
 
 	/**

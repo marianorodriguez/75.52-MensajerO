@@ -11,7 +11,6 @@ User::User(const string& username, const string& password) {
 
 	this->username = username;
 	this->password = password;
-	this->numberOfChats = 0;
 	this->location = DEFAULT_USER_LOCATION;
 	this->status = DEFAULT_USER_STATUS;
 	this->hashedProfilePicture = DEFAULT_USER_PROFILE_PICTURE;
@@ -30,22 +29,21 @@ User::User(const string& serializedUser) {
 	}
 
 	this->username =
-			parsedFromString[JSON_USER_ROOT][JSON_USER_NAME].asString();
+			parsedFromString[JSON_USER_NAME].asString();
 	this->password =
-			parsedFromString[JSON_USER_ROOT][JSON_USER_PWD].asString();
+			parsedFromString[JSON_USER_PWD].asString();
 	this->location =
-			parsedFromString[JSON_USER_ROOT][JSON_USER_LOCATION].asString();
+			parsedFromString[JSON_USER_LOCATION].asString();
 	this->status =
-			parsedFromString[JSON_USER_ROOT][JSON_USER_STATUS].asString();
+			parsedFromString[JSON_USER_STATUS].asString();
 	this->hashedProfilePicture =
-			parsedFromString[JSON_USER_ROOT][JSON_USER_PROFILE_PICTURE].asString();
-	this->numberOfChats = 0;
+			parsedFromString[JSON_USER_PROFILE_PICTURE].asString();
 
 	int num_chats =
-			parsedFromString[JSON_USER_ROOT][JSON_USER_NUM_CHAT].asInt();
+			parsedFromString[JSON_USER_CHATS_WITH].size();
 	for (int i = 0; i < num_chats; i++) {
 		this->addChatWithUser(
-				parsedFromString[JSON_USER_ROOT][JSON_USER_CHATS_WITH][i].asString());
+				parsedFromString[JSON_USER_CHATS_WITH][i].asString());
 	}
 
 }
@@ -56,17 +54,16 @@ User::~User() {
 string User::serialize()const {
 
 	Json::Value serializedUser;
-	serializedUser[JSON_USER_ROOT][JSON_USER_NAME] = this->username;
-	serializedUser[JSON_USER_ROOT][JSON_USER_PWD] = this->password;
-	serializedUser[JSON_USER_ROOT][JSON_USER_LOCATION] = this->location;
-	serializedUser[JSON_USER_ROOT][JSON_USER_STATUS] = this->status;
-	serializedUser[JSON_USER_ROOT][JSON_USER_NUM_CHAT] = this->numberOfChats;
-	serializedUser[JSON_USER_ROOT][JSON_USER_PROFILE_PICTURE] =
+	serializedUser[JSON_USER_NAME] = this->username;
+	serializedUser[JSON_USER_PWD] = this->password;
+	serializedUser[JSON_USER_LOCATION] = this->location;
+	serializedUser[JSON_USER_STATUS] = this->status;
+	serializedUser[JSON_USER_PROFILE_PICTURE] =
 			this->hashedProfilePicture;
 
-	for (int i = 0; i < this->numberOfChats; i++) {
+	for (unsigned int i = 0; i < this->hasChatsWith.size(); i++) {
 
-		serializedUser[JSON_USER_ROOT][JSON_USER_CHATS_WITH][i] =
+		serializedUser[JSON_USER_CHATS_WITH][i] =
 				this->hasChatsWith.at(i);
 
 	}
@@ -129,8 +126,6 @@ void User::addChatWithUser(const string& username) {
 	}
 
 	this->hasChatsWith.push_back(username);
-	this->numberOfChats++;
-
 }
 
 bool User::isChattingWith(const string& username) const {

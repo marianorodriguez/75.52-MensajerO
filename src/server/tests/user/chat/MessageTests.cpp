@@ -32,12 +32,12 @@ void messageTests::should_serialize_message() {
 	string serialized = m.serialize();
 
 	Json::Value jsonMsg;
-	jsonMsg[JSON_MSG_ROOT][JSON_MSG_FROM_VALUE] = m.userFromID;
-	jsonMsg[JSON_MSG_ROOT][JSON_MSG_TO_VALUE] = m.userToID;
-	jsonMsg[JSON_MSG_ROOT][JSON_MSG_DATE_VALUE] = m.date;
-	jsonMsg[JSON_MSG_ROOT][JSON_MSG_TIME_VALUE] = m.time;
-	jsonMsg[JSON_MSG_ROOT][JSON_MSG_TEXT] = m.message;
-	jsonMsg[JSON_MSG_ROOT][JSON_MSG_SENT] = m.sent;
+	jsonMsg[JSON_MSG_FROM_VALUE] = m.userFromID;
+	jsonMsg[JSON_MSG_TO_VALUE] = m.userToID;
+	jsonMsg[JSON_MSG_DATE_VALUE] = m.date;
+	jsonMsg[JSON_MSG_TIME_VALUE] = m.time;
+	jsonMsg[JSON_MSG_TEXT] = m.message;
+	jsonMsg[JSON_MSG_SENT] = m.sent;
 
 	CPPUNIT_ASSERT(serialized == jsonMsg.toStyledString());
 }

@@ -96,7 +96,6 @@ private:
 	string location;
 	string status;
 	string hashedProfilePicture;
-	int numberOfChats;
 	vector<string> hasChatsWith;
 
 	/**
