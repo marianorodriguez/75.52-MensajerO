@@ -35,8 +35,6 @@ public class ConfigurationActivity extends ActionBarActivity implements View.OnC
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        // Tell the login which XML layout is right
         setContentView(R.layout.configuration);
 
         Button button1 = (Button) findViewById(R.id.button1);
@@ -71,9 +69,6 @@ public class ConfigurationActivity extends ActionBarActivity implements View.OnC
 
             String package_ = Constants.packager.wrap("setConfig", Constants.user);
 
-            //ARMAR EL PAQETE CORRESPONDIENTE CON FOTO DE USER
-            // HACER EL POST
-
             configPost.execute(new Pair<Context, String>(this, package_),
                     new Pair<Context, String>(this, Constants.setConfigUrl),
                     new Pair<Context, String>(this, "post"));
@@ -87,12 +82,14 @@ public class ConfigurationActivity extends ActionBarActivity implements View.OnC
             }
 
             if (Constants.configOK.contains("Error")) {
-                Toast.makeText(this, "Could't connect with server", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Could't connect with server. Your changes won't be saved\nafter you Log Out", Toast.LENGTH_LONG).show();
             }
 
             if (Constants.signUpOk.compareTo("true") == 0) {
+                Toast.makeText(this, "Changes saved properly", Toast.LENGTH_LONG).show();
                 finish();
             } else {
+                Toast.makeText(this, "Could't connect with server. Your changes won't be saved\nafter you Log Out", Toast.LENGTH_LONG).show();
                 finish();
             }
 

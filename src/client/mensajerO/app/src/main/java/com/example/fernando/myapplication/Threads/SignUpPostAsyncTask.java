@@ -100,7 +100,7 @@ public class SignUpPostAsyncTask extends AsyncTask<Pair<Context, String>, String
         // aca desempaqueto el package respuesta
 //        try {
 
-        JSONObject response = Constants.packager.unwrap(result);
+//        JSONObject response = Constants.packager.unwrap(result);
 
         // sacar del response los chats y meterlos en Constants.userChats
         // si no viene nada meter un elemento asi sale del loop la activity

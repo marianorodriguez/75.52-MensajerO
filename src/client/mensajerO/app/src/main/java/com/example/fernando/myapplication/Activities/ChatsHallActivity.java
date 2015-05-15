@@ -127,6 +127,7 @@ public class ChatsHallActivity extends ActionBarActivity implements View.OnClick
 
             String username = Constants.mSharedPreferences.getString(Constants.PREF_NAME, "");
             e.putString(username+"chats", Constants.user.chatsToJson().toString());
+
             // TAMBIEN GUARDAR LA CONFIGURACION
 //            e.putString(username+"config", Constants.user.toJsonForDisk());
 
@@ -146,6 +147,7 @@ public class ChatsHallActivity extends ActionBarActivity implements View.OnClick
             Constants.usersListView = null;
             Constants.usersAdapter = null;
             Constants.otherUsers.clear();
+            Constants.user = null;
 
             Intent login = new Intent(this, LogInActivity.class);
             startActivity(login);

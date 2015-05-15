@@ -67,6 +67,12 @@ public class CurrentChatsPostAsyncTask extends AsyncTask<Pair<Context, String>, 
 
                     JSONObject respons = Constants.packager.unwrap(EntityUtils.toString(response.getEntity()));
 
+                    JSONArray chats = new JSONArray(respons.getString("chats"));
+
+                    for (int chat = 0; chat < chats.length(); chat++) {
+                        Constants.user.chats.add(Chat.toChat(chats.getJSONObject(chat)));
+                    }
+
                     Constants.currentChatsOk = respons.getString("chats");
 
                     return "";
@@ -130,7 +136,7 @@ public class CurrentChatsPostAsyncTask extends AsyncTask<Pair<Context, String>, 
     protected void onPostExecute(String result) {
 //        try {
 
-        JSONObject response = Constants.packager.unwrap(result);
+//        JSONObject response = Constants.packager.unwrap(result);
 
         // sacar del response los chats y meterlos en Constants.userChats
         // si no viene nada meter un elemento asi sale del loop la activity
