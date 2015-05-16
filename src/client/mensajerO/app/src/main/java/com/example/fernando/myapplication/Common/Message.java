@@ -42,7 +42,7 @@ public class Message {
     public static Message toMessage(JSONObject jsonMessage) {
         try {
             Message newMessage = new Message(
-                    jsonMessage.getString("emisor"),
+                    jsonMessage.getString("msg_fromID"),
                     jsonMessage.getString("text"),
                     jsonMessage.getString("date"),
                     jsonMessage.getString("hour") );

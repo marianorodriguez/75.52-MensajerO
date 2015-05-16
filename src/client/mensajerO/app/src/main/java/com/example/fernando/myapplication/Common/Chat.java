@@ -22,7 +22,8 @@ public class Chat {
         JSONObject jchat = new JSONObject();
         JSONArray jmessages = new JSONArray();
         try {
-            jchat.put("otherUser", otherUser);
+            jchat.put("username_2", otherUser);
+            jchat.put("username_1", Constants.user.username);
 
             for (int i = 0; i < messages.size(); i++) {
                 jmessages.put(messages.get(i).toJson());
@@ -39,11 +40,17 @@ public class Chat {
 
     public static Chat toChat(JSONObject jsonChat) {
         try {
-            Chat newChat = new Chat(jsonChat.getString("otherUser"));
+            Chat newChat;
+            if (jsonChat.getString("username_1").compareTo(Constants.user.username) == 0) {
+                newChat = new Chat(jsonChat.getString("username_2"));
+            } else {
+                newChat = new Chat(jsonChat.getString("username_1"));
+            }
 
             JSONArray jsonMessages = jsonChat.getJSONArray("messages");
 
             for (int message = 0; message < jsonMessages.length(); message++) {
+
                 JSONObject oneMessage = (JSONObject) jsonMessages.get(message);
 
                 newChat.messages.add(Message.toMessage(oneMessage));

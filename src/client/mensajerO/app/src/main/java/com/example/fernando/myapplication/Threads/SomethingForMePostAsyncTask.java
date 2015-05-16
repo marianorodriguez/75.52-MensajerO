@@ -36,6 +36,7 @@ import java.util.List;
 public class SomethingForMePostAsyncTask extends AsyncTask<Pair<Context, String>, String, String> {
     boolean serverError = false;
     private Context context;
+
     @Override
     protected String doInBackground(Pair<Context, String>... params) {
 

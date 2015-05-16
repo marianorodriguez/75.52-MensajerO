@@ -29,7 +29,7 @@ import java.util.HashMap;
 public class ChatsHallActivity extends ActionBarActivity implements View.OnClickListener {
 
     public static SomethingForMePostAsyncTask somethingForMePost;
-    public static GetUsersPostAsyncTask usersPost;
+    public static GetUsersPostAsyncTask getUsersPost;
     public static RefreshChatsHallAsyncTask refreshChats;
     String package_;
 
@@ -72,9 +72,9 @@ public class ChatsHallActivity extends ActionBarActivity implements View.OnClick
 
             somethingForMePost = new SomethingForMePostAsyncTask();
             refreshChats = new RefreshChatsHallAsyncTask();
-            usersPost = new GetUsersPostAsyncTask();
+            getUsersPost = new GetUsersPostAsyncTask();
 
-            //dibujar los chats que vienen de login en Constants.user.chat
+            //dibujar los chats que vienen de login en Constants.user.chats
             drawCurrentChats();
 
             Toast.makeText(this, "Welcome, " + Constants.user.username + "!", Toast.LENGTH_LONG).show();
@@ -86,7 +86,7 @@ public class ChatsHallActivity extends ActionBarActivity implements View.OnClick
                     new Pair<Context, String>(this, "get"));
 
 
-            usersPost.execute(new Pair<Context, String>(this, package_),
+            getUsersPost.execute(new Pair<Context, String>(this, package_),
                     new Pair<Context, String>(this, Constants.usersUrl),
                     new Pair<Context, String>(this, "get"));
 
@@ -128,7 +128,7 @@ public class ChatsHallActivity extends ActionBarActivity implements View.OnClick
             String username = Constants.mSharedPreferences.getString(Constants.PREF_NAME, "");
             e.putString(username+"chats", Constants.user.chatsToJson().toString());
 
-            // TAMBIEN GUARDAR LA CONFIGURACION
+            // TAMBIEN GUARDAR LA CONFIGURACION ( PARA EL SERVER LOCAL !!! )
 //            e.putString(username+"config", Constants.user.toJsonForDisk());
 
             e.putString(Constants.PREF_NAME, "");
@@ -141,7 +141,8 @@ public class ChatsHallActivity extends ActionBarActivity implements View.OnClick
             Constants.logInOk = "";
             Constants.currentChatsOk = "";
             Constants.currentChatsSize = 0;
-//            Constants.currentChatsSize = 0;
+            Constants.currentUsersSize = 0;
+            Constants.messagesSize = 0;
             Constants.chatListView = null;
             Constants.chatsAdapter = null;
             Constants.usersListView = null;
@@ -171,7 +172,7 @@ public class ChatsHallActivity extends ActionBarActivity implements View.OnClick
 
         if (somethingForMePost != null) {
             somethingForMePost.cancel(true);
-            usersPost.cancel(true);
+            getUsersPost.cancel(true);
             refreshChats.cancel(true);
         }
 

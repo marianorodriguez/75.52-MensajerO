@@ -33,6 +33,7 @@ public class RefreshChatAsyncTask extends AsyncTask<Pair<Context, Chat>, String,
     private Chat chatToUpdate;
     private Context context;
     ArrayList<Message> newMessages;
+
     @Override
     protected String doInBackground(Pair<Context, Chat>... params) {
         chatToUpdate = params[0].second;

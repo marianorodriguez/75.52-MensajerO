@@ -144,7 +144,7 @@ public class LogInActivity extends ActionBarActivity implements View.OnClickList
                         new Pair<Context, String>(this, Constants.currentChatsUrl),
                         new Pair<Context, String>(this, "post"));
 
-                while (Constants.currentChatsOk.compareTo("") == 0) {
+                while (Constants.currentChatsOk.isEmpty()) {
                     try {
                         Thread.sleep(10);
                     } catch (InterruptedException e) {
@@ -152,18 +152,9 @@ public class LogInActivity extends ActionBarActivity implements View.OnClickList
                     }
                 }
 
-                if (Constants.currentChatsOk.contains("Error")) {}
+                if (Constants.currentChatsOk.contains("Error")) { }
 
-//                Constants.user = currentUser;
-//                Constants.user.chats = Constants.userChats;
-
-                // tocar jsontochats para que ponga en otherUser el nombre del otro usuario.
-                // currentChatsSize deberia ser 0. pero ponerlo en 0 por las dudas.
-                // lo de aca abajo que guarda los chats en shared no deberia estar aca.
-
-                SharedPreferences.Editor e = Constants.mSharedPreferences.edit();
-                e.putString(username+"chats", Constants.user.chatsToJson().toString());
-                e.commit();
+                Constants.currentChatsSize = 0;
 
                 Intent chatsHall = new Intent(this, ChatsHallActivity.class);
                 startActivity(chatsHall);

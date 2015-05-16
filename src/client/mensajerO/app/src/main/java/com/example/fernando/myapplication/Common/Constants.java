@@ -55,9 +55,12 @@ final public class Constants//final to prevent instantiation
 
     public static Server server = null;
 
+    //La cantidad actual de chats renderizados hasta el momento
     public static int currentChatsSize = 0;
-    public static int currentUsersSize;
-    public static int messagesSize;
+    //La cantidad actual de users renderizados hasta el momento
+    public static int currentUsersSize = 0;
+    //La cantidad actual de messages en un chat x renderizados hasta el momento
+    public static int messagesSize = 0;
 
     //private constructor to prevent instantiation/inheritance
     private Constants() {}

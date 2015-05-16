@@ -19,7 +19,7 @@ public class RefreshUsersAsyncTask extends AsyncTask<Pair<Context, String>, Stri
     @Override
     protected String doInBackground(Pair<Context, String>... params) {
 
-        Constants.currentUsersSize = Constants.otherUsers.size();
+//        Constants.currentUsersSize = Constants.otherUsers.size();
         context = params[0].first;
             try {
                 Thread.sleep(200);
