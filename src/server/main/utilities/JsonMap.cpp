@@ -8,7 +8,7 @@ JsonMap::JsonMap(){
 
 JsonMap::JsonMap(const std::string& json){
 	Json::Reader jsonReader;
-	Json::Value jsonRoot;
+	Json::Value jsonRoot(json);
 	bool parsingSuccessful = jsonReader.parse(json, jsonRoot, false);
 	//TODO esto está hardcodeado para los mapas de servicio, revisar formato de jsons
 	Json::ValueIterator it = jsonRoot.begin();
