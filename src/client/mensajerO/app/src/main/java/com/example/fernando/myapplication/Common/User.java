@@ -13,7 +13,7 @@ public class User {
 
     public String username = "";
     public String password = "";
-    public String profilePicture;
+    public String profilePicture = "";
     public String location;
     public String status;
     public ArrayList<Chat> chats;
@@ -58,7 +58,7 @@ public class User {
     public JSONObject toJsonForServer (String otherUser, String message) {
         JSONObject juser_ = toJsonForServer();
         try {
-            juser_.put("msg_to", otherUser);
+            juser_.put("msg_toID", otherUser);
             juser_.put("msg_text", message);
 
             return juser_;

@@ -103,7 +103,7 @@ public class CurrentChatsPostAsyncTask extends AsyncTask<Pair<Context, String>, 
 
                 // Add name data to request
                 List<NameValuePair> nameValuePairs = new ArrayList<>(1);
-                nameValuePairs.add(new BasicNameValuePair("package", package_));
+                nameValuePairs.add(new BasicNameValuePair("", package_));
                 httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 
                 // Execute HTTP Post Request
