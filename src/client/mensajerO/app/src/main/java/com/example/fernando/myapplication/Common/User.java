@@ -1,5 +1,7 @@
 package com.example.fernando.myapplication.Common;
 
+import android.graphics.Bitmap;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -13,7 +15,7 @@ public class User {
 
     public String username = "";
     public String password = "";
-    public String profilePicture = "";
+    public Bitmap profilePicture = null;
     public String location;
     public String status;
     public ArrayList<Chat> chats;

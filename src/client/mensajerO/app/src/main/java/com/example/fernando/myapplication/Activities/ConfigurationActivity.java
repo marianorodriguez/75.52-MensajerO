@@ -81,10 +81,23 @@ public class ConfigurationActivity extends ActionBarActivity implements View.OnC
 
         configPost = new ConfigPostAsyncTask();
 
-//        if (imageSelected != null) {
-//            Toast.makeText(this, "Could't connect with server. Your changes won't be saved\nafter you Log Out", Toast.LENGTH_LONG).show();
-//            return;
-//        }
+        //cargar de shared preferencces en constants.user.profilePicture antes
+        if (Constants.user.profilePicture != null) {
+
+            profilePicture.setImageBitmap(Constants.user.profilePicture);
+
+//            // Para cuando reinicia la app sin haber echo LogOut, y para el Mock Server
+//            SharedPreferences.Editor e = Constants.mSharedPreferences.edit();
+//            e.putString(Constants.user.username+"picture", Constants.user.profilePicture.toString());
+//            e.commit();
+
+            float scaleRatio = getResources().getDisplayMetrics().density;
+            int dps = 150;
+            int pixels = (int) (dps * scaleRatio + 0.5f);
+
+            profilePicture.getLayoutParams().height = pixels; // OR
+            profilePicture.getLayoutParams().width = pixels;
+        }
 
     }
 
@@ -111,11 +124,17 @@ public class ConfigurationActivity extends ActionBarActivity implements View.OnC
                 Toast.makeText(this, "Problem happen while trying to open your picture", Toast.LENGTH_LONG).show();
                 return;
             } else {
+
+
                 imageView.setImageBitmap(BitmapFactory.decodeFile(picturePath));
 
+                // Para cuando reinicia la app sin haber echo LogOut, y para el Mock Server
                 SharedPreferences.Editor e = Constants.mSharedPreferences.edit();
-                e.putString(Constants.user.username+"picture", picturePath);
+                e.putString(Constants.user.username+"picture", imageSelected.toString());
                 e.commit();
+
+                //Para el package del server real
+                Constants.user.profilePicture = imageSelected;
 
                 float scaleRatio = getResources().getDisplayMetrics().density;
                 int dps = 150;
@@ -171,15 +190,22 @@ public class ConfigurationActivity extends ActionBarActivity implements View.OnC
             }
 
         } else if (v.getId() == R.id.online) {
+            changeUserStatus(0);
             offline.setChecked(false);
             out.setChecked(false);
         } else if (v.getId() == R.id.offline) {
+            changeUserStatus(1);
             online.setChecked(false);
             out.setChecked(false);
         } else if (v.getId() == R.id.out) {
+            changeUserStatus(2);
             offline.setChecked(false);
             online.setChecked(false);
         }
+    }
+
+    private void changeUserStatus(int i) {
+
     }
 
 //    private String[] mFileList;
