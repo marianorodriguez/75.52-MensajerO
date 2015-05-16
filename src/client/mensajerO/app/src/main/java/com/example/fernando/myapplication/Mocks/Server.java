@@ -185,7 +185,7 @@ public class Server {
 
         try {
             String username = userP.getString("username");
-            String msg_to = userP.getString("msg_to");
+            String msg_to = userP.getString("msg_toID");
             String msg_text = userP.getString("msg_text");
 
             Calendar c = Calendar.getInstance();
