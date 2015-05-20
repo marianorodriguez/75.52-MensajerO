@@ -14,7 +14,9 @@ std::string SendMessageService::executeRequest(
 	data[SERVICE_PASSWORD] = paramMap.at(SERVICE_PASSWORD);
 	data[SERVICE_SENDMESSAGE_USERNAME_TO] = paramMap.at(
 			SERVICE_SENDMESSAGE_USERNAME_TO);
+
 	data[SERVICE_SENDMESSAGE_MESSAGE] = paramMap.at(SERVICE_SENDMESSAGE_MESSAGE);
+
 
 	// TODO location
 

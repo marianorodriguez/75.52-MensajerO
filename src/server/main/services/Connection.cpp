@@ -5,6 +5,7 @@
 #include "QueryParams.h"
 #include "utilities/JsonMap.h"
 #include "utilities/Base64.h"
+#include <iostream>
 
 // Constantes
 const std::string Connection::getMethodName = "GET";
@@ -13,9 +14,6 @@ const std::string Connection::postMethodName = "POST";
 Connection::Connection(mg_connection* const rawConnection){
 	this->rawConnection = rawConnection;
 	const char* requestType = rawConnection->request_method;
-	printf("get: %s, method: %s \n", getMethodName.c_str(), rawConnection->request_method);
-	printf("content: %s \n", rawConnection->content);
-
 
 	if (!requestType){
 		throw "No request type specified"; 
@@ -52,6 +50,7 @@ void Connection::parseGetParams(){
 	this->paramMap.clear();
 	if (this->rawConnection->query_string){
 		std::string query(this->rawConnection->query_string);
+
 		QueryParams params(query);
 		this->paramMap = params.getParams();
 	}
@@ -65,8 +64,11 @@ void Connection::parsePostParams(){
 		this->rawConnection->content[this->rawConnection->content_len] = 0;
 		std::string content(this->rawConnection->content);
 		std::string prefix("package=");
+		content = content.substr(prefix.length());
 		std::string decodedContent = base64::decode(content);
-		JsonMap jsonMap(decodedContent.substr(prefix.length()));
+		std::cout<<"post: "<<decodedContent<<std::endl;
+		JsonMap jsonMap(decodedContent);
+
 		this->paramMap = jsonMap.getMap();
 	}
 }
