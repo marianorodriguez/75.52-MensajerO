@@ -26,10 +26,10 @@ public class ChatEditor {
 
             messageToRender = chat.messages.get(message);
 
-            chatView.append(messageToRender.date);
+            chatView.append(messageToRender.msg_date);
 //            chatView.append(" - " + messageToRender.hour);
-            chatView.append(" - " + messageToRender.emisor);
-            chatView.append(": " + messageToRender.text + "\n");
+            chatView.append(" - " + messageToRender.msg_fromID);
+            chatView.append(": " + messageToRender.msg_text + "\n");
 
 //            if (messageToRender.emisor.compareTo(owner) == 0) {
 //                chat_.append();
@@ -45,10 +45,10 @@ public class ChatEditor {
 
             messageToRender = newMessages.get(message);
 
-            chatView.append(messageToRender.date);
+            chatView.append(messageToRender.msg_date);
 //            chatView.append(" - " + messageToRender.hour);
-            chatView.append(" - " + messageToRender.emisor);
-            chatView.append(": " + messageToRender.text + "\n");
+            chatView.append(" - " + messageToRender.msg_fromID);
+            chatView.append(": " + messageToRender.msg_text + "\n");
 
 //            if (messageToRender.emisor.compareTo(owner) == 0) {
 //                chat_.append();

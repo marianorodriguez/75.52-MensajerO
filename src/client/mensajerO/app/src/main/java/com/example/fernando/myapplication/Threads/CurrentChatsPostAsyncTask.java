@@ -39,7 +39,7 @@ public class CurrentChatsPostAsyncTask extends AsyncTask<Pair<Context, String>, 
     protected String doInBackground(Pair<Context, String>... params) {
         //        context = params[0].first;
         if ( Constants.server != null ) {
-            String response = Constants.server.currentChats(params[0].second);
+            String response = Constants.server.currentChats(params[0].second, params[3].second);
 
             try {
 

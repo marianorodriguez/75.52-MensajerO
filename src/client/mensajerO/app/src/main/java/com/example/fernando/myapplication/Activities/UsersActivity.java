@@ -87,12 +87,10 @@ public class UsersActivity extends ActionBarActivity implements View.OnClickList
     }
 
     private void drawCurrentUsers() {
-
 //        if ( Constants.usersListView != null ) {
 //            Constants.usersListView.setAdapter(Constants.usersAdapter);
 //            return;
 //        }
-
 
         final ListView listview = (ListView) findViewById(R.id.listview);
 
@@ -103,6 +101,8 @@ public class UsersActivity extends ActionBarActivity implements View.OnClickList
         for (int user = 0; user < Constants.otherUsers.size(); user++) {
             users.add(Constants.otherUsers.get(user).username);
         }
+
+        Constants.currentUsersSize = Constants.otherUsers.size();
 
         final StableArrayAdapter adapter = new StableArrayAdapter(this,
                 android.R.layout.simple_list_item_1, users);

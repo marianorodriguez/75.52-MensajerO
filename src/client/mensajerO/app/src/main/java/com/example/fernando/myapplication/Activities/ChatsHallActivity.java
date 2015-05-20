@@ -33,6 +33,8 @@ public class ChatsHallActivity extends ActionBarActivity implements View.OnClick
     public static RefreshChatsHallAsyncTask refreshChats;
     String package_;
 
+    SharedPreferences mSharedPref;
+
     // EL SERVER YA TIENE LOS CHATS ! TIENE LOS CHATS QUE YO TENGO EN EL TELEFONO
     // MANDAR POST CUANDO BORRO UN CHAT ! -----------------------------------------
 
@@ -43,21 +45,21 @@ public class ChatsHallActivity extends ActionBarActivity implements View.OnClick
 
         setTitle("CHATS");
 
-//        Constants.mSharedPreferences = getSharedPreferences(Constants.PREFS, MODE_PRIVATE);
-//        SharedPreferences.Editor e = Constants.mSharedPreferences.edit();
-//        e.clear();
-//        e.commit();
+//        mSharedPref= getSharedPreferences(Constants.PREFS, MODE_PRIVATE);
+//        SharedPreferences.Editor ee = mSharedPref.edit();
+//        ee.clear();
+//        ee.commit();
 
-        Constants.mSharedPreferences = getSharedPreferences(Constants.PREFS, MODE_PRIVATE);
+        mSharedPref = getSharedPreferences(Constants.PREFS, MODE_PRIVATE);
 
-        if ((Constants.server != null && Constants.server.loguedUsers.size() == 0) ||
-            Constants.mSharedPreferences.getString(Constants.PREF_NAME, "").isEmpty()) {
+//        if ((Constants.server != null && Constants.server.loguedUsers.size() == 0) ||
+        if (/*(Constants.server != null) ||*/
+                mSharedPref.getString(Constants.PREF_NAME, "").isEmpty()) {
 //        if (Constants.mSharedPreferences.getString(Constants.PREF_NAME, "").isEmpty() || Constants.server == null ||
 //                Constants.server.loguedUsers.size() == 0) {
 
 //            if (Constants.mSharedPreferences.getString(Constants.PREF_NAME, "").isEmpty()) {
-            Constants.mSharedPreferences = getSharedPreferences(Constants.PREFS, MODE_PRIVATE);
-            SharedPreferences.Editor e = Constants.mSharedPreferences.edit();
+            SharedPreferences.Editor e = mSharedPref.edit();
             e.clear();
             e.commit();
 
@@ -68,7 +70,7 @@ public class ChatsHallActivity extends ActionBarActivity implements View.OnClick
         } else {
             // cuando queda guardada la sesion e inicia en CHATS
             if (Constants.user == null)
-                Constants.initialize();
+                Constants.initialize(mSharedPref);
 
             somethingForMePost = new SomethingForMePostAsyncTask();
             refreshChats = new RefreshChatsHallAsyncTask();
@@ -122,33 +124,17 @@ public class ChatsHallActivity extends ActionBarActivity implements View.OnClick
 
         } else if (id == R.id.logOut) {
 
-            Constants.mSharedPreferences = getSharedPreferences(Constants.PREFS, MODE_PRIVATE);
-            SharedPreferences.Editor e = Constants.mSharedPreferences.edit();
+            SharedPreferences.Editor e = mSharedPref.edit();
 
-            String username = Constants.mSharedPreferences.getString(Constants.PREF_NAME, "");
+            String username = mSharedPref.getString(Constants.PREF_NAME, "");
             e.putString(username+"chats", Constants.user.chatsToJson().toString());
-
-            // TAMBIEN GUARDAR LA CONFIGURACION ( PARA EL SERVER LOCAL !!! )
-//            e.putString(username+"config", Constants.user.toJsonForDisk());
 
             e.putString(Constants.PREF_NAME, "");
             e.putString(Constants.PREF_PASS, "");
 
             e.commit();
 
-            // HACER FUNCION QUE RESETEE TODOS ESTOS PARAMETROS !!!
 
-            Constants.logInOk = "";
-            Constants.currentChatsOk = "";
-            Constants.currentChatsSize = 0;
-            Constants.currentUsersSize = 0;
-            Constants.messagesSize = 0;
-            Constants.chatListView = null;
-            Constants.chatsAdapter = null;
-            Constants.usersListView = null;
-            Constants.usersAdapter = null;
-            Constants.otherUsers.clear();
-            Constants.user = null;
 
             Intent login = new Intent(this, LogInActivity.class);
             startActivity(login);
@@ -178,11 +164,14 @@ public class ChatsHallActivity extends ActionBarActivity implements View.OnClick
 
         // GUARDAR CHATS en sharedPreferences !
         if (Constants.user != null) {
-            SharedPreferences.Editor e = Constants.mSharedPreferences.edit();
+            SharedPreferences.Editor e = mSharedPref.edit();
             e.putString(Constants.user.username + "chats",
                    Constants.user.chatsToJson().toString());
             e.commit();
         }
+
+        Constants.reset();
+
     }
 
     @Override
@@ -199,6 +188,8 @@ public class ChatsHallActivity extends ActionBarActivity implements View.OnClick
         for (int chat = 0; chat < Constants.user.chats.size(); chat++) {
             otherUsersChatingWith.add(Constants.user.chats.get(chat).otherUser);
         }
+
+        Constants.currentChatsSize = Constants.user.chats.size();
 
         final StableArrayAdapter adapter = new StableArrayAdapter(this,
                 android.R.layout.simple_list_item_1, otherUsersChatingWith);

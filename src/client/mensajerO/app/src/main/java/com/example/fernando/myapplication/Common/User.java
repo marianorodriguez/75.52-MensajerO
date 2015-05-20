@@ -57,13 +57,17 @@ public class User {
         }
     }
 
-    public JSONObject toJsonForServer (String otherUser, String message) {
-        JSONObject juser_ = toJsonForServer();
+    public JSONObject toJsonForServer (String msg_toID, String msg_text) {
+//        JSONObject juser_ = toJsonForServer();
+        JSONObject jmessage = new JSONObject();
         try {
-            juser_.put("msg_toID", otherUser);
-            juser_.put("msg_text", message);
+            jmessage.put("msg_fromID", username);
+            jmessage.put("msg_toID", msg_toID);
+            jmessage.put("msg_text", msg_text);
+            jmessage.put("msg_date", "");
+            jmessage.put("msg_time", "");
 
-            return juser_;
+            return jmessage;
         } catch (JSONException e) {
             e.printStackTrace();
             return null;

@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 import android.content.SharedPreferences;
+import android.content.SharedPreferences;
 
 /**
  * Created by fernando on 01/05/15.
@@ -161,21 +162,11 @@ public class Server {
         }
     }
 
-    public String currentChats (String userPackage) {
+    public String currentChats (String userPackage, String jsonChats) {
         JSONObject userP = Constants.packager.unwrap(userPackage);
 
-        try {
-            String username = userP.getString("username");
-
-            String jsonChats = Constants.mSharedPreferences.getString(username+"chats", "");
-
-            String resp = Constants.packager.wrap(jsonChats);
-            return resp;
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-            return null;
-        }
+        String resp = Constants.packager.wrap(jsonChats);
+        return resp;
 
     }
 
@@ -184,24 +175,24 @@ public class Server {
         JSONObject userP = Constants.packager.unwrap(userPackage);
 
         try {
-            String username = userP.getString("username");
-            String msg_to = userP.getString("msg_toID");
+            String msg_fromID = userP.getString("msg_fromID");
+            String msg_toID = userP.getString("msg_toID");
             String msg_text = userP.getString("msg_text");
 
             Calendar c = Calendar.getInstance();
 
-            Message newMessage = new Message(username, msg_text,
+            Message newMessage = new Message(msg_fromID, msg_toID, msg_text,
                     c.getTime().toString(), "" );
 
             for (int user = 0; user < newMessages.size(); user++) {
-                if (newMessages.get(user).first.compareTo(msg_to) == 0) {
+                if (newMessages.get(user).first.compareTo(msg_toID) == 0) {
                     newMessages.get(user).second.add(newMessage);
                     founded = true;
                     break;
                 }
             }
             if (!founded) {
-                newMessages.add(new Pair<>(msg_to, new ArrayList<Message>()));
+                newMessages.add(new Pair<>(msg_toID, new ArrayList<Message>()));
                 newMessages.get(newMessages.size()-1).second.add(newMessage);
             }
 

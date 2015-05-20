@@ -41,7 +41,7 @@ public class SomethingForMePostAsyncTask extends AsyncTask<Pair<Context, String>
     protected String doInBackground(Pair<Context, String>... params) {
 
         try {
-            Thread.sleep(200);
+            Thread.sleep(20);
             context = params[0].first;
 
             if ( Constants.server != null ) {
@@ -154,7 +154,7 @@ public class SomethingForMePostAsyncTask extends AsyncTask<Pair<Context, String>
                 Message newMessage = Message.toMessage((JSONObject) newMessages.get(message));
 
                 for (int chat = 0; chat < Constants.user.chats.size(); chat++) {
-                    if (Constants.user.chats.get(chat).otherUser.compareTo(newMessage.emisor) == 0) {
+                    if (Constants.user.chats.get(chat).otherUser.compareTo(newMessage.msg_fromID) == 0) {
                         Constants.user.chats.get(chat).messages.add(newMessage);
                         chat = Constants.user.chats.size();
                         createNewChat = false;
@@ -162,7 +162,7 @@ public class SomethingForMePostAsyncTask extends AsyncTask<Pair<Context, String>
                 }
 
                 if (createNewChat) {
-                    Chat newChat = new Chat(newMessage.emisor);
+                    Chat newChat = new Chat(newMessage.msg_fromID);
                     newChat.messages.add(newMessage);
                     Constants.user.chats.add(newChat);
                 }

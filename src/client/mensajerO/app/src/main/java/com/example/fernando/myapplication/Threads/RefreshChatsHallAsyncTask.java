@@ -20,7 +20,7 @@ public class RefreshChatsHallAsyncTask extends AsyncTask<Pair<Context, String>, 
         //Constants.currentChatsSize = Constants.user.chats.size();
         context = params[0].first;
         try {
-            Thread.sleep(200);
+            Thread.sleep(20);
 
             if (Constants.user.chats.size() > Constants.currentChatsSize) {
 

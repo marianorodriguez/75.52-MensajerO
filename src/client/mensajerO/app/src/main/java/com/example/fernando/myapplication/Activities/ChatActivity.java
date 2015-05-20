@@ -59,7 +59,8 @@ public class ChatActivity extends ActionBarActivity implements View.OnClickListe
             EditText edTxt = (EditText) findViewById(R.id.editText);
             String message = edTxt.getText().toString();
 
-            String package_ = Constants.packager.wrap("sendMessage", Constants.user, Constants.chatWith, message);
+            String package_ = Constants.packager.wrap("sendMessage",
+                    Constants.user, Constants.chatWith, message);
 
             sendMessage.execute(new Pair<Context, String>(this, package_),
                     new Pair<Context, String>(this, Constants.sendMessageUrl),
@@ -67,7 +68,7 @@ public class ChatActivity extends ActionBarActivity implements View.OnClickListe
 
             while (Constants.sendMessageOk.compareTo("") == 0) {
                 try {
-                    Thread.sleep(1);
+                    Thread.sleep(10);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -79,6 +80,7 @@ public class ChatActivity extends ActionBarActivity implements View.OnClickListe
                 edTxt.setText("");
                 Message newMessage = new Message(
                         Constants.user.username,
+                        Constants.chatWith,
                         message,
                         calendar.getTime().toString(),
                         "");

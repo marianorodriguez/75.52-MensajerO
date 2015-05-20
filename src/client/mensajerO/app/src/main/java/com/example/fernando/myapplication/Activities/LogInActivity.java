@@ -5,8 +5,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Base64;
 import android.util.Pair;
 import android.view.View;
 import android.widget.Button;
@@ -37,6 +40,7 @@ public class LogInActivity extends ActionBarActivity implements View.OnClickList
 
     LogInPostAsyncTask logInPost;
     CurrentChatsPostAsyncTask currentChatsPost;
+    SharedPreferences mSharedPref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +61,7 @@ public class LogInActivity extends ActionBarActivity implements View.OnClickList
         txtUsername = (EditText) findViewById(R.id.txtUsername);
         txtPassword = (EditText) findViewById(R.id.txtPassword);
 
-        Constants.mSharedPreferences = getSharedPreferences(Constants.PREFS, MODE_PRIVATE);
+        mSharedPref = getSharedPreferences(Constants.PREFS, MODE_PRIVATE);
 
         logInPost = new LogInPostAsyncTask();
         currentChatsPost = new CurrentChatsPostAsyncTask();
@@ -119,8 +123,11 @@ public class LogInActivity extends ActionBarActivity implements View.OnClickList
 
                 if (Constants.logInOk.compareTo("true") == 0) {
                     Constants.user = currentUser;
+                    Constants.user.location = mSharedPref.getString(username+"location", "");
+                    Constants.user.status = mSharedPref.getString(username+"status", "");
+                    Constants.user.profilePicture = stringToBitmap(mSharedPref.getString(username+"picture", ""));
 
-                    SharedPreferences.Editor e = Constants.mSharedPreferences.edit();
+                    SharedPreferences.Editor e = mSharedPref.edit();
                     e.putString(Constants.PREF_NAME, username);
                     e.putString(Constants.PREF_PASS, password);
                     e.commit();
@@ -142,7 +149,8 @@ public class LogInActivity extends ActionBarActivity implements View.OnClickList
 
                 currentChatsPost.execute(new Pair<Context, String>(this, package_),
                         new Pair<Context, String>(this, Constants.currentChatsUrl),
-                        new Pair<Context, String>(this, "post"));
+                        new Pair<Context, String>(this, "post"),
+                        new Pair<Context, String>(this, mSharedPref.getString(Constants.user.username+"chats", "")));
 
                 while (Constants.currentChatsOk.isEmpty()) {
                     try {
@@ -173,6 +181,17 @@ public class LogInActivity extends ActionBarActivity implements View.OnClickList
             // create an Intent to take you over to a new DetailActivity
             Intent signUpActivity = new Intent(this, SignUpActivity.class);
             startActivity(signUpActivity);
+        }
+    }
+
+    public Bitmap stringToBitmap(String pictureString){
+        try {
+            byte [] encodeByte= Base64.decode(pictureString, Base64.DEFAULT);
+            Bitmap bitmap= BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
+            return bitmap;
+        } catch(Exception e) {
+            e.getMessage();
+            return null;
         }
     }
 

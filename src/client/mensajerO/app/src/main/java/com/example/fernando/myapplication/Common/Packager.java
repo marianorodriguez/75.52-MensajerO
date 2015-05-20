@@ -13,8 +13,8 @@ import java.io.UnsupportedEncodingException;
  */
 public class Packager {
 
-    String otherUser;
-    String message;
+    String msg_toID;
+    String msg_text;
 
     private String toJson (String service, User user) {
 
@@ -39,7 +39,7 @@ public class Packager {
                 return user.toJsonForServer().toString();
 
             case "sendMessage":
-                return user.toJsonForServer(otherUser, message).toString();
+                return user.toJsonForServer(msg_toID, msg_text).toString();
 
         }
         return null;
@@ -48,7 +48,6 @@ public class Packager {
     public String wrap(String service, User user) {
 
         String jsonPackage = toJson(service, user);
-        System.out.println(jsonPackage);
 
         byte[] data;
         try {
@@ -64,10 +63,10 @@ public class Packager {
         return packageEncoded;
     }
 
-    public String wrap(String service, User user, String otherUser, String message) {
+    public String wrap(String service, User user, String msg_toID, String msg_text) {
 
-        this.otherUser = otherUser;
-        this.message = message;
+        this.msg_toID = msg_toID;
+        this.msg_text = msg_text;
 
         return wrap(service, user);
 

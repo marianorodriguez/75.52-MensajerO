@@ -3,8 +3,12 @@ package com.example.fernando.myapplication.Activities;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Base64;
 import android.util.Pair;
 import android.view.View;
 import android.widget.Button;
@@ -15,6 +19,8 @@ import com.example.fernando.myapplication.Common.User;
 import com.example.fernando.myapplication.R;
 import com.example.fernando.myapplication.Threads.SignUpPostAsyncTask;
 
+import java.io.ByteArrayOutputStream;
+
 /**
  * Created by fernando on 10/04/15.
  */
@@ -24,6 +30,7 @@ public class SignUpActivity extends ActionBarActivity implements View.OnClickLis
     // To user enter password and username
     EditText txtUsername, txtPassword;
     SignUpPostAsyncTask signUpPost;
+    SharedPreferences mSharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +47,7 @@ public class SignUpActivity extends ActionBarActivity implements View.OnClickLis
         txtUsername = (EditText) findViewById(R.id.txtUsername);
         txtPassword = (EditText) findViewById(R.id.txtPassword);
 
-        Constants.mSharedPreferences = getSharedPreferences(Constants.PREFS, MODE_PRIVATE);
+        mSharedPreferences = getSharedPreferences(Constants.PREFS, MODE_PRIVATE);
 
         signUpPost = new SignUpPostAsyncTask();
     }
@@ -77,11 +84,19 @@ public class SignUpActivity extends ActionBarActivity implements View.OnClickLis
 
                 if (Constants.signUpOk.compareTo("true") == 0) {
                     Constants.user = currentUser;
+                    Constants.user.location = "Unknown";
+                    Constants.user.status = "online";
 
-                    SharedPreferences.Editor e = Constants.mSharedPreferences.edit();
+                    Drawable myDrawable = getResources().getDrawable(R.drawable.ic_launcher);
+                    Constants.user.profilePicture = ((BitmapDrawable) myDrawable).getBitmap();
+
+                    SharedPreferences.Editor e = mSharedPreferences.edit();
                     e.putString(Constants.PREF_NAME, username);
                     e.putString(Constants.PREF_PASS, password);
+                    e.putString(username+"location", "Unknown");
+                    e.putString(username+"picture", setDefaultPicture());
                     e.putString(username+"chats", "");
+                    e.putString(username+"status", "online");
                     e.commit();
 
                 } else {
@@ -119,5 +134,17 @@ public class SignUpActivity extends ActionBarActivity implements View.OnClickLis
 
             finish();
         }
+    }
+
+    private String setDefaultPicture() {
+        Drawable myDrawable = getResources().getDrawable(R.drawable.ic_launcher);
+        Bitmap defaultPicture = ((BitmapDrawable) myDrawable).getBitmap();
+
+        ByteArrayOutputStream baos = new  ByteArrayOutputStream();
+        defaultPicture.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        byte [] b=baos.toByteArray();
+        String temp= Base64.encodeToString(b, Base64.DEFAULT);
+
+        return temp;
     }
 }

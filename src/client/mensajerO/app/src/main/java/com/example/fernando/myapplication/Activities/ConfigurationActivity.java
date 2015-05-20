@@ -10,11 +10,14 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Base64;
 import android.util.Log;
 import android.util.Pair;
 import android.view.View;
@@ -27,6 +30,7 @@ import com.example.fernando.myapplication.Common.Constants;
 import com.example.fernando.myapplication.Threads.ConfigPostAsyncTask;
 import com.example.fernando.myapplication.R;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FilenameFilter;
 
@@ -44,6 +48,10 @@ public class ConfigurationActivity extends ActionBarActivity implements View.OnC
     ImageView profilePicture;
 
     private static int RESULT_LOAD_IMAGE = 1;
+    SharedPreferences mSharedPref;
+
+    Bitmap currentPicture;
+    String currentStatus;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,23 +81,26 @@ public class ConfigurationActivity extends ActionBarActivity implements View.OnC
         profilePicture = (ImageView) findViewById(R.id.imageView);
 
         offline = (RadioButton) findViewById(R.id.offline);
-        out = (RadioButton) findViewById(R.id.out);
-        online = (RadioButton) findViewById(R.id.online);
         offline.setOnClickListener(this);
+        out = (RadioButton) findViewById(R.id.out);
         out.setOnClickListener(this);
+        online = (RadioButton) findViewById(R.id.online);
         online.setOnClickListener(this);
 
         configPost = new ConfigPostAsyncTask();
 
-        //cargar de shared preferencces en constants.user.profilePicture antes
+        //setear los radio buttons segun el status del user
+        setUserStatus();
+
+        //guardo los estados antes de entrar a settings por si no se puede mandar al server
+        currentStatus = Constants.user.status;
+        currentPicture = Constants.user.profilePicture;
+
+        mSharedPref = getSharedPreferences(Constants.PREFS, MODE_PRIVATE);
+
         if (Constants.user.profilePicture != null) {
 
             profilePicture.setImageBitmap(Constants.user.profilePicture);
-
-//            // Para cuando reinicia la app sin haber echo LogOut, y para el Mock Server
-//            SharedPreferences.Editor e = Constants.mSharedPreferences.edit();
-//            e.putString(Constants.user.username+"picture", Constants.user.profilePicture.toString());
-//            e.commit();
 
             float scaleRatio = getResources().getDisplayMetrics().density;
             int dps = 150;
@@ -99,6 +110,23 @@ public class ConfigurationActivity extends ActionBarActivity implements View.OnC
             profilePicture.getLayoutParams().width = pixels;
         }
 
+    }
+
+    private void setUserStatus() {
+        //cargar de shared preferences al constants.user el staus (en LOGIN, en SIGN UP ya esta)
+        if (Constants.user.status.compareTo("online")== 0) {
+            online.setChecked(true);
+            offline.setChecked(false);
+            out.setChecked(false);
+        } else if (Constants.user.status.compareTo("offline")== 0) {
+            online.setChecked(false);
+            offline.setChecked(true);
+            out.setChecked(false);
+        } else if (Constants.user.status.compareTo("out")== 0) {
+            online.setChecked(false);
+            offline.setChecked(false);
+            out.setChecked(true);
+        }
     }
 
     @Override
@@ -117,7 +145,7 @@ public class ConfigurationActivity extends ActionBarActivity implements View.OnC
             String picturePath = cursor.getString(columnIndex);
             cursor.close();
 
-            ImageView imageView = (ImageView) findViewById(R.id.imageView);
+//            ImageView imageView = (ImageView) findViewById(R.id.imageView);
             Bitmap imageSelected = BitmapFactory.decodeFile(picturePath);
 
             if (imageSelected == null) {
@@ -125,41 +153,52 @@ public class ConfigurationActivity extends ActionBarActivity implements View.OnC
                 return;
             } else {
 
+                profilePicture.setImageBitmap(BitmapFactory.decodeFile(picturePath));
 
-                imageView.setImageBitmap(BitmapFactory.decodeFile(picturePath));
+                Constants.user.profilePicture = BitmapFactory.decodeFile(picturePath);
 
-                // Para cuando reinicia la app sin haber echo LogOut, y para el Mock Server
-                SharedPreferences.Editor e = Constants.mSharedPreferences.edit();
-                e.putString(Constants.user.username+"picture", imageSelected.toString());
+                SharedPreferences.Editor e = mSharedPref.edit();
+                e.putString(Constants.user.username+"picture", setPicture(Constants.user.profilePicture));
                 e.commit();
-
-                //Para el package del server real
-                Constants.user.profilePicture = imageSelected;
 
                 float scaleRatio = getResources().getDisplayMetrics().density;
                 int dps = 150;
                 int pixels = (int) (dps * scaleRatio + 0.5f);
 
-                imageView.getLayoutParams().height = pixels; // OR
-                imageView.getLayoutParams().width = pixels;
+                profilePicture.getLayoutParams().height = pixels; // OR
+                profilePicture.getLayoutParams().width = pixels;
             }
-
         }
+    }
 
+    private String setPicture(Bitmap pictureBitmap) {
 
+        ByteArrayOutputStream baos = new  ByteArrayOutputStream();
+        pictureBitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        byte [] b=baos.toByteArray();
+        String temp= Base64.encodeToString(b, Base64.DEFAULT);
+
+        return temp;
     }
 
     @Override
     public void onClick(View v) {
 
-       /* if (v.getId() == R.id.button) {
-            // PARA AGARRAR LA FOTO DEL FILE SYSTEM !!
-            loadFileList();
-            onCreateDialog(1000);
-
-        } else*/ if (v.getId() == R.id.button1) {
+        if (v.getId() == R.id.button1) {
             //Cancel button
+            // seteo al user los valores que tenia antes de entrar
+            SharedPreferences.Editor e = mSharedPref.edit();
+            Constants.user.profilePicture = currentPicture;
+            e.putString(Constants.user.username+"picture", setPicture(currentPicture));
+            profilePicture.setImageBitmap(Constants.user.profilePicture);
+
+            Constants.user.status = currentStatus;
+            e.putString(Constants.user.username+"status", currentStatus);
+            e.commit();
+            setUserStatus();
+
             finish();
+
         } else if (v.getId() == R.id.button2 ) {
             //Done button
 
@@ -177,16 +216,21 @@ public class ConfigurationActivity extends ActionBarActivity implements View.OnC
                 }
             }
 
-            if (Constants.configOK.contains("Error")) {
-                Toast.makeText(this, "Could't connect with server. Your changes won't be saved\nafter you Log Out", Toast.LENGTH_LONG).show();
+            if (Constants.configOK.contains("Error") ) {
+                Toast.makeText(this, "Could't connect with server. Your changes won't be saved.", Toast.LENGTH_LONG).show();
+                Constants.configOK = "";
+                configPost = new ConfigPostAsyncTask();
             }
 
             if (Constants.signUpOk.compareTo("true") == 0) {
                 Toast.makeText(this, "Changes saved properly", Toast.LENGTH_LONG).show();
+                Constants.configOK = "";
                 finish();
+
             } else {
-                Toast.makeText(this, "Could't connect with server. Your changes won't be saved\nafter you Log Out", Toast.LENGTH_LONG).show();
-                finish();
+                Toast.makeText(this, "Could't connect with server. Your changes won't be saved.", Toast.LENGTH_LONG).show();
+                Constants.configOK = "";
+                configPost = new ConfigPostAsyncTask();
             }
 
         } else if (v.getId() == R.id.online) {
@@ -204,88 +248,34 @@ public class ConfigurationActivity extends ActionBarActivity implements View.OnC
         }
     }
 
-    private void changeUserStatus(int i) {
 
+    // ARREGLAR ESTO PORQUE ESTA MAL LLAMADO. TENDRIA QUE hacer esto al apretar done button
+    // si el server responde ok, sino no guardar
+    private void changeUserStatus(int i) {
+        SharedPreferences.Editor e = mSharedPref.edit();
+
+        switch (i) {
+            case 0:
+                Constants.user.status = "online";
+                e.putString(Constants.user.username+"status", "online");
+                break;
+            case 1:
+                Constants.user.status = "offline";
+                e.putString(Constants.user.username+"status", "offline");
+                break;
+            case 2:
+                Constants.user.status = "out";
+                e.putString(Constants.user.username+"status", "out");
+                break;
+        }
+        e.commit();
     }
 
-//    private String[] mFileList;
-//    private File mPath = new File(Environment.getExternalStorageDirectory() + "/Download");
-//    private String mChosenFile;
-//    private static final String FTYPE = ".jpg";
-//    private static final String FTYPE2 = ".png";
-//    private static final int DIALOG_LOAD_FILE = 1000;
-//
-//    private void loadFileList() {
-//        try {
-//            mPath.mkdirs();
-//        }
-//        catch(SecurityException e) {
-//            Log.e("", "unable to write on the sd card " + e.toString());
-//        }
-//        if(mPath.exists()) {
-//            FilenameFilter filter = new FilenameFilter() {
-//
-//                @Override
-//                public boolean accept(File dir, String filename) {
-//                    File sel = new File(dir, filename);
-//                    return filename.contains(FTYPE) || filename.contains(FTYPE2) || sel.isDirectory();
-//                }
-//
-//            };
-//            mFileList = mPath.list(filter);
-//        }
-//        else {
-//            mFileList= new String[0];
-//        }
-//    }
-//
-//    protected Dialog onCreateDialog(int id) {
-//        Dialog dialog = null;
-//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//        switch(id) {
-//            case DIALOG_LOAD_FILE:
-//                builder.setTitle("Choose your file");
-//                if(mFileList == null) {
-//                    Log.e("", "Showing file picker before loading the file list");
-//                    dialog = builder.create();
-//                    return dialog;
-//                }
-//                builder.setItems(mFileList, new DialogInterface.OnClickListener() {
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        mChosenFile = mFileList[which];
-//
-////                        profilePicture.setImageBitmap(mChosenFile);
-//
-//                    }
-//                });
-//                break;
-//        }
-//        dialog = builder.show();
-//        return dialog;
-//    }
-
-//    protected void onActivityResult(int requestCode, int resultCode,
-//                                    Intent imageReturnedIntent) {
-//        super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
-//
-//        switch(requestCode) {
-//            case REQ_CODE_PICK_IMAGE:
-//                if(resultCode == RESULT_OK){
-//                    Uri selectedImage = imageReturnedIntent.getData();
-//                    String[] filePathColumn = {MediaStore.Images.Media.DATA};
-//
-//                    Cursor cursor = getContentResolver().query(
-//                            selectedImage, filePathColumn, null, null, null);
-//                    cursor.moveToFirst();
-//
-//                    int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-//                    String filePath = cursor.getString(columnIndex);
-//                    cursor.close();
-//
-//
-//                    Bitmap yourSelectedImage = BitmapFactory.decodeFile(filePath);
-//                }
-//        }
-//    }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (configPost != null)
+            configPost.cancel(true);
+    }
 
 }

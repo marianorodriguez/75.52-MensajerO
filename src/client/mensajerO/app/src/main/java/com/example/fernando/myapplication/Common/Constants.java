@@ -1,6 +1,9 @@
 package com.example.fernando.myapplication.Common;
 
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
 import android.widget.ListView;
 
 import com.example.fernando.myapplication.Activities.ChatsHallActivity;
@@ -29,7 +32,7 @@ final public class Constants//final to prevent instantiation
 
     public static User user = null;
 
-    public static SharedPreferences mSharedPreferences;
+//    public static SharedPreferences mSharedPreferences;
     public static final String PREFS = "prefs";
     public static final String PREF_NAME = "name";
     public static final String PREF_PASS = "password";
@@ -65,14 +68,17 @@ final public class Constants//final to prevent instantiation
     //private constructor to prevent instantiation/inheritance
     private Constants() {}
 
-    public static void initialize() {
+    public static void initialize(SharedPreferences mSharedPref) {
 
-        String username = Constants.mSharedPreferences.getString(PREF_NAME, "");
-        String password = Constants.mSharedPreferences.getString(PREF_PASS, "");
+        String username = mSharedPref.getString(PREF_NAME, "");
+        String password = mSharedPref.getString(PREF_PASS, "");
         Constants.user = new User(username, password);
+        Constants.user.status = mSharedPref.getString(username+"status", "");
+        Constants.user.location = mSharedPref.getString(username+"location", "");
+        Constants.user.profilePicture = stringToBitmap(mSharedPref.getString(username + "picture", ""));
 
         try {
-            JSONArray chats = new JSONArray(Constants.mSharedPreferences.getString(username+"chats", ""));
+            JSONArray chats = new JSONArray(mSharedPref.getString(username+"chats", ""));
 
             for (int chat = 0; chat < chats.length(); chat++) {
                 Constants.user.chats.add(Chat.toChat((org.json.JSONObject) chats.get(chat)));
@@ -88,4 +94,44 @@ final public class Constants//final to prevent instantiation
             e.printStackTrace();
         }
     }
+
+    private static Bitmap stringToBitmap(String stringPicture) {
+        try {
+            byte [] encodeByte = Base64.decode(stringPicture, Base64.DEFAULT);
+            Bitmap bitmap = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
+            return bitmap;
+        } catch(Exception e) {
+            e.getMessage();
+            return null;
+        }
+    }
+
+    public static void reset() {
+
+        user = null;
+
+        logInOk = "";
+        currentChatsOk = "";
+
+        signUpOk = "";
+        configOK = "";
+
+        sendMessageOk = "";
+        chatWith = "";
+
+        chatListView = null;
+        chatsAdapter = null;
+        usersListView = null;
+        usersAdapter = null;
+
+        currentChatsSize = 0;
+        //La cantidad actual de users renderizados hasta el momento
+        currentUsersSize = 0;
+        //La cantidad actual de messages en un chat x renderizados hasta el momento
+        messagesSize = 0;
+
+        otherUsers.clear();
+
+    }
+
 }
