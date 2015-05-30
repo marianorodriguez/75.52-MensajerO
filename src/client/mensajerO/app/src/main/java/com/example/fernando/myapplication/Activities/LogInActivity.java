@@ -17,6 +17,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.fernando.myapplication.Common.Constants;
+import com.example.fernando.myapplication.Mocks.Server;
 import com.example.fernando.myapplication.Threads.CurrentChatsPostAsyncTask;
 import com.example.fernando.myapplication.Threads.LogInPostAsyncTask;
 import com.example.fernando.myapplication.Common.User;
@@ -124,6 +125,15 @@ public class LogInActivity extends ActionBarActivity implements View.OnClickList
                 if (Constants.logInOk.compareTo("true") == 0) {
                     Constants.user = currentUser;
                     Constants.user.location = mSharedPref.getString(username+"location", "");
+
+                    if (Constants.server != null) {
+                        Constants.user.status = mSharedPref.getString(username+"status", "");
+                        Constants.user.profilePicture = stringToBitmap(mSharedPref.getString(username+"picture", ""));
+                    } else {
+                        Constants.user.status = Constants.logInStatus;
+                        Constants.user.profilePicture = stringToBitmap(Constants.logInPicture);
+                    }
+
                     Constants.user.status = mSharedPref.getString(username+"status", "");
                     Constants.user.profilePicture = stringToBitmap(mSharedPref.getString(username+"picture", ""));
 
@@ -185,8 +195,9 @@ public class LogInActivity extends ActionBarActivity implements View.OnClickList
 
     public Bitmap stringToBitmap(String pictureString){
         try {
-            byte [] encodeByte= Base64.decode(pictureString, Base64.DEFAULT);
-            Bitmap bitmap= BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
+            int flags = Base64.NO_WRAP | Base64.URL_SAFE;
+            byte [] encodeByte = Base64.decode(pictureString, flags);
+            Bitmap bitmap = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
             return bitmap;
         } catch(Exception e) {
             e.getMessage();

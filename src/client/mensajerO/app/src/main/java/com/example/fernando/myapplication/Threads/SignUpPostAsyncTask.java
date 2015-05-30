@@ -109,7 +109,6 @@ public class SignUpPostAsyncTask extends AsyncTask<Pair<Context, String>, String
 //        } catch (JSONException e) {
 //            e.printStackTrace();
 //        }
-
     }
 
 }

@@ -27,12 +27,14 @@ import android.widget.RadioButton;
 import android.widget.Toast;
 
 import com.example.fernando.myapplication.Common.Constants;
+import com.example.fernando.myapplication.Common.User;
 import com.example.fernando.myapplication.Threads.ConfigPostAsyncTask;
 import com.example.fernando.myapplication.R;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FilenameFilter;
+import java.io.UnsupportedEncodingException;
 
 /**
  * Created by fernando on 10/04/15.
@@ -109,7 +111,6 @@ public class ConfigurationActivity extends ActionBarActivity implements View.OnC
             profilePicture.getLayoutParams().height = pixels; // OR
             profilePicture.getLayoutParams().width = pixels;
         }
-
     }
 
     private void setUserStatus() {
@@ -176,7 +177,7 @@ public class ConfigurationActivity extends ActionBarActivity implements View.OnC
         ByteArrayOutputStream baos = new  ByteArrayOutputStream();
         pictureBitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
         byte [] b=baos.toByteArray();
-        String temp= Base64.encodeToString(b, Base64.DEFAULT);
+        String temp = Base64.encodeToString(b, Base64.DEFAULT);
 
         return temp;
     }
@@ -266,6 +267,22 @@ public class ConfigurationActivity extends ActionBarActivity implements View.OnC
                 break;
         }
         e.commit();
+    }
+
+    public String wrap(Bitmap profilePicture) {
+
+        byte[] data;
+        try {
+            data = profilePicture.toString().getBytes("UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+        String packageEncoded = Base64.encodeToString(data, Base64.NO_WRAP);
+        packageEncoded = packageEncoded.replaceAll("(?:\\r\\n|\\n\\r|\\n|\\r)", "");
+
+        return packageEncoded;
     }
 
     @Override

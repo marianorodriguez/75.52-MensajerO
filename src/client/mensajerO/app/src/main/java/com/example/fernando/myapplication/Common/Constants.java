@@ -20,7 +20,7 @@ import java.util.ArrayList;
  */
 final public class Constants//final to prevent instantiation
 {
-    public static String ipServer = "192.168.1.104";
+    public static String ipServer = "192.168.1.100";
     public static String portServer = "8081";
     public static final String logInUrl = "http://" + ipServer +":" + portServer + "/logIn";
     public static final String signUpUrl = "http://" + ipServer + ":" + portServer + "/signUp";
@@ -42,7 +42,11 @@ final public class Constants//final to prevent instantiation
     public static final Packager packager = new Packager();
     public static ArrayList<User> otherUsers = new ArrayList<>();
     public static final ChatEditor chatEditor = new ChatEditor();
+
     public static String logInOk = "";
+    public static String logInStatus = "";
+    public static String logInPicture = "";
+
     public static String currentChatsOk = "";
 
     public static String signUpOk = "";
@@ -56,7 +60,8 @@ final public class Constants//final to prevent instantiation
     public static ListView usersListView = null;
     public static UsersActivity.StableArrayAdapter usersAdapter = null;
 
-    public static Server server = new Server(); //si no pones en null
+    public static Server server = null;
+//    public static Server server = new Server(); //si no pones en null
 
     //La cantidad actual de chats renderizados hasta el momento
     public static int currentChatsSize = 0;

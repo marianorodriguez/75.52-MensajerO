@@ -2,8 +2,11 @@ package com.example.fernando.myapplication.Activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Base64;
 import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -184,6 +187,17 @@ public class UsersActivity extends ActionBarActivity implements View.OnClickList
             mIdMap.put(object, 23);
         }
 
+    }
+
+    public Bitmap stringToBitmap(String pictureString){
+        try {
+            byte [] encodeByte= Base64.decode(pictureString, Base64.DEFAULT);
+            Bitmap bitmap= BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
+            return bitmap;
+        } catch(Exception e) {
+            e.getMessage();
+            return null;
+        }
     }
 
 }

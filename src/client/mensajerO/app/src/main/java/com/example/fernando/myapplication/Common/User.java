@@ -1,11 +1,13 @@
 package com.example.fernando.myapplication.Common;
 
 import android.graphics.Bitmap;
+import android.util.Base64;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 
 /**
@@ -47,7 +49,7 @@ public class User {
     public JSONObject toJsonForServer (int flag) {
         JSONObject juser_ = toJsonForServer();
         try {
-            juser_.put("picture", profilePicture);
+            juser_.put("picture", setPicture(profilePicture));
             juser_.put("status", status);
 
             return juser_;
@@ -55,6 +57,17 @@ public class User {
             e.printStackTrace();
             return null;
         }
+    }
+
+    private String setPicture(Bitmap pictureBitmap) {
+
+        ByteArrayOutputStream baos = new  ByteArrayOutputStream();
+        pictureBitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        byte [] b = baos.toByteArray();
+        String temp = Base64.encodeToString(b, Base64.NO_WRAP);
+        temp = temp.replaceAll("(?:\\r\\n|\\n\\r|\\n|\\r)", "");
+
+        return temp;
     }
 
     public JSONObject toJsonForServer (String msg_toID, String msg_text) {
