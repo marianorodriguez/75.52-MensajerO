@@ -23,23 +23,23 @@ public:
 	/**
 	 * Obtiene la ruta al directorio del archivo de configuracion
 	 */
-	std::string getConfigPath();
+	std::string getConfigPath() const;
 	/**
 	 * Obtiene la ruta al directorio de la base de datos
 	 */
-	std::string getDatabasePath();
+	std::string getDatabasePath() const;
 	/**
 	 * Obtiene el tiempo entre llamadas al socket (configuracion de mongoose)
 	 */
-	int getPollDelay();
+	int getPollDelay() const;
 	/**
 	 * Obtiene puerto por el que escucha los requests el servidor
 	 */
-	int getServerPort();
+	int getServerPort() const;
 	/**
 	 * Obtiene el tiempo que se considera que el usuario está conectado
 	 */
-	int getUserAliveTime();
+	int getUserAliveTime() const;
 private:
 	/**
 	 * Carga configuracion default

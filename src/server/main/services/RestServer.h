@@ -4,6 +4,7 @@
 #include "Connection.h"
 #include "ServiceFactory.h"
 #include "services/ConnectionManager.h"
+#include "ServerOptions.h"
 
 // Forwards
 struct mg_server;
@@ -25,6 +26,10 @@ public:
 	 */
 	~RestServer();
 	/**
+	 * Arranca al servidor
+	 */
+    void startServer();
+	/**
 	 * Desconecta el servidor
 	 */
 	void shutdownServer();
@@ -40,7 +45,19 @@ public:
 	 * Agrega un servicio nuevo
 	 */
 	void addService(ServiceCreatorInterface* serviceCreator);
+	/**
+	 * Variables de configuración del servidor
+	 */
+    void setOptions (const ServerOptions& options);
 private:
+	/**
+	 * Demora entre polls al servidor
+	 */
+    int pollDelay;
+	/**
+	 * Puerto de escucha
+	 */
+	int port;
 	/**
 	 * Server mongoose
 	 */

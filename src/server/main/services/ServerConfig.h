@@ -1,7 +1,7 @@
 #ifndef SERVERCONFIG_H
 #define SERVERCONFIG_H
 #include "services/RestServer.h"
-#include <ServerOptions.h>
+#include "ServerOptions.h"
 
 class ServerConfig{
 public:
@@ -9,9 +9,10 @@ public:
 	/**
 	 * Configura el servidor
 	 */
-	void configure(RestServer& server);
+	void configure(RestServer& server) const;
 protected:
-	void addServiceCreators(RestServer& server);
+	void addServiceCreators(RestServer& server) const ;
+	ServerOptions options;
 };
 
 #endif // SERVERCONFIG_H

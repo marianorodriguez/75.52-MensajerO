@@ -20,7 +20,7 @@ public:
 	 * Agrega un servicio nuevo
 	 */
 	void addService(ServiceCreatorInterface* serviceCreator);
-    void addConfig(ServerConfig& config);
+    void addConfig(const ServerConfig& config);
 protected:
 	virtual void runFunction();
 private:

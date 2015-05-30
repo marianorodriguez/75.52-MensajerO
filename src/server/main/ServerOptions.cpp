@@ -93,24 +93,24 @@ OptionMap ServerOptions::parseJson(std::ifstream& configFile){
 	return options;
 }
 
-std::string ServerOptions::getConfigPath(){
+std::string ServerOptions::getConfigPath() const{
 	return this->configPath;
 }
 
 
-std::string ServerOptions::getDatabasePath(){
+std::string ServerOptions::getDatabasePath() const{
 	return this->databasePath;
 }
 
-int ServerOptions::getPollDelay(){
+int ServerOptions::getPollDelay() const{
 	return this->pollDelay;
 }
 
-int ServerOptions::getServerPort(){
+int ServerOptions::getServerPort() const{
 	return this->serverPort;
 }
 
-int ServerOptions::getUserAliveTime(){
+int ServerOptions::getUserAliveTime() const{
 	return this->userAliveTime;
 }
 

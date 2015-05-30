@@ -1,10 +1,10 @@
-#include <cstdio>
 #include <cstring>
 #include<iostream>
 
 #include "mongoose.h"
 #include "json.h"
 #include "utilities/Base64.h"
+#include <utilities/NumberConverter.h>
 
 #include "RestServer.h"
 #include "ServiceFactory.h"
@@ -30,8 +30,7 @@ static int eventHandler(struct mg_connection *mgConnection, enum mg_event event)
  * Constructor
  */
 RestServer::RestServer(){
-	this->server = mg_create_server(this, eventHandler);
-	mg_set_option(this->server, "listening_port", "8081");
+	startServer();
 	connectionManager = ConnectionManager::getInstance();
 	connectionManager->startUpdating();
 }
@@ -45,12 +44,22 @@ RestServer::~RestServer(){
 	shutdownServer();
 }
 
+void RestServer::setOptions(const ServerOptions& options){
+	shutdownServer();
+	this->pollDelay = options.getPollDelay();
+	this->port = options.getServerPort();
+	options.getDatabasePath();
+	startServer();
+	
+}
+
+
 void RestServer::addService (ServiceCreatorInterface* serviceCreator ){
 	this->serviceFactory.addNewServiceCreator(serviceCreator);
 }
 
 void RestServer::pollServer(){
-	mg_poll_server(this->server, 1000);
+	mg_poll_server(this->server, this->pollDelay);
 }
 
 void RestServer::handleConnection(struct mg_connection *mgConnection) const{
@@ -63,6 +72,17 @@ void RestServer::handleConnection(struct mg_connection *mgConnection) const{
 	connectionWrap.printMessage(response);
 	delete service;
 }
+
+/**
+ * Arranco el servidor
+ */
+void RestServer::startServer(){
+this->server = mg_create_server(this, eventHandler);
+	std::string strPort;
+	strPort = NumberConverter::getString(port);
+	mg_set_option(this->server, "listening_port", strPort.c_str());
+}
+
 
 /**
  * Apago el servidor

@@ -7,14 +7,15 @@
 #include "services/UsersService.h"
 #include "SomethingForMeService.h"
 
-ServerConfig::ServerConfig(const ServerOptions& options){
-}
+ServerConfig::ServerConfig(const ServerOptions& options) :
+	options(options){}
 
-void ServerConfig::configure(RestServer& server){
+void ServerConfig::configure(RestServer& server) const{
 	addServiceCreators(server);
+	server.setOptions(options);
 }
 
-void ServerConfig::addServiceCreators(RestServer& server){
+void ServerConfig::addServiceCreators(RestServer& server) const{
 	server.addService(new CurrentChatsServiceCreator());
 	server.addService(new LogInServiceCreator());
 	server.addService(new SendMessageServiceCreator());

@@ -18,3 +18,9 @@ int NumberConverter::getNumber(const std::string& str){
 	ss >> result;
 	return result;
 }
+
+std::string NumberConverter::getString(int number){
+	std::stringstream ss;
+	ss << number;
+	return ss.str();
+}

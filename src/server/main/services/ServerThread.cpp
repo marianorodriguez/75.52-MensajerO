@@ -20,6 +20,6 @@ void ServerThread::addService(ServiceCreatorInterface* serviceCreator){
 	this->server.addService(serviceCreator);
 }
 
-void ServerThread::addConfig(ServerConfig& config){
+void ServerThread::addConfig(const ServerConfig& config){
 	config.configure(this->server);
 }
