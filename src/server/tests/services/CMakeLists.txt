@@ -11,6 +11,7 @@ add_library(service-test
 	SomethingForMeServiceTest.cpp
 	CurrentChatsServiceTest.cpp
 	UsersServiceTest.cpp
-	SendMessageServiceTest.cpp)
+	SendMessageServiceTest.cpp
+	DeleteChatServiceTest.cpp)
 
 target_link_libraries(service-test mensajero-services mensajero-utilities)

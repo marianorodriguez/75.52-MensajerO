@@ -33,6 +33,8 @@ RestServer::RestServer(){
 	this->pollDelay = 1000;
 	this->port = 8081;
 	startServer();
+	this->pollDelay = 1000;
+	this->port = 8081;
 	connectionManager = ConnectionManager::getInstance();
 	connectionManager->startUpdating();
 }

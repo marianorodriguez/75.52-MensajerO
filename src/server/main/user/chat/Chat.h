@@ -48,9 +48,20 @@ public:
 	 */
 	string serialize() const override;
 
+	string serializeCurrentChats(const string &user) const;
+
+	void setFirstMessageUser1(const int i);
+	void setFirstMessageUser2(const int i);
+	int getFirstMessageUser1();
+	int getFirstMessageUser2();
+
+	string getUsername1();
+
 private:
 	string username_1;
 	string username_2;
+	int firstMessageUser1;
+	int firstMessageUser2;
 	vector<Message> sentMessages;
 
 	/**
