@@ -62,7 +62,8 @@ public class LogInPostAsyncTask extends AsyncTask<Pair<Context, String>, String,
             if (response.getStatusLine().getStatusCode() == 200) {
                 try {
 
-                    JSONObject respons = Constants.packager.unwrap(EntityUtils.toString(response.getEntity()));
+                    JSONObject respons = Constants.packager.unwrap(
+                            EntityUtils.toString(response.getEntity()));
 
                     Constants.logInOk = respons.getString("ok");
 

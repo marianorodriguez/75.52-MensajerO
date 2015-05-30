@@ -248,9 +248,6 @@ public class ConfigurationActivity extends ActionBarActivity implements View.OnC
         }
     }
 
-
-    // ARREGLAR ESTO PORQUE ESTA MAL LLAMADO. TENDRIA QUE hacer esto al apretar done button
-    // si el server responde ok, sino no guardar
     private void changeUserStatus(int i) {
         SharedPreferences.Editor e = mSharedPref.edit();
 

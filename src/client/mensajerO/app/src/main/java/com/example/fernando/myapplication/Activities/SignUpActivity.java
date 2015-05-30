@@ -87,6 +87,7 @@ public class SignUpActivity extends ActionBarActivity implements View.OnClickLis
                     Constants.user.location = "Unknown";
                     Constants.user.status = "online";
 
+                    // ACA SETEAR LA IMAGEN DEFAULT y EL ESTADO DEFAULT
                     Drawable myDrawable = getResources().getDrawable(R.drawable.ic_launcher);
                     Constants.user.profilePicture = ((BitmapDrawable) myDrawable).getBitmap();
 
@@ -123,11 +124,9 @@ public class SignUpActivity extends ActionBarActivity implements View.OnClickLis
                 finish();
 
             } else {
-
                 // user didn't entered username or password
                 Toast.makeText(getApplicationContext(),
                         "Please enter username and password", Toast.LENGTH_LONG).show();
-
             }
 
         } else {

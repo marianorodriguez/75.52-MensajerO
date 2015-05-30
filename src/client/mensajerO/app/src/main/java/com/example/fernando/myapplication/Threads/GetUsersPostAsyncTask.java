@@ -14,6 +14,7 @@ import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
@@ -94,23 +95,38 @@ public class GetUsersPostAsyncTask extends AsyncTask<Pair<Context, String>, Stri
     }
 
     private HttpResponse doRequest(Pair<Context, String>... params) {
+        String package_ = params[0].second;
+        String url = params[1].second;
+        String type = params[2].second;
+
         try {
-            String package_ = params[0].second;
-            String url = params[1].second;
-            String type = params[2].second;
 
             HttpClient httpClient = new DefaultHttpClient();
-            HttpPost httpPost = new HttpPost(url);
+            HttpResponse response;
 
-            // Add name data to request
-            List<NameValuePair> nameValuePairs = new ArrayList<>(1);
-            nameValuePairs.add(new BasicNameValuePair("package", package_));
-            httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+            if (type.compareTo("post") == 0) {
 
-            // Execute HTTP Post Request
-            HttpResponse response = httpClient.execute(httpPost);
+                HttpPost httpPost = new HttpPost(url);
 
-            return response;
+                // Add name data to request
+                List<NameValuePair> nameValuePairs = new ArrayList<>(1);
+                nameValuePairs.add(new BasicNameValuePair("package", package_));
+                httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+
+                // Execute HTTP Post Request
+                response = httpClient.execute(httpPost);
+
+                return response;
+
+            } else if (type.compareTo("get") == 0) {
+
+                url.concat("?" + package_);
+
+                response = httpClient.execute(new HttpGet(url));
+
+                return response;
+
+            }
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         } catch (ClientProtocolException e) {

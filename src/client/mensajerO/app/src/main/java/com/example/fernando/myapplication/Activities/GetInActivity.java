@@ -20,6 +20,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.fernando.myapplication.Common.Constants;
 import com.example.fernando.myapplication.R;
 
 public class GetInActivity extends ActionBarActivity implements View.OnClickListener {
@@ -37,7 +38,7 @@ public class GetInActivity extends ActionBarActivity implements View.OnClickList
         Button mainButton = (Button) findViewById(R.id.button1);
         mainButton.setOnClickListener(this);
 
-        ipContainer = (EditText) findViewById(R.id.enterIP);
+        ipContainer = (EditText) findViewById(R.id.editText2);
     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
@@ -85,6 +86,7 @@ public class GetInActivity extends ActionBarActivity implements View.OnClickList
     public void onClick(View v) {
 
         //CHEQUEAR EL FORMATO DE LA IP y setear Constants.ip
+        Constants.ipServer = ipContainer.getText().toString();
 
         Intent logIn = new Intent(this, LogInActivity.class);
         startActivity(logIn);
