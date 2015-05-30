@@ -183,6 +183,8 @@ public class ChatsHallActivity extends ActionBarActivity implements View.OnClick
         final ListView listview = (ListView) findViewById(R.id.listview);
         Constants.chatListView = listview;
 
+        // ESta deberia ser una lista de User, igual Constants.users
+        // que saca los users del get users, que hay qe hacerlo antes.
         ArrayList<String> otherUsersChatingWith = new ArrayList<>();
 
         for (int chat = 0; chat < Constants.user.chats.size(); chat++) {
@@ -192,8 +194,12 @@ public class ChatsHallActivity extends ActionBarActivity implements View.OnClick
         Constants.currentChatsSize = Constants.user.chats.size();
 
         final StableArrayAdapter adapter = new StableArrayAdapter(this,
-                android.R.layout.simple_list_item_1, otherUsersChatingWith);
+                R.layout.user_item, R.id.userItemData, otherUsersChatingWith);
         listview.setAdapter(adapter);
+
+//        final StableArrayAdapter adapter = new StableArrayAdapter(this,
+//                android.R.layout.simple_list_item_1 , otherUsersChatingWith);
+//        listview.setAdapter(adapter);
 
         Constants.chatsAdapter = adapter;
 
@@ -202,6 +208,8 @@ public class ChatsHallActivity extends ActionBarActivity implements View.OnClick
             @Override
             public void onItemClick(AdapterView<?> parent, final View view,
                                     int position, long id) {
+                // ver aca el tema de donde es el touch para qe lo tome y que trae
+                // getItemAtposition
                 final String chatSelected = (String) parent.getItemAtPosition(position);
 
                 for (int chat = 0; chat < Constants.user.chats.size(); chat++) {
@@ -216,7 +224,6 @@ public class ChatsHallActivity extends ActionBarActivity implements View.OnClick
                         break;
                     }
                 }
-
 //                adapter.add("Andrea");
 //                listview.setAdapter(adapter);
 //                                list.remove(item);
@@ -226,12 +233,15 @@ public class ChatsHallActivity extends ActionBarActivity implements View.OnClick
     }
 
     public class StableArrayAdapter extends ArrayAdapter<String> {
-
+        // hashmap <User, integer>
         HashMap<String, Integer> mIdMap = new HashMap<>();
 
-        public StableArrayAdapter(Context context, int textViewResourceId,
+        // Aca deberia pasarle un ArrayList<User>
+        public StableArrayAdapter(Context context,
+                                  int resource,
+                                  int textViewResourceId,
                                   ArrayList<String> objects) {
-            super(context, textViewResourceId, objects);
+            super(context, resource, textViewResourceId, objects);
             for (int i = 0; i < objects.size(); ++i) {
                 mIdMap.put(objects.get(i), i);
             }
@@ -248,6 +258,7 @@ public class ChatsHallActivity extends ActionBarActivity implements View.OnClick
             return true;
         }
 
+        // add (User object)
         @Override
         public void add(String object) {
             super.add(object);

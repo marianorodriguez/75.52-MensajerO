@@ -44,7 +44,7 @@ public class RefreshChatAsyncTask extends AsyncTask<Pair<Context, Chat>, String,
 //        Constants.messagesSize = chatToUpdate.messages.size();
 
         try {
-            Thread.sleep(200);
+            Thread.sleep(100);
 
             if (chatToUpdate.messages.size() > Constants.messagesSize) {
 

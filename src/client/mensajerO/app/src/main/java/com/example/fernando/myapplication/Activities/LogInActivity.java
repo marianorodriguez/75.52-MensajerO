@@ -39,7 +39,7 @@ public class LogInActivity extends ActionBarActivity implements View.OnClickList
     EditText txtUsername, txtPassword;
 
     LogInPostAsyncTask logInPost;
-    CurrentChatsPostAsyncTask currentChatsPost;
+    CurrentChatsPostAsyncTask currentChatsGet;
     SharedPreferences mSharedPref;
 
     @Override
@@ -64,7 +64,7 @@ public class LogInActivity extends ActionBarActivity implements View.OnClickList
         mSharedPref = getSharedPreferences(Constants.PREFS, MODE_PRIVATE);
 
         logInPost = new LogInPostAsyncTask();
-        currentChatsPost = new CurrentChatsPostAsyncTask();
+        currentChatsGet = new CurrentChatsPostAsyncTask();
 
     }
 
@@ -139,7 +139,6 @@ public class LogInActivity extends ActionBarActivity implements View.OnClickList
                     txtPassword.setText("");
                     txtUsername.setText("");
 
-
                     Constants.logInOk = "";
                     logInPost = new LogInPostAsyncTask();
                     return;
@@ -147,10 +146,10 @@ public class LogInActivity extends ActionBarActivity implements View.OnClickList
 
                 Constants.logInOk = "";
 
-                currentChatsPost.execute(new Pair<Context, String>(this, package_),
+                currentChatsGet.execute(new Pair<Context, String>(this, package_),
                         new Pair<Context, String>(this, Constants.currentChatsUrl),
-                        new Pair<Context, String>(this, "post"),
-                        new Pair<Context, String>(this, mSharedPref.getString(Constants.user.username+"chats", "")));
+                        new Pair<Context, String>(this, "get"),
+                        new Pair<Context, String>(this, mSharedPref.getString(Constants.user.username + "chats", "")));
 
                 while (Constants.currentChatsOk.isEmpty()) {
                     try {

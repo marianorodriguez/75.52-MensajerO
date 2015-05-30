@@ -27,6 +27,7 @@ import java.util.List;
  * Created by fernando on 28/04/15.
  */
 public class ConfigPostAsyncTask extends AsyncTask<Pair<Context, String>, String, String> {
+
     @Override
     protected String doInBackground(Pair<Context, String>... params) {
 

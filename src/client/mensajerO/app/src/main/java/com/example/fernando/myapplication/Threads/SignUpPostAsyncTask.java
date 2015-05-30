@@ -27,6 +27,7 @@ import java.util.List;
  * Created by fernando on 28/04/15.
  */
 public class SignUpPostAsyncTask extends AsyncTask<Pair<Context, String>, String, String> {
+
     @Override
     protected String doInBackground(Pair<Context, String>... params) {
         //        context = params[0].first;
