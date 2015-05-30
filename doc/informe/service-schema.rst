@@ -12,58 +12,62 @@ Servicio: */logIn* (POST)
 Cliente manda: ::
 
 	{ 
-	"logInService" : { 
-		"username" : <username>,
-		"password" : <md5_password>
-		} 
+      	"username" : <username>,
+      	"password" : <md5_password>,
+	“location” : <coordenadas>,
+	"status" : <new_status>, 
+      	"profile_picture" : <new_base64_valid_picture>
 	}
 
 Servidor responde: ::
 
 	{ 
-	"user" : { 
-		"location" : <user_location>, 
-		"status" : <user_status>, 
-		"profile_picture" : <base64_picture>, 
-		"username" : <username>
-		} 
+	"ok" : true/false,
+	“what” : invalid user/invalid password
 	}
-
-O mensaje de error en caso de falla.	
 
 Sign Up Activity
 ----------------
 
 Servicio: */signUp* (POST)
 
-cliente manda: ::
+Cliente manda: ::
 
 	{ 
-	"signUpService" : { 
-		"username" : <username>,
-		"password" : <md5_password>
-		} 
+      	"username" : <username>,
+     	"password" : <md5_password>,
+	“location” : <coordenadas>,
+	"status" : <new_status>, 
+      	"profile_picture" : <new_base64_valid_picture>
 	}
 
-Servidor responde igual que en logIn.
+Servidor responde: ::
+
+	{ 
+      	"ok" : true/false,
+	“what” : “”/invalid user
+	}
 
 Configuration Activity
 ----------------------
 
-servicio: */setConfig* (POST)
-cliente manda: ::
+Servicio: */setConfig* (POST)
+Cliente manda: ::
 
 	{ 
-	"user" : { 
-		"location" : <new_location>, 
-		"status" : <new_status>, 
-		"profile_picture" : <new_base64_valid_picture>, 
-		"username" : <username>
-		"password" : <md5_password>
-		} 
+     	"username" : <username>,
+     	"password" : <md5_password>,
+	“location” : <coordenadas>,
+    	"status" : <new_status>, 
+      	"profile_picture" : <new_base64_valid_picture>
 	}
 	
-Servidor responde igual que en logIn (con los datos actualizados).
+Servidor responde: ::
+	
+	{ 
+      	"ok" : true/false,
+	“what” : “”/invalid user
+	}
 
 Chats Activity
 --------------
@@ -72,27 +76,28 @@ Servicio: */somethingForMe*  (GET)
 
 Mensajes nuevos para este usuario
 
-Cliente manda parametros: “username” y “password” (encriptada en md5)
+Cliente manda: ::
+
+	{
+	      	"username" : <username>,
+	     	"password" : <md5_password>,
+		“location” : <coordenadas>
+	}
 
 Servidor responde: ::
 
 	{ 
-	"new_messages" : {
-		"message" : [ <vector de Messages>  ],
-		"numberOfMessages" :<int>
-		}
+	"messages" : [ <vector de Messages>  ]
 	}
 
 Estructura de un Message: ::
 
 	{ 
-	"message" : { 
-		"msg_date" : "15/04/2015", 
-		"msg_fromID" : <user emisor>, 
-		"msg_text" : <mensaje>, 
-		"msg_time" : "06:55", 
-		"msg_toID" : <user receptor>
-		} 
+	"msg_date" : "dd/mm/aaaa", 
+	"msg_fromID" : <user emisor>, 
+	"msg_text" : <mensaje>, 
+	"msg_time" : "hh:mm", 
+	"msg_toID" : <user receptor>
 	}
 
 Current chats
@@ -100,26 +105,45 @@ Current chats
 
 Servicio: */currentChats* (GET)
 
-Cliente manda parametros: “username” y “password” (encriptada en md5)
+Cliente manda: ::
+
+	{ 
+      	"username" : <username>,
+     	"password" : <md5_password>,
+	“location” : <coordenadas>
+	}
 
 Servidor responde: ::
 
 	{ 
-	"currentChats" : {
-		"chatsWith" : [ <vector de Users> ],
-		"numberOfChats" : <int>
-		}
+	"chats" : [ <vector de chats> ]
 	}
 
-estructura de un User: ::
+Estructura de un Chat: ::
+
+	{ 
+	"username_1" : <username>,
+	“username_2” : <username>,
+	“messages” : [<vector de messages>] 
+	}
+
+Estructura de un User: ::
 
 	{
-	"user" : { 
-		"location" : <user_location>, 
-		"status" : <user_status>, 
-		"profile_picture" : <base64_picture>, 
-		"username" : <username>
-		} 
+	"location" : <user_location>, 
+	"status" : <user_status>, 
+	"profile_picture" : <base64_picture>, 
+	"username" : <username>
+	}
+
+Estructura de un Message: ::
+
+	{ 
+	"msg_date" : "15/04/2015", 
+	"msg_fromID" : <user emisor>, 
+	"msg_text" : <mensaje>, 
+	"msg_time" : "06:55", 
+	"msg_toID" : <user receptor>
 	}
 
 Get users
@@ -127,26 +151,27 @@ Get users
 
 Servicio: */users* (GET)
 
-cliente manda parametros: “username” y “password” (encriptada en md5)
+Cliente manda: :: 
+
+	{ 
+      	"username" : <username>,
+     	"password" : <md5_password>,
+	“location”: <coordenadas>
+	}
 
 Servidor responde: ::
 
 	{ 
-	"registeredUsers": {
-		"users" : [ <vector de Users> ],
-		"numberOfUsers" : <int>	
-		}
+	"users" : [ <vector de Users> ]
 	}
 
-estructura de un User: ::
+Estructura de un User: ::
 
 	{
-	"user" : { 
-		"location" : <user_location>, 
-		"status" : <user_status>, 
-		"profile_picture" : <base64_picture>, 
-		"username" : <username>
-		} 
+        "location" : <user_location>, 
+        "status" : <user_status>, 
+        "profile_picture" : <base64_picture>, 
+        "username" : <username>
 	}
 
 Chat Activity
@@ -157,11 +182,16 @@ Servicio: */sendMessage* (POST)
 Cliente manda: ::
 
 	{ 
-	"sendMessageService" : { 
-		"msg_fromID" : <user emisor>, 
-		"msg_toID" : <user receptor>,
-		"msg_text" : <mensaje>
-		} 
+        "username" : <username>,
+        "password" : <md5_password>,
+        "location" : <coordenadas>,
+        "msg_toID" : <user receptor>,
+        "msg_text" : <mensaje>
 	}
 
-Servidor responde con un mensaje de *OK* o *ERROR*
+Servidor responde: ::
+
+	{ 
+      	"ok" : true/false,
+	“what” : invalid user
+	}
