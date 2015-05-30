@@ -40,7 +40,7 @@ Json::Value CurrentChatsService::doCurrentChats(const Json::Value &data) {
 				keyChats.push_back(data[SERVICE_USERNAME].asString());
 				keyChats.push_back(chats[i]);
 				Chat chat(dbChats.read(keyChats));
-				output[SERVICE_CURRENTCHATS_CHATS].append(chat.serialize());
+				output[SERVICE_CURRENTCHATS_CHATS].append(chat.serializeCurrentChats(data[SERVICE_USERNAME].asString()));
 			}
 
 			output[SERVICE_OUT_OK] = true;

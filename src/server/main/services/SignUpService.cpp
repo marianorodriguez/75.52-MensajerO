@@ -13,6 +13,7 @@ std::string SignUpService::executeRequest(const std::map<std::string, std::strin
 	data[SERVICE_PASSWORD] = paramMap.at(SERVICE_PASSWORD);
 	data["latitude"] = 0;
 	data["longitude"] = 0;
+	//TODO recibir status y profPict
 
 	Json::Value output = doSignUp(data);
 
@@ -59,6 +60,7 @@ Json::Value SignUpService::doSignUp(const Json::Value& data) {
 		DB.write(key, newUser.serialize());
 
 		//le envio sus datos al user como confirmacion
+		//TODO falta location
 		output[SERVICE_OUT_OK] = true;
 		output[SERVICE_OUT_WHAT] = "";
 	} else {

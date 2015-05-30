@@ -1,6 +1,8 @@
 #ifndef CONFIG_CONFIG_H_
 #define CONFIG_CONFIG_H_
 #include "profPicture.h"
+#include <iostream>
+using namespace std;
 
 //# JSON ######################################
 /**
@@ -19,6 +21,8 @@
 //# ESTRUCTURA DE UN CHAT JSON
 #define JSON_CHAT_USER_1 "username_1"
 #define JSON_CHAT_USER_2 "username_2"
+#define JSON_CHAT_FIRST_1 "firstMessageUser1"
+#define JSON_CHAT_FIRST_2 "firstMessageUser2"
 #define JSON_CHAT_MESSAGES "messages"
 
 //# ESTRUCTURA DE UN USER JSON
@@ -70,6 +74,10 @@ const std::string SERVICE_SOMETHINGFORME_MESSAGES = "messages";
 //# SERVICIO DE CURRENTCHATS
 const std::string SERVICE_CURRENTCHATS_NAME = "currentChats";
 const std::string SERVICE_CURRENTCHATS_CHATS = "chats";
+
+//# SERVICIO DE DELETECHAT
+const std::string SERVICE_DELETECHAT_NAME = "deleteChat";
+const std::string SERVICE_DELETECHAT_WHO = "otherUser";
 
 //# SERVICIO DE UserConfig
 const std::string SERVICE_USERCONFIG_NAME = "setConfig";

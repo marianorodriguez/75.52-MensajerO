@@ -36,6 +36,7 @@ Json::Value LogInService::doLogIn(const Json::Value& data) {
 	try {
 		string serializedUser = db.read(key);
 		User user(serializedUser);
+		//TODO devolver location, status y profPict
 		if (user.getPassword() == data[SERVICE_PASSWORD].asString()) {
 			output[SERVICE_OUT_OK] = true;
 			output[SERVICE_OUT_WHAT] = "";

@@ -31,6 +31,8 @@ static int eventHandler(struct mg_connection *mgConnection, enum mg_event event)
  */
 RestServer::RestServer(){
 	startServer();
+	this->pollDelay = 1000;
+	this->port = 8081;
 	connectionManager = ConnectionManager::getInstance();
 	connectionManager->startUpdating();
 }
