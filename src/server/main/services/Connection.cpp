@@ -61,8 +61,9 @@ void Connection::parsePostParams(){
 	
 	if (this->rawConnection->content){
 		// TODO mlafroce: verificar si es un bug de mongoose
-		this->rawConnection->content[this->rawConnection->content_len] = 0;
-		std::string content(this->rawConnection->content);
+		std::string content;
+		content.assign(this->rawConnection->content,
+					 this->rawConnection->content_len);
 		std::string prefix("package=");
 		content = content.substr(prefix.length());
 		std::string decodedContent = base64::decode(content);

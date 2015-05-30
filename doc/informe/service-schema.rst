@@ -12,18 +12,18 @@ Servicio: */logIn* (POST)
 Cliente manda: ::
 
 	{ 
-      	"username" : <username>,
-      	"password" : <md5_password>,
-	“location” : <coordenadas>,
-	"status" : <new_status>, 
-      	"profile_picture" : <new_base64_valid_picture>
+		"username" : <username>,
+		"password" : <md5_password>,
+		"location” : <coordenadas>,
+		"status" : <new_status>, 
+		"profile_picture" : <new_base64_valid_picture>
 	}
 
 Servidor responde: ::
 
 	{ 
-	"ok" : true/false,
-	“what” : invalid user/invalid password
+		"ok" : true/false,
+		“what” : invalid user/invalid password
 	}
 
 Sign Up Activity
@@ -34,18 +34,16 @@ Servicio: */signUp* (POST)
 Cliente manda: ::
 
 	{ 
-      	"username" : <username>,
-     	"password" : <md5_password>,
-	“location” : <coordenadas>,
-	"status" : <new_status>, 
-      	"profile_picture" : <new_base64_valid_picture>
+		"username" : <username>,
+		"password" : <md5_password>,
+		“location” : <coordenadas>
 	}
 
 Servidor responde: ::
 
 	{ 
-      	"ok" : true/false,
-	“what” : “”/invalid user
+		"ok" : true/false,
+		“what” : “”/invalid user
 	}
 
 Configuration Activity
@@ -55,18 +53,18 @@ Servicio: */setConfig* (POST)
 Cliente manda: ::
 
 	{ 
-     	"username" : <username>,
-     	"password" : <md5_password>,
-	“location” : <coordenadas>,
-    	"status" : <new_status>, 
-      	"profile_picture" : <new_base64_valid_picture>
+		"username" : <username>,
+		"password" : <md5_password>,
+		"location” : <coordenadas>,
+		"status" : <new_status>, 
+		"profile_picture" : <new_base64_valid_picture>
 	}
 	
 Servidor responde: ::
 	
 	{ 
       	"ok" : true/false,
-	“what” : “”/invalid user
+		“what” : “”/invalid user
 	}
 
 Chats Activity
