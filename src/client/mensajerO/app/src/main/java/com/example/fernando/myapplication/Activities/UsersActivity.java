@@ -105,8 +105,12 @@ public class UsersActivity extends ActionBarActivity implements View.OnClickList
         Constants.currentUsersSize = Constants.otherUsers.size();
 
         final StableArrayAdapter adapter = new StableArrayAdapter(this,
-                android.R.layout.simple_list_item_1, users);
+                R.layout.user_item, R.id.userItemData, users);
         listview.setAdapter(adapter);
+
+//        final StableArrayAdapter adapter = new StableArrayAdapter(this,
+//                android.R.layout.simple_list_item_1, users);
+//        listview.setAdapter(adapter);
 
         Constants.usersAdapter = adapter;
 
@@ -151,9 +155,11 @@ public class UsersActivity extends ActionBarActivity implements View.OnClickList
 
         HashMap<String, Integer> mIdMap = new HashMap<>();
 
-        public StableArrayAdapter(Context context, int textViewResourceId,
+        public StableArrayAdapter(Context context,
+                                  int resource,
+                                  int textViewResourceId,
                                   ArrayList<String> objects) {
-            super(context, textViewResourceId, objects);
+            super(context, resource, textViewResourceId, objects);
             for (int i = 0; i < objects.size(); ++i) {
                 mIdMap.put(objects.get(i), i);
             }
