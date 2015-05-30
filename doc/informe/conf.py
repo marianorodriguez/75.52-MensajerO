@@ -182,6 +182,8 @@ htmlhelp_basename = 'Informedoc'
 # -- Options for LaTeX output ---------------------------------------------
 
 latex_elements = {
+  'classoptions': ',openany,oneside',
+  'babel': '\\usepackage[spanish]{babel}'
 # The paper size ('letterpaper' or 'a4paper').
 #'papersize': 'letterpaper',
 

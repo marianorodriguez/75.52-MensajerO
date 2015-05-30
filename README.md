@@ -1,8 +1,8 @@
 75.52-MensajerO
-===============
+
 
 Taller de Programacion II
--------------------------
+
 
 ### Documentación
 
