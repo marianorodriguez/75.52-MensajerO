@@ -7,16 +7,14 @@ std::string EchoService::getUri() const{
 	return EchoService::serviceName;
 }
 
-void EchoService::executeRequest(const Connection& connection) const{
-	std::string uri(connection.getUri());
-	connection.printMessage(uri);
+std::string EchoService::executeRequest(const std::map< std::string, std::string >& paramMap) const{
+	std::string output;
 	std::map<std::string, std::string>::const_iterator it;
-	std::map<std::string, std::string> paramMap;
-	paramMap = connection.getParamMap();
 	for (it = paramMap.begin(); it != paramMap.end(); ++it){
 		std::string message(it->first + " = " + it->second);
-		connection.printMessage(message);
+		output.append(message);
 	}
+	return output;
 }
 
 ServiceInterface* EchoServiceCreator::create(){
