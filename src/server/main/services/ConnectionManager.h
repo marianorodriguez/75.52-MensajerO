@@ -13,6 +13,7 @@
 #include <thread>
 #include <unistd.h>
 #include "utilities/Mutex.h"
+#include "database/Database.h"
 
 /**
  * Encargada de detectar usuarios desconectados.

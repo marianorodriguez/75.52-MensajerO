@@ -89,7 +89,13 @@ public:
 	 */
 	void addChatWithUser(const string& user);
 
+	int getLastTimeConnected();
+	void setLastTimeConnected();
+
 private:
+
+	int lastTimeConnected;
+
 	string username;
 	string password;
 

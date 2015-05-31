@@ -94,6 +94,7 @@ void userTests::should_serialize_user() {
 
 	Json::Value jsonUser;
 
+	jsonUser[JSON_USER_LASTTIME] = user->getLastTimeConnected();
 	jsonUser[JSON_USER_NAME] = "username";
 	jsonUser[JSON_USER_PWD] = "password";
 	jsonUser[JSON_USER_LOCATION] = DEFAULT_USER_LOCATION;

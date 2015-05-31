@@ -9,6 +9,7 @@
 
 User::User(const string& username, const string& password) {
 
+	this->lastTimeConnected = time(0);
 	this->username = username;
 	this->password = password;
 	this->location = DEFAULT_USER_LOCATION;
@@ -23,24 +24,20 @@ User::User(const string& serializedUser) {
 	bool wasParsed = reader.parse(serializedUser, parsedFromString);
 
 	if (not wasParsed) {
-		NotSerializedDataException exception("'" + serializedUser +
-						"' is not a JSON serialized user.");
+		NotSerializedDataException exception(
+				"'" + serializedUser + "' is not a JSON serialized user.");
 		throw exception;
 	}
 
-	this->username =
-			parsedFromString[JSON_USER_NAME].asString();
-	this->password =
-			parsedFromString[JSON_USER_PWD].asString();
-	this->location =
-			parsedFromString[JSON_USER_LOCATION].asString();
-	this->status =
-			parsedFromString[JSON_USER_STATUS].asString();
+	this->lastTimeConnected = parsedFromString[JSON_USER_LASTTIME].asInt();
+	this->username = parsedFromString[JSON_USER_NAME].asString();
+	this->password = parsedFromString[JSON_USER_PWD].asString();
+	this->location = parsedFromString[JSON_USER_LOCATION].asString();
+	this->status = parsedFromString[JSON_USER_STATUS].asString();
 	this->hashedProfilePicture =
 			parsedFromString[JSON_USER_PROFILE_PICTURE].asString();
 
-	int num_chats =
-			parsedFromString[JSON_USER_CHATS_WITH].size();
+	int num_chats = parsedFromString[JSON_USER_CHATS_WITH].size();
 	for (int i = 0; i < num_chats; i++) {
 		this->addChatWithUser(
 				parsedFromString[JSON_USER_CHATS_WITH][i].asString());
@@ -51,23 +48,21 @@ User::User(const string& serializedUser) {
 User::~User() {
 }
 
-string User::serialize()const {
+string User::serialize() const {
 
 	Json::Value serializedUser;
 	serializedUser[JSON_USER_NAME] = this->username;
 	serializedUser[JSON_USER_PWD] = this->password;
 	serializedUser[JSON_USER_LOCATION] = this->location;
 	serializedUser[JSON_USER_STATUS] = this->status;
-	serializedUser[JSON_USER_PROFILE_PICTURE] =
-			this->hashedProfilePicture;
+	serializedUser[JSON_USER_PROFILE_PICTURE] = this->hashedProfilePicture;
+	serializedUser[JSON_USER_LASTTIME] = this->lastTimeConnected;
 
 	for (unsigned int i = 0; i < this->hasChatsWith.size(); i++) {
 
-		serializedUser[JSON_USER_CHATS_WITH][i] =
-				this->hasChatsWith.at(i);
+		serializedUser[JSON_USER_CHATS_WITH][i] = this->hasChatsWith.at(i);
 
 	}
-
 	return serializedUser.toStyledString();
 }
 
@@ -138,4 +133,12 @@ bool User::isChattingWith(const string& username) const {
 	}
 
 	return isChatting;
+}
+
+int User::getLastTimeConnected(){
+	return this->lastTimeConnected;
+}
+
+void User::setLastTimeConnected(){
+	this->lastTimeConnected = time(0);
 }

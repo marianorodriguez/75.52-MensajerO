@@ -7,11 +7,12 @@
 
 #include <services/ConnectionManager.h>
 #include <iostream>
+#include "config.h"
+#include "user/User.h"
 
 int ConnectionManager::deltaTime = 2; //MIN DELTA == 2 TODO des-hardcodear
 bool ConnectionManager::running = false;
 std::map<std::string, int> ConnectionManager::connectedUsers;
-
 ConnectionManager* ConnectionManager::managerInstance = NULL;
 Mutex ConnectionManager::mtx;
 Mutex ConnectionManager::constructorMutex;
@@ -80,6 +81,15 @@ std::vector<std::string> ConnectionManager::getConnectedUsers() {
 
 void ConnectionManager::updateUser(const std::string username) {
 
+	//tengo que abrir el user, si status != offline , le actualizo el lastTime
+	Database DB(DATABASE_USERS_PATH);
+	std::vector<std::string> key; key.push_back(username);
+	User user(DB.read(key));
+	if(user.getStatus() != "offline"){
+		user.setLastTimeConnected();
+		DB.write(key, user.serialize());
+	}
+
 	mtx.lock();
 	connectedUsers[username] = time(0);
 	mtx.unlock();
@@ -99,8 +109,6 @@ void ConnectionManager::updateConnection() {
 	}
 
 	for (unsigned int i = 0; i < disconnectedUsers.size(); i++) {
-
 		connectedUsers.erase(disconnectedUsers.at(i));
 	}
-
 }

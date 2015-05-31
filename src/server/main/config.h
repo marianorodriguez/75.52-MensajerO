@@ -32,7 +32,7 @@ using namespace std;
 #define JSON_USER_STATUS "status"
 #define JSON_USER_PROFILE_PICTURE "profile_picture"
 #define JSON_USER_CHATS_WITH "chats_with"
-
+#define JSON_USER_LASTTIME "lastTimeConnected"
 //# USER ######################################
 #define DEFAULT_USER_LOCATION "UNKNOWN"
 #define DEFAULT_USER_STATUS "Online"
