@@ -13,22 +13,25 @@ std::string UserConfigService::getUri() const {
 	return UserConfigService::serviceName;
 }
 
-std::string UserConfigService::executeRequest(const std::map<std::string, std::string> &paramMap) const {
+std::string UserConfigService::executeRequest(
+		const std::map<std::string, std::string> &paramMap) const {
 
 	Json::Value data;
 	data[SERVICE_USERNAME] = paramMap.at(SERVICE_USERNAME);
 	data[SERVICE_PASSWORD] = paramMap.at(SERVICE_PASSWORD);
-	data[SERVICE_USERCONFIG_LOCATION] = paramMap.at(SERVICE_USERCONFIG_LOCATION);
+	data[SERVICE_USERCONFIG_LOCATION] = paramMap.at(
+			SERVICE_USERCONFIG_LOCATION);
 	data[SERVICE_USERCONFIG_STATUS] = paramMap.at(SERVICE_USERCONFIG_STATUS);
 	data[SERVICE_USERCONFIG_PICTURE] = paramMap.at(SERVICE_USERCONFIG_PICTURE);
 
 	Json::Value output = doUserConfig(data);
 
-	ConnectionManager::getInstance()->updateUser(data[SERVICE_USERNAME].asString());
+	ConnectionManager::getInstance()->updateUser(
+			data[SERVICE_USERNAME].asString());
 	return output.toStyledString();
 }
 
-Json::Value UserConfigService::doUserConfig(const Json::Value &data){
+Json::Value UserConfigService::doUserConfig(const Json::Value &data) {
 
 	Database db(DATABASE_USERS_PATH);
 	std::vector<std::string> key;
@@ -40,10 +43,13 @@ Json::Value UserConfigService::doUserConfig(const Json::Value &data){
 		string serializedUser = db.read(key);
 		User user(serializedUser);
 		if (user.getPassword() == data[SERVICE_PASSWORD].asString()) {
-			user.modifyLocation(LocationManager::getLocation(0,0));
-			user.modifyProfilePicture(data[SERVICE_USERCONFIG_PICTURE].asString());
+			user.modifyLocation(
+					LocationManager::getLocation(
+							data[SERVICE_USERCONFIG_LOCATION].asString()));
+			user.modifyProfilePicture(
+					data[SERVICE_USERCONFIG_PICTURE].asString());
 			user.modifyStatus(data[SERVICE_USERCONFIG_STATUS].asString());
-			db.write(key,user.serialize());
+			db.write(key, user.serialize());
 
 			output[SERVICE_OUT_OK] = true;
 			output[SERVICE_OUT_WHAT] = "";

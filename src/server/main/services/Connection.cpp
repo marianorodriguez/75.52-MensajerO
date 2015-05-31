@@ -51,8 +51,8 @@ void Connection::parseGetParams(){
 	if (this->rawConnection->query_string){
 		std::string query(this->rawConnection->query_string);
 
-		QueryParams params(query);
-		this->paramMap = params.getParams();
+		JsonMap params(base64::decode(query));
+		this->paramMap = params.getMap();
 	}
 }
 

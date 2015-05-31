@@ -5,16 +5,19 @@ std::string LogInService::getUri() const {
 	return LogInService::serviceName;
 }
 
-std::string LogInService::executeRequest(const std::map<std::string, std::string> &paramMap) const {
+std::string LogInService::executeRequest(
+		const std::map<std::string, std::string> &paramMap) const {
 
 	Json::Value data;
 	data[SERVICE_USERNAME] = paramMap.at(SERVICE_USERNAME);
 	data[SERVICE_PASSWORD] = paramMap.at(SERVICE_PASSWORD);
-	data[SERVICE_USERCONFIG_LOCATION] = paramMap.at(SERVICE_USERCONFIG_LOCATION);
+	data[SERVICE_USERCONFIG_LOCATION] = paramMap.at(
+			SERVICE_USERCONFIG_LOCATION);
 
 	Json::Value output = doLogIn(data);
 
-	ConnectionManager::getInstance()->updateUser(data[SERVICE_USERNAME].asString());
+	ConnectionManager::getInstance()->updateUser(
+			data[SERVICE_USERNAME].asString());
 	return output.toStyledString();
 }
 
@@ -35,7 +38,8 @@ Json::Value LogInService::doLogIn(const Json::Value& data) {
 		User user(serializedUser);
 
 		if (user.getPassword() == data[SERVICE_PASSWORD].asString()) {
-			output[SERVICE_USERCONFIG_LOCATION] = LocationManager::getLocation(0,0);
+			output[SERVICE_USERCONFIG_LOCATION] = LocationManager::getLocation(
+					data[SERVICE_USERCONFIG_LOCATION].asString());
 			output[SERVICE_USERCONFIG_STATUS] = user.getStatus();
 			output[SERVICE_USERCONFIG_PICTURE] = user.getProfilePicture();
 			output[SERVICE_OUT_OK] = true;

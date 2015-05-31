@@ -7,6 +7,7 @@
 using namespace std;
 
 int main(int argc, const char** argv) {
+
 	std::string text;
 	bool exit = false;
 	ServerThread server;

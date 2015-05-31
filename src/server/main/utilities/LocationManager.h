@@ -15,7 +15,10 @@ public:
 	LocationManager();
 	virtual ~LocationManager();
 
-	static std::string getLocation(int latitude, int longitude);
+	static std::string getLocation(std::string location);
+
+private:
+	static void parseLocation(const std::string &location, float &latitude, float &longitude);
 };
 
 #endif /* MAIN_UTILITIES_LOCATIONMANAGER_H_ */

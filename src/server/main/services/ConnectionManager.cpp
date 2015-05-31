@@ -29,7 +29,7 @@ ConnectionManager* ConnectionManager::getInstance() {
 	return managerInstance;
 }
 
-void ConnectionManager::destroyInstance(){
+void ConnectionManager::destroyInstance() {
 	constructorMutex.lock();
 	delete managerInstance;
 	managerInstance = NULL;
@@ -83,12 +83,15 @@ void ConnectionManager::updateUser(const std::string username) {
 
 	//tengo que abrir el user, si status != offline , le actualizo el lastTime
 	Database DB(DATABASE_USERS_PATH);
-	std::vector<std::string> key; key.push_back(username);
-	User user(DB.read(key));
-	if(user.getStatus() != "offline"){
+	std::vector<std::string> key;
+	key.push_back(username);
+	try {
+		User user(DB.read(key));
+	if(user.getStatus() != "offline") {
 		user.setLastTimeConnected();
 		DB.write(key, user.serialize());
 	}
+	}catch(KeyNotFoundException &e){}
 
 	mtx.lock();
 	connectedUsers[username] = time(0);
