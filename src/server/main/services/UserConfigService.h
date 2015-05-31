@@ -12,6 +12,7 @@
 #include "../database/Database.h"
 #include "../user/User.h"
 #include "config.h"
+#include "utilities/LocationManager.h"
 
 using namespace std;
 

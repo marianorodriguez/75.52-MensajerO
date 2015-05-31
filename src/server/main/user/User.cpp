@@ -82,7 +82,7 @@ string User::getStatus() const {
 	return this->status;
 }
 
-string User::getHashedProfilePicture() const {
+string User::getProfilePicture() const {
 	return this->hashedProfilePicture;
 }
 

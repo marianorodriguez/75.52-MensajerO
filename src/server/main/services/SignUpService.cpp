@@ -11,9 +11,9 @@ std::string SignUpService::executeRequest(const std::map<std::string, std::strin
 	Json::Value data;
 	data[SERVICE_USERNAME] = paramMap.at(SERVICE_USERNAME);
 	data[SERVICE_PASSWORD] = paramMap.at(SERVICE_PASSWORD);
-	data["latitude"] = 0;
-	data["longitude"] = 0;
-	//TODO recibir status y profPict
+	data[SERVICE_USERCONFIG_STATUS] = paramMap.at(SERVICE_USERCONFIG_STATUS);
+	data[SERVICE_USERCONFIG_PICTURE] = paramMap.at(SERVICE_USERCONFIG_PICTURE);
+	data[SERVICE_USERCONFIG_LOCATION] = paramMap.at(SERVICE_USERCONFIG_LOCATION);
 
 	Json::Value output = doSignUp(data);
 
@@ -55,12 +55,16 @@ Json::Value SignUpService::doSignUp(const Json::Value& data) {
 		std::string password = data[SERVICE_PASSWORD].asString();
 		User newUser(username, password);
 
+		newUser.modifyStatus(data[SERVICE_USERCONFIG_STATUS].asString());
+		newUser.modifyLocation(LocationManager::getLocation(0,0));
+		newUser.modifyProfilePicture(data[SERVICE_USERCONFIG_PICTURE].asString());
+
 		std::vector<std::string> key;
 		key.push_back(username);
 		DB.write(key, newUser.serialize());
 
 		//le envio sus datos al user como confirmacion
-		//TODO falta location
+		output[SERVICE_USERCONFIG_LOCATION] = newUser.getLocation();
 		output[SERVICE_OUT_OK] = true;
 		output[SERVICE_OUT_WHAT] = "";
 	} else {

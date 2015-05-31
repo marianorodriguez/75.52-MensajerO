@@ -9,6 +9,7 @@ add_library(mensajero-utilities
 	NumberConverter.cpp
 	Thread.cpp
 	Time.cpp
+	LocationManager.cpp
 	)
 
 target_link_libraries(mensajero-utilities mensajero-model pthread)

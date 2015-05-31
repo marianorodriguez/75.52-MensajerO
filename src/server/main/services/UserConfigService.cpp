@@ -5,7 +5,7 @@
  *      Author: marian
  */
 
-#include <services/UserConfigService.h>
+#include "services/UserConfigService.h"
 
 const std::string UserConfigService::serviceName = SERVICE_USERCONFIG_NAME;
 
@@ -40,7 +40,7 @@ Json::Value UserConfigService::doUserConfig(const Json::Value &data){
 		string serializedUser = db.read(key);
 		User user(serializedUser);
 		if (user.getPassword() == data[SERVICE_PASSWORD].asString()) {
-			user.modifyLocation(data[SERVICE_USERCONFIG_LOCATION].asString());
+			user.modifyLocation(LocationManager::getLocation(0,0));
 			user.modifyProfilePicture(data[SERVICE_USERCONFIG_PICTURE].asString());
 			user.modifyStatus(data[SERVICE_USERCONFIG_STATUS].asString());
 			db.write(key,user.serialize());

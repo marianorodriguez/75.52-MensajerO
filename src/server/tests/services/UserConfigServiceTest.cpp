@@ -45,14 +45,14 @@ void UserConfigServiceTest::testUserShouldConfigureProfile() {
 	CPPUNIT_ASSERT(user.getLocation() == DEFAULT_USER_LOCATION);
 	CPPUNIT_ASSERT(user.getStatus() == DEFAULT_USER_STATUS);
 	CPPUNIT_ASSERT(
-			user.getHashedProfilePicture() == DEFAULT_USER_PROFILE_PICTURE);
+			user.getProfilePicture() == DEFAULT_USER_PROFILE_PICTURE);
 
 	delete DB;
 
 	Json::Value data;
 	data[SERVICE_USERNAME] = "username_config";
 	data[SERVICE_PASSWORD] = "password";
-	data[SERVICE_USERCONFIG_LOCATION] = "new Location";
+	data[SERVICE_USERCONFIG_LOCATION] = "(0,5)"; //TODO poner coordenadas que matcheen a San Telmo
 	data[SERVICE_USERCONFIG_STATUS] = "new Status";
 	data[SERVICE_USERCONFIG_PICTURE] = "new profile picture";
 
@@ -62,10 +62,10 @@ void UserConfigServiceTest::testUserShouldConfigureProfile() {
 	User modifiedUser(newDB->read(key));
 	delete newDB;
 
-	CPPUNIT_ASSERT(modifiedUser.getLocation() == "new Location");
+	CPPUNIT_ASSERT(modifiedUser.getLocation() == "UNKNOWN");//TODO cambiar por San Telmo
 	CPPUNIT_ASSERT(modifiedUser.getStatus() == "new Status");
 	CPPUNIT_ASSERT(
-			modifiedUser.getHashedProfilePicture() == "new profile picture");
+			modifiedUser.getProfilePicture() == "new profile picture");
 
 	CPPUNIT_ASSERT(output[SERVICE_OUT_OK].asBool() == true);
 	CPPUNIT_ASSERT(output[SERVICE_OUT_WHAT].asString() == "");

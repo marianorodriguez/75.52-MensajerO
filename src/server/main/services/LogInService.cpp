@@ -10,8 +10,7 @@ std::string LogInService::executeRequest(const std::map<std::string, std::string
 	Json::Value data;
 	data[SERVICE_USERNAME] = paramMap.at(SERVICE_USERNAME);
 	data[SERVICE_PASSWORD] = paramMap.at(SERVICE_PASSWORD);
-	data["latitude"] = 0;
-	data["longitude"] = 0;
+	data[SERVICE_USERCONFIG_LOCATION] = paramMap.at(SERVICE_USERCONFIG_LOCATION);
 
 	Json::Value output = doLogIn(data);
 
@@ -29,15 +28,16 @@ Json::Value LogInService::doLogIn(const Json::Value& data) {
 	vector<string> key;
 	key.push_back(data[SERVICE_USERNAME].asString());
 
-	//TODO FALTA PROCESAR LA LOCATION
-
 	Json::Value output;
 
 	try {
 		string serializedUser = db.read(key);
 		User user(serializedUser);
-		//TODO devolver location, status y profPict
+
 		if (user.getPassword() == data[SERVICE_PASSWORD].asString()) {
+			output[SERVICE_USERCONFIG_LOCATION] = LocationManager::getLocation(0,0);
+			output[SERVICE_USERCONFIG_STATUS] = user.getStatus();
+			output[SERVICE_USERCONFIG_PICTURE] = user.getProfilePicture();
 			output[SERVICE_OUT_OK] = true;
 			output[SERVICE_OUT_WHAT] = "";
 		} else {

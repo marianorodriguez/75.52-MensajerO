@@ -14,8 +14,6 @@ std::string SomethingForMeService::executeRequest(
 	data[SERVICE_USERNAME] = paramMap.at(SERVICE_USERNAME);
 	data[SERVICE_PASSWORD] = paramMap.at(SERVICE_PASSWORD);
 
-	//TODO falta procesar location
-
 	Json::Value output = doSomethingForMe(data);
 
 	ConnectionManager::getInstance()->updateUser(

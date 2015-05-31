@@ -3,6 +3,7 @@
 #include "ServiceInterface.h"
 #include "user/User.h"
 #include "database/Database.h"
+#include "utilities/LocationManager.h"
 
 class SignUpService: public ServiceInterface {
 	friend class SignUpServiceTest;

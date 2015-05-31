@@ -58,7 +58,7 @@ public:
 	/**
 	 * Devuelve la foto de perfil encriptada en base64.
 	 */
-	string getHashedProfilePicture() const;
+	string getProfilePicture() const;
 
 	/**
 	 * Devuelve los usuarios con los que tiene chats.

@@ -32,7 +32,7 @@ void userTests::should_instantiate_new_user() {
 	CPPUNIT_ASSERT(user->getPassword() == "password");
 	CPPUNIT_ASSERT(user->getLocation() == DEFAULT_USER_LOCATION);
 	CPPUNIT_ASSERT(user->getStatus() == DEFAULT_USER_STATUS);
-	CPPUNIT_ASSERT(user->getHashedProfilePicture() == DEFAULT_USER_PROFILE_PICTURE);
+	CPPUNIT_ASSERT(user->getProfilePicture() == DEFAULT_USER_PROFILE_PICTURE);
 	CPPUNIT_ASSERT(user->hasChatsWith.size() == 0);
 }
 
@@ -63,7 +63,7 @@ void userTests::should_modify_profile_picture(){
 	User* user = new User("username", "password");
 	user->modifyProfilePicture("new well-hashed profile picture");
 
-	CPPUNIT_ASSERT(user->getHashedProfilePicture() == "new well-hashed profile picture");
+	CPPUNIT_ASSERT(user->getProfilePicture() == "new well-hashed profile picture");
 }
 
 void userTests::cant_have_2_chats_with_same_user() {
