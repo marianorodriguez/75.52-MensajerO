@@ -37,7 +37,7 @@ Json::Value UsersService::doUsers(const Json::Value &data) {
 			vector<string> keys = DB.getAllKeys();
 			vector<string> key;
 
-			for (int i = 0; i < keys.size(); i++) {
+			for (unsigned int i = 0; i < keys.size(); i++) {
 				key.push_back(keys.at(i));
 				output["users"][i] = DB.read(key);
 				key.clear();

@@ -10,10 +10,11 @@ JsonMap::JsonMap(const std::string& json){
 	Json::Reader jsonReader;
 	Json::Value jsonRoot(json);
 	bool parsingSuccessful = jsonReader.parse(json, jsonRoot, false);
-	//TODO esto está hardcodeado para los mapas de servicio, revisar formato de jsons
-	Json::ValueIterator it = jsonRoot.begin();
-	for (; it != jsonRoot.end(); ++it){
-		this->map[it.key().asString()] = it->asString();
+	if (parsingSuccessful){
+		Json::ValueIterator it = jsonRoot.begin();
+		for (; it != jsonRoot.end(); ++it){
+			this->map[it.key().asString()] = it->asString();
+		}
 	}
 }
 
