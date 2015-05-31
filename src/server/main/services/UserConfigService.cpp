@@ -19,8 +19,6 @@ std::string UserConfigService::executeRequest(
 	Json::Value data;
 	data[SERVICE_USERNAME] = paramMap.at(SERVICE_USERNAME);
 	data[SERVICE_PASSWORD] = paramMap.at(SERVICE_PASSWORD);
-	data[SERVICE_USERCONFIG_LOCATION] = paramMap.at(
-			SERVICE_USERCONFIG_LOCATION);
 	data[SERVICE_USERCONFIG_STATUS] = paramMap.at(SERVICE_USERCONFIG_STATUS);
 	data[SERVICE_USERCONFIG_PICTURE] = paramMap.at(SERVICE_USERCONFIG_PICTURE);
 
@@ -43,9 +41,6 @@ Json::Value UserConfigService::doUserConfig(const Json::Value &data) {
 		string serializedUser = db.read(key);
 		User user(serializedUser);
 		if (user.getPassword() == data[SERVICE_PASSWORD].asString()) {
-			user.modifyLocation(
-					LocationManager::getLocation(
-							data[SERVICE_USERCONFIG_LOCATION].asString()));
 			user.modifyProfilePicture(
 					data[SERVICE_USERCONFIG_PICTURE].asString());
 			user.modifyStatus(data[SERVICE_USERCONFIG_STATUS].asString());

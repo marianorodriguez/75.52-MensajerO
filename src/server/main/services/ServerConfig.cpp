@@ -6,6 +6,7 @@
 #include "services/UserConfigService.h"
 #include "services/UsersService.h"
 #include "SomethingForMeService.h"
+#include "DeleteChatService.h"
 
 ServerConfig::ServerConfig(const ServerOptions& options) :
 	options(options){}
@@ -17,6 +18,7 @@ void ServerConfig::configure(RestServer& server) const{
 
 void ServerConfig::addServiceCreators(RestServer& server) const{
 	server.addService(new CurrentChatsServiceCreator());
+	server.addService(new DeleteChatServiceCreator());
 	server.addService(new LogInServiceCreator());
 	server.addService(new SendMessageServiceCreator());
 	server.addService(new SignUpServiceCreator());

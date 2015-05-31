@@ -7,7 +7,14 @@
 
 #include "LocationManager.h"
 
-LocationManager::LocationManager() {}
+LocationManager::LocationManager() {
+//
+//	ifstream file;
+//	file.open("config/geolocation.json");
+//	file.read()
+//	JsonMap json("hola");
+//	this->nodes = json.getMap();
+}
 
 LocationManager::~LocationManager() {}
 
