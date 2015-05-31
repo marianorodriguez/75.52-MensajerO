@@ -66,7 +66,8 @@ void chatTests::should_serialize_chat() {
 	JsonChat[JSON_CHAT_MESSAGES][0] = m1.serialize();
 	JsonChat[JSON_CHAT_MESSAGES][1] = m2.serialize();
 	JsonChat[JSON_CHAT_MESSAGES][2] = m3.serialize();
-
+	JsonChat[JSON_CHAT_FIRST_1] = 0;
+	JsonChat[JSON_CHAT_FIRST_2] = 0;
 	CPPUNIT_ASSERT(JsonChat.toStyledString() == chat.serialize());
 }
 

@@ -7,7 +7,8 @@ std::string SomethingForMeService::getUri() const {
 	return SomethingForMeService::serviceName;
 }
 
-std::string SomethingForMeService::executeRequest(const std::map<std::string, std::string> &paramMap) const {
+std::string SomethingForMeService::executeRequest(
+		const std::map<std::string, std::string> &paramMap) const {
 
 	Json::Value data;
 	data[SERVICE_USERNAME] = paramMap.at(SERVICE_USERNAME);
@@ -17,7 +18,8 @@ std::string SomethingForMeService::executeRequest(const std::map<std::string, st
 
 	Json::Value output = doSomethingForMe(data);
 
-	ConnectionManager::getInstance()->updateUser(data[SERVICE_USERNAME].asString());
+	ConnectionManager::getInstance()->updateUser(
+			data[SERVICE_USERNAME].asString());
 	return output.toStyledString();
 }
 
@@ -47,7 +49,15 @@ Json::Value SomethingForMeService::doSomethingForMe(const Json::Value &data) {
 
 				vector<Message> messages = chat.getMessages();
 				int cont = 0;
-				for (unsigned int j = 0; j < messages.size(); j++) {
+
+				unsigned int start = 0;
+				if (data[SERVICE_USERNAME].asString() == chat.getUsername1()) {
+					start = chat.getFirstMessageUser1();
+				} else {
+					start = chat.getFirstMessageUser2();
+				}
+
+				for (unsigned int j = start; j < messages.size(); j++) {
 
 					if ((!messages.at(j).getSent())
 							&& (messages.at(j).getUserTo()
