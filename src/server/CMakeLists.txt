@@ -49,11 +49,11 @@ message(STATUS "CPPUNIT_LIBRARIES = ${CPPUNIT_LIBRARIES}")
 # Modulos #
 ###########
 
-add_subdirectory(main)
+add_subdirectory(code/main)
 
 # Tests
 enable_testing()
-add_subdirectory(tests)
+add_subdirectory(code/tests)
 
 #########
 # Debug #

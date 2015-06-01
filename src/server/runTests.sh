@@ -2,4 +2,4 @@
 rm -rf tests/database/testdb
 mkdir -p tests/database/testdb
 # Corro las pruebas
-tests/tests
+code/tests/tests
