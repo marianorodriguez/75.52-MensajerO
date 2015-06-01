@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.example.fernando.myapplication.Common.Constants;
 import com.example.fernando.myapplication.R;
+import com.example.fernando.myapplication.Threads.DeleteChatPostAsyncTask;
 import com.example.fernando.myapplication.Threads.GetUsersPostAsyncTask;
 import com.example.fernando.myapplication.Threads.RefreshChatsHallAsyncTask;
 import com.example.fernando.myapplication.Threads.SomethingForMePostAsyncTask;
@@ -31,6 +32,7 @@ public class ChatsHallActivity extends ActionBarActivity implements View.OnClick
     public static SomethingForMePostAsyncTask somethingForMePost;
     public static GetUsersPostAsyncTask getUsersPost;
     public static RefreshChatsHallAsyncTask refreshChats;
+    public static DeleteChatPostAsyncTask deleteChat;
     String package_;
 
     SharedPreferences mSharedPref;
@@ -59,9 +61,9 @@ public class ChatsHallActivity extends ActionBarActivity implements View.OnClick
 //                Constants.server.loguedUsers.size() == 0) {
 
 //            if (Constants.mSharedPreferences.getString(Constants.PREF_NAME, "").isEmpty()) {
-            SharedPreferences.Editor e = mSharedPref.edit();
-            e.clear();
-            e.commit();
+//            SharedPreferences.Editor e = mSharedPref.edit();
+//            e.clear();
+//            e.commit();
 
             Intent getIn = new Intent(this, GetInActivity.class);
             startActivity(getIn);
@@ -134,8 +136,6 @@ public class ChatsHallActivity extends ActionBarActivity implements View.OnClick
 
             e.commit();
 
-
-
             Intent login = new Intent(this, LogInActivity.class);
             startActivity(login);
             finish();
@@ -165,13 +165,11 @@ public class ChatsHallActivity extends ActionBarActivity implements View.OnClick
         // GUARDAR CHATS en sharedPreferences !
         if (Constants.user != null) {
             SharedPreferences.Editor e = mSharedPref.edit();
-            e.putString(Constants.user.username + "chats",
-                   Constants.user.chatsToJson().toString());
+            e.putString(Constants.user.username + "chats", Constants.user.chatsToJson().toString());
             e.commit();
         }
 
         Constants.reset();
-
     }
 
     @Override
@@ -179,6 +177,9 @@ public class ChatsHallActivity extends ActionBarActivity implements View.OnClick
     }
 
     public void drawCurrentChats() {
+
+        // si Constants.users.chats esta vacia --> tratar de leer de sharedprefs los chats y armar esos.
+        //o sea cargar constants.user.chats con los chats de sharedprefs
 
         final ListView listview = (ListView) findViewById(R.id.listview);
         Constants.chatListView = listview;
@@ -215,9 +216,11 @@ public class ChatsHallActivity extends ActionBarActivity implements View.OnClick
                 for (int chat = 0; chat < Constants.user.chats.size(); chat++) {
                     if (Constants.user.chats.get(chat).otherUser.compareTo(chatSelected) == 0) {
 
+                        String chatSelected2 = chatSelected.split("\n")[0];
+
                         Constants.chatEditor.setChat(Constants.user.chats.get(chat));
 
-                        Constants.chatWith = chatSelected;
+                        Constants.chatWith = chatSelected2;
 
                         Intent chat_ = new Intent(getApplicationContext(), ChatActivity.class);
                         startActivity(chat_);

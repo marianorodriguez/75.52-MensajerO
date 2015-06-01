@@ -24,7 +24,7 @@ public class Packager {
                 return user.toJsonForServer().toString();
 
             case "signUp":
-                return user.toJsonForServer().toString();
+                return user.toJsonForServer(0).toString();
 
             case "setConfig":
                 return user.toJsonForServer(0).toString();

@@ -146,8 +146,8 @@ public class GetUsersPostAsyncTask extends AsyncTask<Pair<Context, String>, Stri
                     user < users.length();
                     user++ ) {
                 try {
-                    Constants.otherUsers.add(new User(users.getString(user)));
-//                    Constants.otherUsers.add(User.toUser((org.json.JSONObject) users.get(user)));
+//                    Constants.otherUsers.add(new User(users.getJSONObject(user)));
+                    Constants.otherUsers.add(User.toUser((org.json.JSONObject) users.get(user)));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

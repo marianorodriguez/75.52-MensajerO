@@ -98,18 +98,6 @@ public class ConfigPostAsyncTask extends AsyncTask<Pair<Context, String>, String
 
     @Override
     protected void onPostExecute(String result) {
-        // aca desempaqueto el packagela respuesta
-//        try {
-//
-//            JSONObject response = Constants.packager.unwrap(result);
-//
-//            Constants.configOK = response.getString("ok");
-//
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
+
     }
-
-
-
 }

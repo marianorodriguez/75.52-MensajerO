@@ -7,6 +7,9 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Base64;
@@ -17,6 +20,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.fernando.myapplication.Common.Constants;
+import com.example.fernando.myapplication.Common.MyLocationListener;
 import com.example.fernando.myapplication.Mocks.Server;
 import com.example.fernando.myapplication.Threads.CurrentChatsPostAsyncTask;
 import com.example.fernando.myapplication.Threads.LogInPostAsyncTask;
@@ -62,11 +66,12 @@ public class LogInActivity extends ActionBarActivity implements View.OnClickList
         txtUsername = (EditText) findViewById(R.id.txtUsername);
         txtPassword = (EditText) findViewById(R.id.txtPassword);
 
-        mSharedPref = getSharedPreferences(Constants.PREFS, MODE_PRIVATE);
-
         logInPost = new LogInPostAsyncTask();
         currentChatsGet = new CurrentChatsPostAsyncTask();
 
+        mSharedPref = getSharedPreferences(Constants.PREFS, MODE_PRIVATE);
+        if (Constants.server != null)
+            Constants.server.setSharedPref(mSharedPref);
     }
 
     public static String md5(String string) {
@@ -105,6 +110,7 @@ public class LogInActivity extends ActionBarActivity implements View.OnClickList
 
                 password = md5(password);
                 User currentUser = new User(username, password);
+                currentUser.location = getLocation();
 
                 String package_ = Constants.packager.wrap("logIn", currentUser);
 
@@ -124,18 +130,10 @@ public class LogInActivity extends ActionBarActivity implements View.OnClickList
 
                 if (Constants.logInOk.compareTo("true") == 0) {
                     Constants.user = currentUser;
-                    Constants.user.location = mSharedPref.getString(username+"location", "");
 
-                    if (Constants.server != null) {
-                        Constants.user.status = mSharedPref.getString(username+"status", "");
-                        Constants.user.profilePicture = stringToBitmap(mSharedPref.getString(username+"picture", ""));
-                    } else {
-                        Constants.user.status = Constants.logInStatus;
-                        Constants.user.profilePicture = stringToBitmap(Constants.logInPicture);
-                    }
-
-                    Constants.user.status = mSharedPref.getString(username+"status", "");
-                    Constants.user.profilePicture = stringToBitmap(mSharedPref.getString(username+"picture", ""));
+                    Constants.user.location = Constants.logInLocation;
+                    Constants.user.status = Constants.logInStatus;
+                    Constants.user.profile_picture = stringToBitmap(Constants.logInPicture);
 
                     SharedPreferences.Editor e = mSharedPref.edit();
                     e.putString(Constants.PREF_NAME, username);
@@ -158,8 +156,7 @@ public class LogInActivity extends ActionBarActivity implements View.OnClickList
 
                 currentChatsGet.execute(new Pair<Context, String>(this, package_),
                         new Pair<Context, String>(this, Constants.currentChatsUrl),
-                        new Pair<Context, String>(this, "get"),
-                        new Pair<Context, String>(this, mSharedPref.getString(Constants.user.username + "chats", "")));
+                        new Pair<Context, String>(this, "get"));
 
                 while (Constants.currentChatsOk.isEmpty()) {
                     try {
@@ -195,14 +192,35 @@ public class LogInActivity extends ActionBarActivity implements View.OnClickList
 
     public Bitmap stringToBitmap(String pictureString){
         try {
-            int flags = Base64.NO_WRAP | Base64.URL_SAFE;
-            byte [] encodeByte = Base64.decode(pictureString, flags);
+            byte [] encodeByte = Base64.decode(pictureString, Base64.DEFAULT);
             Bitmap bitmap = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
             return bitmap;
         } catch(Exception e) {
             e.getMessage();
             return null;
         }
+    }
+
+    public String getLocation() {
+
+        LocationManager mlocManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
+        boolean net = mlocManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        Location l = null;
+        if(net)
+        l= mlocManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+
+        double l1 = 0;
+        double l2 = 0;
+        if(l!=null)
+        {
+            l1 = l.getLongitude();
+            l2 = l.getLatitude();
+        }
+        Toast.makeText(getApplicationContext(),"location: " + l1 + "," + l2, Toast.LENGTH_LONG).show();
+        LocationListener mlocListener = new MyLocationListener(this);
+        mlocManager.requestLocationUpdates( LocationManager.GPS_PROVIDER, 0, 0, mlocListener);
+        // VER SI l1 y l2 son distintas de cero --> si es asi mandar Unknown
+        return String.valueOf(l1)+";"+String.valueOf(l2);
     }
 
     @Override

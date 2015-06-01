@@ -18,6 +18,7 @@ import android.widget.ListView;
 
 import com.example.fernando.myapplication.Common.Chat;
 import com.example.fernando.myapplication.Common.Constants;
+import com.example.fernando.myapplication.Common.User;
 import com.example.fernando.myapplication.Mocks.Mocks;
 import com.example.fernando.myapplication.Threads.RefreshUsersAsyncTask;
 import com.example.fernando.myapplication.R;
@@ -102,7 +103,11 @@ public class UsersActivity extends ActionBarActivity implements View.OnClickList
         ArrayList<String> users = new ArrayList<>();
 
         for (int user = 0; user < Constants.otherUsers.size(); user++) {
-            users.add(Constants.otherUsers.get(user).username);
+            User userToShow = Constants.otherUsers.get(user);
+            users.add(userToShow.username + "\n" +
+                    userToShow.status + " - "
+                    + userToShow.lastTimeConnected
+                    + " - " + userToShow.location);
         }
 
         Constants.currentUsersSize = Constants.otherUsers.size();
@@ -126,10 +131,12 @@ public class UsersActivity extends ActionBarActivity implements View.OnClickList
                 final String userSelected = (String) parent.getItemAtPosition(position);
                 boolean hasChat = false;
 
-                Constants.chatWith = userSelected;
+                String userSelected2 = userSelected.split("\n")[0];
+
+                Constants.chatWith = userSelected2;
 
                 for (int chat = 0; chat < Constants.user.chats.size(); chat++) {
-                    if (Constants.user.chats.get(chat).otherUser.compareTo(userSelected) == 0) {
+                    if (Constants.user.chats.get(chat).otherUser.compareTo(userSelected2) == 0) {
                         hasChat = true;
 
                         Constants.chatEditor.setChat(Constants.user.chats.get(chat));
@@ -140,7 +147,7 @@ public class UsersActivity extends ActionBarActivity implements View.OnClickList
                     }
                 }
                 if (!hasChat) {
-                    Chat newChat = new Chat(userSelected);
+                    Chat newChat = new Chat(userSelected2);
                     Constants.user.chats.add(newChat);
 
                     Constants.chatEditor.setChat(newChat);

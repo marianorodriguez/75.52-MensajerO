@@ -15,9 +15,8 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:id="@+id/userItemData"
-        android:textSize="26dp"
+        android:textSize="16dp"
         android:textStyle="italic"
         android:gravity="center_vertical"
-        android:paddingLeft="15dp"
-        android:text="fer" />
+        android:paddingLeft="15dp" />
 </LinearLayout>

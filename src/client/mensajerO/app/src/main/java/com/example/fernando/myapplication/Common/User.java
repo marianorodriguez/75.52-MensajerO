@@ -1,6 +1,7 @@
 package com.example.fernando.myapplication.Common;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Base64;
 
 import org.json.JSONArray;
@@ -17,9 +18,10 @@ public class User {
 
     public String username = "";
     public String password = "";
-    public Bitmap profilePicture = null;
+    public Bitmap profile_picture = null;
     public String location;
     public String status;
+    public String lastTimeConnected;
     public ArrayList<Chat> chats;
 
     public User(String username, String password) {
@@ -30,6 +32,18 @@ public class User {
 
     public User(String username) {
         this.username = username;
+    }
+
+    public User(String username, String status, String profile_picture, String location, String lastTimeConnected) {
+        this.username = username;
+        this.status = status;
+        this.profile_picture = stringToBitmap(profile_picture);
+        this.location = location;
+        this.lastTimeConnected = lastTimeConnected;
+    }
+
+    public User(JSONObject jsonObject) {
+        toUser(jsonObject);
     }
 
     public JSONObject toJsonForServer () {
@@ -49,7 +63,7 @@ public class User {
     public JSONObject toJsonForServer (int flag) {
         JSONObject juser_ = toJsonForServer();
         try {
-            juser_.put("picture", setPicture(profilePicture));
+            juser_.put("profile_picture", setPicture(profile_picture));
             juser_.put("status", status);
 
             return juser_;
@@ -64,7 +78,7 @@ public class User {
         ByteArrayOutputStream baos = new  ByteArrayOutputStream();
         pictureBitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
         byte [] b = baos.toByteArray();
-        String temp = Base64.encodeToString(b, Base64.NO_WRAP);
+        String temp = Base64.encodeToString(b, Base64.DEFAULT);
         temp = temp.replaceAll("(?:\\r\\n|\\n\\r|\\n|\\r)", "");
 
         return temp;
@@ -122,8 +136,8 @@ public class User {
             User newUser = new User(jsonObject.getString("username"));
 
             newUser.location = jsonObject.getString("location");
-            newUser.location = jsonObject.getString("picture");
-            newUser.location = jsonObject.getString("status");
+            newUser.profile_picture = newUser.stringToBitmap(jsonObject.getString("profile_picture"));
+            newUser.status = jsonObject.getString("status");
 
             return newUser;
         } catch (JSONException e) {
@@ -131,4 +145,16 @@ public class User {
             return null;
         }
     }
+
+    public Bitmap stringToBitmap(String pictureString){
+        try {
+            byte [] encodeByte = Base64.decode(pictureString, Base64.DEFAULT);
+            Bitmap bitmap = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
+            return bitmap;
+        } catch(Exception e) {
+            e.getMessage();
+            return null;
+        }
+    }
+
 }

@@ -49,6 +49,9 @@ public class LogInPostAsyncTask extends AsyncTask<Pair<Context, String>, String,
                 JSONObject resp = Constants.packager.unwrap(response);
 
                 Constants.logInOk = resp.getString("ok");
+                Constants.logInPicture = resp.getString("profile_picture");
+                Constants.logInStatus = resp.getString("status");
+                Constants.logInLocation = resp.getString("location");
 
                 return "";
 
@@ -66,8 +69,9 @@ public class LogInPostAsyncTask extends AsyncTask<Pair<Context, String>, String,
                             EntityUtils.toString(response.getEntity()));
 
                     Constants.logInOk = respons.getString("ok");
-                    Constants.logInPicture = respons.getString("picture");
+                    Constants.logInPicture = respons.getString("profile_picture");
                     Constants.logInStatus = respons.getString("status");
+                    Constants.logInLocation = respons.getString("location");
 
                     return "";
 

@@ -116,7 +116,7 @@ public class SomethingForMePostAsyncTask extends AsyncTask<Pair<Context, String>
 
             } else if (type.compareTo("get") == 0) {
 
-                url.concat("?" + package_);
+                url = url.concat("?" + package_);
 
                 response = httpClient.execute(new HttpGet(url));
 

@@ -39,6 +39,7 @@ public class SignUpPostAsyncTask extends AsyncTask<Pair<Context, String>, String
                 JSONObject respons = Constants.packager.unwrap(response);
 
                 Constants.signUpOk = respons.getString("ok");
+                Constants.signUpLocation = respons.getString("location");
 
                 return "";
 
@@ -55,6 +56,7 @@ public class SignUpPostAsyncTask extends AsyncTask<Pair<Context, String>, String
                     JSONObject respons = Constants.packager.unwrap(EntityUtils.toString(response.getEntity()));
 
                     Constants.signUpOk = respons.getString("ok");
+                    Constants.signUpLocation = respons.getString("location");
 
                     return "";
 
