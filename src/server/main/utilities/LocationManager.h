@@ -20,6 +20,7 @@ public:
 private:
 	std::map<std::string, std::string> nodes;
 	static void parseLocation(const std::string &location, float &latitude, float &longitude);
+	static std::string nearestLocation(const float& lat, const float& lon);
 };
 
 #endif /* MAIN_UTILITIES_LOCATIONMANAGER_H_ */
