@@ -15,9 +15,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/b.getIn"
-            android:layout_marginTop="54dp"
+            android:layout_marginTop="100dp"
             android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true" />
+            android:layout_centerHorizontal="true"
+            android:typeface="sans" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -32,7 +33,8 @@
         android:layout_marginLeft="-50dp"
         android:layout_marginRight="-50dp"
         android:textSize="24dp"
-        android:layout_marginTop="50dp"
-        android:layout_below="@+id/button1" />
+        android:layout_marginTop="-100dp"
+        android:layout_below="@+id/button1"
+        style="fdfbvb" />
 
 </RelativeLayout>

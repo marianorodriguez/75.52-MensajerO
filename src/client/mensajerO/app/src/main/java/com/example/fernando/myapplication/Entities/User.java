@@ -1,4 +1,4 @@
-package com.example.fernando.myapplication.Common;
+package com.example.fernando.myapplication.Entities;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;

@@ -1,11 +1,7 @@
-package com.example.fernando.myapplication.Common;
-
-import android.text.format.Time;
+package com.example.fernando.myapplication.Entities;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.Date;
 
 /**
  * Created by fernando on 19/04/15.

@@ -2,6 +2,9 @@ package com.example.fernando.myapplication.Common;
 
 import android.widget.TextView;
 
+import com.example.fernando.myapplication.Entities.Chat;
+import com.example.fernando.myapplication.Entities.Message;
+
 import java.util.ArrayList;
 
 /**

@@ -13,13 +13,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
 
-import com.example.fernando.myapplication.Common.Chat;
+import com.example.fernando.myapplication.Entities.Chat;
 import com.example.fernando.myapplication.Common.Constants;
-import com.example.fernando.myapplication.Common.User;
-import com.example.fernando.myapplication.Mocks.Mocks;
+import com.example.fernando.myapplication.Entities.User;
 import com.example.fernando.myapplication.Threads.RefreshUsersAsyncTask;
 import com.example.fernando.myapplication.R;
 

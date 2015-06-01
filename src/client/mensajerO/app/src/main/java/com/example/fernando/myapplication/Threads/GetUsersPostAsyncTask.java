@@ -7,7 +7,7 @@ import android.widget.Toast;
 
 import com.example.fernando.myapplication.Activities.ChatsHallActivity;
 import com.example.fernando.myapplication.Common.Constants;
-import com.example.fernando.myapplication.Common.User;
+import com.example.fernando.myapplication.Entities.User;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;

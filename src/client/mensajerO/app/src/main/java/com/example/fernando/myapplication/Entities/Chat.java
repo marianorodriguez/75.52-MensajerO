@@ -1,4 +1,6 @@
-package com.example.fernando.myapplication.Common;
+package com.example.fernando.myapplication.Entities;
+
+import com.example.fernando.myapplication.Common.Constants;
 
 import org.json.JSONArray;
 import org.json.JSONException;

@@ -3,13 +3,11 @@ package com.example.fernando.myapplication.Mocks;
 import android.annotation.TargetApi;
 import android.content.SharedPreferences;
 import android.os.Build;
-import android.util.ArrayMap;
 import android.util.Pair;
 
-import com.example.fernando.myapplication.Common.Chat;
 import com.example.fernando.myapplication.Common.Constants;
-import com.example.fernando.myapplication.Common.Message;
-import com.example.fernando.myapplication.Common.User;
+import com.example.fernando.myapplication.Entities.Message;
+import com.example.fernando.myapplication.Entities.User;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -17,9 +15,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-
-import android.content.SharedPreferences;
-import android.content.SharedPreferences;
 
 /**
  * Created by fernando on 01/05/15.

@@ -2,15 +2,13 @@ package com.example.fernando.myapplication.Threads;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.os.SystemClock;
 import android.util.Pair;
 import android.widget.Toast;
 
 import com.example.fernando.myapplication.Activities.ChatsHallActivity;
-import com.example.fernando.myapplication.Common.Chat;
+import com.example.fernando.myapplication.Entities.Chat;
 import com.example.fernando.myapplication.Common.Constants;
-import com.example.fernando.myapplication.Common.Message;
-import com.example.fernando.myapplication.Mocks.Mocks;
+import com.example.fernando.myapplication.Entities.Message;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;

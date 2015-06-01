@@ -2,6 +2,8 @@ package com.example.fernando.myapplication.Common;
 
 import android.util.Base64;
 
+import com.example.fernando.myapplication.Entities.User;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -57,7 +59,7 @@ public class Packager {
             return null;
         }
 
-        String packageEncoded = Base64.encodeToString(data, Base64.NO_WRAP);
+        String packageEncoded = Base64.encodeToString(data, Base64.DEFAULT);
         packageEncoded = packageEncoded.replaceAll("(?:\\r\\n|\\n\\r|\\n|\\r)", "");
 
         return packageEncoded;
@@ -97,7 +99,7 @@ public class Packager {
             return null;
         }
 
-        String packageEncoded = Base64.encodeToString(data, Base64.NO_WRAP);
+        String packageEncoded = Base64.encodeToString(data, Base64.DEFAULT);
         packageEncoded = packageEncoded.replaceAll("(?:\\r\\n|\\n\\r|\\n|\\r)", "");
 
         return packageEncoded;
@@ -113,8 +115,7 @@ public class Packager {
 
     public JSONObject unwrap (String responsePackage) {
 
-        int flags = Base64.NO_WRAP | Base64.URL_SAFE;
-        byte[] jsonBytes = Base64.decode(responsePackage, flags);
+        byte[] jsonBytes = Base64.decode(responsePackage, Base64.DEFAULT);
 
 //        System.out.println(json);
         String json = new String (jsonBytes);
@@ -134,8 +135,7 @@ public class Packager {
 
     public JSONArray unwrap (String responsePackage, String key) {
 
-        int flags = Base64.NO_WRAP | Base64.URL_SAFE;
-        byte[] jsonBytes = Base64.decode(responsePackage, flags);
+        byte[] jsonBytes = Base64.decode(responsePackage, Base64.DEFAULT);
 
 //        System.out.println(json);
         String json = new String (jsonBytes);

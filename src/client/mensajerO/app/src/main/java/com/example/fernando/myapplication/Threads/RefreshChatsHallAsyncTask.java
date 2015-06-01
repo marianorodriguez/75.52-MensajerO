@@ -3,7 +3,6 @@ package com.example.fernando.myapplication.Threads;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Pair;
-import android.widget.Toast;
 
 import com.example.fernando.myapplication.Activities.ChatsHallActivity;
 import com.example.fernando.myapplication.Common.Constants;

@@ -2,12 +2,10 @@ package com.example.fernando.myapplication.Threads;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.text.format.Time;
 import android.util.Pair;
 
-import com.example.fernando.myapplication.Common.Chat;
+import com.example.fernando.myapplication.Entities.Chat;
 import com.example.fernando.myapplication.Common.Constants;
-import com.example.fernando.myapplication.Common.Message;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -25,10 +23,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 /**

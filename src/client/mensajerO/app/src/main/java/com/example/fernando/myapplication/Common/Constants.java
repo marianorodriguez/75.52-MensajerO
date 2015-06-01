@@ -8,6 +8,8 @@ import android.widget.ListView;
 
 import com.example.fernando.myapplication.Activities.ChatsHallActivity;
 import com.example.fernando.myapplication.Activities.UsersActivity;
+import com.example.fernando.myapplication.Entities.Chat;
+import com.example.fernando.myapplication.Entities.User;
 import com.example.fernando.myapplication.Mocks.Server;
 
 import org.json.JSONArray;
