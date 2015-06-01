@@ -62,9 +62,9 @@ void Connection::parsePostParams(){
 	if (this->rawConnection->content){
 		// TODO mlafroce: verificar si es un bug de mongoose
 		std::string content;
-		content.assign(this->rawConnection->query_string);
+		content.assign(this->rawConnection->content, this->rawConnection->content_len);
 		std::string decodedContent = base64::decode(content);
-		std::cout<<"post: "<<decodedContent<<std::endl;
+	//	std::cout<<"post: "<<decodedContent<<std::endl;
 		JsonMap jsonMap(decodedContent);
 
 		this->paramMap = jsonMap.getMap();
