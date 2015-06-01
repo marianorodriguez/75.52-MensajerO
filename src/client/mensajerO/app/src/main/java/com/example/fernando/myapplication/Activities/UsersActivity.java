@@ -11,9 +11,12 @@ import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.example.fernando.myapplication.Entities.Chat;
 import com.example.fernando.myapplication.Common.Constants;
@@ -192,6 +195,22 @@ public class UsersActivity extends ActionBarActivity implements View.OnClickList
             mIdMap.put(object, 23);
         }
 
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            View userView = super.getView(position, convertView, parent);
+
+            TextView userItemData = (TextView) userView.findViewById(R.id.userItemData);
+            ImageView userItemImage = (ImageView) userView.findViewById(R.id.userItemImage);
+
+            String username = userItemData.getText().toString().split("\n")[0];
+            for (int otherUser = 0; otherUser < Constants.otherUsers.size(); otherUser++) {
+                if (Constants.otherUsers.get(otherUser).username.compareTo(username) == 0) {
+                    userItemImage.setImageBitmap(Constants.otherUsers.get(otherUser).profile_picture);
+                    break;
+                }
+            }
+            return userView;
+        }
     }
 
     public Bitmap stringToBitmap(String pictureString){

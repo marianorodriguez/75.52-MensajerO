@@ -10,6 +10,7 @@ import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 /**
  * Created by fernando on 19/04/15.
@@ -21,7 +22,7 @@ public class User {
     public Bitmap profile_picture = null;
     public String location;
     public String status;
-    public String lastTimeConnected;
+    public String lastTimeConnected = "lastTimeConnected";
     public ArrayList<Chat> chats;
 
     public User(String username, String password) {
@@ -39,7 +40,14 @@ public class User {
         this.status = status;
         this.profile_picture = stringToBitmap(profile_picture);
         this.location = location;
-        this.lastTimeConnected = lastTimeConnected;
+        this.lastTimeConnected = getLastTimeConnected(lastTimeConnected);
+    }
+
+    // En este metodo se haria la conversion de segundos a la fecha y hora corresp
+    private String getLastTimeConnected(String lastTimeConnected) {
+        Calendar c = Calendar.getInstance();
+
+        return c.getTime().toString();
     }
 
     public User(JSONObject jsonObject) {
