@@ -14,18 +14,16 @@ std::string UserConfigService::getUri() const {
 }
 
 std::string UserConfigService::executeRequest(
-		const std::map<std::string, std::string> &paramMap) const {
+		const Json::Value &paramMap) const {
 
+	Json::Reader reader;
 	Json::Value data;
-	data[SERVICE_USERNAME] = paramMap.at(SERVICE_USERNAME);
-	data[SERVICE_PASSWORD] = paramMap.at(SERVICE_PASSWORD);
-	data[SERVICE_USERCONFIG_STATUS] = paramMap.at(SERVICE_USERCONFIG_STATUS);
-	data[SERVICE_USERCONFIG_PICTURE] = paramMap.at(SERVICE_USERCONFIG_PICTURE);
-
+	reader.parse(paramMap.asString(), data);
 	Json::Value output = doUserConfig(data);
 
 	ConnectionManager::getInstance()->updateUser(
 			data[SERVICE_USERNAME].asString());
+
 	return output.toStyledString();
 }
 

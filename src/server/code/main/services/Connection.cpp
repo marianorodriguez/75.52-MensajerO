@@ -36,7 +36,7 @@ mg_connection* Connection::getRawConnection() const{
 	return this->rawConnection;
 }
 
-std::map<std::string, std::string> Connection::getParamMap() const{
+Json::Value Connection::getParamMap() const{
 	return this->paramMap;
 }
 
@@ -51,8 +51,8 @@ void Connection::parseGetParams(){
 	if (this->rawConnection->query_string){
 		std::string query(this->rawConnection->query_string);
 
-		JsonMap params(base64::decode(query));
-		this->paramMap = params.getMap();
+		Json::Value params(base64::decode(query));
+		this->paramMap = params;
 	}
 }
 
@@ -65,10 +65,8 @@ void Connection::parsePostParams(){
 		content.assign(this->rawConnection->content, this->rawConnection->content_len);
 		std::string package = "package=";
 		content = content.substr(package.size(), content.size());
-		std::string decodedContent = base64::decode(content);
-	//	std::cout<<"post: "<<decodedContent<<std::endl;
-		JsonMap jsonMap(decodedContent);
+		Json::Value jsonMap(base64::decode(content));
 
-		this->paramMap = jsonMap.getMap();
+		this->paramMap = jsonMap;
 	}
 }

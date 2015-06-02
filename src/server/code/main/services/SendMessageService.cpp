@@ -7,23 +7,16 @@ std::string SendMessageService::getUri() const {
 }
 
 std::string SendMessageService::executeRequest(
-		const std::map<std::string, std::string> &paramMap) const {
+		const Json::Value &paramMap) const {
 
+	Json::Reader reader;
 	Json::Value data;
-	data[SERVICE_USERNAME] = paramMap.at(SERVICE_USERNAME);
-	data[SERVICE_PASSWORD] = paramMap.at(SERVICE_PASSWORD);
-	data[SERVICE_SENDMESSAGE_USERNAME_TO] = paramMap.at(
-			SERVICE_SENDMESSAGE_USERNAME_TO);
-
-	data[SERVICE_SENDMESSAGE_MESSAGE] = paramMap.at(SERVICE_SENDMESSAGE_MESSAGE);
-
-
-	// TODO location
-
+	reader.parse(paramMap.asString(), data);
 	Json::Value output = doSendMessage(data);
 
 	ConnectionManager::getInstance()->updateUser(
 			data[SERVICE_USERNAME].asString());
+
 	return output.toStyledString();
 }
 

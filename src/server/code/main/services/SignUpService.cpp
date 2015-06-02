@@ -6,21 +6,16 @@ std::string SignUpService::getUri() const {
 	return SignUpService::serviceName;
 }
 
-std::string SignUpService::executeRequest(
-		const std::map<std::string, std::string> &paramMap) const {
+std::string SignUpService::executeRequest(const Json::Value &paramMap) const {
 
+	Json::Reader reader;
 	Json::Value data;
-	data[SERVICE_USERNAME] = paramMap.at(SERVICE_USERNAME);
-	data[SERVICE_PASSWORD] = paramMap.at(SERVICE_PASSWORD);
-	data[SERVICE_USERCONFIG_STATUS] = paramMap.at(SERVICE_USERCONFIG_STATUS);
-	data[SERVICE_USERCONFIG_PICTURE] = paramMap.at(SERVICE_USERCONFIG_PICTURE);
-	data[SERVICE_USERCONFIG_LOCATION] = paramMap.at(
-			SERVICE_USERCONFIG_LOCATION);
-
+	reader.parse(paramMap.asString(), data);
 	Json::Value output = doSignUp(data);
 
 	ConnectionManager::getInstance()->updateUser(
 			data[SERVICE_USERNAME].asString());
+
 	return output.toStyledString();
 }
 
