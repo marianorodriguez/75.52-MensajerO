@@ -1,9 +1,9 @@
 {
     "nodes": [
-        {"name": "San Telmo", "location": "-34,620556;-58,371667"},
-        {"name": "Monserrat", "location": "-34,612500;-58,383333"},
-        {"name": "Puerto Madero", "location": "-34,610426;-58,361707"},
-        {"name": "San Nicolas", "location": "-34,605278;-58,375833"},
-        {"name": "Retiro", "location": "-34,594722;-58,375833"},
+        {"name": "San Telmo", "location": "-34.620556;-58.371667"},
+        {"name": "Monserrat", "location": "-34.612500;-58.383333"},
+        {"name": "Puerto Madero", "location": "-34.610426;-58.361707"},
+        {"name": "San Nicolas", "location": "-34.605278;-58.375833"},
+        {"name": "Retiro", "location": "-34.594722;-58.375833"},
     ]
 }
