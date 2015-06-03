@@ -230,10 +230,6 @@ public class ChatsHallActivity extends ActionBarActivity implements View.OnClick
                         break;
                     }
                 }
-//                adapter.add("Andrea");
-//                listview.setAdapter(adapter);
-//                                list.remove(item);
-//                                adapter.notifyDataSetChanged();
             }
         });
     }

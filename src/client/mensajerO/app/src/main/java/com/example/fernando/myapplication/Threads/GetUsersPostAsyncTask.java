@@ -64,9 +64,6 @@ public class GetUsersPostAsyncTask extends AsyncTask<Pair<Context, String>, Stri
 
                 }
 
-//                publishProgress("run again", params[0].second,
-//                        params[1].second, params[2].second);
-
                 return "Error: " + response.getStatusLine().getStatusCode() + " " + response.getStatusLine().getReasonPhrase();
             }
 

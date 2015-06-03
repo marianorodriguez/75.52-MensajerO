@@ -126,20 +126,4 @@ public class CurrentChatsPostAsyncTask extends AsyncTask<Pair<Context, String>, 
         return null;
 
     }
-
-    @Override
-    protected void onPostExecute(String result) {
-//        try {
-
-//        JSONObject response = Constants.packager.unwrap(result);
-
-        // sacar del response los chats y meterlos en Constants.userChats
-        // si no viene nada meter un elemento asi sale del loop la activity
-
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
-
-    }
-
 }

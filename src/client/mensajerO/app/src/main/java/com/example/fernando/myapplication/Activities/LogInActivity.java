@@ -51,7 +51,7 @@ public class LogInActivity extends ActionBarActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
 
-        Button button1 = (Button) findViewById(R.id.button1);
+        Button button1 = (Button) findViewById(R.id.getinbutton);
         button1.setOnClickListener(this);
 
         Button button2 = (Button) findViewById(R.id.button2);
@@ -69,6 +69,7 @@ public class LogInActivity extends ActionBarActivity implements View.OnClickList
         currentChatsGet = new CurrentChatsPostAsyncTask();
 
         mSharedPref = getSharedPreferences(Constants.PREFS, MODE_PRIVATE);
+        Constants.ipServer = mSharedPref.getString("ipServer", "");
         if (Constants.server != null)
             Constants.server.setSharedPref(mSharedPref);
     }
@@ -98,7 +99,7 @@ public class LogInActivity extends ActionBarActivity implements View.OnClickList
     @Override
     public void onClick(View v) {
 
-        if (v.getId() == R.id.button1) {
+        if (v.getId() == R.id.getinbutton) {
 
             // Get username, password from EditText
             String username = txtUsername.getText().toString();

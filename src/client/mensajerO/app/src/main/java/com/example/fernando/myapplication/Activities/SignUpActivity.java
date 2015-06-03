@@ -41,7 +41,7 @@ public class SignUpActivity extends ActionBarActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.signup);
 
-        Button button1 = (Button) findViewById(R.id.button1);
+        Button button1 = (Button) findViewById(R.id.getinbutton);
         button1.setOnClickListener(this);
 
         Button button2 = (Button) findViewById(R.id.button2);
@@ -52,6 +52,7 @@ public class SignUpActivity extends ActionBarActivity implements View.OnClickLis
         txtPassword = (EditText) findViewById(R.id.txtPassword);
 
         mSharedPref = getSharedPreferences(Constants.PREFS, MODE_PRIVATE);
+        Constants.ipServer = mSharedPref.getString("ipServer", "");
 
         signUpPost = new SignUpPostAsyncTask();
     }

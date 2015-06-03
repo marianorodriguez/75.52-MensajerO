@@ -14,6 +14,7 @@ import com.example.fernando.myapplication.Mocks.Server;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -88,7 +89,10 @@ final public class Constants//final to prevent instantiation
         Constants.user.profile_picture = stringToBitmap(mSharedPref.getString(username + "profile_picture", ""));
 
         try {
-            JSONArray chats = new JSONArray(mSharedPref.getString(username+"chats", ""));
+
+            JSONObject chatsObject = new JSONObject(mSharedPref.getString(username+"chats", ""));
+            JSONArray chats = (JSONArray) chatsObject.get("chats");
+//            JSONArray chats = new JSONArray(mSharedPref.getString(username+"chats", ""));
 
             for (int chat = 0; chat < chats.length(); chat++) {
                 Constants.user.chats.add(Chat.toChat((org.json.JSONObject) chats.get(chat)));

@@ -34,11 +34,6 @@ public class ChatEditor {
             chatView.append(" - " + messageToRender.msg_fromID);
             chatView.append(": " + messageToRender.msg_text + "\n");
 
-//            if (messageToRender.emisor.compareTo(owner) == 0) {
-//                chat_.append();
-//            } else {
-//
-//            }
         }
     }
 

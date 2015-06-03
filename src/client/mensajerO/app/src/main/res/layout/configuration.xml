@@ -5,7 +5,7 @@
     android:layout_height="match_parent">
 
     <Button
-        android:id="@+id/button1"
+        android:id="@+id/getinbutton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/b.cancel"
@@ -18,7 +18,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/b.done"
-        android:layout_alignTop="@+id/button1"
+        android:layout_alignTop="@+id/getinbutton"
         android:layout_toRightOf="@+id/imageView"
         android:layout_toEndOf="@+id/imageView" />
 

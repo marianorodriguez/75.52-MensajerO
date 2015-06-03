@@ -96,17 +96,4 @@ public class SendMessagePostAsyncTask extends AsyncTask<Pair<Context, String>, S
         return null;
     }
 
-    @Override
-    protected void onPostExecute(String result) {
-        // aca desempaqueto el packagela respuesta
-//        try {
-//
-//            JSONObject response = Constants.packager.unwrap(result);
-//
-//            Constants.sendMessageOk = response.getString("ok");
-//
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
-    }
 }

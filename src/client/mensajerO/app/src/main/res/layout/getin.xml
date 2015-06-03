@@ -11,7 +11,7 @@
 
     <!-- Set OnClickListener to trigger results when pressed -->
         <Button
-            android:id="@+id/button1"
+            android:id="@+id/getinbutton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/b.getIn"
@@ -23,18 +23,18 @@
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/editText2"
+        android:id="@+id/ipedittext"
         android:layout_centerVertical="true"
         android:hint="Enter Server&apos;s IP"
-        android:layout_alignLeft="@+id/button1"
-        android:layout_alignStart="@+id/button1"
-        android:layout_alignRight="@+id/button1"
-        android:layout_alignEnd="@+id/button1"
+        android:layout_alignLeft="@+id/getinbutton"
+        android:layout_alignStart="@+id/getinbutton"
+        android:layout_alignRight="@+id/getinbutton"
+        android:layout_alignEnd="@+id/getinbutton"
         android:layout_marginLeft="-50dp"
         android:layout_marginRight="-50dp"
         android:textSize="24dp"
         android:layout_marginTop="-100dp"
-        android:layout_below="@+id/button1"
+        android:layout_below="@+id/getinbutton"
         style="fdfbvb" />
 
 </RelativeLayout>

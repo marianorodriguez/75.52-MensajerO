@@ -71,22 +71,6 @@ public class Packager {
         this.msg_text = msg_text;
 
         return wrap(service, user);
-
-//        String jsonPackage = toJson(service, user);
-//        System.out.println(jsonPackage);
-//
-//        byte[] data;
-//        try {
-//            data = jsonPackage.getBytes("UTF-8");
-//        } catch (UnsupportedEncodingException e) {
-//            e.printStackTrace();
-//            return null;
-//        }
-//
-//        String packageEncoded = Base64.encodeToString(data, Base64.NO_WRAP);
-//        packageEncoded = packageEncoded.replaceAll("(?:\\r\\n|\\n\\r|\\n|\\r)", "");
-//
-//        return packageEncoded;
     }
 
     public String wrap(String response) {
@@ -117,11 +101,7 @@ public class Packager {
 
         byte[] jsonBytes = Base64.decode(responsePackage, Base64.DEFAULT);
 
-//        System.out.println(json);
         String json = new String (jsonBytes);
-
-        //json = "{\"ok\":\"true\",\"what\":\"\"}";
-
 
         try {
             JSONObject resp = new JSONObject(json);
@@ -137,7 +117,6 @@ public class Packager {
 
         byte[] jsonBytes = Base64.decode(responsePackage, Base64.DEFAULT);
 
-//        System.out.println(json);
         String json = new String (jsonBytes);
 
         try {

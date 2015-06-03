@@ -7,6 +7,7 @@ import android.app.PendingIntent;
 import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.location.LocationManager;
@@ -36,10 +37,10 @@ public class GetInActivity extends ActionBarActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.getin);
 
-        Button mainButton = (Button) findViewById(R.id.button1);
+        Button mainButton = (Button) findViewById(R.id.getinbutton);
         mainButton.setOnClickListener(this);
 
-        ipContainer = (EditText) findViewById(R.id.editText2);
+        ipContainer = (EditText) findViewById(R.id.ipedittext);
     }
 
     private Bitmap setPicture(Bitmap pictureBitmap) {
@@ -114,7 +115,10 @@ public class GetInActivity extends ActionBarActivity implements View.OnClickList
     public void onClick(View v) {
 
         //CHEQUEAR EL FORMATO DE LA IP y setear Constants.ip
-        Constants.ipServer = ipContainer.getText().toString();
+        SharedPreferences mSharedPref = getSharedPreferences(Constants.PREFS, MODE_PRIVATE);
+        SharedPreferences.Editor e = mSharedPref.edit();
+        e.putString("ipServer", ipContainer.getText().toString());
+        e.commit();
 
         Intent logIn = new Intent(this, LogInActivity.class);
         startActivity(logIn);

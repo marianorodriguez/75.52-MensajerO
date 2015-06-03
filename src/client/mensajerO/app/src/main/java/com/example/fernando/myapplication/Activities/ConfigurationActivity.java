@@ -49,7 +49,7 @@ public class ConfigurationActivity extends ActionBarActivity implements View.OnC
         super.onCreate(savedInstanceState);
         setContentView(R.layout.configuration);
 
-        Button button1 = (Button) findViewById(R.id.button1);
+        Button button1 = (Button) findViewById(R.id.getinbutton);
         button1.setOnClickListener(this);
 
         Button button2 = (Button) findViewById(R.id.button2);
@@ -175,7 +175,7 @@ public class ConfigurationActivity extends ActionBarActivity implements View.OnC
     @Override
     public void onClick(View v) {
 
-        if (v.getId() == R.id.button1) {
+        if (v.getId() == R.id.getinbutton) {
             //Cancel button
             // seteo al user los valores que tenia antes de entrar
             SharedPreferences.Editor e = mSharedPref.edit();
