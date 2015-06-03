@@ -67,15 +67,6 @@ Para facilitar la instalación de la aplicación, se armaron algunos scripts en 
 
 **coverage.sh** : Ejecuta las pruebas y recolecta los datos de los tests de coverage.
 
-
-### Ejecutar servidor
-
-Para correr el servidor, desde *src/server* ejecutar:
-
-    $ mkdir -p database/users
-    $ mkdir -p database/chats
-    $ main/server
-
 La aplicación soporta varios flags para la configuración:
 
 * **-c**, **--config** <path/to/config.json>: dirección del archivo de configuración.
