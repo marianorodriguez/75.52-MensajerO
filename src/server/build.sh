@@ -1,5 +1,14 @@
 #!/usr/bin/env bash
+# Compilo rocksDB
+echo "Compilando rocksDB"
+cd 3rd-party/rocksdb
+
+make static_lib
+
+cd -
+
 # Preparo directorio de build
+echo "Creando carpeta 'build' como destino de compilacion"
 mkdir build
 cd build
 

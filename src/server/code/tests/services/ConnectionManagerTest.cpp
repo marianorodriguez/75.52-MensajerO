@@ -5,7 +5,7 @@
  *      Author: marian
  */
 
-#include "../../include/tests/services/ConnectionManagerTest.h"
+#include "services/ConnectionManagerTest.h"
 
 CPPUNIT_TEST_SUITE_REGISTRATION(ConnectionManagerTest);
 

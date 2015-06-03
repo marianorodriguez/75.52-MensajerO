@@ -1,6 +1,7 @@
 project(mensajero)
 
-include_directories(${PROJECT_SOURCE_DIR}/../main)
+include_directories(${PROJECT_SOURCE_DIR}/../../include/main)
+include_directories(${PROJECT_SOURCE_DIR}/../../include/tests/)
 
 add_subdirectory(rest-client)
 add_subdirectory(services)

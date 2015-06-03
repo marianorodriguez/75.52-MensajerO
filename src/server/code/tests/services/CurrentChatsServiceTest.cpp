@@ -5,7 +5,7 @@
  *      Author: marian
  */
 
-#include "../../include/tests/services/CurrentChatsServiceTest.h"
+#include "services/CurrentChatsServiceTest.h"
 
 CPPUNIT_TEST_SUITE_REGISTRATION(CurrentChatsServiceTest);
 

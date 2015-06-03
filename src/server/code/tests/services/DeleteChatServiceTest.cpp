@@ -1,4 +1,4 @@
-#include "../../include/tests/services/DeleteChatServiceTest.h"
+#include "services/DeleteChatServiceTest.h"
 
 CPPUNIT_TEST_SUITE_REGISTRATION(DeleteChatServiceTest);
 
