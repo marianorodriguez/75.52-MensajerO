@@ -3,6 +3,7 @@
 
 #include "Connection.h"
 #include "ConnectionManager.h"
+#include "json/json.h"
 
 class ServiceInterface{
 public:
@@ -19,7 +20,7 @@ public:
 	 * Ejecuta el servicio instanciado
 	 * @param connection contiene los datos de la conexion con el cliente.
 	 */
-	virtual std::string executeRequest(const std::map<std::string, std::string> &paramMap) const = 0;
+	virtual std::string executeRequest(const Json::Value &data) const = 0;
 };
 
 class ServiceCreatorInterface{

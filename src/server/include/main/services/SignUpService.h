@@ -15,7 +15,7 @@ public:
 	/**
 	 * Verifica que el usuario no exista y devuelve OK si pudo agregarlo.
 	 */
-	virtual std::string executeRequest(const std::map<std::string, std::string> &paramMap) const;
+	virtual std::string executeRequest(const Json::Value &paramMap) const;
 private:
 	static const std::string serviceName;
 

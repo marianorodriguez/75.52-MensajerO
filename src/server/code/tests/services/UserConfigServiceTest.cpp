@@ -5,7 +5,7 @@
  *      Author: marian
  */
 
-#include "../../include/tests/services/UserConfigServiceTest.h"
+#include "services/UserConfigServiceTest.h"
 
 CPPUNIT_TEST_SUITE_REGISTRATION(UserConfigServiceTest);
 

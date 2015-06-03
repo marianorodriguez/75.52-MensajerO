@@ -5,7 +5,7 @@
  *      Author: marian
  */
 
-#include "../../include/tests/services/SendMessageServiceTest.h"
+#include "services/SendMessageServiceTest.h"
 
 CPPUNIT_TEST_SUITE_REGISTRATION(SendMessageServiceTest);
 

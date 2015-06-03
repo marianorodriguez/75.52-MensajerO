@@ -1,6 +1,7 @@
 project(mensajero)
 
-include_directories(${PROJECT_SOURCE_DIR}/../main)
+include_directories(${PROJECT_SOURCE_DIR}/../../include/main)
+include_directories(${PROJECT_SOURCE_DIR}/../../include/tests/)
 
 add_subdirectory(rest-client)
 add_subdirectory(services)
@@ -15,6 +16,7 @@ add_executable(tests
 	NumberConverterTests.cpp
 	services/ConnectionManagerTest.cpp
 	services/LogInServiceTest.cpp
+	LocationManagerTests.cpp
 	main.cpp)
 
 target_link_libraries(tests ${CPPUNIT_LIBRARIES} mensajero-utilities service-test rest-client ${JSONCPP_LIBRARIES})

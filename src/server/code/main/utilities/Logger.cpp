@@ -5,7 +5,7 @@ Logger* Logger::logInstance = NULL;
 Mutex Logger::constructorMutex;
 string Logger::logDir = "";
 
-Logger::Logger(string config_dir) {
+Logger::Logger(const std::string& config_dir) {
 
 	Json::Value json_root;
 	Json::Reader json_reader;

@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 # Limpio contadores
-lcov -z -d main/
+lcov -z -d code/main/
 # Creo carpeta de BD
-rm -rf tests/database/testdb
-mkdir -p tests/database/testdb
+mkdir -p database/users
+mkdir -p database/chats
 # Corro las pruebas
-tests/tests
+code/tests/tests
 # Genero informe
-lcov -c -d main/ -o testResult.info
+lcov -c -d code/main/ -o testResult.info
 genhtml testResult.info --output-directory html
 # Lo abro con un navegador
 xdg-open html/index.html

@@ -14,17 +14,16 @@ std::string DeleteChatService::getUri() const {
 }
 
 std::string DeleteChatService::executeRequest(
-		const std::map<std::string, std::string> &paramMap) const {
+		const Json::Value &paramMap) const {
 
+	Json::Reader reader;
 	Json::Value data;
-	data[SERVICE_USERNAME] = paramMap.at(SERVICE_USERNAME);
-	data[SERVICE_PASSWORD] = paramMap.at(SERVICE_PASSWORD);
-	data[SERVICE_DELETECHAT_WHO] = paramMap.at(SERVICE_DELETECHAT_WHO);
-
+	reader.parse(paramMap.asString(), data);
 	Json::Value output = doDeleteChat(data);
 
 	ConnectionManager::getInstance()->updateUser(
 			data[SERVICE_USERNAME].asString());
+
 	return output.toStyledString();
 }
 
@@ -50,9 +49,9 @@ Json::Value DeleteChatService::doDeleteChat(const Json::Value &data) {
 			Chat chat(dbChats.read(key));
 			int lastMessage = chat.getMessages().size();
 
-			if(username == chat.getUsername1()){
+			if (username == chat.getUsername1()) {
 				chat.setFirstMessageUser1(lastMessage);
-			}else{
+			} else {
 				chat.setFirstMessageUser2(lastMessage);
 			}
 

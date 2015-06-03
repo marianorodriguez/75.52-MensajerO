@@ -20,6 +20,7 @@
 #include "../../include/tests/services/UsersServiceTest.h"
 #include "../../include/tests/services/SendMessageServiceTest.h"
 #include "../../include/tests/services/DeleteChatServiceTest.h"
+#include "../../include/tests/LocationManagerTests.h"
 
 int main(int argc, char* argv[]){
 	curl_global_init(CURL_GLOBAL_ALL);
@@ -49,6 +50,7 @@ int main(int argc, char* argv[]){
 	UsersServiceTest ust;
 	SendMessageServiceTest smst;
 	DeleteChatServiceTest dcst;
+	LocationManagerTests lmt;
 
 	runner.addTest( CPPUNIT_NS::TestFactoryRegistry::getRegistry().makeTest() );
 	runner.run( controller );

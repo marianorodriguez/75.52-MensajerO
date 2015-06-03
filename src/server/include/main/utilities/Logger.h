@@ -68,7 +68,7 @@ private:
 	ofstream file;
 	static string logDir;
 
-	Logger(string loggerDir);
+	Logger(const std::string& loggerDir);
 	string getWriteLevel(const loggingLevel& level);
 	void setLoggingLevels(const Json::Value& jsonLogger);
 	
