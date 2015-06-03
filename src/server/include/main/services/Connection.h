@@ -3,6 +3,7 @@
 
 #include <map>
 #include <string>
+#include "json/json.h"
 
 // Forwards
 struct mg_connection;
@@ -10,7 +11,7 @@ struct mg_connection;
 /**
  * Clase que engloba una conexión mongoose
  */
-class Connection{
+class Connection {
 	friend class ServicesIntegrationTests;
 public:
 	/**
@@ -29,21 +30,21 @@ public:
 	/**
 	 * Le envía un string al cliente que realizó el request
 	 */
-    void printMessage(const std::string& message) const;
+	void printMessage(const std::string& message) const;
 	/**
 	 * Devuelve un mapa con los parámetros recibidos por request
 	 */
-    std::map<std::string, std::string> getParamMap() const;
+	Json::Value getParamMap() const;
 private:
 	/**
 	 * Conexión mongoose con los datos del request y cliente
 	 */
 	mg_connection* rawConnection;
-	std::map<std::string, std::string> paramMap;
+	Json::Value paramMap;
 	static const std::string getMethodName;
 	static const std::string postMethodName;
 	// TODO mlafroce: usar strategy
-    void parseGetParams();
+	void parseGetParams();
 	void parsePostParams();
 };
 

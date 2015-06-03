@@ -8,6 +8,8 @@ import android.widget.ListView;
 
 import com.example.fernando.myapplication.Activities.ChatsHallActivity;
 import com.example.fernando.myapplication.Activities.UsersActivity;
+import com.example.fernando.myapplication.Entities.Chat;
+import com.example.fernando.myapplication.Entities.User;
 import com.example.fernando.myapplication.Mocks.Server;
 
 import org.json.JSONArray;
@@ -46,10 +48,13 @@ final public class Constants//final to prevent instantiation
     public static String logInOk = "";
     public static String logInStatus = "";
     public static String logInPicture = "";
+    public static String logInLocation = "";
 
     public static String currentChatsOk = "";
 
     public static String signUpOk = "";
+    public static String signUpLocation;
+
     public static String configOK = "";
 
     public static String sendMessageOk = "";
@@ -60,8 +65,8 @@ final public class Constants//final to prevent instantiation
     public static ListView usersListView = null;
     public static UsersActivity.StableArrayAdapter usersAdapter = null;
 
-    public static Server server = null;
-//    public static Server server = new Server(); //si no pones en null
+//    public static Server server = null;
+    public static Server server = new Server(); //si no pones en null
 
     //La cantidad actual de chats renderizados hasta el momento
     public static int currentChatsSize = 0;
@@ -80,7 +85,7 @@ final public class Constants//final to prevent instantiation
         Constants.user = new User(username, password);
         Constants.user.status = mSharedPref.getString(username+"status", "");
         Constants.user.location = mSharedPref.getString(username+"location", "");
-        Constants.user.profilePicture = stringToBitmap(mSharedPref.getString(username + "picture", ""));
+        Constants.user.profile_picture = stringToBitmap(mSharedPref.getString(username + "profile_picture", ""));
 
         try {
             JSONArray chats = new JSONArray(mSharedPref.getString(username+"chats", ""));

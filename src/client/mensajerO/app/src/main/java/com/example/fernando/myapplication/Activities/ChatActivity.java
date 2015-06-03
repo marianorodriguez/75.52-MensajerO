@@ -9,9 +9,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.example.fernando.myapplication.Common.Chat;
+import com.example.fernando.myapplication.Entities.Chat;
 import com.example.fernando.myapplication.Common.Constants;
-import com.example.fernando.myapplication.Common.Message;
+import com.example.fernando.myapplication.Entities.Message;
 import com.example.fernando.myapplication.Threads.RefreshChatAsyncTask;
 import com.example.fernando.myapplication.R;
 import com.example.fernando.myapplication.Threads.SendMessagePostAsyncTask;

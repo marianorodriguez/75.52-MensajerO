@@ -7,21 +7,22 @@ import android.app.PendingIntent;
 import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.Intent;
-import android.location.Criteria;
-import android.location.Location;
-import android.location.LocationListener;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Base64;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.example.fernando.myapplication.Common.Constants;
 import com.example.fernando.myapplication.R;
+
+import java.io.ByteArrayOutputStream;
 
 public class GetInActivity extends ActionBarActivity implements View.OnClickListener {
 
@@ -35,65 +36,37 @@ public class GetInActivity extends ActionBarActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.getin);
 
-//        LocationManager mlocManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
-//        boolean net = mlocManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
-//        Location l = null;
-//        if(net)
-//            l= mlocManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-//
-//        double l1 = 0;
-//        double l2 = 0;
-//        if(l!=null)
-//        {
-//            l1 = l.getLongitude();
-//            l2 = l.getLatitude();
-//        }
-//        Toast.makeText(getApplicationContext(),l1+".."+l2, Toast.LENGTH_LONG).show();
-//        LocationListener mlocListener = new MyLocationListener();
-//        mlocManager.requestLocationUpdates( LocationManager.GPS_PROVIDER, 0, 0, mlocListener);
-
         Button mainButton = (Button) findViewById(R.id.button1);
         mainButton.setOnClickListener(this);
 
         ipContainer = (EditText) findViewById(R.id.editText2);
     }
 
-    public class MyLocationListener implements LocationListener
-    {
-        @Override
-        public void onLocationChanged(Location loc) {
+    private Bitmap setPicture(Bitmap pictureBitmap) {
 
-            loc.getLatitude();
-            loc.getLongitude();
-            String Text = "My current location is: "+
-                    "Latitud = " + loc.getLatitude() +
-                    "Longitud = " + loc.getLongitude();
+        ByteArrayOutputStream baos = new  ByteArrayOutputStream();
+        pictureBitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        byte [] b = baos.toByteArray();
+        String pictureString = Base64.encodeToString(b, Base64.DEFAULT);
+        pictureString = pictureString.replaceAll("(?:\\r\\n|\\n\\r|\\n|\\r)", "");
 
-            Toast.makeText( getApplicationContext(),
-                    Text,
-                    Toast.LENGTH_SHORT).show();
+        Bitmap bitmap;
+        try {
+            byte [] encodeByte = Base64.decode(pictureString, Base64.DEFAULT);
+            bitmap = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
+
+        } catch(Exception e) {
+            e.getMessage();
+            return null;
         }
+        baos = new  ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        b = baos.toByteArray();
+        String pictureString2 = Base64.encodeToString(b, Base64.DEFAULT);
+        pictureString2 = pictureString2.replaceAll("(?:\\r\\n|\\n\\r|\\n|\\r)", "");
+        int a = 2;
 
-        @Override
-        public void onProviderDisabled(String provider) {
-
-            Toast.makeText( getApplicationContext(),
-                    "Gps Disabled",
-                    Toast.LENGTH_SHORT ).show();
-        }
-
-        @Override
-        public void onProviderEnabled(String provider)
-        {
-
-            Toast.makeText( getApplicationContext(),
-                    "Gps Enabled",
-                    Toast.LENGTH_SHORT).show();
-        }
-
-        @Override
-        public void onStatusChanged(String provider, int status, Bundle extras)
-        {}
+        return bitmap;
     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)

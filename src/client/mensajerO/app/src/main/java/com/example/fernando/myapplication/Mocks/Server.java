@@ -3,12 +3,11 @@ package com.example.fernando.myapplication.Mocks;
 import android.annotation.TargetApi;
 import android.content.SharedPreferences;
 import android.os.Build;
-import android.util.ArrayMap;
 import android.util.Pair;
 
-import com.example.fernando.myapplication.Common.Chat;
 import com.example.fernando.myapplication.Common.Constants;
-import com.example.fernando.myapplication.Common.Message;
+import com.example.fernando.myapplication.Entities.Message;
+import com.example.fernando.myapplication.Entities.User;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -17,21 +16,22 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-import android.content.SharedPreferences;
-import android.content.SharedPreferences;
-
 /**
  * Created by fernando on 01/05/15.
  */
 @TargetApi(Build.VERSION_CODES.KITKAT)
 public class Server {
+
     public ArrayList<String> loguedUsers = new ArrayList<>();
 
     // user para el qe es el message, mensajes
     ArrayList<Pair<String, ArrayList<Message>>> newMessages = new ArrayList<>();
+    SharedPreferences mSharedPrefs;
 
-    public Server() {
+    public Server() {}
 
+    public void setSharedPref(SharedPreferences mSharedPrefs) {
+        this.mSharedPrefs = mSharedPrefs;
     }
 
     public String logIn (String userPackage) {
@@ -49,6 +49,10 @@ public class Server {
             else
                 response.put("ok", "false");
 
+            response.put("location", getRealWorldLocation(userP.getString("location")));
+            response.put("profile_picture", mSharedPrefs.getString(username+"profile_picture", ""));
+            response.put("status", mSharedPrefs.getString(username+"status", ""));
+
             String resp = Constants.packager.wrap(response);
 
             return resp;
@@ -59,11 +63,26 @@ public class Server {
         }
     }
 
+    private String getRealWorldLocation(String location) {
+        return "San Telmo";
+    }
+
     public String signUp (String userPackage) {
         boolean ok = true;
         JSONObject userP = Constants.packager.unwrap(userPackage);
         try {
             String username = userP.getString("username");
+            String profile_picture = userP.getString("profile_picture");
+            String location = userP.getString("location");
+            String status = userP.getString("status");
+
+            SharedPreferences.Editor e = mSharedPrefs.edit();
+            e.putString(username+"location", location);
+            e.putString(username+"profile_picture", profile_picture);
+            e.putString(username+"chats", "");
+            e.putString(username+"status", status);
+            e.commit();
+
             if (loguedUsers.contains(username))
                 ok = false;
 
@@ -74,6 +93,8 @@ public class Server {
             }
             else
                 response.put("ok", "false");
+
+            response.put("location", getRealWorldLocation(location));
 
             String resp = Constants.packager.wrap(response);
 
@@ -101,6 +122,11 @@ public class Server {
         }
     }
 
+    private String deleteChat (String userPackage) {
+
+        return null;
+    }
+
     public String somethingForMe (String userPackage) {
         JSONObject userP = Constants.packager.unwrap(userPackage);
 
@@ -125,7 +151,7 @@ public class Server {
             }
 
             response.put("messages", messages);
-
+            // TAMBIEN SE LIMPIA DE newMessages ?????
             newM.clear();
 
             String resp = Constants.packager.wrap(response);
@@ -145,7 +171,14 @@ public class Server {
             loguedUsers.remove(userP.getString("username"));
 
             for (int user = 0; user < loguedUsers.size(); user++) {
-                users.put(loguedUsers.get(user));
+                String username = loguedUsers.get(user);
+                User newUser = new User(username,
+                        mSharedPrefs.getString(username+"status", ""),
+                        mSharedPrefs.getString(username+"profile_picture", ""),
+                        mSharedPrefs.getString(username+"location", ""),
+                        mSharedPrefs.getString(username+"lastTimeConnected", ""));
+                JSONObject newUserJson = newUser.toJsonForServer(0);
+                users.put(newUserJson);
             }
 
             loguedUsers.add(userP.getString("username"));
@@ -162,10 +195,11 @@ public class Server {
         }
     }
 
-    public String currentChats (String userPackage, String jsonChats) {
+    public String currentChats (String userPackage) {
         JSONObject userP = Constants.packager.unwrap(userPackage);
 
-        String resp = Constants.packager.wrap(jsonChats);
+        String resp = Constants.packager.wrap(
+                mSharedPrefs.getString(Constants.user.username+"chats", ""));
         return resp;
 
     }

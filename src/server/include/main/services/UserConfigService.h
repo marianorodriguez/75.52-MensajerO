@@ -23,7 +23,7 @@ public:
 	std::string getUri() const;
 
 	//Actualiza datos del user
-	std::string executeRequest(const std::map<std::string, std::string> &paramMap) const;
+	std::string executeRequest(const Json::Value &paramMap) const;
 
 private:
 

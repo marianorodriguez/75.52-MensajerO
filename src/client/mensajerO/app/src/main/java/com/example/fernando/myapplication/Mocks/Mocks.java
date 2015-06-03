@@ -1,7 +1,7 @@
 package com.example.fernando.myapplication.Mocks;
 
 import com.example.fernando.myapplication.Common.Constants;
-import com.example.fernando.myapplication.Common.User;
+import com.example.fernando.myapplication.Entities.User;
 
 import org.json.JSONException;
 import org.json.JSONObject;

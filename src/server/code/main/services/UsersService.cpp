@@ -6,16 +6,16 @@ std::string UsersService::getUri() const {
 	return UsersService::serviceName;
 }
 
-std::string UsersService::executeRequest(const std::map<std::string, std::string> &paramMap) const {
+std::string UsersService::executeRequest(const Json::Value &paramMap) const {
 
+	Json::Reader reader;
 	Json::Value data;
-	data[SERVICE_USERNAME] = paramMap.at(SERVICE_USERNAME);
-	data[SERVICE_PASSWORD] = paramMap.at(SERVICE_PASSWORD);
-	//TODO procesar location
-
+	reader.parse(paramMap.asString(), data);
 	Json::Value output = doUsers(data);
 
-	ConnectionManager::getInstance()->updateUser(data[SERVICE_USERNAME].asString());
+	ConnectionManager::getInstance()->updateUser(
+			data[SERVICE_USERNAME].asString());
+
 	return output.toStyledString();
 }
 

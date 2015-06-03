@@ -11,14 +11,16 @@ import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
-import com.example.fernando.myapplication.Common.Chat;
+import com.example.fernando.myapplication.Entities.Chat;
 import com.example.fernando.myapplication.Common.Constants;
-import com.example.fernando.myapplication.Mocks.Mocks;
+import com.example.fernando.myapplication.Entities.User;
 import com.example.fernando.myapplication.Threads.RefreshUsersAsyncTask;
 import com.example.fernando.myapplication.R;
 
@@ -102,7 +104,11 @@ public class UsersActivity extends ActionBarActivity implements View.OnClickList
         ArrayList<String> users = new ArrayList<>();
 
         for (int user = 0; user < Constants.otherUsers.size(); user++) {
-            users.add(Constants.otherUsers.get(user).username);
+            User userToShow = Constants.otherUsers.get(user);
+            users.add(userToShow.username + "\n" +
+                    userToShow.status + " - "
+                    + userToShow.lastTimeConnected
+                    + " - " + userToShow.location);
         }
 
         Constants.currentUsersSize = Constants.otherUsers.size();
@@ -126,10 +132,12 @@ public class UsersActivity extends ActionBarActivity implements View.OnClickList
                 final String userSelected = (String) parent.getItemAtPosition(position);
                 boolean hasChat = false;
 
-                Constants.chatWith = userSelected;
+                String userSelected2 = userSelected.split("\n")[0];
+
+                Constants.chatWith = userSelected2;
 
                 for (int chat = 0; chat < Constants.user.chats.size(); chat++) {
-                    if (Constants.user.chats.get(chat).otherUser.compareTo(userSelected) == 0) {
+                    if (Constants.user.chats.get(chat).otherUser.compareTo(userSelected2) == 0) {
                         hasChat = true;
 
                         Constants.chatEditor.setChat(Constants.user.chats.get(chat));
@@ -140,7 +148,7 @@ public class UsersActivity extends ActionBarActivity implements View.OnClickList
                     }
                 }
                 if (!hasChat) {
-                    Chat newChat = new Chat(userSelected);
+                    Chat newChat = new Chat(userSelected2);
                     Constants.user.chats.add(newChat);
 
                     Constants.chatEditor.setChat(newChat);
@@ -187,6 +195,22 @@ public class UsersActivity extends ActionBarActivity implements View.OnClickList
             mIdMap.put(object, 23);
         }
 
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            View userView = super.getView(position, convertView, parent);
+
+            TextView userItemData = (TextView) userView.findViewById(R.id.userItemData);
+            ImageView userItemImage = (ImageView) userView.findViewById(R.id.userItemImage);
+
+            String username = userItemData.getText().toString().split("\n")[0];
+            for (int otherUser = 0; otherUser < Constants.otherUsers.size(); otherUser++) {
+                if (Constants.otherUsers.get(otherUser).username.compareTo(username) == 0) {
+                    userItemImage.setImageBitmap(Constants.otherUsers.get(otherUser).profile_picture);
+                    break;
+                }
+            }
+            return userView;
+        }
     }
 
     public Bitmap stringToBitmap(String pictureString){

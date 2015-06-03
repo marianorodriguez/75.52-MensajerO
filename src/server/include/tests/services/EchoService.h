@@ -13,7 +13,7 @@ public:
 	 * Responde al cliente con los mismos parámetros con los que fue llamado.
 	 * @param connection contiene los datos de la conexion con el cliente.
 	 */
-	std::string executeRequest(const std::map< std::string, std::string >& paramMap) const;
+	std::string executeRequest(const Json::Value &paramMap) const;
 private:
 	static const std::string serviceName;
 };

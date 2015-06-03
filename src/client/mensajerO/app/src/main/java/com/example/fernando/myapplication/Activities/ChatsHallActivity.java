@@ -9,13 +9,17 @@ import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.fernando.myapplication.Common.Constants;
 import com.example.fernando.myapplication.R;
+import com.example.fernando.myapplication.Threads.DeleteChatPostAsyncTask;
 import com.example.fernando.myapplication.Threads.GetUsersPostAsyncTask;
 import com.example.fernando.myapplication.Threads.RefreshChatsHallAsyncTask;
 import com.example.fernando.myapplication.Threads.SomethingForMePostAsyncTask;
@@ -31,6 +35,7 @@ public class ChatsHallActivity extends ActionBarActivity implements View.OnClick
     public static SomethingForMePostAsyncTask somethingForMePost;
     public static GetUsersPostAsyncTask getUsersPost;
     public static RefreshChatsHallAsyncTask refreshChats;
+    public static DeleteChatPostAsyncTask deleteChat;
     String package_;
 
     SharedPreferences mSharedPref;
@@ -59,9 +64,9 @@ public class ChatsHallActivity extends ActionBarActivity implements View.OnClick
 //                Constants.server.loguedUsers.size() == 0) {
 
 //            if (Constants.mSharedPreferences.getString(Constants.PREF_NAME, "").isEmpty()) {
-            SharedPreferences.Editor e = mSharedPref.edit();
-            e.clear();
-            e.commit();
+//            SharedPreferences.Editor e = mSharedPref.edit();
+//            e.clear();
+//            e.commit();
 
             Intent getIn = new Intent(this, GetInActivity.class);
             startActivity(getIn);
@@ -134,8 +139,6 @@ public class ChatsHallActivity extends ActionBarActivity implements View.OnClick
 
             e.commit();
 
-
-
             Intent login = new Intent(this, LogInActivity.class);
             startActivity(login);
             finish();
@@ -165,13 +168,11 @@ public class ChatsHallActivity extends ActionBarActivity implements View.OnClick
         // GUARDAR CHATS en sharedPreferences !
         if (Constants.user != null) {
             SharedPreferences.Editor e = mSharedPref.edit();
-            e.putString(Constants.user.username + "chats",
-                   Constants.user.chatsToJson().toString());
+            e.putString(Constants.user.username + "chats", Constants.user.chatsToJson().toString());
             e.commit();
         }
 
         Constants.reset();
-
     }
 
     @Override
@@ -179,6 +180,9 @@ public class ChatsHallActivity extends ActionBarActivity implements View.OnClick
     }
 
     public void drawCurrentChats() {
+
+        // si Constants.users.chats esta vacia --> tratar de leer de sharedprefs los chats y armar esos.
+        //o sea cargar constants.user.chats con los chats de sharedprefs
 
         final ListView listview = (ListView) findViewById(R.id.listview);
         Constants.chatListView = listview;
@@ -215,9 +219,11 @@ public class ChatsHallActivity extends ActionBarActivity implements View.OnClick
                 for (int chat = 0; chat < Constants.user.chats.size(); chat++) {
                     if (Constants.user.chats.get(chat).otherUser.compareTo(chatSelected) == 0) {
 
+                        String chatSelected2 = chatSelected.split("\n")[0];
+
                         Constants.chatEditor.setChat(Constants.user.chats.get(chat));
 
-                        Constants.chatWith = chatSelected;
+                        Constants.chatWith = chatSelected2;
 
                         Intent chat_ = new Intent(getApplicationContext(), ChatActivity.class);
                         startActivity(chat_);
@@ -266,91 +272,22 @@ public class ChatsHallActivity extends ActionBarActivity implements View.OnClick
             mIdMap.put(object, Constants.user.chats.size());
         }
 
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            View userView = super.getView(position, convertView, parent);
+
+            TextView userItemData = (TextView) userView.findViewById(R.id.userItemData);
+            ImageView userItemImage = (ImageView) userView.findViewById(R.id.userItemImage);
+
+            String username = userItemData.getText().toString().split("\n")[0];
+            for (int otherUser = 0; otherUser < Constants.otherUsers.size(); otherUser++) {
+                if (Constants.otherUsers.get(otherUser).username.compareTo(username) == 0) {
+                    userItemImage.setImageBitmap(Constants.otherUsers.get(otherUser).profile_picture);
+                    break;
+                }
+            }
+            return userView;
+        }
+
     }
 }
-
-//    private void drawCurrentChats() {
-//
-//        final ListView listview = (ListView) findViewById(R.id.listview);
-//        String[] values = new String[] { "Android", "iPhone", "WindowsMobile",
-//                "Blackberry", "WebOS", "Ubuntu", "Windows7", "Max OS X",
-//                "Linux", "OS/2", "Ubuntu", "Windows7", "Max OS X", "Linux",
-//                "OS/2", "Ubuntu", "Windows7", "Max OS X", "Linux", "OS/2",
-//                "Android", "iPhone", "WindowsMobile" };
-//
-//        final ArrayList<String> list = new ArrayList<>();
-//        for (int i = 0; i < values.length; ++i) {
-//            list.add(values[i]);
-//        }
-//        final StableArrayAdapter adapter = new StableArrayAdapter(this,
-//                android.R.layout.simple_list_item_1, list);
-//        listview.setAdapter(adapter);
-//
-//        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, final View view,
-//                                    int position, long id) {
-//                final String item = (String) parent.getItemAtPosition(position);
-//
-////                adapter = null;
-////                list.add("Andrea");
-//
-//                adapter.add("Andrea");
-//                listview.setAdapter(adapter);
-////                adapter.notifyDataSetChanged();
-//
-////                tirarToast();
-////                view.animate().setDuration(2000).alpha(0)
-////                        .withEndAction(new Runnable() {
-////                            @Override
-////                            public void run() {
-////                                list.remove(item);
-////
-////
-////                                list.add("Andrea");
-////                                StableArrayAdapter adapter2 = new StableArrayAdapter(getApplicationContext(), android.R.layout.simple_list_item_1, list);
-////                                listview.setAdapter(adapter2);
-//////                                adapter2.notifyDataSetChanged();
-////
-//////                                adapter.notifyDataSetChanged();
-////                                view.setAlpha(1);
-////                            }
-////                        });
-//            }
-//
-//        });
-//    }
-//
-//private class StableArrayAdapter extends ArrayAdapter<String> {
-//
-//    HashMap<String, Integer> mIdMap = new HashMap<>();
-//
-//    public StableArrayAdapter(Context context, int textViewResourceId,
-//                              ArrayList<String> objects) {
-//        super(context, textViewResourceId, objects);
-//        for (int i = 0; i < objects.size(); ++i) {
-//            mIdMap.put(objects.get(i), i);
-//        }
-//    }
-//
-//    @Override
-//    public long getItemId(int position) {
-//        String item = getItem(position);
-//        return mIdMap.get(item);
-//    }
-//
-//    @Override
-//    public boolean hasStableIds() {
-//        return true;
-//    }
-//
-//    @Override
-//    public void add(String object) {
-//        super.add(object);
-//        mIdMap.size();
-//        //            Toast.makeText(getApplicationContext(),mIdMap.size(), Toast.LENGTH_LONG ).show();
-//        mIdMap.put(object, 23);
-//    }
-//
-//}

@@ -6,6 +6,9 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Base64;
@@ -15,7 +18,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 import com.example.fernando.myapplication.Common.Constants;
-import com.example.fernando.myapplication.Common.User;
+import com.example.fernando.myapplication.Common.MyLocationListener;
+import com.example.fernando.myapplication.Entities.User;
 import com.example.fernando.myapplication.R;
 import com.example.fernando.myapplication.Threads.SignUpPostAsyncTask;
 
@@ -30,7 +34,7 @@ public class SignUpActivity extends ActionBarActivity implements View.OnClickLis
     // To user enter password and username
     EditText txtUsername, txtPassword;
     SignUpPostAsyncTask signUpPost;
-    SharedPreferences mSharedPreferences;
+    SharedPreferences mSharedPref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +51,7 @@ public class SignUpActivity extends ActionBarActivity implements View.OnClickLis
         txtUsername = (EditText) findViewById(R.id.txtUsername);
         txtPassword = (EditText) findViewById(R.id.txtPassword);
 
-        mSharedPreferences = getSharedPreferences(Constants.PREFS, MODE_PRIVATE);
+        mSharedPref = getSharedPreferences(Constants.PREFS, MODE_PRIVATE);
 
         signUpPost = new SignUpPostAsyncTask();
     }
@@ -65,6 +69,11 @@ public class SignUpActivity extends ActionBarActivity implements View.OnClickLis
 
                 password = LogInActivity.md5(password);
                 User currentUser = new User(username, password);
+                currentUser.location = getLocation();
+                currentUser.status = "online";
+
+                Drawable myDrawable = getResources().getDrawable(R.drawable.ic_launcher);
+                currentUser.profile_picture = ((BitmapDrawable) myDrawable).getBitmap();
 
                 String package_ = Constants.packager.wrap("signUp", currentUser);
 
@@ -83,21 +92,18 @@ public class SignUpActivity extends ActionBarActivity implements View.OnClickLis
                 if (Constants.signUpOk.contains("Error")) {}
 
                 if (Constants.signUpOk.compareTo("true") == 0) {
+
                     Constants.user = currentUser;
-                    Constants.user.location = "Unknown";
-                    Constants.user.status = "online";
 
-                    // ACA SETEAR LA IMAGEN DEFAULT y EL ESTADO DEFAULT
-                    Drawable myDrawable = getResources().getDrawable(R.drawable.ic_launcher);
-                    Constants.user.profilePicture = ((BitmapDrawable) myDrawable).getBitmap();
+                    Constants.user.location = Constants.signUpLocation;
 
-                    SharedPreferences.Editor e = mSharedPreferences.edit();
+                    SharedPreferences.Editor e = mSharedPref.edit();
                     e.putString(Constants.PREF_NAME, username);
                     e.putString(Constants.PREF_PASS, password);
-                    e.putString(username+"location", "Unknown");
+                    e.putString(username+"location", Constants.user.location);
                     e.putString(username+"picture", setDefaultPicture());
                     e.putString(username+"chats", "");
-                    e.putString(username+"status", "online");
+                    e.putString(username+"status", Constants.user.status);
                     e.commit();
 
                 } else {
@@ -133,6 +139,29 @@ public class SignUpActivity extends ActionBarActivity implements View.OnClickLis
 
             finish();
         }
+    }
+
+    public String getLocation() {
+
+        LocationManager mlocManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
+        boolean net = mlocManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        Location l = null;
+        if(net)
+            l= mlocManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+
+        double l1 = 0;
+        double l2 = 0;
+        if(l!=null)
+        {
+            l1 = l.getLongitude();
+            l2 = l.getLatitude();
+        }
+
+        Toast.makeText(getApplicationContext(),"location: " + l1 + "," + l2, Toast.LENGTH_LONG).show();
+        LocationListener mlocListener = new MyLocationListener(this);
+        mlocManager.requestLocationUpdates( LocationManager.GPS_PROVIDER, 0, 0, mlocListener);
+        // VER SI l1 y l2 son distintas de cero --> si es asi mandar Unknown
+        return String.valueOf(l1)+";"+String.valueOf(l2);
     }
 
     private String setDefaultPicture() {

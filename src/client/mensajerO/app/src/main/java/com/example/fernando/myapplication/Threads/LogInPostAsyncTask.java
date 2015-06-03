@@ -4,16 +4,10 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Pair;
 
-import com.example.fernando.myapplication.Activities.LogInActivity;
-import com.example.fernando.myapplication.Common.Chat;
 import com.example.fernando.myapplication.Common.Constants;
-import com.example.fernando.myapplication.Mocks.Mocks;
 
-import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
-import org.apache.http.HttpStatus;
 import org.apache.http.NameValuePair;
-import org.apache.http.StatusLine;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
@@ -22,11 +16,9 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
@@ -49,6 +41,9 @@ public class LogInPostAsyncTask extends AsyncTask<Pair<Context, String>, String,
                 JSONObject resp = Constants.packager.unwrap(response);
 
                 Constants.logInOk = resp.getString("ok");
+                Constants.logInPicture = resp.getString("profile_picture");
+                Constants.logInStatus = resp.getString("status");
+                Constants.logInLocation = resp.getString("location");
 
                 return "";
 
@@ -66,8 +61,9 @@ public class LogInPostAsyncTask extends AsyncTask<Pair<Context, String>, String,
                             EntityUtils.toString(response.getEntity()));
 
                     Constants.logInOk = respons.getString("ok");
-                    Constants.logInPicture = respons.getString("picture");
+                    Constants.logInPicture = respons.getString("profile_picture");
                     Constants.logInStatus = respons.getString("status");
+                    Constants.logInLocation = respons.getString("location");
 
                     return "";
 

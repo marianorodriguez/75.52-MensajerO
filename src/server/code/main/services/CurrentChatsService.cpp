@@ -6,15 +6,17 @@ std::string CurrentChatsService::getUri() const {
 	return CurrentChatsService::serviceName;
 }
 
-std::string CurrentChatsService::executeRequest(const std::map<std::string, std::string> &paramMap) const {
+std::string CurrentChatsService::executeRequest(
+		const Json::Value &paramMap) const {
 
+	Json::Reader reader;
 	Json::Value data;
-	data[SERVICE_USERNAME] = paramMap.at(SERVICE_USERNAME);
-	data[SERVICE_PASSWORD] = paramMap.at(SERVICE_PASSWORD);
-
+	reader.parse(paramMap.asString(), data);
 	Json::Value output = doCurrentChats(data);
 
-	ConnectionManager::getInstance()->updateUser(data[SERVICE_USERNAME].asString());
+	ConnectionManager::getInstance()->updateUser(
+			data[SERVICE_USERNAME].asString());
+
 	return output.toStyledString();
 }
 
@@ -40,7 +42,9 @@ Json::Value CurrentChatsService::doCurrentChats(const Json::Value &data) {
 				keyChats.push_back(data[SERVICE_USERNAME].asString());
 				keyChats.push_back(chats[i]);
 				Chat chat(dbChats.read(keyChats));
-				output[SERVICE_CURRENTCHATS_CHATS].append(chat.serializeCurrentChats(data[SERVICE_USERNAME].asString()));
+				output[SERVICE_CURRENTCHATS_CHATS].append(
+						chat.serializeCurrentChats(
+								data[SERVICE_USERNAME].asString()));
 			}
 
 			output[SERVICE_OUT_OK] = true;

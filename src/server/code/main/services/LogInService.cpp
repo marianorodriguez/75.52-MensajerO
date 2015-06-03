@@ -5,19 +5,16 @@ std::string LogInService::getUri() const {
 	return LogInService::serviceName;
 }
 
-std::string LogInService::executeRequest(
-		const std::map<std::string, std::string> &paramMap) const {
+std::string LogInService::executeRequest(const Json::Value &paramMap) const {
 
+	Json::Reader reader;
 	Json::Value data;
-	data[SERVICE_USERNAME] = paramMap.at(SERVICE_USERNAME);
-	data[SERVICE_PASSWORD] = paramMap.at(SERVICE_PASSWORD);
-	data[SERVICE_USERCONFIG_LOCATION] = paramMap.at(
-			SERVICE_USERCONFIG_LOCATION);
-
+	reader.parse(paramMap.asString(), data);
 	Json::Value output = doLogIn(data);
 
 	ConnectionManager::getInstance()->updateUser(
 			data[SERVICE_USERNAME].asString());
+
 	return output.toStyledString();
 }
 

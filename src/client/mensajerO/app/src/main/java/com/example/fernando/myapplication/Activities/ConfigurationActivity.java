@@ -1,24 +1,16 @@
 package com.example.fernando.myapplication.Activities;
 
-import android.app.ActionBar;
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Base64;
-import android.util.Log;
 import android.util.Pair;
 import android.view.View;
 import android.widget.Button;
@@ -27,13 +19,10 @@ import android.widget.RadioButton;
 import android.widget.Toast;
 
 import com.example.fernando.myapplication.Common.Constants;
-import com.example.fernando.myapplication.Common.User;
 import com.example.fernando.myapplication.Threads.ConfigPostAsyncTask;
 import com.example.fernando.myapplication.R;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FilenameFilter;
 import java.io.UnsupportedEncodingException;
 
 /**
@@ -96,13 +85,13 @@ public class ConfigurationActivity extends ActionBarActivity implements View.OnC
 
         //guardo los estados antes de entrar a settings por si no se puede mandar al server
         currentStatus = Constants.user.status;
-        currentPicture = Constants.user.profilePicture;
+        currentPicture = Constants.user.profile_picture;
 
         mSharedPref = getSharedPreferences(Constants.PREFS, MODE_PRIVATE);
 
-        if (Constants.user.profilePicture != null) {
+        if (Constants.user.profile_picture != null) {
 
-            profilePicture.setImageBitmap(Constants.user.profilePicture);
+            profilePicture.setImageBitmap(Constants.user.profile_picture);
 
             float scaleRatio = getResources().getDisplayMetrics().density;
             int dps = 150;
@@ -156,10 +145,10 @@ public class ConfigurationActivity extends ActionBarActivity implements View.OnC
 
                 profilePicture.setImageBitmap(BitmapFactory.decodeFile(picturePath));
 
-                Constants.user.profilePicture = BitmapFactory.decodeFile(picturePath);
+                Constants.user.profile_picture = BitmapFactory.decodeFile(picturePath);
 
                 SharedPreferences.Editor e = mSharedPref.edit();
-                e.putString(Constants.user.username+"picture", setPicture(Constants.user.profilePicture));
+                e.putString(Constants.user.username+"profile_picture", setPicture(Constants.user.profile_picture));
                 e.commit();
 
                 float scaleRatio = getResources().getDisplayMetrics().density;
@@ -178,6 +167,7 @@ public class ConfigurationActivity extends ActionBarActivity implements View.OnC
         pictureBitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
         byte [] b=baos.toByteArray();
         String temp = Base64.encodeToString(b, Base64.DEFAULT);
+        temp = temp.replaceAll("(?:\\r\\n|\\n\\r|\\n|\\r)", "");
 
         return temp;
     }
@@ -189,9 +179,9 @@ public class ConfigurationActivity extends ActionBarActivity implements View.OnC
             //Cancel button
             // seteo al user los valores que tenia antes de entrar
             SharedPreferences.Editor e = mSharedPref.edit();
-            Constants.user.profilePicture = currentPicture;
-            e.putString(Constants.user.username+"picture", setPicture(currentPicture));
-            profilePicture.setImageBitmap(Constants.user.profilePicture);
+            Constants.user.profile_picture = currentPicture;
+            e.putString(Constants.user.username+"profile_picture", setPicture(currentPicture));
+            profilePicture.setImageBitmap(Constants.user.profile_picture);
 
             Constants.user.status = currentStatus;
             e.putString(Constants.user.username+"status", currentStatus);
@@ -223,7 +213,7 @@ public class ConfigurationActivity extends ActionBarActivity implements View.OnC
                 configPost = new ConfigPostAsyncTask();
             }
 
-            if (Constants.signUpOk.compareTo("true") == 0) {
+            if (Constants.configOK.compareTo("true") == 0) {
                 Toast.makeText(this, "Changes saved properly", Toast.LENGTH_LONG).show();
                 Constants.configOK = "";
                 finish();
