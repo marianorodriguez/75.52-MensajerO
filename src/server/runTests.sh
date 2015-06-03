@@ -1,5 +1,4 @@
 # Creo carpeta de BD
-mkdir -p database/users
-mkdir -p database/chats
+mkdir -p tests/database/testdb
 # Corro las pruebas
 code/tests/tests
