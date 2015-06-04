@@ -9,9 +9,14 @@ Taller de Programacion II
 
 ### Documentación
 
-Además de este Readme, se encuentra documentación en formato restructured text, en el directorio *doc*.
+Además de este Readme, se encuentra documentación en formato restructured text, en el directorio *doc/informe*.
 
-Dentro de ese directorio se encuentra el informe correspondiente a la primer entrega de la aplicación, en la carpeta *informe*.
+Para compilar el documento, desde la consola dirigirse a esta carpeta y ejecutar:
+
+	$ make html
+
+Para luego ver el informe, abrir el archivo *doc/informe/_build/html/index.html*
+
 La documentación fue generada con sphinx-doc.
 
 ### Compilación
