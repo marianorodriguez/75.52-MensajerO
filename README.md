@@ -11,18 +11,13 @@ Además de este Readme, se encuentra documentación en formato restructured text
 Dentro de ese directorio se encuentra el informe correspondiente a la primer entrega de la aplicación, en la carpeta *informe*.
 La documentación fue generada con sphinx-doc.
 
-Para compilar se debe escribir make <formato de salida>.
-En caso de no elegir ningún formato, se desplegará un texto informativo que indica que formatos se pueden elegir.
-
 ### Compilación
 
 Desde consola dirigirse a la carpeta del proyecto y ejecutar los siguientes comandos:
 
 Instalar dependencias
 
-    $ sudo apt-get install libbz2-dev zlib1g-dev libcppunit-dev libcurl4-gnutls-dev
-
-    Para generar reportes de las pruebas de coverage, además instalar el paquete "lcov"
+    $ sudo apt-get install libbz2-dev zlib1g-dev libcppunit-dev libcurl4-gnutls-dev lcov
 
 Compilar rocksdb
 
@@ -33,13 +28,11 @@ Configurar script de compilación
 
     Desde *src/server* correr
 
-    $ mkdir build
-    $ cd build
-    $ cmake ..
+    $ cmake .
 
     Si se quiere correr pruebas de coverage, se debe correr
 
-    $ cmake .. -Dcoverage-test=true
+    $ cmake . -Dcoverage-test=true
 
 Se compila desde src/server:
 
@@ -66,6 +59,8 @@ Para facilitar la instalación de la aplicación, se armaron algunos scripts en 
 **runTests.sh** : Ejecuta las pruebas, limpiando los contenidos creados por pruebas anteriores, 
 
 **coverage.sh** : Ejecuta las pruebas y recolecta los datos de los tests de coverage.
+
+**clean.sh** : Limpia los archivos generados por CMake y Makefile, dando además la opción de borrar la base de datos.
 
 La aplicación soporta varios flags para la configuración:
 
