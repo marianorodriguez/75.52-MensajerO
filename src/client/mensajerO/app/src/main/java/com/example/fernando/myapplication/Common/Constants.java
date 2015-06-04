@@ -67,7 +67,7 @@ final public class Constants//final to prevent instantiation
     public static UsersActivity.StableArrayAdapter usersAdapter = null;
 
 //    public static Server server = null;
-    public static Server server = new Server(); //si no pones en null
+        public static Server server = new Server(); //si no pones en null
 
     //La cantidad actual de chats renderizados hasta el momento
     public static int currentChatsSize = 0;

@@ -4,6 +4,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Base64;
 
+import com.example.fernando.myapplication.Common.Constants;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -97,6 +99,8 @@ public class User {
         JSONObject jmessage = new JSONObject();
         try {
             jmessage.put("msg_fromID", username);
+            jmessage.put("username", username);
+            jmessage.put("password", Constants.user.password);
             jmessage.put("msg_toID", msg_toID);
             jmessage.put("msg_text", msg_text);
             jmessage.put("msg_date", "");

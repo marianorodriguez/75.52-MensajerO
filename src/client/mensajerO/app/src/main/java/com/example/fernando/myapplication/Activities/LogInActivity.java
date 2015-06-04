@@ -142,7 +142,7 @@ public class LogInActivity extends ActionBarActivity implements View.OnClickList
 
                 } else {
 
-                    Toast.makeText(this, "Invalid username and/or password. Enter data again or sign up in MensajerO.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, "Invalid username and/or password. Enter data again or sign up in MensajerO.", Toast.LENGTH_SHORT).show();
                     currentUser = null;
                     txtPassword.setText("");
                     txtUsername.setText("");
@@ -179,7 +179,7 @@ public class LogInActivity extends ActionBarActivity implements View.OnClickList
                 // user didn't entered username or password
                 Toast.makeText(this,
                         "Please enter username and password",
-                        Toast.LENGTH_LONG).show();
+                        Toast.LENGTH_SHORT).show();
             }
 
         } else if (v.getId() == R.id.button2) {
@@ -216,7 +216,7 @@ public class LogInActivity extends ActionBarActivity implements View.OnClickList
             l1 = l.getLongitude();
             l2 = l.getLatitude();
         }
-        Toast.makeText(getApplicationContext(),"location: " + l1 + "," + l2, Toast.LENGTH_LONG).show();
+//        Toast.makeText(getApplicationContext(),"location: " + l1 + "," + l2, Toast.LENGTH_LONG).show();
         LocationListener mlocListener = new MyLocationListener(this);
         mlocManager.requestLocationUpdates( LocationManager.GPS_PROVIDER, 0, 0, mlocListener);
         // VER SI l1 y l2 son distintas de cero --> si es asi mandar Unknown

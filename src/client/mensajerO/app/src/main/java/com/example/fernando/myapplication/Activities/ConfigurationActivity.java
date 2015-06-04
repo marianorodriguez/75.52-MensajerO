@@ -139,7 +139,7 @@ public class ConfigurationActivity extends ActionBarActivity implements View.OnC
             Bitmap imageSelected = BitmapFactory.decodeFile(picturePath);
 
             if (imageSelected == null) {
-                Toast.makeText(this, "Problem happen while trying to open your picture", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Problem happen while trying to open your picture", Toast.LENGTH_SHORT).show();
                 return;
             } else {
 
@@ -214,7 +214,7 @@ public class ConfigurationActivity extends ActionBarActivity implements View.OnC
             }
 
             if (Constants.configOK.compareTo("true") == 0) {
-                Toast.makeText(this, "Changes saved properly", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Changes saved properly", Toast.LENGTH_SHORT).show();
                 Constants.configOK = "";
                 finish();
 

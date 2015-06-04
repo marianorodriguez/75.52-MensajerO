@@ -84,7 +84,7 @@ public class ChatsHallActivity extends ActionBarActivity implements View.OnClick
             //dibujar los chats que vienen de login en Constants.user.chats
             drawCurrentChats();
 
-            Toast.makeText(this, "Welcome, " + Constants.user.username + "!", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Welcome, " + Constants.user.username + "!", Toast.LENGTH_SHORT).show();
 
             package_ = Constants.packager.wrap("somethingForMe", Constants.user);
 

@@ -40,7 +40,7 @@ public class SomethingForMePostAsyncTask extends AsyncTask<Pair<Context, String>
     protected String doInBackground(Pair<Context, String>... params) {
 
         try {
-            Thread.sleep(20);
+            Thread.sleep(200);
             context = params[0].first;
 
             if ( Constants.server != null ) {

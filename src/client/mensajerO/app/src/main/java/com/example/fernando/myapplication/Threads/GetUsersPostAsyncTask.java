@@ -21,6 +21,7 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -117,7 +118,7 @@ public class GetUsersPostAsyncTask extends AsyncTask<Pair<Context, String>, Stri
 
             } else if (type.compareTo("get") == 0) {
 
-                url.concat("?" + package_);
+                url = url.concat("?" + package_);
 
                 response = httpClient.execute(new HttpGet(url));
 
@@ -144,7 +145,14 @@ public class GetUsersPostAsyncTask extends AsyncTask<Pair<Context, String>, Stri
                     user++ ) {
                 try {
 //                    Constants.otherUsers.add(new User(users.getJSONObject(user)));
-                    Constants.otherUsers.add(User.toUser((org.json.JSONObject) users.get(user)));
+//                    users.optJSONObject(user);
+                    JSONObject object = new JSONObject(users.get(user).toString());
+//                    JSONObject jsonObject = new JSONObject(username);
+
+                    User newUser = User.toUser(object);
+                    if (newUser.username.compareTo(Constants.user.username) != 0) {
+                        Constants.otherUsers.add(newUser);
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

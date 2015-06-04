@@ -62,6 +62,8 @@ public class SignUpActivity extends ActionBarActivity implements View.OnClickLis
 
         if (v.getId() == R.id.button2 ) {
 
+//            Constants.ipServer = mSharedPref.getString("ipServer", "");
+
             String username = txtUsername.getText().toString();
             String password = txtPassword.getText().toString();
 
@@ -108,7 +110,7 @@ public class SignUpActivity extends ActionBarActivity implements View.OnClickLis
                     e.commit();
 
                 } else {
-                    Toast.makeText(this, "Invalid username. Try another one.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, "Invalid username. Try another one.", Toast.LENGTH_SHORT).show();
                     currentUser = null;
                     txtUsername.setText("");
                     txtPassword.setText("");
@@ -133,7 +135,7 @@ public class SignUpActivity extends ActionBarActivity implements View.OnClickLis
             } else {
                 // user didn't entered username or password
                 Toast.makeText(getApplicationContext(),
-                        "Please enter username and password", Toast.LENGTH_LONG).show();
+                        "Please enter username and password", Toast.LENGTH_SHORT).show();
             }
 
         } else {
@@ -158,7 +160,7 @@ public class SignUpActivity extends ActionBarActivity implements View.OnClickLis
             l2 = l.getLatitude();
         }
 
-        Toast.makeText(getApplicationContext(),"location: " + l1 + "," + l2, Toast.LENGTH_LONG).show();
+        //Toast.makeText(getApplicationContext(),"location: " + l1 + "," + l2, Toast.LENGTH_LONG).show();
         LocationListener mlocListener = new MyLocationListener(this);
         mlocManager.requestLocationUpdates( LocationManager.GPS_PROVIDER, 0, 0, mlocListener);
         // VER SI l1 y l2 son distintas de cero --> si es asi mandar Unknown
