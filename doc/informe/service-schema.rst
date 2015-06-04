@@ -15,15 +15,16 @@ Cliente manda: ::
 		"username" : <username>,
 		"password" : <md5_password>,
 		"location” : <coordenadas>,
-		"status" : <new_status>, 
-		"profile_picture" : <new_base64_valid_picture>
 	}
 
 Servidor responde: ::
 
 	{ 
-		"ok" : true/false,
-		“what” : invalid user/invalid password
+	      	"ok" : <true/false>,
+		“what” : <invalid user/invalid password>,
+		“location”: <Lugar deducido de las coordenadas que envió el cliente>,
+		"status" : <new_status>,
+	      	"profile_picture" : <new_base64_valid_picture>
 	}
 
 Sign Up Activity
@@ -36,14 +37,17 @@ Cliente manda: ::
 	{ 
 		"username" : <username>,
 		"password" : <md5_password>,
-		“location” : <coordenadas>
+		“location” : <coordenadas>,
+		"status" : <new_status>, 
+	      	"profile_picture" : <new_base64_valid_picture>
 	}
 
 Servidor responde: ::
 
 	{ 
 		"ok" : true/false,
-		“what” : “”/invalid user
+		“what” : <invalid user/invalid password>,
+		“location”: <Lugar deducido de las coordenadas que envió el cliente>
 	}
 
 Configuration Activity
@@ -55,7 +59,6 @@ Cliente manda: ::
 	{ 
 		"username" : <username>,
 		"password" : <md5_password>,
-		"location” : <coordenadas>,
 		"status" : <new_status>, 
 		"profile_picture" : <new_base64_valid_picture>
 	}
@@ -63,12 +66,31 @@ Cliente manda: ::
 Servidor responde: ::
 	
 	{ 
-      	"ok" : true/false,
-		“what” : “”/invalid user
+      		"ok" : <true/false>,
+		“what” : <invalid user/invalid password>
 	}
 
 Chats Activity
 --------------
+
+Servicio: */deleteChat* (POST)
+
+Cliente manda: ::
+
+	{
+	      	"username" : <username>,
+	     	 "password" : <md5_password>
+		“otherUser”: <otherUserUsername>
+	}
+
+	servidor responde:
+	{ 
+	      	"ok" : <true/false>,
+		“what” : <invalid user/invalid password>
+	}
+
+Actualizar chats
+----------------
 
 Servicio: */somethingForMe*  (GET)
 
@@ -107,8 +129,7 @@ Cliente manda: ::
 
 	{ 
       	"username" : <username>,
-     	"password" : <md5_password>,
-	“location” : <coordenadas>
+     	"password" : <md5_password>
 	}
 
 Servidor responde: ::
@@ -125,14 +146,6 @@ Estructura de un Chat: ::
 	“messages” : [<vector de messages>] 
 	}
 
-Estructura de un User: ::
-
-	{
-	"location" : <user_location>, 
-	"status" : <user_status>, 
-	"profile_picture" : <base64_picture>, 
-	"username" : <username>
-	}
 
 Estructura de un Message: ::
 
@@ -153,8 +166,7 @@ Cliente manda: ::
 
 	{ 
       	"username" : <username>,
-     	"password" : <md5_password>,
-	“location”: <coordenadas>
+     	"password" : <md5_password>
 	}
 
 Servidor responde: ::
@@ -170,6 +182,7 @@ Estructura de un User: ::
         "status" : <user_status>, 
         "profile_picture" : <base64_picture>, 
         "username" : <username>
+	"lastTimeConnected" : <date&Time>
 	}
 
 Chat Activity
@@ -182,7 +195,6 @@ Cliente manda: ::
 	{ 
         "username" : <username>,
         "password" : <md5_password>,
-        "location" : <coordenadas>,
         "msg_toID" : <user receptor>,
         "msg_text" : <mensaje>
 	}
