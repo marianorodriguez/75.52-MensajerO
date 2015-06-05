@@ -165,7 +165,15 @@ public class SomethingForMePostAsyncTask extends AsyncTask<Pair<Context, String>
         for (int message = 0; message < newMessages.length(); message++) {
             createNewChat = true;
             try {
-                Message newMessage = Message.toMessage((JSONObject) newMessages.get(message));
+
+                JSONObject object = new JSONObject(newMessages.get(message).toString());
+//                    JSONObject jsonObject = new JSONObject(username);
+
+                Message newMessage = Message.toMessage(object);
+//
+//                User newUser = User.toUser(object);
+//
+//                Message newMessage = Message.toMessage((JSONObject) newMessages.get(message));
 
                 for (int chat = 0; chat < Constants.user.chats.size(); chat++) {
                     if (Constants.user.chats.get(chat).otherUser.compareTo(newMessage.msg_fromID) == 0) {

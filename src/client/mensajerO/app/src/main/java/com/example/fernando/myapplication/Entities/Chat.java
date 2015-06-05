@@ -53,9 +53,17 @@ public class Chat {
 
             for (int message = 0; message < jsonMessages.length(); message++) {
 
-                JSONObject oneMessage = (JSONObject) jsonMessages.get(message);
+//                JSONObject object = new JSONObject(chats.get(chat).toString());
+////                    JSONObject jsonObject = new JSONObject(username);
+//
+//                Chat newChat = Chat.toChat(object);
+//
+//                Constants.user.chats.add(newChat);
 
-                newChat.messages.add(Message.toMessage(oneMessage));
+                JSONObject oneMessage =  new JSONObject(jsonMessages.get(message).toString());
+                Message newMessage = Message.toMessage(oneMessage);
+
+                newChat.messages.add(newMessage);
             }
 
             return newChat;

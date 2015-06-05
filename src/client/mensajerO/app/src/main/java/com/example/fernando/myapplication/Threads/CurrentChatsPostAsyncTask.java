@@ -65,7 +65,13 @@ public class CurrentChatsPostAsyncTask extends AsyncTask<Pair<Context, String>, 
                     JSONArray chats = new JSONArray(respons.getString("chats"));
 
                     for (int chat = 0; chat < chats.length(); chat++) {
-                        Constants.user.chats.add(Chat.toChat(chats.getJSONObject(chat)));
+
+                        JSONObject object = new JSONObject(chats.get(chat).toString());
+//                    JSONObject jsonObject = new JSONObject(username);
+
+                        Chat newChat = Chat.toChat(object);
+
+                        Constants.user.chats.add(newChat);
                     }
 
                     Constants.currentChatsOk = respons.getString("chats");
