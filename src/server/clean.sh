@@ -1,4 +1,3 @@
-#!/usr/bin/bash
 
 # NO borra las libs generadas de 3rd-party.
 
@@ -39,10 +38,12 @@ then
 	echo "Borrando archivos y carpetas autogeneradas..."
 	rm -rf CMakeFiles
 	rm -rf CMakeCache.txt
+	rm -rf testResult.info
 	rm -rf cmake_install.cmake
 	rm -rf CTestTestfile.cmake
 	rm -rf logging.txt
 	rm -rf Makefile
+	rm -rf Testing
 
 	rm -rf code/main/CMakeFiles
 	rm -rf code/main/cmake_install.cmake
