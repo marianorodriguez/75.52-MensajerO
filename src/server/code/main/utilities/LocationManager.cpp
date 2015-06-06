@@ -8,6 +8,7 @@
 #include "../../include/main/utilities/LocationManager.h"
 
 std::map<std::string, std::string> LocationManager::nodes;
+double LocationManager::NODE_RADIUS;
 
 LocationManager::LocationManager() {
 
@@ -15,9 +16,15 @@ LocationManager::LocationManager() {
 	Json::Value root;
 	ifstream file("config/geolocation.json");
 	reader.parse(file, root);
+	NODE_RADIUS = atof(root["node_radius"].asString().c_str());
 	root = root["nodes"];
 	for (unsigned int i = 0; i < root.size(); i++) {
-		nodes[root[i]["location"].asString()] = root[i]["name"].asString();
+		Json::Value node = root[i];
+		std::string name = node["name"].asString();
+		Json::Value locations = node["location"];
+		for (unsigned int j = 0; j < locations.size(); j++) {
+			nodes[locations[j]["latLong"].asString()] = name;
+		}
 	}
 }
 
@@ -28,7 +35,7 @@ LocationManager::~LocationManager() {
 std::string LocationManager::getLocation(const std::string &location) {
 
 	std::string nearest = nearestNode(location);
-	if (distance(nearest, location) < MAX_NODE_RADIUS) {
+	if (distance(nearest, location) <= NODE_RADIUS) {
 		return getNodeName(nearest);
 	} else {
 		return DEFAULT_USER_LOCATION;
