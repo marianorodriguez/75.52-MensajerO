@@ -1,5 +1,5 @@
 README
----------
+------
 
 75.52-MensajerO
 
@@ -11,7 +11,7 @@ Taller de Programacion II
 
 Además de este Readme, se encuentra documentación en formato restructured text, en el directorio *doc/informe*.
 
-Para compilar el documento, desde la consola dirigirse a esta carpeta y ejecutar:
+Para compilar el documento, desde la consola dirigirse a doc/informe y ejecutar:
 
 	$ make html
 
@@ -25,7 +25,12 @@ Desde consola dirigirse a la carpeta del proyecto y ejecutar los siguientes coma
 
 Instalar dependencias
 
-    $ sudo apt-get install libbz2-dev zlib1g-dev libcppunit-dev libcurl4-gnutls-dev lcov
+    $ sudo apt-get install libbz2-dev zlib1g-dev libcppunit-dev libcurl4-gnutls-dev 
+
+	Además, si se quieren ejecutar las pruebas de coverage, se deberá ingresar:
+
+    $ sudo apt-get install lcov
+
 
 Compilar rocksdb
 
@@ -68,7 +73,7 @@ Para facilitar la instalación de la aplicación, se armaron algunos scripts en 
 
 **coverage.sh** : Ejecuta las pruebas y recolecta los datos de los tests de coverage.
 
-**clean.sh** : Limpia los archivos generados por CMake y Makefile, dando además la opción de borrar la base de datos.
+**clean.sh** : Limpia los archivos generados por CMake y Makefile, dando además la opción de borrar la base de datos del servidor.
 
 La aplicación soporta varios flags para la configuración:
 
@@ -77,21 +82,6 @@ La aplicación soporta varios flags para la configuración:
 * **-d**, **--database** <path/to/db>: directorio de base de datos
 * **-P**, **--pollDelay** <msec>: demora entre lecturas del socket(mongoose)
 * **-a**, **--aliveTime** <msec>: tiempo que se considera que un usuario esta conectado
-
-Para correr coverage de las pruebas
-
-* Si el proyecto fue compilado con soporte para coverage, correr desde *src/server*
-
-    $ tests/tests
-    $ lcov -c -d main/ -o testOutput.info
-    $ genhtml testOutput.info --output-directory=report
-
-* Para reiniciar los contadores (en caso de que se quiera volver a correr las pruebas)
-
-    $ lcov -z -d main/
-
-
-
 
 
 

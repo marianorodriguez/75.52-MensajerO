@@ -22,6 +22,7 @@ public:
 	static std::string getLocation(const std::string &location);
 
 private:
+	static double NODE_RADIUS;
 	static std::map<std::string, std::string> nodes;
 	static std::string getNodeName(const std::string &location);
 	static void parseLocation(const std::string &location, double &latitude, double &longitude);

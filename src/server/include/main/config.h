@@ -4,11 +4,6 @@
 #include <iostream>
 using namespace std;
 
-
-//# LOCATION MANAGER ##########################
-/*Radio maximo de los barrios*/
-const double MAX_NODE_RADIUS = 0.12;
-
 //# JSON ######################################
 /**
  * Ruta al archivo de configuración de JSON.
