@@ -113,6 +113,7 @@ public class LogInActivity extends ActionBarActivity implements View.OnClickList
                 currentUser.location = getLocation();
 
                 String package_ = Constants.packager.wrap("logIn", currentUser);
+                Constants.ipServer = mSharedPref.getString("ipServer", "");
 
                 logInPost.execute(new Pair<Context, String>(this, package_),
                         new Pair<Context, String>(this, Constants.logInUrl),

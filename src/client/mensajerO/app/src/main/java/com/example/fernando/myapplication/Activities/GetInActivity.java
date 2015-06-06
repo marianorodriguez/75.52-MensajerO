@@ -119,6 +119,7 @@ public class GetInActivity extends ActionBarActivity implements View.OnClickList
         SharedPreferences.Editor e = mSharedPref.edit();
         e.putString("ipServer", ipContainer.getText().toString());
         e.commit();
+        Constants.setIp(ipContainer.getText().toString());
 
         Intent logIn = new Intent(this, LogInActivity.class);
         startActivity(logIn);

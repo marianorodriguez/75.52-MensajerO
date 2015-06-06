@@ -79,9 +79,10 @@ public class SignUpActivity extends ActionBarActivity implements View.OnClickLis
                 currentUser.profile_picture = ((BitmapDrawable) myDrawable).getBitmap();
 
                 String package_ = Constants.packager.wrap("signUp", currentUser);
+                Constants.ipServer = mSharedPref.getString("ipServer", "");
 
                 signUpPost.execute(new Pair<Context, String>(this, package_),
-                        new Pair<Context, String>(this,Constants.signUpUrl),
+                        new Pair<Context, String>(this, Constants.signUpUrl),
                         new Pair<Context, String>(this, "post"));
 
                 while (Constants.signUpOk.compareTo("") == 0) {

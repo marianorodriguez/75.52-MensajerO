@@ -20,7 +20,8 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:layout_above="@+id/sendButton"
-        android:layout_alignParentTop="true">
+        android:layout_alignParentTop="true"
+        android:background="#26ffffff">
 
         <TextView
             android:layout_width="fill_parent"
@@ -30,20 +31,25 @@
             android:textColor="#ffffffff"
             android:layout_centerVertical="true"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:layout_alignParentStart="true"
+            android:typeface="sans"
+            android:padding="5dp" />
 
     </ScrollView>
 
     <EditText
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:id="@+id/editText"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
         android:textColor="#ffffffff"
         android:layout_toLeftOf="@+id/sendButton"
-        android:layout_toStartOf="@+id/sendButton" />
+        android:layout_toStartOf="@+id/sendButton"
+        android:background="#1a33ff00"
+        android:textStyle="bold|italic"
+        android:typeface="sans" />
 
     <Button
         style="?android:attr/buttonStyleSmall"
@@ -53,7 +59,9 @@
         android:id="@+id/sendButton"
         android:layout_alignTop="@+id/editText"
         android:layout_alignRight="@+id/scrollView"
-        android:layout_alignEnd="@+id/scrollView" />
+        android:layout_alignEnd="@+id/scrollView"
+        android:textStyle="bold|italic"
+        android:textSize="20dp" />
 
 </RelativeLayout>
 

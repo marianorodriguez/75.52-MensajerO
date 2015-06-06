@@ -7,6 +7,7 @@ import android.util.Pair;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.example.fernando.myapplication.Entities.Chat;
@@ -26,6 +27,7 @@ public class ChatActivity extends ActionBarActivity implements View.OnClickListe
     public static RefreshChatAsyncTask refreshChat;
     public static SendMessagePostAsyncTask sendMessage;
     private Calendar calendar = Calendar.getInstance();
+    private ScrollView scroll;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +51,8 @@ public class ChatActivity extends ActionBarActivity implements View.OnClickListe
         Constants.messagesSize = Constants.chatEditor.getChat().messages.size();
         refreshChat.execute(new Pair<Context, Chat>(this, Constants.chatEditor.getChat()));
         // tirar hilo que se fije si de en la lista de chats hay cambios con este user y actualice la vista
+
+        scroll = (ScrollView) findViewById(R.id.scrollView);
     }
 
     @Override
@@ -89,6 +93,8 @@ public class ChatActivity extends ActionBarActivity implements View.OnClickListe
             }
 
             sendMessage = new SendMessagePostAsyncTask();
+
+            scroll.fullScroll(ScrollView.FOCUS_DOWN);
 
         }
     }

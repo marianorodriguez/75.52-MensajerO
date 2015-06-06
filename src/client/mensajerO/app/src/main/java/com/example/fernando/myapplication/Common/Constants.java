@@ -23,15 +23,15 @@ import java.util.ArrayList;
  */
 final public class Constants//final to prevent instantiation
 {
-    public static String ipServer = "192.168.1.100";
+    public static String ipServer;
     public static String portServer = "8081";
-    public static final String logInUrl = "http://" + ipServer +":" + portServer + "/logIn";
-    public static final String signUpUrl = "http://" + ipServer + ":" + portServer + "/signUp";
-    public static final String currentChatsUrl = "http://" + ipServer+ ":" +portServer + "/currentChats";
-    public static final String setConfigUrl = "http://" + ipServer + ":" + portServer + "/setConfig";
-    public static final String somethingForMeUrl = "http://" + ipServer + ":" + portServer + "/somethingForMe";
-    public static final String usersUrl = "http://" + ipServer + ":" + portServer + "/users";
-    public static final String sendMessageUrl = "http://" + ipServer + ":" + portServer + "/sendMessage";
+    public static  String logInUrl = "http://" + ipServer +":" + portServer + "/logIn";
+    public static  String signUpUrl = "http://" + ipServer + ":" + portServer + "/signUp";
+    public static  String currentChatsUrl = "http://" + ipServer+ ":" +portServer + "/currentChats";
+    public static  String setConfigUrl = "http://" + ipServer + ":" + portServer + "/setConfig";
+    public static  String somethingForMeUrl = "http://" + ipServer + ":" + portServer + "/somethingForMe";
+    public static  String usersUrl = "http://" + ipServer + ":" + portServer + "/users";
+    public static  String sendMessageUrl = "http://" + ipServer + ":" + portServer + "/sendMessage";
 
     public static User user = null;
 
@@ -78,6 +78,17 @@ final public class Constants//final to prevent instantiation
 
     //private constructor to prevent instantiation/inheritance
     private Constants() {}
+
+    public static void setIp(String ip) {
+        ipServer = ip;
+        logInUrl = "http://" + ipServer +":" + portServer + "/logIn";
+        signUpUrl = "http://" + ipServer + ":" + portServer + "/signUp";
+        currentChatsUrl = "http://" + ipServer+ ":" +portServer + "/currentChats";
+        setConfigUrl = "http://" + ipServer + ":" + portServer + "/setConfig";
+        somethingForMeUrl = "http://" + ipServer + ":" + portServer + "/somethingForMe";
+        usersUrl = "http://" + ipServer + ":" + portServer + "/users";
+        sendMessageUrl = "http://" + ipServer + ":" + portServer + "/sendMessage";
+    }
 
     public static void initialize(SharedPreferences mSharedPref) {
 
