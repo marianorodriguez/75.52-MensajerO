@@ -99,6 +99,8 @@ final public class Constants//final to prevent instantiation
         Constants.user.location = mSharedPref.getString(username+"location", "");
         Constants.user.profile_picture = stringToBitmap(mSharedPref.getString(username + "profile_picture", ""));
 
+        setIp(mSharedPref.getString("ipServer", ""));
+
         try {
 
             JSONObject chatsObject = new JSONObject(mSharedPref.getString(username+"chats", ""));

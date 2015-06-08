@@ -43,7 +43,7 @@ public class LogInActivity extends ActionBarActivity implements View.OnClickList
     EditText txtUsername, txtPassword;
 
     LogInPostAsyncTask logInPost;
-    CurrentChatsPostAsyncTask currentChatsGet;
+//    CurrentChatsPostAsyncTask currentChatsGet;
     SharedPreferences mSharedPref;
 
     @Override
@@ -66,7 +66,7 @@ public class LogInActivity extends ActionBarActivity implements View.OnClickList
         txtPassword = (EditText) findViewById(R.id.txtPassword);
 
         logInPost = new LogInPostAsyncTask();
-        currentChatsGet = new CurrentChatsPostAsyncTask();
+//        currentChatsGet = new CurrentChatsPostAsyncTask();
 
         mSharedPref = getSharedPreferences(Constants.PREFS, MODE_PRIVATE);
         Constants.ipServer = mSharedPref.getString("ipServer", "");
@@ -155,21 +155,21 @@ public class LogInActivity extends ActionBarActivity implements View.OnClickList
 
                 Constants.logInOk = "";
 
-                currentChatsGet.execute(new Pair<Context, String>(this, package_),
-                        new Pair<Context, String>(this, Constants.currentChatsUrl),
-                        new Pair<Context, String>(this, "get"));
-
-                while (Constants.currentChatsOk.isEmpty()) {
-                    try {
-                        Thread.sleep(10);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-
-                if (Constants.currentChatsOk.contains("Error")) { }
-
-                Constants.currentChatsSize = 0;
+//                currentChatsGet.execute(new Pair<Context, String>(this, package_),
+//                        new Pair<Context, String>(this, Constants.currentChatsUrl),
+//                        new Pair<Context, String>(this, "get"));
+//
+//                while (Constants.currentChatsOk.isEmpty()) {
+//                    try {
+//                        Thread.sleep(10);
+//                    } catch (InterruptedException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//
+//                if (Constants.currentChatsOk.contains("Error")) { }
+//
+//                Constants.currentChatsSize = 0;
 
                 Intent chatsHall = new Intent(this, ChatsHallActivity.class);
                 startActivity(chatsHall);

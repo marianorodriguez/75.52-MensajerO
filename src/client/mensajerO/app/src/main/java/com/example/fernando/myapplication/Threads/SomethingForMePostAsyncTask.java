@@ -56,7 +56,7 @@ public class SomethingForMePostAsyncTask extends AsyncTask<Pair<Context, String>
             } else {
                 HttpResponse response = doRequest(params);
 
-                if (response.getStatusLine().getStatusCode() == 200) {
+                if (response != null && response.getStatusLine().getStatusCode() == 200) {
 
                     allocateMessages(EntityUtils.toString(response.getEntity()));
 
@@ -72,8 +72,9 @@ public class SomethingForMePostAsyncTask extends AsyncTask<Pair<Context, String>
                             params[1].second, params[2].second);
 
                     //Toast.makeText(params[0].first, "Could't connect with server", Toast.LENGTH_LONG).show();
+                    return "";
                 }
-                return "Error: " + response.getStatusLine().getStatusCode() + " " + response.getStatusLine().getReasonPhrase();
+                //return "Error: " + response.getStatusLine().getStatusCode() + " " + response.getStatusLine().getReasonPhrase();
             }
 
         } catch (InterruptedException e) {

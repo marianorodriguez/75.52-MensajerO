@@ -139,7 +139,7 @@ public class GetUsersPostAsyncTask extends AsyncTask<Pair<Context, String>, Stri
         JSONArray users = Constants.packager.unwrap(response, "users");
 
         if (users == null) return;
-        if (users.length() > Constants.otherUsers.size()) {
+        if ((users.length()-1) > Constants.otherUsers.size()) {
             for (int user = Constants.otherUsers.size();
                     user < users.length();
                     user++ ) {

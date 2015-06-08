@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.example.fernando.myapplication.Common.Constants;
 import com.example.fernando.myapplication.R;
+import com.example.fernando.myapplication.Threads.CurrentChatsPostAsyncTask;
 import com.example.fernando.myapplication.Threads.DeleteChatPostAsyncTask;
 import com.example.fernando.myapplication.Threads.GetUsersPostAsyncTask;
 import com.example.fernando.myapplication.Threads.RefreshChatsHallAsyncTask;
@@ -35,6 +36,7 @@ public class ChatsHallActivity extends ActionBarActivity implements View.OnClick
     public static SomethingForMePostAsyncTask somethingForMePost;
     public static GetUsersPostAsyncTask getUsersPost;
     public static RefreshChatsHallAsyncTask refreshChats;
+    CurrentChatsPostAsyncTask currentChatsGet;
     public static DeleteChatPostAsyncTask deleteChat;
     String package_;
 
@@ -77,9 +79,11 @@ public class ChatsHallActivity extends ActionBarActivity implements View.OnClick
             if (Constants.user == null)
                 Constants.initialize(mSharedPref);
 
+
             somethingForMePost = new SomethingForMePostAsyncTask();
             refreshChats = new RefreshChatsHallAsyncTask();
             getUsersPost = new GetUsersPostAsyncTask();
+            currentChatsGet = new CurrentChatsPostAsyncTask();
 
             //dibujar los chats que vienen de login en Constants.user.chats
             drawCurrentChats();
@@ -96,6 +100,23 @@ public class ChatsHallActivity extends ActionBarActivity implements View.OnClick
             getUsersPost.execute(new Pair<Context, String>(this, package_),
                     new Pair<Context, String>(this, Constants.usersUrl),
                     new Pair<Context, String>(this, "get"));
+
+
+            currentChatsGet.execute(new Pair<Context, String>(this, package_),
+                    new Pair<Context, String>(this, Constants.currentChatsUrl),
+                    new Pair<Context, String>(this, "get"));
+
+            while (Constants.currentChatsOk.isEmpty()) {
+                try {
+                    Thread.sleep(10);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            if (Constants.currentChatsOk.contains("Error")) { }
+
+            Constants.currentChatsSize = 0;
 
             // tirar un hilo que llame a users, que tire todos los usuarios del sistema y cargarlos en constants.users
             // loopea, se hace constantemente. el server manda todos los users
@@ -191,11 +212,13 @@ public class ChatsHallActivity extends ActionBarActivity implements View.OnClick
         // que saca los users del get users, que hay qe hacerlo antes.
         ArrayList<String> otherUsersChatingWith = new ArrayList<>();
 
-        for (int chat = 0; chat < Constants.user.chats.size(); chat++) {
-            otherUsersChatingWith.add(Constants.user.chats.get(chat).otherUser);
-        }
+//        for (int chat = 0; chat < Constants.user.chats.size(); chat++) {
+//            otherUsersChatingWith.add(Constants.user.chats.get(chat).otherUser);
+//        }
+//
+//        Constants.currentChatsSize = Constants.user.chats.size();
 
-        Constants.currentChatsSize = Constants.user.chats.size();
+        Constants.currentChatsSize = 0;
 
         final StableArrayAdapter adapter = new StableArrayAdapter(this,
                 R.layout.user_item, R.id.userItemData, otherUsersChatingWith);
