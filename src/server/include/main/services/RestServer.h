@@ -59,14 +59,26 @@ private:
 	 */
 	int port;
 	/**
-	 * Server mongoose
+	 * Número máximo de conexiones en simultaneo
 	 */
-	struct mg_server *server;
+	int maxConnections;
+	/**
+	 * Servidor principal
+	 */
+	struct mg_server* mainServer;
+	/**
+	 * Listeners paralelos al servidor
+	 */
+	std::vector<struct mg_server*> serverListeners;
 	/**
 	 * Servicios disponibles para ejecutar
 	 */
 	ServiceFactory serviceFactory;
 	ConnectionManager* connectionManager;
+	/**
+	 * Inicial hilos de listeners
+	 */
+	void startSecondaryListeners();
 };
 
 #endif // REST_SERVER_H

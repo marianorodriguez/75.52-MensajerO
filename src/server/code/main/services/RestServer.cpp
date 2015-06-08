@@ -19,7 +19,9 @@ static int eventHandler(struct mg_connection *mgConnection, enum mg_event event)
 		case MG_AUTH:
 			return MG_TRUE;
 		case MG_REQUEST:
+			std::cout << "atendiendo request"<< std::endl;
 			server->handleConnection(mgConnection);
+			std::cout << "request terminado"<< std::endl;
 			return MG_TRUE;
 		default:
 			return MG_FALSE;
@@ -32,6 +34,7 @@ static int eventHandler(struct mg_connection *mgConnection, enum mg_event event)
 RestServer::RestServer(){
 	this->pollDelay = 1000;
 	this->port = 8081;
+	this->maxConnections = 20;
 	startServer();
 	connectionManager = ConnectionManager::getInstance();
 	connectionManager->startUpdating();
@@ -48,7 +51,7 @@ RestServer::~RestServer(){
 
 void RestServer::setOptions(const ServerOptions& options){
 	shutdownServer();
-	this->pollDelay = options.getPollDelay();
+	this->pollDelay = options.getPollDelay() * 10;
 	this->port = options.getServerPort();
 	options.getDatabasePath();
 	startServer();
@@ -61,7 +64,7 @@ void RestServer::addService (ServiceCreatorInterface* serviceCreator ){
 }
 
 void RestServer::pollServer(){
-	mg_poll_server(this->server, this->pollDelay);
+	mg_poll_server(this->mainServer, this->pollDelay);
 }
 
 void RestServer::handleConnection(struct mg_connection *mgConnection) const{
@@ -76,14 +79,34 @@ void RestServer::handleConnection(struct mg_connection *mgConnection) const{
 	delete service;
 }
 
+static void *serve(void *mgServer) {
+	for (;;) mg_poll_server((struct mg_server *) mgServer, 10000);
+	return NULL;
+}
+
 /**
  * Arranco el servidor
  */
 void RestServer::startServer(){
-this->server = mg_create_server(this, eventHandler);
-	std::string strPort;
-	strPort = NumberConverter::getString(port);
-	mg_set_option(this->server, "listening_port", strPort.c_str());
+	//shutdownServer();
+	this->mainServer = mg_create_server(this, eventHandler);
+	
+	std::string strPort = NumberConverter::getString(port);
+	mg_set_option(this->mainServer, "listening_port", strPort.c_str());
+
+	startSecondaryListeners();
+}
+
+void RestServer::startSecondaryListeners(){
+	this->serverListeners.resize(this->maxConnections);
+	std::cout << "Iniciando " << this->maxConnections << " listeners" << std::endl;
+	for (int i = 0; i < this->maxConnections; ++i){
+		struct mg_server* listener = mg_create_server(this, eventHandler);
+		std::string strPort = NumberConverter::getString(port);
+		mg_set_option(listener, "listening_port", strPort.c_str());
+		mg_start_thread(serve, listener);
+		this->serverListeners[i] = listener;
+	}
 }
 
 
@@ -91,5 +114,5 @@ this->server = mg_create_server(this, eventHandler);
  * Apago el servidor
  */
 void RestServer::shutdownServer(){
-	mg_destroy_server(&this->server);
+	mg_destroy_server(&this->mainServer);
 }

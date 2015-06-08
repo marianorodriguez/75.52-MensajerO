@@ -19,4 +19,4 @@ add_library(mensajero-services
 	DeleteChatService.cpp
 	)
 
-target_link_libraries(mensajero-services ${JSONCPP_LIBRARIES} mongoose mensajero-database)
+target_link_libraries(mensajero-services ${JSONCPP_LIBRARIES} mongoose pthread mensajero-database)
