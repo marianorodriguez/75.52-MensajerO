@@ -32,6 +32,8 @@ final public class Constants//final to prevent instantiation
     public static  String somethingForMeUrl = "http://" + ipServer + ":" + portServer + "/somethingForMe";
     public static  String usersUrl = "http://" + ipServer + ":" + portServer + "/users";
     public static  String sendMessageUrl = "http://" + ipServer + ":" + portServer + "/sendMessage";
+    public static String deleteChatUrl = "http://" + ipServer + ":" + portServer + "/deleteChat";
+    public static String broadcastUrl = "http://" + ipServer + ":" + portServer + "/broadcast";
 
     public static User user = null;
 
@@ -57,6 +59,7 @@ final public class Constants//final to prevent instantiation
     public static String signUpLocation;
 
     public static String configOK = "";
+    public static String deleteOk = "";
 
     public static String sendMessageOk = "";
     public static String chatWith = "";
@@ -67,7 +70,7 @@ final public class Constants//final to prevent instantiation
     public static UsersActivity.StableArrayAdapter usersAdapter = null;
 
     public static Server server = null;
-//        public static Server server = new Server(); //si no pones en null
+//  public static Server server = new Server(); //si no pones en null
 
     //La cantidad actual de chats renderizados hasta el momento
     public static int currentChatsSize = 0;
@@ -75,6 +78,7 @@ final public class Constants//final to prevent instantiation
     public static int currentUsersSize = 0;
     //La cantidad actual de messages en un chat x renderizados hasta el momento
     public static int messagesSize = 0;
+
 
     //private constructor to prevent instantiation/inheritance
     private Constants() {}
@@ -100,6 +104,9 @@ final public class Constants//final to prevent instantiation
         Constants.user.profile_picture = stringToBitmap(mSharedPref.getString(username + "profile_picture", ""));
 
         setIp(mSharedPref.getString("ipServer", ""));
+        if (Constants.server != null) {
+            Constants.server.setSharedPref(mSharedPref);
+        }
 
         try {
 
@@ -145,6 +152,7 @@ final public class Constants//final to prevent instantiation
 
         sendMessageOk = "";
         chatWith = "";
+        deleteOk = "";
 
         chatListView = null;
         chatsAdapter = null;

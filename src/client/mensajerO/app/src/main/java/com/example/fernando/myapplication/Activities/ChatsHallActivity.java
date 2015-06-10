@@ -1,6 +1,8 @@
 package com.example.fernando.myapplication.Activities;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -23,6 +25,7 @@ import com.example.fernando.myapplication.Threads.CurrentChatsPostAsyncTask;
 import com.example.fernando.myapplication.Threads.DeleteChatPostAsyncTask;
 import com.example.fernando.myapplication.Threads.GetUsersPostAsyncTask;
 import com.example.fernando.myapplication.Threads.RefreshChatsHallAsyncTask;
+import com.example.fernando.myapplication.Threads.SignUpPostAsyncTask;
 import com.example.fernando.myapplication.Threads.SomethingForMePostAsyncTask;
 
 import java.util.ArrayList;
@@ -37,8 +40,9 @@ public class ChatsHallActivity extends ActionBarActivity implements View.OnClick
     public static GetUsersPostAsyncTask getUsersPost;
     public static RefreshChatsHallAsyncTask refreshChats;
     CurrentChatsPostAsyncTask currentChatsGet;
-    public static DeleteChatPostAsyncTask deleteChat;
+    public static DeleteChatPostAsyncTask deleteChatPost;
     String package_;
+    Context context;
 
     SharedPreferences mSharedPref;
 
@@ -51,7 +55,7 @@ public class ChatsHallActivity extends ActionBarActivity implements View.OnClick
         setContentView(R.layout.chatshall);
 
         setTitle("CHATS");
-
+        context = this;
 //        mSharedPref= getSharedPreferences(Constants.PREFS, MODE_PRIVATE);
 //        SharedPreferences.Editor ee = mSharedPref.edit();
 //        ee.clear();
@@ -79,11 +83,11 @@ public class ChatsHallActivity extends ActionBarActivity implements View.OnClick
             if (Constants.user == null)
                 Constants.initialize(mSharedPref);
 
-
             somethingForMePost = new SomethingForMePostAsyncTask();
             refreshChats = new RefreshChatsHallAsyncTask();
             getUsersPost = new GetUsersPostAsyncTask();
             currentChatsGet = new CurrentChatsPostAsyncTask();
+            deleteChatPost = new DeleteChatPostAsyncTask();
 
             //dibujar los chats que vienen de login en Constants.user.chats
             drawCurrentChats();
@@ -255,6 +259,67 @@ public class ChatsHallActivity extends ActionBarActivity implements View.OnClick
                 }
             }
         });
+
+        listview.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+
+            public boolean onItemLongClick(final AdapterView<?> parent, View v,
+                                           final int position, long id) {
+
+                AlertDialog.Builder deleteChat = new AlertDialog.Builder(context);
+                deleteChat.setTitle("Delete entry");
+                deleteChat.setMessage("Are you sure you want to delete this entry?");
+                deleteChat.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        final String chatSelected = (String) parent.getItemAtPosition(position);
+                        doDeleteOfChat(chatSelected);
+                    }
+                });
+                deleteChat.setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // do nothing
+                    }
+                });
+                deleteChat.setIcon(android.R.drawable.ic_delete);
+                deleteChat.show();
+                return true;
+            }
+        });
+    }
+
+    private void doDeleteOfChat(String chatSelected) {
+        String package_ = Constants.packager.wrap("deleteChat", Constants.user, chatSelected, "");
+//        deleteChatPost.execute(new Pair<Context, String>(this, package_),
+//                new Pair<Context, String>(this, Constants.deleteChatUrl),
+//                new Pair<Context, String>(this, "post"));
+
+        Constants.deleteOk = "true";
+        while (Constants.deleteOk.compareTo("") == 0) {
+            try {
+                Thread.sleep(10);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+        if (Constants.deleteOk.contains("Error")) {}
+
+        if (Constants.deleteOk.compareTo("true") == 0) {
+
+            // borrar el chat de COnstants.user.chats
+            for (int chat = 0; chat < Constants.user.chats.size(); chat++) {
+                if (Constants.user.chats.get(chat).otherUser.compareTo(chatSelected) == 0) {
+                    Constants.user.chats.remove(chat);
+                }
+            }
+
+        } else {
+
+            Toast.makeText(this, "Could not delete the selected chat.", Toast.LENGTH_SHORT).show();
+            deleteChatPost = new DeleteChatPostAsyncTask();
+        }
+        Constants.deleteOk = "";
+
     }
 
     public class StableArrayAdapter extends ArrayAdapter<String> {

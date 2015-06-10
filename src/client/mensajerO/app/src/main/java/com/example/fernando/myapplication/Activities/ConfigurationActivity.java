@@ -49,10 +49,10 @@ public class ConfigurationActivity extends ActionBarActivity implements View.OnC
         super.onCreate(savedInstanceState);
         setContentView(R.layout.configuration);
 
-        Button button1 = (Button) findViewById(R.id.getinbutton);
+        Button button1 = (Button) findViewById(R.id.backtologin);
         button1.setOnClickListener(this);
 
-        Button button2 = (Button) findViewById(R.id.button2);
+        Button button2 = (Button) findViewById(R.id.signupbutton);
         button2.setOnClickListener(this);
 
         Button buttonLoadImage = (Button) findViewById(R.id.button);
@@ -175,7 +175,7 @@ public class ConfigurationActivity extends ActionBarActivity implements View.OnC
     @Override
     public void onClick(View v) {
 
-        if (v.getId() == R.id.getinbutton) {
+        if (v.getId() == R.id.backtologin) {
             //Cancel button
             // seteo al user los valores que tenia antes de entrar
             SharedPreferences.Editor e = mSharedPref.edit();
@@ -190,7 +190,7 @@ public class ConfigurationActivity extends ActionBarActivity implements View.OnC
 
             finish();
 
-        } else if (v.getId() == R.id.button2 ) {
+        } else if (v.getId() == R.id.signupbutton) {
             //Done button
 
             String package_ = Constants.packager.wrap("setConfig", Constants.user);

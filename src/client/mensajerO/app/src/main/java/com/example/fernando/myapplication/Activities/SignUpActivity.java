@@ -41,10 +41,10 @@ public class SignUpActivity extends ActionBarActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.signup);
 
-        Button button1 = (Button) findViewById(R.id.getinbutton);
+        Button button1 = (Button) findViewById(R.id.backtologin);
         button1.setOnClickListener(this);
 
-        Button button2 = (Button) findViewById(R.id.button2);
+        Button button2 = (Button) findViewById(R.id.signupbutton);
         button2.setOnClickListener(this);
 
         // get Email, Password input text
@@ -60,7 +60,7 @@ public class SignUpActivity extends ActionBarActivity implements View.OnClickLis
     @Override
     public void onClick(View v) {
 
-        if (v.getId() == R.id.button2 ) {
+        if (v.getId() == R.id.signupbutton) {
 
 //            Constants.ipServer = mSharedPref.getString("ipServer", "");
 

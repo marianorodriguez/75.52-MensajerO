@@ -53,6 +53,7 @@ public class ChatActivity extends ActionBarActivity implements View.OnClickListe
         // tirar hilo que se fije si de en la lista de chats hay cambios con este user y actualice la vista
 
         scroll = (ScrollView) findViewById(R.id.scrollView);
+        scroll.fullScroll(ScrollView.FOCUS_DOWN);
     }
 
     @Override

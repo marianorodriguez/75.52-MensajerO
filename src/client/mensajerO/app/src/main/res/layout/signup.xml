@@ -40,16 +40,16 @@
         android:maxHeight="1dp" />
 
     <Button
-        android:id="@+id/getinbutton"
+        android:id="@+id/backtologin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/b.back"
-        android:layout_alignTop="@+id/button2"
-        android:layout_toRightOf="@+id/button2"
-        android:layout_toEndOf="@+id/button2"
+        android:layout_alignTop="@+id/signupbutton"
+        android:layout_toRightOf="@+id/signupbutton"
+        android:layout_toEndOf="@+id/signupbutton"
         android:textStyle="bold|italic" />
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/signupbutton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/b.Confirm"
@@ -80,6 +80,6 @@
         android:layout_marginTop="-2dp"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:layout_above="@+id/button2" />
+        android:layout_above="@+id/signupbutton" />
 
 </RelativeLayout>

@@ -155,7 +155,7 @@ public class UsersActivity extends ActionBarActivity implements View.OnClickList
 
     public class StableArrayAdapter extends ArrayAdapter<String> {
 
-        HashMap<String, Integer> mIdMap = new HashMap<>();
+        public HashMap<String, Integer> mIdMap = new HashMap<>();
 
         public StableArrayAdapter(Context context,
                                   int resource,
@@ -165,6 +165,12 @@ public class UsersActivity extends ActionBarActivity implements View.OnClickList
             for (int i = 0; i < objects.size(); ++i) {
                 mIdMap.put(objects.get(i), i);
             }
+        }
+
+        @Override
+        public void clear() {
+            super.clear();
+//            mIdMap.clear();
         }
 
         @Override

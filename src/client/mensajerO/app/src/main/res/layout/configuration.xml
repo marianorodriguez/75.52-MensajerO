@@ -5,7 +5,7 @@
     android:layout_height="match_parent">
 
     <Button
-        android:id="@+id/getinbutton"
+        android:id="@+id/backtologin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/b.cancel"
@@ -14,9 +14,9 @@
         android:layout_centerHorizontal="true"
         android:layout_alignParentLeft="false"
         android:layout_alignParentRight="false"
-        android:layout_toRightOf="@+id/button2" />
+        android:layout_toRightOf="@+id/signupbutton" />
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/signupbutton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/b.done"

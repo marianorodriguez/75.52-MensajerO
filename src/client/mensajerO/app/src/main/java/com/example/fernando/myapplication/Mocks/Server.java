@@ -122,9 +122,18 @@ public class Server {
         }
     }
 
-    private String deleteChat (String userPackage) {
+    public String deleteChat(String userPackage) {
 
-        return null;
+        JSONObject response = new JSONObject();
+        try {
+            response.put("ok", "true");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        String resp = Constants.packager.wrap(response);
+        return resp;
+
     }
 
     public String somethingForMe (String userPackage) {
