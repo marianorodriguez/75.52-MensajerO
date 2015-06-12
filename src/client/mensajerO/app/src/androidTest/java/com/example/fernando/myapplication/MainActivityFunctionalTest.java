@@ -26,7 +26,7 @@ public class MainActivityFunctionalTest extends
 
     public void testStartSecondActivity() throws Exception {
 
-        Button b = (Button) activity.findViewById(R.id.getinbutton);
+        Button b = (Button) activity.findViewById(R.id.backtologin);
         String a = b.getText().toString();
 //        buttonId = R.id.button1;
 //        assertNotNull(activity.findViewById(buttonId));

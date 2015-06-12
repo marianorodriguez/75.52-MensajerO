@@ -13,6 +13,7 @@ import org.json.JSONObject;
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Created by fernando on 19/04/15.
@@ -46,10 +47,19 @@ public class User {
     }
 
     // En este metodo se haria la conversion de segundos a la fecha y hora corresp
-    private String getLastTimeConnected(String lastTimeConnected) {
+    private static String getLastTimeConnected(String lastTimeConnected) {
         Calendar c = Calendar.getInstance();
 
-        return c.getTime().toString();
+        Long miliseconds = Long.parseLong(lastTimeConnected);
+
+        Date date = new Date(miliseconds);
+
+        // si hace menos de 60 segundos que es la ultima hora de conexion
+        // entonces devolver NOW
+
+        c.getTimeZone();
+
+        return date.toString();
     }
 
     public User(JSONObject jsonObject) {
@@ -83,7 +93,20 @@ public class User {
         }
     }
 
+    public JSONObject toJsonForServer (String otherUser) {
+        JSONObject juser_ = toJsonForServer();
+        try {
+            juser_.put("otherUser", otherUser);
+            return juser_;
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     private String setPicture(Bitmap pictureBitmap) {
+
+        if (pictureBitmap == null) return "";
 
         ByteArrayOutputStream baos = new  ByteArrayOutputStream();
         pictureBitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
@@ -150,6 +173,7 @@ public class User {
             newUser.location = jsonObject.getString("location");
             newUser.profile_picture = newUser.stringToBitmap(jsonObject.getString("profile_picture"));
             newUser.status = jsonObject.getString("status");
+            newUser.lastTimeConnected = getLastTimeConnected(jsonObject.getString("lastTimeConnected"));
 
             return newUser;
         } catch (JSONException e) {

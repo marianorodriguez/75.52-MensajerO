@@ -17,6 +17,7 @@ public class Packager {
 
     String msg_toID;
     String msg_text;
+    String otherUser;
 
     private String toJson (String service, User user) {
 
@@ -43,6 +44,8 @@ public class Packager {
             case "sendMessage":
                 return user.toJsonForServer(msg_toID, msg_text).toString();
 
+            case "deleteChat":
+                return user.toJsonForServer(otherUser).toString();
         }
         return null;
     }
@@ -69,6 +72,7 @@ public class Packager {
 
         this.msg_toID = msg_toID;
         this.msg_text = msg_text;
+        this.otherUser = msg_toID;
 
         return wrap(service, user);
     }

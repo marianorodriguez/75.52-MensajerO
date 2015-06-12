@@ -40,7 +40,7 @@
         android:background="#00ffffff" />
 
     <Button
-        android:id="@+id/getinbutton"
+        android:id="@+id/backtologin"
         android:layout_width="120dp"
         android:layout_height="70dp"
         android:text="@string/b.logIn"
@@ -54,13 +54,13 @@
         android:textColor="#ffffffff"
         android:typeface="sans" />
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/signupbutton"
         android:layout_width="120dp"
         android:layout_height="70dp"
         android:text="@string/b.signUp"
         android:textStyle="bold|italic"
         android:background="@drawable/b5"
-        android:layout_below="@+id/getinbutton"
+        android:layout_below="@+id/backtologin"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:typeface="sans" />
@@ -80,10 +80,10 @@
         android:id="@+id/imageView3"
         android:background="#ff0cccff"
         android:minHeight="1dp"
-        android:layout_above="@+id/getinbutton"
+        android:layout_above="@+id/backtologin"
         android:layout_below="@+id/txtPassword"
-        android:layout_alignRight="@+id/button2"
-        android:layout_alignEnd="@+id/button2"
+        android:layout_alignRight="@+id/signupbutton"
+        android:layout_alignEnd="@+id/signupbutton"
         android:layout_marginTop="-2dp" />
 
 </RelativeLayout>

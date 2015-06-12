@@ -122,7 +122,4 @@ public class LogInPostAsyncTask extends AsyncTask<Pair<Context, String>, String,
             return null;
     }
 
-    @Override
-    protected void onPostExecute(String result) {
-    }
 }

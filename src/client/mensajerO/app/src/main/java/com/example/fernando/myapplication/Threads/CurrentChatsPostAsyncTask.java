@@ -40,6 +40,11 @@ public class CurrentChatsPostAsyncTask extends AsyncTask<Pair<Context, String>, 
 
                 JSONObject resp = Constants.packager.unwrap(response);
 
+                if (resp == null) {
+                    Constants.currentChatsOk = "true";
+                    return "";
+                }
+
                 JSONArray chats = new JSONArray(resp.getString("chats"));
 
                 for (int chat = 0; chat < chats.length(); chat++) {
@@ -71,7 +76,10 @@ public class CurrentChatsPostAsyncTask extends AsyncTask<Pair<Context, String>, 
 
                         Chat newChat = Chat.toChat(object);
 
-                        Constants.user.chats.add(newChat);
+                        boolean chatOnList = checkForRepetitions(newChat, Constants.user.chats);
+                        if (!chatOnList) {
+                            Constants.user.chats.add(newChat);
+                        }
                     }
 
                     Constants.currentChatsOk = respons.getString("chats");
@@ -86,6 +94,15 @@ public class CurrentChatsPostAsyncTask extends AsyncTask<Pair<Context, String>, 
             }
             return "Error: " + response.getStatusLine().getStatusCode() + " " + response.getStatusLine().getReasonPhrase();
         }
+    }
+
+    private boolean checkForRepetitions(Chat newChat, ArrayList<Chat> chats) {
+
+        for (int chat = 0; chat < chats.size(); chat++) {
+            if (newChat.otherUser.compareTo(chats.get(chat).otherUser) == 0)
+                return true;
+        }
+        return false;
     }
 
     private HttpResponse doRequest(Pair<Context, String>... params) {

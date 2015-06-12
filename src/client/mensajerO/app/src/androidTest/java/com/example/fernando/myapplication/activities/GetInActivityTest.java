@@ -72,7 +72,7 @@ public class GetInActivityTest extends
 //        ip.setText("192.168.1.100");
         String actualIp = ip.getText().toString();
 
-        Button getinbutton = (Button) activity.findViewById(R.id.getinbutton);
+        Button getinbutton = (Button) activity.findViewById(R.id.backtologin);
 
         Instrumentation.ActivityMonitor monitor =
                 getInstrumentation().

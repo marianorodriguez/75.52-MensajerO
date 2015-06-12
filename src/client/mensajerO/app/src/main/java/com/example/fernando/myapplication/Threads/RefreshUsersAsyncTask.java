@@ -6,6 +6,9 @@ import android.util.Pair;
 
 import com.example.fernando.myapplication.Activities.UsersActivity;
 import com.example.fernando.myapplication.Common.Constants;
+import com.example.fernando.myapplication.Entities.User;
+
+import java.util.HashMap;
 
 /**
  * Created by fernando on 27/04/15.
@@ -20,18 +23,19 @@ public class RefreshUsersAsyncTask extends AsyncTask<Pair<Context, String>, Stri
 //        Constants.currentUsersSize = Constants.otherUsers.size();
         context = params[0].first;
             try {
-                Thread.sleep(200);
+                Thread.sleep(1000);
 
-                if (Constants.otherUsers.size() > Constants.currentUsersSize) {
-
-                    for (int user = Constants.currentUsersSize;
-                         user < Constants.otherUsers.size();
-                         user++) {
-
-                        publishProgress(Constants.otherUsers.get(user).username);
-                    }
-                    Constants.currentUsersSize = Constants.otherUsers.size();
-                }
+//                if (Constants.otherUsers.size() > Constants.currentUsersSize) {
+//
+//                    for (int user = Constants.currentUsersSize;
+//                         user < Constants.otherUsers.size();
+//                         user++) {
+//
+//                        publishProgress(Constants.otherUsers.get(user).username);
+//                    }
+//                    Constants.currentUsersSize = Constants.otherUsers.size();
+//                }
+                publishProgress("updateUsers");
 
                 publishProgress("run again", params[0].second,
                         params[1].second, params[2].second);
@@ -54,8 +58,21 @@ public class RefreshUsersAsyncTask extends AsyncTask<Pair<Context, String>, Stri
                     new Pair<>(context, values[3]));
             this.cancel(true);
         } else {
-            Constants.usersAdapter.add(values[0]);
+
+            Constants.usersAdapter.clear();
+
+            for (int user = 0; user < Constants.otherUsers.size(); user++) {
+                User userToShow = Constants.otherUsers.get(user);
+
+                Constants.usersAdapter.add(userToShow.username + "\n" +
+                        userToShow.status + " - "
+                        + userToShow.lastTimeConnected
+                        + " - " + userToShow.location);
+//                Constants.usersListView.setAdapter(Constants.usersAdapter);
+            }
             Constants.usersListView.setAdapter(Constants.usersAdapter);
+//            Constants.usersAdapter.add(values[0]);
+//            Constants.usersListView.setAdapter(Constants.usersAdapter);
         }
     }
 
