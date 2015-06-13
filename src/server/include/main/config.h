@@ -33,6 +33,7 @@ using namespace std;
 #define JSON_USER_PROFILE_PICTURE "profile_picture"
 #define JSON_USER_CHATS_WITH "chats_with"
 #define JSON_USER_LASTTIME "lastTimeConnected"
+#define JSON_USER_CONNECTED "connected"
 //# USER ######################################
 #define DEFAULT_USER_LOCATION "UNKNOWN"
 #define DEFAULT_USER_STATUS "Online"
@@ -61,6 +62,9 @@ const std::string SERVICE_SIGNUP_NAME = "signUp";
 
 //# SERVICIO DE LOGIN
 const std::string SERVICE_LOGIN_NAME = "logIn";
+
+//# SERVICIO DE BROADCAST
+const std::string SERVICE_BROADCAST_NAME = "broadcast";
 
 //# SERVICIO DE SENDMESSAGE
 const std::string SERVICE_SENDMESSAGE_NAME = "sendMessage";

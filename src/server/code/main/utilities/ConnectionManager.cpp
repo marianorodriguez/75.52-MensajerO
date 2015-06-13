@@ -5,7 +5,8 @@
  *      Author: marian
  */
 
-#include "../../include/main/services/ConnectionManager.h"
+#include "../../../include/main/utilities/ConnectionManager.h"
+
 #include <iostream>
 #include "../../include/main/config.h"
 #include "../../include/main/user/User.h"
@@ -87,11 +88,12 @@ void ConnectionManager::updateUser(const std::string username) {
 	key.push_back(username);
 	try {
 		User user(DB.read(key));
-	if(user.getStatus() != "offline") {
-		user.setLastTimeConnected();
+		if (user.getStatus() != "offline") {
+			user.setLastTimeConnected();
+		}
 		DB.write(key, user.serialize());
+	} catch (KeyNotFoundException &e) {
 	}
-	}catch(KeyNotFoundException &e){}
 
 	mtx.lock();
 	connectedUsers[username] = time(0);

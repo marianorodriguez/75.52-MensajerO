@@ -2,7 +2,6 @@ project(mensajero)
 
 add_library(mensajero-services
 	Connection.cpp
-	ConnectionManager.cpp
 	CurrentChatsService.cpp
 	LogInService.cpp
 	NullService.cpp
@@ -17,6 +16,7 @@ add_library(mensajero-services
 	UserConfigService.cpp
 	UsersService.cpp
 	DeleteChatService.cpp
+	BroadcastService.cpp
 	)
 
 target_link_libraries(mensajero-services ${JSONCPP_LIBRARIES} mongoose mensajero-database)

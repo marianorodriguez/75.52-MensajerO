@@ -3,8 +3,8 @@
 
 #include "Connection.h"
 #include "ServiceFactory.h"
-#include "ConnectionManager.h"
 #include "../ServerOptions.h"
+#include "../utilities/ConnectionManager.h"
 
 // Forwards
 struct mg_server;

@@ -12,7 +12,7 @@ using namespace std;
 /**
  * Define a un usuario dentro del servidor.
  */
-class User: public ISerializable{
+class User: public ISerializable {
 	friend class userTests;
 
 public:
@@ -92,6 +92,9 @@ public:
 	int getLastTimeConnected();
 	void setLastTimeConnected();
 
+	void setConnected(const bool &connected);
+	bool isConnected() const;
+
 private:
 
 	int lastTimeConnected;
@@ -103,6 +106,7 @@ private:
 	string status;
 	string hashedProfilePicture;
 	vector<string> hasChatsWith;
+	bool connected;
 
 	/**
 	 * Se fija si el usuario tiene un chat con el usuario pasado por parametro.

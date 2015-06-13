@@ -1,8 +1,8 @@
 #ifndef SERVICE_INTERFACE_H
 #define SERVICE_INTERFACE_H
 
+#include "../utilities/ConnectionManager.h"
 #include "Connection.h"
-#include "ConnectionManager.h"
 #include "json/json.h"
 
 class ServiceInterface{
