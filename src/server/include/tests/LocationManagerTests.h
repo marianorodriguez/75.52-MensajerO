@@ -30,8 +30,7 @@ public:
 	void testShouldParseLocation();
 	void testShouldGetLocation();
 
-private:
-	LocationManager* lm;
+
 };
 
 #endif /* CODE_TESTS_LOCATIONMANAGERTESTS_H_ */

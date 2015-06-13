@@ -35,8 +35,9 @@ Json::Value LogInService::doLogIn(const Json::Value& data) {
 		User user(serializedUser);
 
 		if (user.getPassword() == data[SERVICE_PASSWORD].asString()) {
-			output[SERVICE_USERCONFIG_LOCATION] = LocationManager::getLocation(
-					data[SERVICE_USERCONFIG_LOCATION].asString());
+			output[SERVICE_USERCONFIG_LOCATION] =
+					LocationManager::getInstance()->getLocation(
+							data[SERVICE_USERCONFIG_LOCATION].asString());
 			output[SERVICE_USERCONFIG_STATUS] = user.getStatus();
 			output[SERVICE_USERCONFIG_PICTURE] = user.getProfilePicture();
 			output[SERVICE_OUT_OK] = true;

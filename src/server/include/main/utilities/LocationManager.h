@@ -32,11 +32,13 @@ private:
 class LocationManager {
 	friend class LocationManagerTests;
 public:
-	LocationManager();
 	virtual ~LocationManager();
+	static LocationManager* getInstance();
 	static std::string getLocation(const std::string &location);
 
 private:
+	LocationManager();
+	static LocationManager* instance;
 	static map<string, string> nodes;
 };
 

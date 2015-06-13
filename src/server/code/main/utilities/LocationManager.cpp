@@ -8,6 +8,7 @@
 #include "../../include/main/utilities/LocationManager.h"
 
 map<string, string> LocationManager::nodes;
+LocationManager* LocationManager::instance = 0;
 
 LocationManager::LocationManager() {
 
@@ -26,6 +27,13 @@ LocationManager::LocationManager() {
 }
 
 LocationManager::~LocationManager() {
+}
+
+LocationManager* LocationManager::getInstance() {
+	if(instance == 0){
+		instance = new LocationManager();
+	}
+	return instance;
 }
 
 std::string LocationManager::getLocation(const std::string &location) {
@@ -67,7 +75,7 @@ bool GeoNode::inside(const string &location) const {
 	return false;
 }
 
-void GeoNode::parseLocation(const string &location, double &lat, double &lon) {
+void GeoNode::parseLocation(const string &location, double& lat, double &lon) {
 	int index = location.find(';');
 	lat = atof(location.substr(0, index).c_str());
 	lon = atof(location.substr(index + 1, location.size()).c_str());
