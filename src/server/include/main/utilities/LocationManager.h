@@ -14,6 +14,21 @@
 #include <fstream>
 #include <math.h>
 
+class GeoNode {
+	friend class LocationManager;
+	friend class LocationManagerTests;
+public:
+	GeoNode(std::string dl, std::string ur);
+	GeoNode(const string &serialized);
+	bool inside(const std::string &location) const;
+private:
+	std::string ur;
+	std::string dl;
+
+	static void parseLocation(const std::string &location, double &lat, double &lon);
+	string serialize() const;
+};
+
 class LocationManager {
 	friend class LocationManagerTests;
 public:
@@ -22,12 +37,8 @@ public:
 	static std::string getLocation(const std::string &location);
 
 private:
-	static double NODE_RADIUS;
-	static std::map<std::string, std::string> nodes;
-	static std::string getNodeName(const std::string &location);
-	static void parseLocation(const std::string &location, double &latitude, double &longitude);
-	static std::string nearestNode(const std::string &location);
-	static double distance(const std::string &location1, const std::string &location2);
+	static map<string, string> nodes;
 };
+
 
 #endif /* MAIN_UTILITIES_LOCATIONMANAGER_H_ */

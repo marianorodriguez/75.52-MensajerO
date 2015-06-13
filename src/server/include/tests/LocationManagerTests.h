@@ -15,7 +15,6 @@ class LocationManagerTests: public CppUnit::TestFixture {
 
 CPPUNIT_TEST_SUITE(LocationManagerTests);
 	CPPUNIT_TEST(testShouldParseAllLocations);
-	CPPUNIT_TEST(testShouldReturnNodesName);
 	CPPUNIT_TEST(testShouldParseLocation);
 	CPPUNIT_TEST(testShouldGetLocation);
 	CPPUNIT_TEST_SUITE_END();
@@ -28,7 +27,6 @@ public:
 	void tearDown();
 
 	void testShouldParseAllLocations();
-	void testShouldReturnNodesName();
 	void testShouldParseLocation();
 	void testShouldGetLocation();
 

@@ -16,7 +16,6 @@ add_library(mensajero-services
 	UserConfigService.cpp
 	UsersService.cpp
 	DeleteChatService.cpp
-	BroadcastService.cpp
 	)
 
 target_link_libraries(mensajero-services ${JSONCPP_LIBRARIES} mongoose mensajero-database)
