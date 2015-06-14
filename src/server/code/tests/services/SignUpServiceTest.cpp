@@ -22,6 +22,7 @@ void SignUpServiceTest::setUp(){
 	std::vector<std::string> key;
 	key.push_back(existingUser.getUsername());
 	DB.write(key, existingUser.serialize());
+	DB.close();
 }
 
 void SignUpServiceTest::tearDown(){
@@ -31,6 +32,7 @@ void SignUpServiceTest::tearDown(){
 	std::vector<std::string> key;
 	key.push_back("existingUsername");
 	DB.erase(key);
+	DB.close();
 }
 
 void SignUpServiceTest::testUserShouldSignUp(){
@@ -48,6 +50,7 @@ void SignUpServiceTest::testUserShouldSignUp(){
 	std::vector<std::string> key;
 	key.push_back("username");
 	DB.erase(key);
+	DB.close();
 }
 
 void SignUpServiceTest::testSignUpShouldRegisterUserInDatabase(){
@@ -66,6 +69,7 @@ void SignUpServiceTest::testSignUpShouldRegisterUserInDatabase(){
 	CPPUNIT_ASSERT(user.getUsername() == "username");
 	CPPUNIT_ASSERT(user.getPassword() == "password1234ASD");
 	DB.erase(key);
+	DB.close();
 }
 
 void SignUpServiceTest::testUsernameShouldAlreadyExist(){

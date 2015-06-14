@@ -55,6 +55,7 @@ Json::Value UserConfigService::doUserConfig(const Json::Value &data) {
 		output[SERVICE_OUT_WHAT] = SERVICE_OUT_INVALIDUSER;
 	}
 
+	db.close();
 	return output;
 }
 

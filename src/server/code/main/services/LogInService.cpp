@@ -51,6 +51,6 @@ Json::Value LogInService::doLogIn(const Json::Value& data) {
 		output[SERVICE_OUT_OK] = false;
 		output[SERVICE_OUT_WHAT] = SERVICE_OUT_INVALIDUSER;
 	}
-
+	db.close();
 	return output;
 }

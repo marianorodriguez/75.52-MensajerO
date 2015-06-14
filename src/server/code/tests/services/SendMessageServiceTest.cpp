@@ -40,6 +40,8 @@ void SendMessageServiceTest::setUp(){
 	chatKey.push_back("username1");
 	chatKey.push_back("username2");
 	chatDB.write(chatKey, chat.serialize());
+	userDB.close();
+	chatDB.close();
 }
 
 void SendMessageServiceTest::tearDown(){
@@ -59,6 +61,8 @@ void SendMessageServiceTest::tearDown(){
 	chatKey.push_back("username1");
 	chatKey.push_back("username2");
 	chatDB.erase(chatKey);
+	userDB.close();
+	chatDB.close();
 }
 
 void SendMessageServiceTest::testShouldAddMessageToExistingChat(){
@@ -81,6 +85,7 @@ void SendMessageServiceTest::testShouldAddMessageToExistingChat(){
 	Chat chat(chatDB.read(chatKey));
 
 	CPPUNIT_ASSERT(chat.getMessages().size() == 4);
+	chatDB.close();
 }
 
 void SendMessageServiceTest::testShouldCreateNewChat(){
@@ -103,6 +108,7 @@ void SendMessageServiceTest::testShouldCreateNewChat(){
 	Chat chat(chatDB.read(chatKey));
 
 	CPPUNIT_ASSERT(chat.getMessages().size() == 1);
+	chatDB.close();
 }
 
 void SendMessageServiceTest::testShouldThrowInvalidPassword(){

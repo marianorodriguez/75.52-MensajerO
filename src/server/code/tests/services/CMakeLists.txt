@@ -4,6 +4,7 @@ add_library(service-test
 	EchoService.cpp
 	RestServerTest.cpp
 	ServiceFactoryTest.cpp
+	BroadcastServiceTest.cpp
 	ConnectionManagerTest.cpp
 	LogInServiceTest.cpp
 	SignUpServiceTest.cpp
