@@ -289,9 +289,9 @@ public class ChatsHallActivity extends ActionBarActivity implements View.OnClick
 
     private void doDeleteOfChat(String chatSelected) {
         String package_ = Constants.packager.wrap("deleteChat", Constants.user, chatSelected, "");
-//        deleteChatPost.execute(new Pair<Context, String>(this, package_),
-//                new Pair<Context, String>(this, Constants.deleteChatUrl),
-//                new Pair<Context, String>(this, "post"));
+        deleteChatPost.execute(new Pair<Context, String>(this, package_),
+                new Pair<Context, String>(this, Constants.deleteChatUrl),
+                new Pair<Context, String>(this, "post"));
 
         Constants.deleteOk = "true";
         while (Constants.deleteOk.compareTo("") == 0) {

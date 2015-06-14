@@ -75,8 +75,9 @@ public class CurrentChatsPostAsyncTask extends AsyncTask<Pair<Context, String>, 
 //                    JSONObject jsonObject = new JSONObject(username);
 
                         Chat newChat = Chat.toChat(object);
-
-                        boolean chatOnList = checkForRepetitions(newChat, Constants.user.chats);
+                        boolean chatOnList = true;
+                        if (newChat != null)
+                            chatOnList = checkForRepetitions(newChat, Constants.user.chats);
                         if (!chatOnList) {
                             Constants.user.chats.add(newChat);
                         }
