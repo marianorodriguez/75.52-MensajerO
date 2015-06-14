@@ -80,7 +80,7 @@ Json::Value SendMessageService::doSendMessage(const Json::Value &data) {
 	return output;
 }
 
-ServiceInterface* SendMessageServiceCreator::create() {
+ServiceInterface* SendMessageServiceCreator::create(Database& userDb, Database& chatDb) {
 	return new SendMessageService();
 }
 

@@ -21,7 +21,7 @@ private:
 };
 
 class UsersServiceCreator: public ServiceCreatorInterface{
-	virtual ServiceInterface* create();
+	virtual ServiceInterface* create(Database& userDb, Database& chatDb);
 };
 
 #endif /* SERVER_MAIN_SERVICES_USERSSERVICE_H_ */

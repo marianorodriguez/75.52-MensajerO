@@ -18,7 +18,7 @@ std::string LogInService::executeRequest(const Json::Value &paramMap) const {
 	return output.toStyledString();
 }
 
-ServiceInterface* LogInServiceCreator::create() {
+ServiceInterface* LogInServiceCreator::create(Database& userDb, Database& chatDb) {
 	return new LogInService();
 }
 

@@ -33,7 +33,7 @@ private:
 };
 
 class UserConfigServiceCreator: public ServiceCreatorInterface{
-	virtual ServiceInterface* create();
+	virtual ServiceInterface* create(Database& userDb, Database& chatDb);
 };
 
 #endif /* SERVER_MAIN_SERVICES_USERCONFIGSERVICE_H_ */

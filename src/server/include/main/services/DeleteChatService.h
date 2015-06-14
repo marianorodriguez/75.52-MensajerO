@@ -29,7 +29,7 @@ private:
 
 class DeleteChatServiceCreator: public ServiceCreatorInterface{
 
-	virtual ServiceInterface* create();
+	virtual ServiceInterface* create(Database& userDb, Database& chatDb);
 };
 
 #endif /* CURRENTCHATSSERVICE_H_ */

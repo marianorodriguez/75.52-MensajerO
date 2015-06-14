@@ -29,7 +29,7 @@ public:
 	/**
 	 * Devuelve un puntero a una instancia de un servicio
 	 */
-	virtual ServiceInterface* create() = 0;
+	virtual ServiceInterface* create(Database& userDb, Database& chatDb) = 0;
 };
 
 #endif // SERVICE_INTERFACE_H

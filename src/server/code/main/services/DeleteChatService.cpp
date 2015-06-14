@@ -71,6 +71,6 @@ Json::Value DeleteChatService::doDeleteChat(const Json::Value &data) {
 	return output;
 }
 
-ServiceInterface* DeleteChatServiceCreator::create() {
+ServiceInterface* DeleteChatServiceCreator::create(Database& userDb, Database& chatDb) {
 	return new DeleteChatService();
 }

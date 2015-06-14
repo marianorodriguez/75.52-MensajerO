@@ -21,7 +21,7 @@ private:
 };
 
 class LogInServiceCreator: public ServiceCreatorInterface{
-	virtual ServiceInterface* create();
+	virtual ServiceInterface* create(Database& userDb, Database& chatDb);
 };
 
 #endif /* LOGINSERVICE_H_ */

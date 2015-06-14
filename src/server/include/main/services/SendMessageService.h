@@ -24,7 +24,7 @@ private:
 
 class SendMessageServiceCreator : public ServiceCreatorInterface{
 public:
-    virtual ServiceInterface* create();
+    virtual ServiceInterface* create(Database& userDb, Database& chatDb);
 };
 
 #endif /* SENDMESSAGESERVICE_H_ */

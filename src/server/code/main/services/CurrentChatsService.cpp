@@ -62,6 +62,6 @@ Json::Value CurrentChatsService::doCurrentChats(const Json::Value &data) {
 	return output;
 }
 
-ServiceInterface* CurrentChatsServiceCreator::create() {
+ServiceInterface* CurrentChatsServiceCreator::create(Database& userDb, Database& chatDb) {
 	return new CurrentChatsService();
 }

@@ -34,47 +34,51 @@ void SignUpServiceTest::tearDown(){
 }
 
 void SignUpServiceTest::testUserShouldSignUp(){
+	Database usersDb(DATABASE_USERS_PATH);
+	SignUpService signUpService(usersDb);
 
 	Json::Value input;
 	input[SERVICE_USERNAME] = "username";
 	input[SERVICE_PASSWORD] = "password1234ASD";
 
-	Json::Value output = SignUpService::doSignUp(input);
+	Json::Value output = signUpService.doSignUp(input);
 
 	CPPUNIT_ASSERT(output[SERVICE_OUT_OK].asBool() == true);
 	CPPUNIT_ASSERT(output[SERVICE_OUT_WHAT].asString() == "");
 
-	Database DB(DATABASE_USERS_PATH);
 	std::vector<std::string> key;
 	key.push_back("username");
-	DB.erase(key);
+	usersDb.erase(key);
 }
 
 void SignUpServiceTest::testSignUpShouldRegisterUserInDatabase(){
+	Database usersDb(DATABASE_USERS_PATH);
+	SignUpService signUpService(usersDb);
 
 	Json::Value input;
 	input[SERVICE_USERNAME] = "username";
 	input[SERVICE_PASSWORD] = "password1234ASD";
 
-	Json::Value output = SignUpService::doSignUp(input);
+	Json::Value output = signUpService.doSignUp(input);
 
-	Database DB(DATABASE_USERS_PATH);
 	std::vector<std::string> key;
 	key.push_back("username");
-	std::string serializedUser = DB.read(key);
+	std::string serializedUser = usersDb.read(key);
 	User user(serializedUser);
 	CPPUNIT_ASSERT(user.getUsername() == "username");
 	CPPUNIT_ASSERT(user.getPassword() == "password1234ASD");
-	DB.erase(key);
+	usersDb.erase(key);
 }
 
 void SignUpServiceTest::testUsernameShouldAlreadyExist(){
-
+	Database usersDb(DATABASE_USERS_PATH);
+	SignUpService signUpService(usersDb);
+	
 	Json::Value input;
 	input[SERVICE_USERNAME] = "existingUsername";
 	input[SERVICE_PASSWORD] = "password1234ASD";
 
-	Json::Value output = SignUpService::doSignUp(input);
+	Json::Value output = signUpService.doSignUp(input);
 
 	CPPUNIT_ASSERT(output[SERVICE_OUT_OK].asBool() == false);
 	CPPUNIT_ASSERT(output[SERVICE_OUT_WHAT].asString() == SERVICE_OUT_USERNAMEEXISTS);

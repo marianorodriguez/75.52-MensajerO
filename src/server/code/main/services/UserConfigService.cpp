@@ -58,6 +58,6 @@ Json::Value UserConfigService::doUserConfig(const Json::Value &data) {
 	return output;
 }
 
-ServiceInterface* UserConfigServiceCreator::create() {
+ServiceInterface* UserConfigServiceCreator::create(Database& userDb, Database& chatDb) {
 	return new UserConfigService();
 }

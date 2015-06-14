@@ -88,6 +88,6 @@ Json::Value SomethingForMeService::doSomethingForMe(const Json::Value &data) {
 	return output;
 }
 
-ServiceInterface* SomethingForMeServiceCreator::create() {
+ServiceInterface* SomethingForMeServiceCreator::create(Database& userDb, Database& chatDb) {
 	return new SomethingForMeService();
 }

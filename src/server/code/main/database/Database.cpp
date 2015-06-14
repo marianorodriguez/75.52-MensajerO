@@ -31,7 +31,7 @@ Database::Database(const string& path) {
 	}
 }
 
-void Database::write(vector<string> key, const string& value) {
+void Database::write(const std::vector<std::string>& key, const string& value) {
 	if (key.size() == 0) {
 		InvalidKeyException exception("Vector de keys esta vacio.");
 		throw exception;
@@ -41,12 +41,13 @@ void Database::write(vector<string> key, const string& value) {
 	if (!status.ok()) {
 		InvalidKeyException exception("Invalid key.");
 		Logger* logger1 = Logger::getLogger();
-		logger1->write(Logger::ERROR, "Error: " + status.ToString()	+ " Hubo un error al escribir en la base de datos de: "
-						+ database->GetName() + " la key: " + compoundKey);
+		logger1->write(Logger::ERROR, "Error: " + status.ToString() +
+					" Hubo un error al escribir en la base de datos de: " +
+					database->GetName() + " la key: " + compoundKey);
 	}
 }
 
-string Database::read(vector<string> key) const {
+string Database::read(const std::vector<std::string>& key) const {
 	if (key.size() == 0) {
 		InvalidKeyException exception("Vector de keys esta vacio.");
 		throw exception;
@@ -61,7 +62,7 @@ string Database::read(vector<string> key) const {
 	return value;
 }
 
-void Database::erase(vector<string> key) {
+void Database::erase(const std::vector<std::string>& key) {
 	string compoundKey = this->getKey(key);
 	rocksdb::Status status = database->Delete(rocksdb::WriteOptions(),
 			compoundKey);
@@ -73,13 +74,12 @@ void Database::erase(vector<string> key) {
 	}
 }
 
-string Database::getKey(vector<string> key) const {
-	sort(key.begin(), key.end());
+string Database::getKey(const std::vector<std::string>& key) const {
+	std::vector<std::string> sortedKey = key;
+	sort(sortedKey.begin(), sortedKey.end());
 	Json::Value returnKey;
-	for (unsigned int i = 0; i < key.size(); i++) {
-		//string integer = to_string(i);
-		//returnKey["key"][key[i]] = key[i];
-		returnKey.append(key[i]);
+	for (unsigned int i = 0; i < sortedKey.size(); i++) {
+		returnKey.append(sortedKey.at(i));
 	}
 	return returnKey.toStyledString();
 }

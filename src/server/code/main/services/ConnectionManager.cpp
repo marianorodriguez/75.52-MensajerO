@@ -10,11 +10,8 @@
 #include "../../include/main/config.h"
 #include "../../include/main/user/User.h"
 
-int ConnectionManager::deltaTime = 2; //MIN DELTA == 2 TODO des-hardcodear
-bool ConnectionManager::running = false;
-std::map<std::string, int> ConnectionManager::connectedUsers;
+const int ConnectionManager::deltaTime = 2; //MIN DELTA == 2 TODO des-hardcodear
 ConnectionManager* ConnectionManager::managerInstance = NULL;
-Mutex ConnectionManager::mtx;
 Mutex ConnectionManager::constructorMutex;
 
 ConnectionManager* ConnectionManager::getInstance() {
@@ -37,8 +34,8 @@ void ConnectionManager::destroyInstance() {
 }
 
 ConnectionManager::ConnectionManager() {
-	connectedUsers.clear();
 	this->updateThread = 0;
+	this->running = false;
 }
 
 ConnectionManager::~ConnectionManager() {
@@ -56,11 +53,9 @@ void ConnectionManager::stopUpdating() {
 
 void* ConnectionManager::runFunction(void* args) {
 
-	while (running) {
+	while (getInstance()->running) {
 		usleep(1000);
-		mtx.lock();
-		updateConnection();
-		mtx.unlock();
+		getInstance()->updateConnection();
 	}
 	return NULL;
 }
@@ -93,9 +88,7 @@ void ConnectionManager::updateUser(const std::string username) {
 	}
 	}catch(KeyNotFoundException &e){}
 
-	mtx.lock();
 	connectedUsers[username] = time(0);
-	mtx.unlock();
 }
 
 void ConnectionManager::updateConnection() {

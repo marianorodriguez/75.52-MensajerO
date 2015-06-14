@@ -57,20 +57,20 @@ private:
 	 * vez que le llegó algo, y lo elimina de esa lista en caso de detectar
 	 * que se desconectó.
 	 */
-	static void updateConnection();
+	void updateConnection();
 
 	/**
 	 * Función que ejecuta el thread para automatizar las actualizaciones.
 	 */
 	static void* runFunction(void* args);
 
-	static Mutex mtx;
+	Mutex mtx;
 	static Mutex constructorMutex;
 	pthread_t updateThread;
-	static std::map<std::string, int> connectedUsers;
+	std::map<std::string, int> connectedUsers;
 	std::map<std::string, int>::iterator it;
-	static int deltaTime;
-	static bool running;
+	static const int deltaTime;
+	bool running;
 };
 
 #endif /* SERVER_MAIN_SERVICES_CONNECTIONMANAGER_H_ */

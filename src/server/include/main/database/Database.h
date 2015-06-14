@@ -36,12 +36,12 @@ public:
 	 * Escribe informacion en la bd. Si @param key ya existe, el nuevo @param value reemplaza al anterior.
 	 * No importa el orden de los strings dentro del vector, los mismos strings siempre forman la misma key.
 	 */
-	void write(vector<string> key, const string& value) override;
+	void write(const std::vector<std::string>& key, const string& value) override;
 
 	/*
 	 * Retorna el value indicado por @param key. Si la key no existe, retorna @param error = true, si existe falso.
 	 */
-	string read(vector<string> key) const override;
+	std::string read(const std::vector<std::string>& key) const override;
 
 	/**
 	 * Devuelve un vector con todas las keys guardadas en la base de datos.
@@ -51,7 +51,7 @@ public:
 	/*
 	 * Borra el @param key con el value asociado de la bd.
 	 */
-	void erase(vector<string> key);
+	void erase(const std::vector<std::string>& key);
 	/**
 	 * Cierra la base de datos
 	 */
@@ -62,7 +62,7 @@ private:
 	/*
 	 * Forma una key a partir de un vector de strings.
 	 */
-	string getKey(vector<string> key) const;
+	string getKey(const std::vector<std::string>& key) const;
 	std::string pathDB;
 };
 

@@ -58,6 +58,6 @@ Json::Value UsersService::doUsers(const Json::Value &data) {
 	return output;
 }
 
-ServiceInterface* UsersServiceCreator::create() {
+ServiceInterface* UsersServiceCreator::create(Database& userDb, Database& chatDb) {
 	return new UsersService();
 }

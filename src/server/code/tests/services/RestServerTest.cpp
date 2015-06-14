@@ -9,15 +9,9 @@ RestServerTest::~RestServerTest(){}
 
 void RestServerTest::setUp(){
 	CppUnit::TestFixture::setUp();
-	this->testServer = new ServerThread();
-	this->testServer->run();
-	this->testServer->addService(new EchoServiceCreator());
 }
 
 void RestServerTest::tearDown(){
-	this->testServer->shutdown();
-	this->testServer->join();
-	delete this->testServer;
 	CppUnit::TestFixture::tearDown();
 }
 
@@ -28,6 +22,11 @@ void RestServerTest::testConstructor(){
 }
 
 void RestServerTest::testEchoReply(){
+	// Instancio servidor
+	this->testServer = new ServerThread();
+	this->testServer->addService(new EchoServiceCreator());
+	this->testServer->run();
+	// Creo cliente
 	RestClient client;
 	RestQuery query;
 	query.setBaseUri("127.0.0.1:8081/echo");
@@ -39,4 +38,8 @@ void RestServerTest::testEchoReply(){
 	CPPUNIT_ASSERT(response.find("echo") != std::string::npos);
 	CPPUNIT_ASSERT(response.find("param1") != std::string::npos);
 	CPPUNIT_ASSERT(response.find("foo") != std::string::npos);
+	// apago servidor y uno thread
+	this->testServer->shutdown();
+	this->testServer->join();
+	delete this->testServer;
 }

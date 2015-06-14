@@ -2,6 +2,9 @@
 
 const std::string SignUpService::serviceName = SERVICE_SIGNUP_NAME;
 
+SignUpService::SignUpService(Database& userDb) : userDb(userDb){}
+
+
 std::string SignUpService::getUri() const {
 	return SignUpService::serviceName;
 }
@@ -19,15 +22,14 @@ std::string SignUpService::executeRequest(const Json::Value &paramMap) const {
 	return output.toStyledString();
 }
 
-bool checkUsernameExists(const std::string& username) {
+bool SignUpService::checkUsernameExists(const std::string& username) const{
 
 	bool exists = false;
-	Database DB(DATABASE_USERS_PATH);
 	vector<string> key;
 	key.push_back(username);
 
 	try {
-		std::string value = DB.read(key);
+		std::string value = this->userDb.read(key);
 		exists = true;
 	} catch (KeyNotFoundException &e) {
 	}
@@ -35,11 +37,11 @@ bool checkUsernameExists(const std::string& username) {
 	return exists;
 }
 
-ServiceInterface* SignUpServiceCreator::create() {
-	return new SignUpService();
+ServiceInterface* SignUpServiceCreator::create(Database& userDb, Database& chatDb) {
+	return new SignUpService(userDb);
 }
 
-Json::Value SignUpService::doSignUp(const Json::Value& data) {
+Json::Value SignUpService::doSignUp(const Json::Value& data) const {
 
 	//si no hay error, guardo el usuario en la BD y devuelvo OK
 
@@ -48,7 +50,6 @@ Json::Value SignUpService::doSignUp(const Json::Value& data) {
 	Json::Value output;
 
 	if (!exists) {
-		Database DB(DATABASE_USERS_PATH);
 		std::string username = data[SERVICE_USERNAME].asString();
 		std::string password = data[SERVICE_PASSWORD].asString();
 		User newUser(username, password);
@@ -62,7 +63,7 @@ Json::Value SignUpService::doSignUp(const Json::Value& data) {
 
 		std::vector<std::string> key;
 		key.push_back(username);
-		DB.write(key, newUser.serialize());
+		this->userDb.write(key, newUser.serialize());
 
 		//le envio sus datos al user como confirmacion
 		output[SERVICE_USERCONFIG_LOCATION] = newUser.getLocation();

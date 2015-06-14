@@ -23,7 +23,7 @@ private:
 };
 
 class SomethingForMeServiceCreator: public ServiceCreatorInterface{
-	virtual ServiceInterface* create();
+	virtual ServiceInterface* create(Database& userDb, Database& chatDb);
 };
 
 #endif /* SOMETHINGFORMESERVICE_H_ */
