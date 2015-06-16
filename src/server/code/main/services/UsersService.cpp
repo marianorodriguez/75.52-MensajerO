@@ -55,6 +55,7 @@ Json::Value UsersService::doUsers(const Json::Value &data) {
 		output[SERVICE_OUT_WHAT] = SERVICE_OUT_INVALIDUSER;
 	}
 
+	DB.close();
 	return output;
 }
 

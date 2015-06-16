@@ -32,6 +32,7 @@ bool checkUsernameExists(const std::string& username) {
 	} catch (KeyNotFoundException &e) {
 	}
 
+	DB.close();
 	return exists;
 }
 
@@ -68,6 +69,7 @@ Json::Value SignUpService::doSignUp(const Json::Value& data) {
 		output[SERVICE_USERCONFIG_LOCATION] = newUser.getLocation();
 		output[SERVICE_OUT_OK] = true;
 		output[SERVICE_OUT_WHAT] = "";
+		DB.close();
 	} else {
 		output[SERVICE_OUT_OK] = false;
 		output[SERVICE_OUT_WHAT] = SERVICE_OUT_USERNAMEEXISTS;

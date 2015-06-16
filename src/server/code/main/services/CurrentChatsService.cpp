@@ -35,16 +35,16 @@ Json::Value CurrentChatsService::doCurrentChats(const Json::Value &data) {
 		if (user.getPassword() == data[SERVICE_PASSWORD].asString()) {
 
 			vector<string> chats = user.getChats();
-			output[SERVICE_CURRENTCHATS_CHATS] = Json::Value(Json::arrayValue);
 
+			vector<string> keyChats;
 			for (unsigned int i = 0; i < chats.size(); i++) {
-				vector<string> keyChats;
+				keyChats.clear();
 				keyChats.push_back(data[SERVICE_USERNAME].asString());
 				keyChats.push_back(chats[i]);
 				Chat chat(dbChats.read(keyChats));
-				output[SERVICE_CURRENTCHATS_CHATS].append(
+				output[SERVICE_CURRENTCHATS_CHATS][i] =
 						chat.serializeCurrentChats(
-								data[SERVICE_USERNAME].asString()));
+								data[SERVICE_USERNAME].asString());
 			}
 
 			output[SERVICE_OUT_OK] = true;
@@ -59,6 +59,8 @@ Json::Value CurrentChatsService::doCurrentChats(const Json::Value &data) {
 		output[SERVICE_OUT_WHAT] = SERVICE_OUT_INVALIDUSER;
 	}
 
+	dbChats.close();
+	dbUsers.close();
 	return output;
 }
 

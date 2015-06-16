@@ -1,4 +1,5 @@
 #include "../../../include/main/services/ServerConfig.h"
+#include "../../../include/main/services/BroadcastService.h"
 #include "../../../include/main/services/SendMessageService.h"
 #include "../../../include/main/services/CurrentChatsService.h"
 #include "../../../include/main/services/LogInService.h"
@@ -25,4 +26,5 @@ void ServerConfig::addServiceCreators(RestServer& server) const{
 	server.addService(new SomethingForMeServiceCreator());
 	server.addService(new UserConfigServiceCreator());
 	server.addService(new UsersServiceCreator());
+	server.addService(new BroadcastServiceCreator());
 }

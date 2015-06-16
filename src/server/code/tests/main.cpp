@@ -20,6 +20,7 @@
 #include "../../include/tests/services/UsersServiceTest.h"
 #include "../../include/tests/services/SendMessageServiceTest.h"
 #include "../../include/tests/services/DeleteChatServiceTest.h"
+#include "../../include/tests/services/BroadcastServiceTest.h"
 #include "../../include/tests/LocationManagerTests.h"
 
 int main(int argc, char* argv[]){
@@ -51,6 +52,7 @@ int main(int argc, char* argv[]){
 	SendMessageServiceTest smst;
 	DeleteChatServiceTest dcst;
 	LocationManagerTests lmt;
+	BroadcastServiceTest bst;
 
 	runner.addTest( CPPUNIT_NS::TestFactoryRegistry::getRegistry().makeTest() );
 	runner.run( controller );

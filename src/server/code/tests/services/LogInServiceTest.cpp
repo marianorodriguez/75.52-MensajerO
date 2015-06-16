@@ -23,6 +23,7 @@ void LogInServiceTest::setUp() {
 	std::vector<std::string> key;
 	key.push_back(validUser.getUsername());
 	DB.write(key, validUser.serialize());
+	DB.close();
 }
 
 void LogInServiceTest::tearDown() {
@@ -32,6 +33,7 @@ void LogInServiceTest::tearDown() {
 	std::vector<std::string> key;
 	key.push_back("username_1");
 	DB.erase(key);
+	DB.close();
 }
 
 void LogInServiceTest::testLogIn() {

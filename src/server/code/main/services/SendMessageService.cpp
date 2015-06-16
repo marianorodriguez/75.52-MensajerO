@@ -77,6 +77,8 @@ Json::Value SendMessageService::doSendMessage(const Json::Value &data) {
 		output[SERVICE_OUT_WHAT] = SERVICE_OUT_INVALIDUSER;
 	}
 
+	dbChats.close();
+	dbUsers.close();
 	return output;
 }
 

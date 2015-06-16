@@ -26,6 +26,7 @@ void DatabaseTests::should_write_and_read_single_key() {
 
 	db.erase(key1);
 	db.erase(key2);
+	db.close();
 
 }
 
@@ -41,7 +42,7 @@ void DatabaseTests::should_write_and_read_double_keys() {
 	CPPUNIT_ASSERT(db.read(key2) == "value1");
 
 	db.erase(key1);
-
+	db.close();
 }
 
 void DatabaseTests::should_write_and_read_multiple_keys() {
@@ -60,7 +61,7 @@ void DatabaseTests::should_write_and_read_multiple_keys() {
 	CPPUNIT_ASSERT(db.read(key2) == "value1");
 
 	db.erase(key1);
-
+	db.close();
 }
 
 void DatabaseTests::should_erase() {
@@ -71,6 +72,7 @@ void DatabaseTests::should_erase() {
 	CPPUNIT_ASSERT(db.read(key1) == "value1");
 	db.erase(key1);
 	CPPUNIT_ASSERT_THROW(db.read(key1), KeyNotFoundException);
+	db.close();
 
 }
 
@@ -89,6 +91,7 @@ void DatabaseTests::should_modify() {
 	CPPUNIT_ASSERT(db2.read(key1) == "value2");
 
 	db2.erase(key1);
+	db2.close();
 }
 
 void DatabaseTests::should_persist() {
@@ -104,6 +107,7 @@ void DatabaseTests::should_persist() {
 	CPPUNIT_ASSERT(db2.read(key1) == "value1");
 
 	db2.erase(key1);
+	db2.close();
 }
 
 void DatabaseTests::cant_read_without_keys() {
@@ -111,6 +115,7 @@ void DatabaseTests::cant_read_without_keys() {
 	vector<string> invalidKey;
 
 	CPPUNIT_ASSERT_THROW(db.read(invalidKey), InvalidKeyException);
+	db.close();
 
 }
 
@@ -119,6 +124,8 @@ void DatabaseTests::cant_write_without_keys() {
 	vector<string> invalidKey;
 
 	CPPUNIT_ASSERT_THROW(db.write(invalidKey, "value"), InvalidKeyException);
+	db.close();
+
 }
 
 void DatabaseTests::should_not_find_values() {
@@ -126,6 +133,8 @@ void DatabaseTests::should_not_find_values() {
 	vector<string> key;
 	key.push_back("invalidKey");
 	CPPUNIT_ASSERT_THROW(db.read(key), KeyNotFoundException);
+	db.close();
+
 }
 
 void DatabaseTests::should_return_all_keys_in_db() {
@@ -158,4 +167,5 @@ void DatabaseTests::should_return_all_keys_in_db() {
 	db.erase(key2);
 	db.erase(key3);
 	db.erase(key4);
+	db.close();
 }

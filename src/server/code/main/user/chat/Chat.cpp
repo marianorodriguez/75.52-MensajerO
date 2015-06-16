@@ -124,7 +124,7 @@ string Chat::serializeCurrentChats(const string &user) const {
 	}
 
 	for (unsigned int i = start; i < this->sentMessages.size(); i++) {
-		JsonChat[JSON_CHAT_MESSAGES][i] = this->sentMessages.at(i).serialize();
+		JsonChat[JSON_CHAT_MESSAGES][i-start] = this->sentMessages.at(i).serialize();
 	}
 
 	return JsonChat.toStyledString();

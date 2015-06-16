@@ -30,6 +30,8 @@ void DeleteChatServiceTest::setUp() {
 	chatKey.push_back("username1");
 	chatKey.push_back("username2");
 	chatDB.write(chatKey, chat.serialize());
+	userDB.close();
+	chatDB.close();
 }
 
 void DeleteChatServiceTest::tearDown() {
@@ -47,6 +49,9 @@ void DeleteChatServiceTest::tearDown() {
 	chatKey.push_back("username1");
 	chatKey.push_back("username2");
 	chatDB.erase(chatKey);
+
+	userDB.close();
+	chatDB.close();
 }
 
 void DeleteChatServiceTest::testDeleteChat() {
@@ -68,4 +73,5 @@ void DeleteChatServiceTest::testDeleteChat() {
 	Chat chat(chats.read(key));
 
 	CPPUNIT_ASSERT(chat.getFirstMessageUser1() == 3);
+	chats.close();
 }
