@@ -18,15 +18,15 @@
             android:text="@string/b.getIn"
             android:textAllCaps="false"
             android:typeface="sans"
-            android:background="#1E4072"
+            android:background="@drawable/rounded_button"
             android:textSize="17dp"
-            android:textStyle="bold|italic"
             android:textColor="#ffffffff"
             android:singleLine="false"
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_marginBottom="171dp" />
+            android:layout_marginBottom="171dp"
+            android:textStyle="bold" />
 
     <EditText
         android:layout_width="fill_parent"
@@ -37,13 +37,15 @@
         android:textColorHint="#ffffffff"
         android:gravity="center_horizontal"
         android:textColor="#ffffffff"
-        android:background="#467FD7"
+        android:background="@drawable/rounded_text"
         android:layout_marginBottom="43dp"
         android:layout_above="@+id/backtologin"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:textStyle="normal"
-        android:typeface="sans" />
+        android:typeface="sans"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp" />
 
     <ImageView
         android:layout_width="match_parent"
