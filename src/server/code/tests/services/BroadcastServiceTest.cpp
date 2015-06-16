@@ -77,42 +77,6 @@ void BroadcastServiceTest::testShouldDoBroadcast(){
 	chatDB.close();
 }
 
-void BroadcastServiceTest::testShouldNotSendBroadcastToOfflineUsers(){
-
-	Json::Value input;
-	input[SERVICE_USERNAME] = "username1_bc";
-	input[SERVICE_PASSWORD] = "password1";
-	input[SERVICE_SENDMESSAGE_MESSAGE] = "text to broadcast";
-
-	Database userDB(DATABASE_USERS_PATH);
-	User user4("username4", "password4");
-	user4.setConnected(false);
-	vector<string> key4;
-	key4.push_back("username4");
-	userDB.write(key4, user4.serialize());
-	userDB.close();
-
-	CPPUNIT_ASSERT(user4.getChats().size() == 0);
-
-	Json::Value output = BroadcastService::doBroadcast(input);
-
-	Database DB(DATABASE_USERS_PATH);
-	User user4Offline(DB.read(key4));
-	CPPUNIT_ASSERT(user4Offline.getChats().size() == 0);
-	DB.erase(key4);
-	DB.close();
-
-	Database chatDB(DATABASE_CHATS_PATH);
-	vector<string> keyChat1, keyChat2;
-	keyChat1.push_back("username1_bc");
-	keyChat1.push_back("secondUser");
-	keyChat2.push_back("username1_bc");
-	keyChat2.push_back("username3");
-	chatDB.erase(keyChat1);
-	chatDB.erase(keyChat2);
-	chatDB.close();
-}
-
 void BroadcastServiceTest::testShouldBeInvalidPassword(){
 	Json::Value input;
 	input[SERVICE_USERNAME] = "username1_bc";

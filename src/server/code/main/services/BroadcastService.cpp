@@ -29,81 +29,51 @@ std::string BroadcastService::executeRequest(
 
 Json::Value BroadcastService::doBroadcast(const Json::Value &data) {
 
-	string userFrom = data[SERVICE_USERNAME].asString();
-	string password = data[SERVICE_PASSWORD].asString();
-	string text = data[SERVICE_SENDMESSAGE_MESSAGE].asString();
+	Json::Value input;
+	input[SERVICE_USERNAME] = data[SERVICE_USERNAME].asString();
+	input[SERVICE_PASSWORD] = data[SERVICE_PASSWORD].asString();
+	input[SERVICE_SENDMESSAGE_MESSAGE] =
+			data[SERVICE_SENDMESSAGE_MESSAGE].asString();
 
-	Json::Value output;
-
-	Database dbChats(DATABASE_CHATS_PATH);
 	Database dbUsers(DATABASE_USERS_PATH);
 
-	vector<string> users = dbUsers.getAllKeys();
+	Json::Value broadcastOut;
+	broadcastOut[SERVICE_OUT_OK] = true;
+	broadcastOut[SERVICE_OUT_WHAT] = "";
 
-	vector<string> keyUser, keyChat;
-	keyUser.push_back(userFrom);
+	vector<string> keyUser;
+	keyUser.push_back(data[SERVICE_USERNAME].asString());
 
 	try {
+		vector<string> users = dbUsers.getAllKeys();
 		User user(dbUsers.read(keyUser));
+		dbUsers.close();
 
-		if (user.getPassword() == password) {
-
-			for (unsigned int i = 0; i < users.size(); i++) {
-				keyUser.clear();
-				keyUser.push_back(users.at(i));
-				User userToSendMessage = dbUsers.read(keyUser);
-				if (userToSendMessage.getUsername() != userFrom
-						&& userToSendMessage.isConnected()) {
-
-					string userTo = userToSendMessage.getUsername();
-					keyChat.clear();
-					keyChat.push_back(userFrom);
-					keyChat.push_back(userTo);
-					Message message(userFrom, userTo, text);
-
-					try {
-						string serializedChat = dbChats.read(keyChat);
-						Chat chat(serializedChat);
-						chat.addNewMessage(message);
-						dbChats.write(keyChat, chat.serialize());
-					} catch (KeyNotFoundException &e) {
-						Chat chat(userFrom, userTo);
-						chat.addNewMessage(message);
-						dbChats.write(keyChat, chat.serialize());
-
-						vector<string> keyUserFrom;
-						keyUserFrom.push_back(userFrom);
-						User userF(dbUsers.read(keyUserFrom));
-						userF.addChatWithUser(userTo);
-
-						vector<string> keyUserTo;
-						keyUserTo.push_back(userTo);
-						User userT(dbUsers.read(keyUserTo));
-						userT.addChatWithUser(userFrom);
-
-						dbUsers.write(keyUserFrom, userF.serialize());
-						dbUsers.write(keyUserTo, userT.serialize());
-
-					}
-				}
-				output[SERVICE_OUT_OK] = true;
-				output[SERVICE_OUT_WHAT] = "";
-			}
-		} else {
-			output[SERVICE_OUT_OK] = false;
-			output[SERVICE_OUT_WHAT] = SERVICE_OUT_INVALIDPWD;
+		if(user.getPassword() != data[SERVICE_PASSWORD].asString()){
+			broadcastOut[SERVICE_OUT_OK] = false;
+			broadcastOut[SERVICE_OUT_WHAT] = SERVICE_OUT_INVALIDPWD;
+			return broadcastOut;
 		}
-	} catch (KeyNotFoundException &e) {
-		output[SERVICE_OUT_OK] = false;
-		output[SERVICE_OUT_WHAT] = SERVICE_OUT_INVALIDUSER;
-	}
 
-	dbChats.close();
-	dbUsers.close();
-	return output;
+		for (unsigned int i = 0; i < users.size(); i++) {
+			if (users.at(i) != data[SERVICE_USERNAME].asString()) {
+				input[SERVICE_SENDMESSAGE_USERNAME_TO] = users.at(i);
+
+				Json::Value output = SendMessageService::doSendMessage(input);
+				if (output[SERVICE_OUT_WHAT] == SERVICE_OUT_INVALIDUSER) {
+					broadcastOut[SERVICE_OUT_OK] = false;
+					broadcastOut[SERVICE_OUT_WHAT] = SERVICE_OUT_BROADCASTFAILEDTOSOME;
+				}
+			}
+		}
+
+	} catch (KeyNotFoundException &e) {
+		broadcastOut[SERVICE_OUT_OK] = false;
+		broadcastOut[SERVICE_OUT_WHAT] = SERVICE_OUT_INVALIDUSER;
+	}
+	return broadcastOut;
 }
 
 ServiceInterface* BroadcastServiceCreator::create() {
 	return new BroadcastService();
 }
-

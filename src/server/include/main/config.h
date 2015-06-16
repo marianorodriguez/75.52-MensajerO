@@ -98,5 +98,6 @@ const std::string SERVICE_OUT_WHAT = "what";
 const std::string SERVICE_OUT_INVALIDUSER = "Error: Invalid username.";
 const std::string SERVICE_OUT_USERNAMEEXISTS = "Error: Username already exists.";
 const std::string SERVICE_OUT_INVALIDPWD = "Error: Invalid password.";
+const std::string SERVICE_OUT_BROADCASTFAILEDTOSOME = "Error: Message could not be sent to some users";
 
 #endif /* CONFIG_CONFIG_H_ */

@@ -8,6 +8,7 @@
 
 class SendMessageService: public ServiceInterface {
 	friend class SendMessageServiceTest;
+	friend class BroadcastService;
 public:
 	/**
 	 * Devuelve el nombre con el que se accederá al servicio

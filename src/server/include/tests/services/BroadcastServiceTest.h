@@ -15,7 +15,6 @@ class BroadcastServiceTest: public CppUnit::TestFixture {
 
 	CPPUNIT_TEST_SUITE(BroadcastServiceTest);
 	CPPUNIT_TEST(testShouldDoBroadcast);
-	CPPUNIT_TEST(testShouldNotSendBroadcastToOfflineUsers);
 	CPPUNIT_TEST(testShouldBeInvalidPassword);
 	CPPUNIT_TEST(testShouldBeInvalidUsername);
 	CPPUNIT_TEST_SUITE_END();
@@ -29,7 +28,6 @@ public:
 	virtual ~BroadcastServiceTest();
 
 	void testShouldDoBroadcast();
-	void testShouldNotSendBroadcastToOfflineUsers();
 	void testShouldBeInvalidPassword();
 	void testShouldBeInvalidUsername();
 

@@ -9,6 +9,7 @@
 #define CODE_MAIN_SERVICES_BROADCASTSERVICE_H_
 
 #include "ServiceInterface.h"
+#include "SendMessageService.h"
 #include "../config.h"
 #include "../database/Database.h"
 #include "../user/chat/Chat.h"
