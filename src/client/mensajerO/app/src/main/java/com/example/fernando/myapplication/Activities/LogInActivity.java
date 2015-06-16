@@ -223,10 +223,38 @@ public class LogInActivity extends ActionBarActivity implements View.OnClickList
         }
 //        Toast.makeText(getApplicationContext(),"location: " + l1 + "," + l2, Toast.LENGTH_LONG).show();
         LocationListener mlocListener = new MyLocationListener(this);
-        mlocManager.requestLocationUpdates( LocationManager.GPS_PROVIDER, 0, 0, mlocListener);
+        mlocManager.requestLocationUpdates( LocationManager.GPS_PROVIDER, 5000, 10, mlocListener);
+
+        l = mlocManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+
+        l = getLastBestLocation(mlocManager);
+
+
         // VER SI l1 y l2 son distintas de cero --> si es asi mandar Unknown
-        return String.valueOf(l1)+";"+String.valueOf(l2);
+        return String.valueOf(l2)+";"+String.valueOf(l1);
     }
+
+    private Location getLastBestLocation(LocationManager mLocationManager) {
+        Location locationGPS = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        Location locationNet = mLocationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+
+        long GPSLocationTime = 0;
+        if (null != locationGPS) { GPSLocationTime = locationGPS.getTime(); }
+
+        long NetLocationTime = 0;
+
+        if (null != locationNet) {
+            NetLocationTime = locationNet.getTime();
+        }
+
+        if ( 0 < GPSLocationTime - NetLocationTime ) {
+            return locationGPS;
+        }
+        else {
+            return locationNet;
+        }
+    }
+
 
     @Override
     protected void onDestroy() {

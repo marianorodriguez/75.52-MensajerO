@@ -52,7 +52,7 @@ public class User {
 
         Long miliseconds = Long.parseLong(lastTimeConnected);
 
-        Date date = new Date(miliseconds);
+        Date date = new Date(miliseconds*1000);
 
         // si hace menos de 60 segundos que es la ultima hora de conexion
         // entonces devolver NOW

@@ -92,6 +92,8 @@ final public class Constants//final to prevent instantiation
         somethingForMeUrl = "http://" + ipServer + ":" + portServer + "/somethingForMe";
         usersUrl = "http://" + ipServer + ":" + portServer + "/users";
         sendMessageUrl = "http://" + ipServer + ":" + portServer + "/sendMessage";
+        deleteChatUrl = "http://" + ipServer + ":" + portServer + "/deleteChat";
+        broadcastUrl = "http://" + ipServer + ":" + portServer + "/broadcast";
     }
 
     public static void initialize(SharedPreferences mSharedPref) {

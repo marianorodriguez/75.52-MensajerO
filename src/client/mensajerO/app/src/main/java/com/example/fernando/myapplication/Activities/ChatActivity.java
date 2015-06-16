@@ -93,6 +93,7 @@ public class ChatActivity extends ActionBarActivity implements View.OnClickListe
 //                Constants.chatEditor.renderNewMessage(newMessage);
             }
 
+//            Constants.sendMessageOk = "";
             sendMessage = new SendMessagePostAsyncTask();
 
             scroll.fullScroll(ScrollView.FOCUS_DOWN);

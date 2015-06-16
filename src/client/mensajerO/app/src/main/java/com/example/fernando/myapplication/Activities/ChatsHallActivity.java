@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.text.InputType;
 import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -14,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -289,9 +291,9 @@ public class ChatsHallActivity extends ActionBarActivity implements View.OnClick
 
     private void doDeleteOfChat(String chatSelected) {
         String package_ = Constants.packager.wrap("deleteChat", Constants.user, chatSelected, "");
-//        deleteChatPost.execute(new Pair<Context, String>(this, package_),
-//                new Pair<Context, String>(this, Constants.deleteChatUrl),
-//                new Pair<Context, String>(this, "post"));
+        deleteChatPost.execute(new Pair<Context, String>(this, package_),
+                new Pair<Context, String>(this, Constants.deleteChatUrl),
+                new Pair<Context, String>(this, "post"));
 
         Constants.deleteOk = "true";
         while (Constants.deleteOk.compareTo("") == 0) {
@@ -312,12 +314,11 @@ public class ChatsHallActivity extends ActionBarActivity implements View.OnClick
                     Constants.user.chats.remove(chat);
                 }
             }
-
         } else {
 
             Toast.makeText(this, "Could not delete the selected chat.", Toast.LENGTH_SHORT).show();
-            deleteChatPost = new DeleteChatPostAsyncTask();
         }
+        deleteChatPost = new DeleteChatPostAsyncTask();
         Constants.deleteOk = "";
 
     }
@@ -352,7 +353,7 @@ public class ChatsHallActivity extends ActionBarActivity implements View.OnClick
         @Override
         public void add(String object) {
             super.add(object);
-            mIdMap.size();
+
             mIdMap.put(object, Constants.user.chats.size());
         }
 

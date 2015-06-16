@@ -220,7 +220,4 @@ public class GetUsersPostAsyncTask extends AsyncTask<Pair<Context, String>, Stri
 
     }
 
-    private void refreshUsersData(JSONArray users) {
-
-    }
 }

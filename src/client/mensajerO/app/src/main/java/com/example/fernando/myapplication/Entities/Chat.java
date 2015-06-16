@@ -60,10 +60,12 @@ public class Chat {
 //
 //                Constants.user.chats.add(newChat);
 
-                JSONObject oneMessage =  new JSONObject(jsonMessages.get(message).toString());
-                Message newMessage = Message.toMessage(oneMessage);
+                if (jsonMessages.get(message).toString().compareTo("null") != 0) {
+                    JSONObject oneMessage = new JSONObject(jsonMessages.get(message).toString());
+                    Message newMessage = Message.toMessage(oneMessage);
 
-                newChat.messages.add(newMessage);
+                    newChat.messages.add(newMessage);
+                }
             }
 
             return newChat;
