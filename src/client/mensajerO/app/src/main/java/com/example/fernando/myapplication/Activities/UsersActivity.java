@@ -1,11 +1,14 @@
 package com.example.fernando.myapplication.Activities;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.text.InputType;
 import android.util.Base64;
 import android.util.Pair;
 import android.view.Menu;
@@ -14,15 +17,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.fernando.myapplication.Entities.Chat;
 import com.example.fernando.myapplication.Common.Constants;
+import com.example.fernando.myapplication.Entities.Message;
 import com.example.fernando.myapplication.Entities.User;
 import com.example.fernando.myapplication.Threads.RefreshUsersAsyncTask;
 import com.example.fernando.myapplication.R;
+import com.example.fernando.myapplication.Threads.SendMessagePostAsyncTask;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -33,6 +40,7 @@ import java.util.HashMap;
 public class UsersActivity extends ActionBarActivity implements View.OnClickListener {
 
     public static RefreshUsersAsyncTask refreshUsers;
+    public static SendMessagePostAsyncTask sendMessage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +55,7 @@ public class UsersActivity extends ActionBarActivity implements View.OnClickList
                 new Pair<Context, String>(this, Constants.usersUrl),
                 new Pair<Context, String>(this, "post"));
         // tirar hilo que compruebe si hay nuevos usuarios y los dibuje
-
+        sendMessage = new SendMessagePostAsyncTask();
     }
 
     @Override
@@ -70,9 +78,66 @@ public class UsersActivity extends ActionBarActivity implements View.OnClickList
             finish();
             return true;
 
+        }  else if (id == R.id.broadcast) {
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Send broadcast");
+            builder.setIcon(android.R.drawable.ic_dialog_alert);
+
+            // Set up the input
+            final EditText input = new EditText(this);
+            // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+            input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_WEB_EDIT_TEXT);
+            builder.setView(input);
+
+
+            // Set up the buttons
+            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    if (!input.getText().toString().isEmpty()) {
+                        sendingBroadcast(input.getText().toString());
+                    }
+                }
+            });
+            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.cancel();
+                }
+            });
+
+            builder.show();
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void sendingBroadcast(String message) {
+
+        String package_ = Constants.packager.wrap("sendMessage",
+                Constants.user, "all", message);
+
+        sendMessage.execute(new Pair<Context, String>(this, package_),
+                new Pair<Context, String>(this, Constants.broadcastUrl),
+                new Pair<Context, String>(this, "post"));
+
+        while (Constants.sendMessageOk.compareTo("") == 0) {
+            try {
+                Thread.sleep(10);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+        if (Constants.sendMessageOk.contains("Error")) {}
+
+        if (Constants.sendMessageOk.compareTo("true") == 0) {
+            Toast.makeText(this, "Broadcast message sent.", Toast.LENGTH_LONG).show();
+        }
+
+        Constants.sendMessageOk = "";
+        sendMessage = new SendMessagePostAsyncTask();
     }
 
     @Override

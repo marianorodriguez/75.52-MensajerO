@@ -4,6 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".MainActivity">
 
+    <item android:id="@+id/broadcast"
+        android:title="BROADCAST"
+        app:showAsAction="always"/>
+
     <item android:id="@+id/chatsHall"
         android:title="CHATS"
         app:showAsAction="always" />
