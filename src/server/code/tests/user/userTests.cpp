@@ -34,8 +34,7 @@ void userTests::should_instantiate_new_user() {
 	CPPUNIT_ASSERT(user->getStatus() == DEFAULT_USER_STATUS);
 	CPPUNIT_ASSERT(user->getProfilePicture() == DEFAULT_USER_PROFILE_PICTURE);
 	CPPUNIT_ASSERT(user->hasChatsWith.size() == 0);
-	CPPUNIT_ASSERT(user->isConnected() == false);
-
+	CPPUNIT_ASSERT(user->isConnected() == true);
 }
 
 void userTests::should_modify_location() {
@@ -96,8 +95,7 @@ void userTests::should_serialize_user() {
 
 	Json::Value jsonUser;
 
-	jsonUser[JSON_USER_CONNECTED] = user->isConnected();
-	jsonUser[JSON_USER_LASTTIME] = user->getLastTimeConnected();
+	jsonUser[JSON_USER_LASTTIME] = user->lastTimeConnected;
 	jsonUser[JSON_USER_NAME] = "username";
 	jsonUser[JSON_USER_PWD] = "password";
 	jsonUser[JSON_USER_LOCATION] = DEFAULT_USER_LOCATION;
@@ -105,7 +103,6 @@ void userTests::should_serialize_user() {
 	jsonUser[JSON_USER_PROFILE_PICTURE] = DEFAULT_USER_PROFILE_PICTURE;
 	jsonUser[JSON_USER_CHATS_WITH][0] = "username2";
 	jsonUser[JSON_USER_CHATS_WITH][1] = "username3";
-
 	CPPUNIT_ASSERT(serializedUser == jsonUser.toStyledString());
 }
 

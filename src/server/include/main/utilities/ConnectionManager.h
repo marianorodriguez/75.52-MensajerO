@@ -69,7 +69,6 @@ private:
 	pthread_t updateThread;
 	static std::map<std::string, int> connectedUsers;
 	std::map<std::string, int>::iterator it;
-	static int deltaTime;
 	static bool running;
 };
 

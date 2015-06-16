@@ -11,7 +11,6 @@
 #include "../../include/main/config.h"
 #include "../../include/main/user/User.h"
 
-int ConnectionManager::deltaTime = 2; //MIN DELTA == 2 TODO des-hardcodear
 bool ConnectionManager::running = false;
 std::map<std::string, int> ConnectionManager::connectedUsers;
 ConnectionManager* ConnectionManager::managerInstance = NULL;
@@ -107,7 +106,7 @@ void ConnectionManager::updateConnection() {
 	for (std::map<std::string, int>::iterator it = connectedUsers.begin();
 			it != connectedUsers.end(); ++it) {
 
-		if (time(0) - it->second > deltaTime) {
+		if (time(0) - it->second > MAXIMUM_IDLE_TIME) {
 			//el usuario se desconectó, lo saco del map
 			disconnectedUsers.push_back(it->first);
 		}

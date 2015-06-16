@@ -38,6 +38,7 @@ using namespace std;
 #define DEFAULT_USER_LOCATION "UNKNOWN"
 #define DEFAULT_USER_STATUS "Online"
 #define DEFAULT_USER_PROFILE_PICTURE DEF_PROF_PICT
+#define MAXIMUM_IDLE_TIME 2
 
 
 //# DATABASE ##################################

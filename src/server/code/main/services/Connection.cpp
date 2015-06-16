@@ -2,8 +2,6 @@
 #include "mongoose.h"
 
 #include "../../include/main/services/Connection.h"
-#include "../../include/main/services/QueryParams.h"
-#include "../../include/main/utilities/JsonMap.h"
 #include "../../include/main/utilities/Base64.h"
 #include <iostream>
 

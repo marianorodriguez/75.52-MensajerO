@@ -7,7 +7,6 @@ add_library(mensajero-utilities
 	Thread.cpp
 	Base64.cpp
 	Logger.cpp
-	JsonMap.cpp
 	NumberConverter.cpp
 	LocationManager.cpp
 	ConnectionManager.cpp

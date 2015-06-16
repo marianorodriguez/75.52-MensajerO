@@ -44,7 +44,7 @@ void ConnectionManagerTest::testUpdateAlreadyConnectedUser() {
 	manager.updateUser(newUser);
 	int userTime_1 = manager.connectedUsers[newUser];
 
-	sleep(manager.deltaTime-1); //dejo que pase 1 segundo para que se actualice el manager
+	sleep(MAXIMUM_IDLE_TIME - 1); //dejo que pase 1 segundo para que se actualice el manager
 
 	manager.updateUser(newUser);
 	int userTime_2 = manager.connectedUsers[newUser];
@@ -58,7 +58,7 @@ void ConnectionManagerTest::testDisconnectUser() {
 	manager.updateUser(newUser);
 
 	//supero el timeOut para que el manager desconecte al usuario
-	sleep(manager.deltaTime + 1);
+	sleep(MAXIMUM_IDLE_TIME + 1);
 
 	it = manager.connectedUsers.find(newUser);
 	CPPUNIT_ASSERT(it == manager.connectedUsers.end());
@@ -79,7 +79,7 @@ void ConnectionManagerTest::testManageMultipleUsers() {
 	manager.updateUser(user_4);
 
 	//se desconecta el user_1 (actualizo a todos menos a el)
-	for (int i = 0; i <= manager.deltaTime + 1; i++) {
+	for (int i = 0; i <= MAXIMUM_IDLE_TIME + 1; i++) {
 		sleep(1);
 		manager.updateUser(user_2);
 		manager.updateUser(user_3);
@@ -101,7 +101,7 @@ void ConnectionManagerTest::testManageMultipleUsers() {
 
 	//se desconecta el user_4 (actualizo a todos menos a el)
 
-	for (int i = 0; i <= manager.deltaTime + 1; i++) {
+	for (int i = 0; i <= MAXIMUM_IDLE_TIME + 1; i++) {
 		sleep(1);
 		manager.updateUser(user_2);
 		manager.updateUser(user_3);
@@ -120,7 +120,7 @@ void ConnectionManagerTest::testManageMultipleUsers() {
 	it = manager.connectedUsers.find(user_4);
 	CPPUNIT_ASSERT(it == manager.connectedUsers.end());
 
-	sleep(manager.deltaTime + 1);
+	sleep(MAXIMUM_IDLE_TIME + 1);
 
 	//todos desconectados
 	it = manager.connectedUsers.find(user_1);
@@ -150,7 +150,7 @@ void ConnectionManagerTest::testGetConnectedUsers(){
 	CPPUNIT_ASSERT(connectedUsers.at(1) == "Mariano");
 	CPPUNIT_ASSERT(connectedUsers.at(2) == "Zidane");
 
-	for (int i = 0; i <= manager.deltaTime + 1; i++) {
+	for (int i = 0; i <= MAXIMUM_IDLE_TIME + 1; i++) {
 		sleep(1);
 		manager.updateUser("Fernando");
 		manager.updateUser("Zidane");

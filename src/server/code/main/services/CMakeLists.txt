@@ -6,7 +6,6 @@ add_library(mensajero-services
 	BroadcastService.cpp
 	LogInService.cpp
 	NullService.cpp
-	QueryParams.cpp
 	RestServer.cpp
 	SendMessageService.cpp
 	ServerConfig.cpp

@@ -89,10 +89,7 @@ public:
 	 */
 	void addChatWithUser(const string& user);
 
-	int getLastTimeConnected();
 	void setLastTimeConnected();
-
-	void setConnected(const bool &connected);
 	bool isConnected() const;
 
 private:
@@ -106,7 +103,6 @@ private:
 	string status;
 	string hashedProfilePicture;
 	vector<string> hasChatsWith;
-	bool connected;
 
 	/**
 	 * Se fija si el usuario tiene un chat con el usuario pasado por parametro.

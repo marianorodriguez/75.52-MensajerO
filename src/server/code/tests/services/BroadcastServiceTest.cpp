@@ -18,9 +18,9 @@ void BroadcastServiceTest::setUp(){
 	User user1("username1_bc", "password1");
 	User user2("secondUser", "password2");
 	User user3("username3", "password3");
-	user1.setConnected(true);
-	user2.setConnected(true);
-	user3.setConnected(true);
+	user1.setLastTimeConnected();
+	user2.setLastTimeConnected();
+	user3.setLastTimeConnected();
 
 	vector<string> key1, key2, key3;
 	key1.push_back("username1_bc");

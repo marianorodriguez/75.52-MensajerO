@@ -9,7 +9,6 @@
 
 User::User(const string& username, const string& password) {
 
-	this->connected = false;
 	this->lastTimeConnected = time(0);
 	this->username = username;
 	this->password = password;
@@ -30,7 +29,6 @@ User::User(const string& serializedUser) {
 		throw exception;
 	}
 
-	this->connected = parsedFromString[JSON_USER_CONNECTED].asBool();
 	this->lastTimeConnected = parsedFromString[JSON_USER_LASTTIME].asInt();
 	this->username = parsedFromString[JSON_USER_NAME].asString();
 	this->password = parsedFromString[JSON_USER_PWD].asString();
@@ -50,16 +48,15 @@ User::User(const string& serializedUser) {
 User::~User() {
 }
 
-string User::serialize() const {
+string User::serialize() const{
 
 	Json::Value serializedUser;
+	serializedUser[JSON_USER_LASTTIME] = this->lastTimeConnected;
 	serializedUser[JSON_USER_NAME] = this->username;
 	serializedUser[JSON_USER_PWD] = this->password;
 	serializedUser[JSON_USER_LOCATION] = this->location;
 	serializedUser[JSON_USER_STATUS] = this->status;
 	serializedUser[JSON_USER_PROFILE_PICTURE] = this->hashedProfilePicture;
-	serializedUser[JSON_USER_LASTTIME] = this->lastTimeConnected;
-	serializedUser[JSON_USER_CONNECTED] = this->connected;
 
 	for (unsigned int i = 0; i < this->hasChatsWith.size(); i++) {
 
@@ -69,12 +66,8 @@ string User::serialize() const {
 	return serializedUser.toStyledString();
 }
 
-bool User::isConnected() const {
-	return this->connected;
-}
-
-void User::setConnected(const bool & connected){
-	this->connected = connected;
+bool User::isConnected() const{
+	return (time(0) - this->lastTimeConnected < MAXIMUM_IDLE_TIME);
 }
 
 string User::getUsername() const {
@@ -144,10 +137,6 @@ bool User::isChattingWith(const string& username) const {
 	}
 
 	return isChatting;
-}
-
-int User::getLastTimeConnected() {
-	return this->lastTimeConnected;
 }
 
 void User::setLastTimeConnected() {
