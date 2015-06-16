@@ -314,12 +314,11 @@ public class ChatsHallActivity extends ActionBarActivity implements View.OnClick
                     Constants.user.chats.remove(chat);
                 }
             }
-
         } else {
 
             Toast.makeText(this, "Could not delete the selected chat.", Toast.LENGTH_SHORT).show();
-            deleteChatPost = new DeleteChatPostAsyncTask();
         }
+        deleteChatPost = new DeleteChatPostAsyncTask();
         Constants.deleteOk = "";
 
     }
@@ -354,7 +353,7 @@ public class ChatsHallActivity extends ActionBarActivity implements View.OnClick
         @Override
         public void add(String object) {
             super.add(object);
-            mIdMap.size();
+
             mIdMap.put(object, Constants.user.chats.size());
         }
 

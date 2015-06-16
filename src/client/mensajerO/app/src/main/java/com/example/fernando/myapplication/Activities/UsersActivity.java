@@ -252,9 +252,9 @@ public class UsersActivity extends ActionBarActivity implements View.OnClickList
         @Override
         public void add(String object) {
             super.add(object);
-            mIdMap.size();
+
             //            Toast.makeText(getApplicationContext(),mIdMap.size(), Toast.LENGTH_LONG ).show();
-            mIdMap.put(object, 23);
+            mIdMap.put(object, Constants.otherUsers.size());
         }
 
         @Override

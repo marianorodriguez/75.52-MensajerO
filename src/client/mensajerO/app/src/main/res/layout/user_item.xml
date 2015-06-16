@@ -15,7 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:id="@+id/userItemData"
-        android:textSize="16dp"
+        android:textSize="14dp"
         android:textStyle="italic"
         android:gravity="center_vertical"
         android:paddingLeft="15dp" />

@@ -65,7 +65,7 @@ public class ChatActivity extends ActionBarActivity implements View.OnClickListe
             String message = edTxt.getText().toString();
 
             String package_ = Constants.packager.wrap("sendMessage",
-                    Constants.user, "all", message);
+                    Constants.user, Constants.chatWith, message);
 
             sendMessage.execute(new Pair<Context, String>(this, package_),
                     new Pair<Context, String>(this, Constants.sendMessageUrl),
@@ -93,7 +93,7 @@ public class ChatActivity extends ActionBarActivity implements View.OnClickListe
 //                Constants.chatEditor.renderNewMessage(newMessage);
             }
 
-            Constants.sendMessageOk = "";
+//            Constants.sendMessageOk = "";
             sendMessage = new SendMessagePostAsyncTask();
 
             scroll.fullScroll(ScrollView.FOCUS_DOWN);

@@ -67,6 +67,7 @@ public class CurrentChatsPostAsyncTask extends AsyncTask<Pair<Context, String>, 
 
                     JSONObject respons = Constants.packager.unwrap(EntityUtils.toString(response.getEntity()));
 
+                    Constants.currentChatsOk = respons.getString("ok");
                     JSONArray chats = new JSONArray(respons.getString("chats"));
 
                     for (int chat = 0; chat < chats.length(); chat++) {
@@ -88,7 +89,7 @@ public class CurrentChatsPostAsyncTask extends AsyncTask<Pair<Context, String>, 
                     return "";
 
                 } catch (JSONException e) {
-                    e.printStackTrace();
+                    return "";
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
