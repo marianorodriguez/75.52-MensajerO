@@ -16,7 +16,7 @@ void BroadcastServiceTest::setUp(){
 
 	Database userDB(DATABASE_USERS_PATH);
 	User user1("username1_bc", "password1");
-	User user2("username2", "password2");
+	User user2("secondUser", "password2");
 	User user3("username3", "password3");
 	user1.setConnected(true);
 	user2.setConnected(true);
@@ -24,7 +24,7 @@ void BroadcastServiceTest::setUp(){
 
 	vector<string> key1, key2, key3;
 	key1.push_back("username1_bc");
-	key2.push_back("username2");
+	key2.push_back("secondUser");
 	key3.push_back("username3");
 	userDB.write(key1, user1.serialize());
 	userDB.write(key2, user2.serialize());
@@ -40,7 +40,7 @@ void BroadcastServiceTest::tearDown(){
 	Database userDB(DATABASE_USERS_PATH);
 	vector<string> key1, key2, key3;
 	key1.push_back("username1_bc");
-	key2.push_back("username2");
+	key2.push_back("secondUser");
 	key3.push_back("username3");
 	userDB.erase(key1);
 	userDB.erase(key2);
@@ -57,14 +57,24 @@ void BroadcastServiceTest::testShouldDoBroadcast(){
 	Json::Value output = BroadcastService::doBroadcast(input);
 
 	Database userDB(DATABASE_USERS_PATH);
-	vector<string> key; key.push_back("username2");
-	User user2 = userDB.read(key);
-	key.clear(); key.push_back("username3");
-	User user3 = userDB.read(key);
-
+	vector<string> key2, key3;
+	key2.push_back("secondUser");
+	User user2 = userDB.read(key2);
+	key3.push_back("username3");
+	User user3 = userDB.read(key3);
 	CPPUNIT_ASSERT(user2.getChats().size() == 1);
 	CPPUNIT_ASSERT(user3.getChats().size() == 1);
 	userDB.close();
+
+	Database chatDB(DATABASE_CHATS_PATH);
+	vector<string> keyChat1, keyChat2;
+	keyChat1.push_back("username1_bc");
+	keyChat1.push_back("secondUser");
+	keyChat2.push_back("username1_bc");
+	keyChat2.push_back("username3");
+	chatDB.erase(keyChat1);
+	chatDB.erase(keyChat2);
+	chatDB.close();
 }
 
 void BroadcastServiceTest::testShouldNotSendBroadcastToOfflineUsers(){
@@ -91,6 +101,16 @@ void BroadcastServiceTest::testShouldNotSendBroadcastToOfflineUsers(){
 	CPPUNIT_ASSERT(user4Offline.getChats().size() == 0);
 	DB.erase(key4);
 	DB.close();
+
+	Database chatDB(DATABASE_CHATS_PATH);
+	vector<string> keyChat1, keyChat2;
+	keyChat1.push_back("username1_bc");
+	keyChat1.push_back("secondUser");
+	keyChat2.push_back("username1_bc");
+	keyChat2.push_back("username3");
+	chatDB.erase(keyChat1);
+	chatDB.erase(keyChat2);
+	chatDB.close();
 }
 
 void BroadcastServiceTest::testShouldBeInvalidPassword(){
