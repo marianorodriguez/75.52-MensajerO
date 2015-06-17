@@ -49,6 +49,7 @@ public:
 	 * Variables de configuración del servidor
 	 */
     void setOptions (const ServerOptions& options);
+    static const std::string kInvalidRequestMsg;
 private:
 	/**
 	 * Demora entre polls al servidor

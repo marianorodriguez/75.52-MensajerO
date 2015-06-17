@@ -59,7 +59,7 @@ void Connection::parseGetParams(){
 void Connection::parsePostParams(){
 	//TODO mlafroce: hacer más genérico
 	
-	if (this->rawConnection->content){
+	if (this->rawConnection->content_len){
 		// TODO mlafroce: verificar si es un bug de mongoose
 		std::string content;
 		content.assign(this->rawConnection->content, this->rawConnection->content_len);

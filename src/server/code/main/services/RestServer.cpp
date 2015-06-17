@@ -16,6 +16,8 @@ const std::string RestServer::kDefaultChatFolder("chats");
 const std::string RestServer::kDefaultUserFolder("users");
 
 
+const std::string RestServer::kInvalidRequestMsg = "Invalid request content";
+
 /**
 * Captura los requests que le llegan al servidor
 */
@@ -83,8 +85,12 @@ void RestServer::handleConnection(struct mg_connection *mgConnection) const{
 	// Le saco la barra inicial
 	std::string serviceName(connectionWrap.getUri().substr(1));
 	service = this->serviceFactory.createService(serviceName);
-	std::cout<<"executing "<<serviceName<<std::endl;
-	std::string response = service->executeRequest(connectionWrap.getParamMap());
+	std::string response;
+	try{
+		response = service->executeRequest(connectionWrap.getParamMap());
+	} catch (std::out_of_range& e) {
+		response = kInvalidRequestMsg;
+	}
 	connectionWrap.printMessage(response);
 	delete service;
 }
