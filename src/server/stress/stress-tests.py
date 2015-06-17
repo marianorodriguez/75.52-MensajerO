@@ -12,7 +12,7 @@ def signUpRequest(username):
 
 	print base64.b64decode(response.readline())
 
-def main():
+def signUpStressTest():
 	requestThreads = list()
 	threadNum = 2000
 	print "Creando " + str(threadNum) + " hilos"
@@ -27,5 +27,8 @@ def main():
 	for i in range(0, threadNum):
 		requestThreads[i].join()
 	print "Terminado"
+
+def main():
+	signUpStressTest()
 
 main()
