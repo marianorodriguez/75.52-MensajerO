@@ -32,6 +32,8 @@ void DeleteChatServiceTest::setUp() {
 	chatDB.write(chatKey, chat.serialize());
 }
 
+//TODO mover las DB a un atributo de la clase, para instanciar una
+// unica vez
 void DeleteChatServiceTest::tearDown() {
 	CppUnit::TestFixture::tearDown();
 
@@ -50,22 +52,23 @@ void DeleteChatServiceTest::tearDown() {
 }
 
 void DeleteChatServiceTest::testDeleteChat() {
-
+	Database userDb(DATABASE_USERS_PATH);
+	Database chatDb(DATABASE_CHATS_PATH);
+	DeleteChatService service(userDb, chatDb);
 	Json::Value input;
 	input[SERVICE_USERNAME] = "username1";
 	input[SERVICE_PASSWORD] = "password1";
 	input[SERVICE_DELETECHAT_WHO] = "username2";
 
-	Json::Value output = DeleteChatService::doDeleteChat(input);
+	Json::Value output = service.doDeleteChat(input);
 
 	CPPUNIT_ASSERT(output[SERVICE_OUT_OK].asBool() == true);
 	CPPUNIT_ASSERT(output[SERVICE_OUT_WHAT].asString() == "");
 
-	Database chats(DATABASE_CHATS_PATH);
 	std::vector<std::string> key;
 	key.push_back("username1"); key.push_back("username2");
 
-	Chat chat(chats.read(key));
+	Chat chat(chatDb.read(key));
 
 	CPPUNIT_ASSERT(chat.getFirstMessageUser1() == 3);
 }

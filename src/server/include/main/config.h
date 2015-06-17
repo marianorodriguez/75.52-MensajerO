@@ -1,8 +1,7 @@
 #ifndef CONFIG_CONFIG_H_
 #define CONFIG_CONFIG_H_
 #include "profPicture.h"
-#include <iostream>
-using namespace std;
+#include <string>
 
 //# JSON ######################################
 /**

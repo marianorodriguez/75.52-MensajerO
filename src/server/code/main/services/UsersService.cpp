@@ -19,7 +19,7 @@ std::string UsersService::executeRequest(const Json::Value &paramMap) const {
 	return output.toStyledString();
 }
 
-Json::Value UsersService::doUsers(const Json::Value &data) {
+Json::Value UsersService::doUsers(const Json::Value &data) const {
 
 	Database DB(DATABASE_USERS_PATH);
 

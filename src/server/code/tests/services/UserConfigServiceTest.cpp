@@ -37,6 +37,7 @@ void UserConfigServiceTest::tearDown() {
 void UserConfigServiceTest::testUserShouldConfigureProfile() {
 
 	Database* DB = new Database(DATABASE_USERS_PATH);
+	UserConfigService service;
 	std::vector<std::string> key;
 	key.push_back("username_config");
 	User user(DB->read(key));
@@ -56,7 +57,7 @@ void UserConfigServiceTest::testUserShouldConfigureProfile() {
 	data[SERVICE_USERCONFIG_STATUS] = "new Status";
 	data[SERVICE_USERCONFIG_PICTURE] = "new profile picture";
 
-	Json::Value output = UserConfigService::doUserConfig(data);
+	Json::Value output = service.doUserConfig(data);
 
 	Database* newDB = new Database(DATABASE_USERS_PATH);
 	User modifiedUser(newDB->read(key));
@@ -80,7 +81,8 @@ void UserConfigServiceTest::testShouldBeInvalidPassword() {
 	data[SERVICE_USERCONFIG_STATUS] = "new Status";
 	data[SERVICE_USERCONFIG_PICTURE] = "new profile picture";
 
-	Json::Value output = UserConfigService::doUserConfig(data);
+	UserConfigService service;
+	Json::Value output = service.doUserConfig(data);
 
 	CPPUNIT_ASSERT(output[SERVICE_OUT_OK].asBool() == false);
 	CPPUNIT_ASSERT(
@@ -96,7 +98,8 @@ void UserConfigServiceTest::testUsernameShouldNotExist() {
 	data[SERVICE_USERCONFIG_STATUS] = "new Status";
 	data[SERVICE_USERCONFIG_PICTURE] = "new profile picture";
 
-	Json::Value output = UserConfigService::doUserConfig(data);
+	UserConfigService service;
+	Json::Value output = service.doUserConfig(data);
 
 	CPPUNIT_ASSERT(output[SERVICE_OUT_OK].asBool() == false);
 	CPPUNIT_ASSERT(

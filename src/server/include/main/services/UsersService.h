@@ -7,17 +7,13 @@
 #include "../config.h"
 
 class UsersService: public ServiceInterface {
-	friend class UsersServiceTest;
 public:
-
 	virtual std::string getUri() const;
 	virtual std::string executeRequest(const Json::Value &paramMap) const;
-
+	Json::Value doUsers(const Json::Value &data) const;
+	
 private:
-
 	static const std::string serviceName;
-	static Json::Value doUsers(const Json::Value &data);
-
 };
 
 class UsersServiceCreator: public ServiceCreatorInterface{

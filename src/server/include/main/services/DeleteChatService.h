@@ -15,16 +15,18 @@
 #include "ServiceInterface.h"
 
 class DeleteChatService: public ServiceInterface {
-	friend class DeleteChatServiceTest;
 public:
-
+	DeleteChatService(Database& userDb, Database& chatDb);
+	virtual ~DeleteChatService();
 	virtual std::string getUri() const;
-
 	virtual std::string executeRequest(const Json::Value &paramMap) const;
+	Json::Value doDeleteChat(const Json::Value &data) const;
 private:
 	static const std::string serviceName;
-
-	static Json::Value doDeleteChat(const Json::Value &data);
+	/** Base de datos de usuarios **/
+	Database& userDb;
+	/** Base de datos de chats **/
+	Database& chatDb;
 };
 
 class DeleteChatServiceCreator: public ServiceCreatorInterface{

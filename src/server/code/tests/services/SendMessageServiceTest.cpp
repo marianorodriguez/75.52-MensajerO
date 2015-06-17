@@ -63,13 +63,14 @@ void SendMessageServiceTest::tearDown(){
 
 void SendMessageServiceTest::testShouldAddMessageToExistingChat(){
 
+	SendMessageService service;
 	Json::Value data;
 	data[SERVICE_USERNAME] = "username1";
 	data[SERVICE_PASSWORD] = "password1";
 	data[SERVICE_SENDMESSAGE_USERNAME_TO] = "username2";
 	data[SERVICE_SENDMESSAGE_MESSAGE] = "thirdMessage";
 
-	Json::Value output = SendMessageService::doSendMessage(data);
+	Json::Value output = service.doSendMessage(data);
 
 	CPPUNIT_ASSERT(output[SERVICE_OUT_OK].asBool() == true);
 	CPPUNIT_ASSERT(output[SERVICE_OUT_WHAT].asString() == "");
@@ -84,14 +85,14 @@ void SendMessageServiceTest::testShouldAddMessageToExistingChat(){
 }
 
 void SendMessageServiceTest::testShouldCreateNewChat(){
-
+	SendMessageService service;
 	Json::Value data;
 	data[SERVICE_USERNAME] = "username1";
 	data[SERVICE_PASSWORD] = "password1";
 	data[SERVICE_SENDMESSAGE_USERNAME_TO] = "username3";
 	data[SERVICE_SENDMESSAGE_MESSAGE] = "firstMessage";
 
-	Json::Value output = SendMessageService::doSendMessage(data);
+	Json::Value output = service.doSendMessage(data);
 
 	CPPUNIT_ASSERT(output[SERVICE_OUT_OK].asBool() == true);
 	CPPUNIT_ASSERT(output[SERVICE_OUT_WHAT].asString() == "");
@@ -106,28 +107,28 @@ void SendMessageServiceTest::testShouldCreateNewChat(){
 }
 
 void SendMessageServiceTest::testShouldThrowInvalidPassword(){
-
+	SendMessageService service;
 	Json::Value data;
 	data[SERVICE_USERNAME] = "username1";
 	data[SERVICE_PASSWORD] = "invalid_pass";
 	data[SERVICE_SENDMESSAGE_USERNAME_TO] = "username2";
 	data[SERVICE_SENDMESSAGE_MESSAGE] = "firstMessage";
 
-	Json::Value output = SendMessageService::doSendMessage(data);
+	Json::Value output = service.doSendMessage(data);
 
 	CPPUNIT_ASSERT(output[SERVICE_OUT_OK].asBool() == false);
 	CPPUNIT_ASSERT(output[SERVICE_OUT_WHAT].asString() == SERVICE_OUT_INVALIDPWD);
 }
 
 void SendMessageServiceTest::testShouldThrowInvalidUsername(){
-
+	SendMessageService service;
 	Json::Value data;
 	data[SERVICE_USERNAME] = "usernameASDF";
 	data[SERVICE_PASSWORD] = "password";
 	data[SERVICE_SENDMESSAGE_USERNAME_TO] = "username2";
 	data[SERVICE_SENDMESSAGE_MESSAGE] = "firstMessage";
 
-	Json::Value output = SendMessageService::doSendMessage(data);
+	Json::Value output = service.doSendMessage(data);
 
 	CPPUNIT_ASSERT(output[SERVICE_OUT_OK].asBool() == false);
 	CPPUNIT_ASSERT(output[SERVICE_OUT_WHAT].asString() == SERVICE_OUT_INVALIDUSER);

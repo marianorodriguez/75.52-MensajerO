@@ -7,9 +7,9 @@
 
 #ifndef SERVER_MAIN_EXCEPTIONS_NOTSERIALIZEDDATAEXCEPTION_H_
 #define SERVER_MAIN_EXCEPTIONS_NOTSERIALIZEDDATAEXCEPTION_H_
+
+#include <string>
 #include "BaseException.h"
-#include <iostream>
-using namespace std;
 
 /**
  * Define una excepcion de tipo "no es un objeto serializado".
@@ -20,7 +20,7 @@ using namespace std;
  */
 class NotSerializedDataException: public BaseException {
 public:
-	NotSerializedDataException(string what);
+	NotSerializedDataException(const std::string& what);
 	virtual ~NotSerializedDataException();
 };
 

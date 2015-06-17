@@ -6,6 +6,7 @@
  */
 
 #include "../../../include/main/user/User.h"
+#include "json.h"
 
 User::User(const string& username, const string& password) {
 

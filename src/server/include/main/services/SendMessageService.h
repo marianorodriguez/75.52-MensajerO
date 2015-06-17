@@ -7,7 +7,6 @@
 #include "../user/User.h"
 
 class SendMessageService: public ServiceInterface {
-	friend class SendMessageServiceTest;
 public:
 	/**
 	 * Devuelve el nombre con el que se accederá al servicio
@@ -17,9 +16,9 @@ public:
 	 * Agrega mensaje a la lista de conversaciones
 	 */
 	virtual std::string executeRequest(const Json::Value &paramMap) const;
+	Json::Value doSendMessage(const Json::Value &data) const;
 private:
 	static const std::string serviceName;
-	static Json::Value doSendMessage(const Json::Value &data);
 };
 
 class SendMessageServiceCreator : public ServiceCreatorInterface{

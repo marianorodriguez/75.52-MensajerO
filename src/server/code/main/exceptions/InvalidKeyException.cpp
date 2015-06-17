@@ -7,7 +7,7 @@
 
 #include "../../../include/main/exceptions/InvalidKeyException.h"
 
-InvalidKeyException::InvalidKeyException(string what): BaseException(what) {}
+InvalidKeyException::InvalidKeyException(const std::string& what): BaseException(what) {}
 
 InvalidKeyException::~InvalidKeyException() {
 }

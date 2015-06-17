@@ -7,7 +7,7 @@
 
 #include "../../../include/main/exceptions/KeyNotFoundException.h"
 
-KeyNotFoundException::KeyNotFoundException(string what): BaseException(what) {
+KeyNotFoundException::KeyNotFoundException(const std::string& what): BaseException(what) {
 
 }
 

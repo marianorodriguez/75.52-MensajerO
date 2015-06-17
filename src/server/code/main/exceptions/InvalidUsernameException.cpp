@@ -7,7 +7,7 @@
 
 #include "../../../include/main/exceptions/InvalidUsernameException.h"
 
-InvalidUsernameException::InvalidUsernameException(string what) :
+InvalidUsernameException::InvalidUsernameException(const std::string& what) :
 		BaseException(what) {}
 
 InvalidUsernameException::~InvalidUsernameException() {}

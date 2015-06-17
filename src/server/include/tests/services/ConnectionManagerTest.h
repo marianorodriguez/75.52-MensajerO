@@ -37,6 +37,7 @@ public:
 
 private:
 	ConnectionManager manager;
+	Database* testDb;
 	std::map<std::string, int>::iterator it;
 
 };

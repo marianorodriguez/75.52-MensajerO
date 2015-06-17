@@ -6,6 +6,7 @@
  */
 
 #include "../../include/main/utilities/LocationManager.h"
+#include <istream>
 
 std::map<std::string, std::string> LocationManager::nodes;
 double LocationManager::NODE_RADIUS;
@@ -14,7 +15,7 @@ LocationManager::LocationManager() {
 
 	Json::Reader reader;
 	Json::Value root;
-	ifstream file("config/geolocation.json");
+	std::ifstream file("config/geolocation.json");
 	reader.parse(file, root);
 	NODE_RADIUS = atof(root["node_radius"].asString().c_str());
 	root = root["nodes"];
@@ -43,14 +44,14 @@ std::string LocationManager::getLocation(const std::string &location) {
 }
 
 std::string LocationManager::getNodeName(const std::string &location) {
-	map<string, string>::iterator pos = nodes.find(location);
+	std::map<std::string, std::string>::iterator pos = nodes.find(location);
 	if (pos != nodes.end())
 		return nodes.at(location);
 	else
 		return DEFAULT_USER_LOCATION;
 }
 
-double LocationManager::distance(const string &location1,
+double LocationManager::distance(const std::string &location1,
 		const std::string &location2) {
 
 	double lat1, long1, lat2, long2;
@@ -60,7 +61,7 @@ double LocationManager::distance(const string &location1,
 			(lat1 - lat2) * (lat1 - lat2) + (long1 - long2) * (long1 - long2));
 }
 
-void LocationManager::parseLocation(const string &location, double &latitude,
+void LocationManager::parseLocation(const std::string &location, double &latitude,
 		double &longitude) {
 	int separator = location.find(';');
 	latitude = atof(location.substr(0, separator).c_str());

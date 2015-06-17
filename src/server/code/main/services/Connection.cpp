@@ -5,7 +5,6 @@
 #include "../../include/main/services/QueryParams.h"
 #include "../../include/main/utilities/JsonMap.h"
 #include "../../include/main/utilities/Base64.h"
-#include <iostream>
 
 // Constantes
 const std::string Connection::getMethodName = "GET";

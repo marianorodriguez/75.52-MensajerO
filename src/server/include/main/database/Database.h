@@ -8,11 +8,9 @@
 #ifndef DATABASE_H_
 #define DATABASE_H_
 
-#include <iostream>
 #include <algorithm>
 #include <string>
 #include <rocksdb/db.h>
-#include "json/json.h"
 #include "IPersistible.h"
 #include "../exceptions/KeyNotFoundException.h"
 #include "../exceptions/InvalidKeyException.h"

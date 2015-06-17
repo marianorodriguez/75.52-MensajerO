@@ -6,6 +6,7 @@
  */
 
 #include "../../include/tests/user/userTests.h"
+#include "json.h"
 
 CPPUNIT_TEST_SUITE_REGISTRATION(userTests);
 

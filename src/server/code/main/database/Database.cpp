@@ -6,6 +6,7 @@
  */
 
 #include "../../include/main/database/Database.h"
+#include "json.h"
 
 Database::Database() {
 	rocksdb::Options options;

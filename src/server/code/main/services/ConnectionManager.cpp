@@ -6,7 +6,6 @@
  */
 
 #include "../../include/main/services/ConnectionManager.h"
-#include <iostream>
 #include "../../include/main/config.h"
 #include "../../include/main/user/User.h"
 
@@ -52,10 +51,10 @@ void ConnectionManager::stopUpdating() {
 }
 
 void* ConnectionManager::runFunction(void* args) {
-
-	while (getInstance()->running) {
+	ConnectionManager* manager = static_cast<ConnectionManager*>(args);
+	while (manager->running) {
 		usleep(1000);
-		getInstance()->updateConnection();
+		manager->updateConnection();
 	}
 	return NULL;
 }
@@ -77,27 +76,28 @@ std::vector<std::string> ConnectionManager::getConnectedUsers() {
 void ConnectionManager::updateUser(const std::string username) {
 
 	//tengo que abrir el user, si status != offline , le actualizo el lastTime
-	Database DB(DATABASE_USERS_PATH);
 	std::vector<std::string> key;
 	key.push_back(username);
 	try {
-		User user(DB.read(key));
+		User user(this->userDb->read(key));
 	if(user.getStatus() != "offline") {
 		user.setLastTimeConnected();
-		DB.write(key, user.serialize());
+		this->userDb->write(key, user.serialize());
 	}
 	}catch(KeyNotFoundException &e){}
 
 	connectedUsers[username] = time(0);
 }
 
-void ConnectionManager::updateConnection() {
+void ConnectionManager::setDatabase(Database* userDb){
+	this->userDb = userDb;
+}
 
+void ConnectionManager::updateConnection() {
 	std::vector<std::string> disconnectedUsers;
 
 	for (std::map<std::string, int>::iterator it = connectedUsers.begin();
 			it != connectedUsers.end(); ++it) {
-
 		if (time(0) - it->second > deltaTime) {
 			//el usuario se desconectó, lo saco del map
 			disconnectedUsers.push_back(it->first);

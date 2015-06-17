@@ -1,7 +1,5 @@
 #include "../../include/main/utilities/JsonMap.h"
-#include "json.h"
-
-#include <iostream>
+#include <json.h>
 
 JsonMap::JsonMap(){
 }

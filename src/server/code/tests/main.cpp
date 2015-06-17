@@ -35,22 +35,22 @@ int main(int argc, char* argv[]){
 	CPPUNIT_NS::TestRunner runner;
 
 	// Instancio para que ejecuten las pruebas
-	//ArgsParserTests apt;
-	LoggerTest lt;
-	DatabaseTests dbt;
-	RestClientTest rct;
-	RestServerTest rst;
-	ServiceFactoryTest sft;
-	NumberConverterTests nct;
-	LogInServiceTest lst;
-	SignUpServiceTest sust;
-	UserConfigServiceTest ucst;
-	SomethingForMeServiceTest sfmst;
+	//*ArgsParserTests apt;
 	CurrentChatsServiceTest ccst;
-	UsersServiceTest ust;
-	SendMessageServiceTest smst;
+	DatabaseTests dbt;
 	DeleteChatServiceTest dcst;
 	LocationManagerTests lmt;
+	LoggerTest lt;
+	LogInServiceTest lst;
+	NumberConverterTests nct;
+	RestClientTest rct;
+	RestServerTest rst;
+	SendMessageServiceTest smst;
+	ServiceFactoryTest sft;
+	SignUpServiceTest sust;
+	SomethingForMeServiceTest sfmst;
+	UserConfigServiceTest ucst;
+	UsersServiceTest ust;
 
 	runner.addTest( CPPUNIT_NS::TestFactoryRegistry::getRegistry().makeTest() );
 	runner.run( controller );

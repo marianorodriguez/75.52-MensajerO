@@ -17,19 +17,14 @@
 using namespace std;
 
 class UserConfigService: public ServiceInterface {
-	friend class UserConfigServiceTest;
 public:
-
 	std::string getUri() const;
-
-	//Actualiza datos del user
 	std::string executeRequest(const Json::Value &paramMap) const;
+	//Actualiza datos del user
+	Json::Value doUserConfig(const Json::Value &data) const;
 
 private:
-
 	static const std::string serviceName;
-
-	static Json::Value doUserConfig(const Json::Value &data);
 };
 
 class UserConfigServiceCreator: public ServiceCreatorInterface{

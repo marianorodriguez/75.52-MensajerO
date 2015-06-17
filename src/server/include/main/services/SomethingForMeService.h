@@ -6,20 +6,19 @@
 #include "../database/Database.h"
 
 class SomethingForMeService: public ServiceInterface {
-	friend class SomethingForMeServiceTest;
 public:
 	/**
 	* Devuelve el nombre del servicio: somethingForMe
 	*/
 	virtual std::string getUri() const;
+	virtual std::string executeRequest(const Json::Value &paramMap) const;
 	/**
 	* Se fija si hay mensajes nuevos para el usuario
 	*/
-	virtual std::string executeRequest(const Json::Value &paramMap) const;
+	Json::Value doSomethingForMe(const Json::Value &data) const;
+
 private:
 	static const std::string serviceName;
-
-	static Json::Value doSomethingForMe(const Json::Value &data);
 };
 
 class SomethingForMeServiceCreator: public ServiceCreatorInterface{

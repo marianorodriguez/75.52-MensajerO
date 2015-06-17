@@ -13,14 +13,19 @@ ConnectionManagerTest::ConnectionManagerTest() {}
 
 ConnectionManagerTest::~ConnectionManagerTest() {}
 
+// TODO: Como no se puede instanciar testDb en el constructor, ver si
+// se puede mejorar este setup
 void ConnectionManagerTest::setUp(){
 	TestFixture::setUp();
+	testDb = new Database(DATABASE_USERS_PATH);
+	manager.setDatabase(testDb);
 	manager.startUpdating();
 }
 
 void ConnectionManagerTest::tearDown(){
 	TestFixture::tearDown();
 	manager.stopUpdating();
+	delete testDb;
 }
 
 void ConnectionManagerTest::testAddRecentlyConnectedUser() {

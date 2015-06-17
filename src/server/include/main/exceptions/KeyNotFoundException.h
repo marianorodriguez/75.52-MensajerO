@@ -9,7 +9,7 @@
 #define KEYNOTFOUNDEXCEPTION_H_
 
 #include "BaseException.h"
-#include <iostream>
+#include <string>
 using namespace std;
 
 /*
@@ -18,7 +18,7 @@ using namespace std;
  */
 class KeyNotFoundException: public BaseException  {
 public:
-	KeyNotFoundException(string what);
+	KeyNotFoundException(const std::string& what);
 	virtual ~KeyNotFoundException();
 };
 

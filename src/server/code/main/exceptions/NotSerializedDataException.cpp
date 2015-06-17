@@ -7,7 +7,7 @@
 
 #include "../../../include/main/exceptions/NotSerializedDataException.h"
 
-NotSerializedDataException::NotSerializedDataException(string what):
+NotSerializedDataException::NotSerializedDataException(const std::string& what):
 		BaseException(what) {}
 
 NotSerializedDataException::~NotSerializedDataException() {}

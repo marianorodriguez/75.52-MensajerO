@@ -27,7 +27,7 @@ std::string UserConfigService::executeRequest(
 	return output.toStyledString();
 }
 
-Json::Value UserConfigService::doUserConfig(const Json::Value &data) {
+Json::Value UserConfigService::doUserConfig(const Json::Value &data) const {
 
 	Database db(DATABASE_USERS_PATH);
 	std::vector<std::string> key;

@@ -1,4 +1,4 @@
-#include <../../include/main/services/SendMessageService.h>
+#include "../../include/main/services/SendMessageService.h"
 
 const std::string SendMessageService::serviceName = SERVICE_SENDMESSAGE_NAME;
 
@@ -20,7 +20,7 @@ std::string SendMessageService::executeRequest(
 	return output.toStyledString();
 }
 
-Json::Value SendMessageService::doSendMessage(const Json::Value &data) {
+Json::Value SendMessageService::doSendMessage(const Json::Value &data) const {
 
 	string userFrom = data[SERVICE_USERNAME].asString();
 	string password = data[SERVICE_PASSWORD].asString();

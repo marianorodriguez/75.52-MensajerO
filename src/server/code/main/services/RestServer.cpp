@@ -49,6 +49,7 @@ RestServer::RestServer() :
 	this->chatDbPath = kDefaultDBPath + kDefaultChatFolder;
 	startServer();
 	connectionManager = ConnectionManager::getInstance();
+	connectionManager->setDatabase(&this->userDb);
 	connectionManager->startUpdating();
 }
 

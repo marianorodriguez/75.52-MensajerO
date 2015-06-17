@@ -53,20 +53,22 @@ void UsersServiceTest::tearDown(){
 
 void UsersServiceTest::testShouldReturnAllUsersInDB(){
 	Json::Value data;
+	UsersService service;
 	data[SERVICE_USERNAME] = "usernameASD";
 	data[SERVICE_PASSWORD] = "passwordASD";
 
-	Json::Value output = UsersService::doUsers(data);
+	Json::Value output = service.doUsers(data);
 
 	CPPUNIT_ASSERT(output[SERVICE_USERS_NAME].size() == 4);
 }
 
 void UsersServiceTest::testShouldThrowInvalidPassword(){
 	Json::Value data;
+	UsersService service;
 	data[SERVICE_USERNAME] = "usernameASD";
 	data[SERVICE_PASSWORD] = "passwordASDFGH";
 
-	Json::Value output = UsersService::doUsers(data);
+	Json::Value output = service.doUsers(data);
 
 	CPPUNIT_ASSERT(output[SERVICE_OUT_OK].asBool() == false);
 	CPPUNIT_ASSERT(output[SERVICE_OUT_WHAT].asString() == SERVICE_OUT_INVALIDPWD);
@@ -74,10 +76,11 @@ void UsersServiceTest::testShouldThrowInvalidPassword(){
 
 void UsersServiceTest::testShouldThrowInvalidUsername(){
 	Json::Value data;
+	UsersService service;
 	data[SERVICE_USERNAME] = "usernameASDAJSDG";
 	data[SERVICE_PASSWORD] = "passwordASD";
 
-	Json::Value output = UsersService::doUsers(data);
+	Json::Value output = service.doUsers(data);
 
 	CPPUNIT_ASSERT(output[SERVICE_OUT_OK].asBool() == false);
 	CPPUNIT_ASSERT(output[SERVICE_OUT_WHAT].asString() == SERVICE_OUT_INVALIDUSER);

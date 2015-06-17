@@ -1,7 +1,4 @@
 #include "../../include/main/utilities/Thread.h"
-#include <iostream>
-#include <cstdio>
-#include <cstring>
 
 Thread::Thread(){
 	this->thread = 0; //Inicializo

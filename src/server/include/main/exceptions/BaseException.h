@@ -9,21 +9,19 @@
 #define SERVER_MAIN_EXCEPTIONS_BASEEXCEPTION_H_
 
 #include <exception>
-#include <iostream>
-using namespace std;
-
+#include <string>
 /**
  * Define una clase base para todas las excepciones del servidor.
  */
 class BaseException: public std::exception {
 public:
-	BaseException(string what);
+	BaseException(const std::string& what);
 	virtual ~BaseException();
 
-	string getDescription() const;
+	std::string getDescription() const;
 
 private:
-	string description;
+	std::string description;
 };
 
 #endif /* SERVER_MAIN_EXCEPTIONS_BASEEXCEPTION_H_ */

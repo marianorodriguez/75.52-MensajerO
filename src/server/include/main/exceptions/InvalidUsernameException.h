@@ -8,8 +8,8 @@
 #ifndef SERVER_MAIN_EXCEPTIONS_INVALIDUSERNAMEEXCEPTION_H_
 #define SERVER_MAIN_EXCEPTIONS_INVALIDUSERNAMEEXCEPTION_H_
 
+#include <string>
 #include "BaseException.h"
-
 /**
  * Define una excepcion de tipo "usuario invalido".
  * Un usuario puede ser invalido por las siguientes razones:
@@ -20,7 +20,7 @@
  */
 class InvalidUsernameException: public BaseException {
 public:
-	InvalidUsernameException(string what);
+	InvalidUsernameException(const std::string& what);
 	virtual ~InvalidUsernameException();
 };
 

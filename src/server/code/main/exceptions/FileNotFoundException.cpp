@@ -7,7 +7,7 @@
 
 #include "../../../include/main/exceptions/FileNotFoundException.h"
 
-FileNotFoundException::FileNotFoundException(string what) :
+FileNotFoundException::FileNotFoundException(const std::string& what) :
 		BaseException(what) {}
 
 FileNotFoundException::~FileNotFoundException() {}

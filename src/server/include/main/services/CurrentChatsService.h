@@ -6,8 +6,9 @@
 #include "../user/chat/Chat.h"
 
 class CurrentChatsService: public ServiceInterface  {
-	friend class CurrentChatsServiceTest;
 public:
+	CurrentChatsService(Database& userDb, Database& chatDb);
+	virtual ~CurrentChatsService();
 	/*
 	* Devuelve el nombre del servicio: CurrentChats
 	*/
@@ -16,14 +17,18 @@ public:
 	 * Devuelve chats activos
 	 */
 	virtual std::string executeRequest(const Json::Value &paramMap) const;
+	Json::Value doCurrentChats(const Json::Value &data) const;
 private:
 	static const std::string serviceName;
-
-	static Json::Value doCurrentChats(const Json::Value &data);
+	Json::Value serializeUserChats(const std::string& username,
+								const std::vector<std::string>& chats) const;
+	/** Base de datos de usuarios **/
+	Database& userDb;
+	/** Base de datos de chats **/
+	Database& chatDb;
 };
 
 class CurrentChatsServiceCreator: public ServiceCreatorInterface{
-
 	virtual ServiceInterface* create(Database& userDb, Database& chatDb);
 };
 

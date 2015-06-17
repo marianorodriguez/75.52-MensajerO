@@ -27,7 +27,7 @@ void write50Times() {
 	logger->saveStatus();
 }
 
-string getTextFromFile(string dir) {
+string getTextFromFile(const std::string& dir) {
 
 	ifstream file(dir);
 

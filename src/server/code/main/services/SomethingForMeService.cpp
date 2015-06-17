@@ -21,7 +21,7 @@ std::string SomethingForMeService::executeRequest(
 	return output.toStyledString();
 }
 
-Json::Value SomethingForMeService::doSomethingForMe(const Json::Value &data) {
+Json::Value SomethingForMeService::doSomethingForMe(const Json::Value &data) const{
 
 	Database dbUsers(DATABASE_USERS_PATH);
 	Database dbChats(DATABASE_CHATS_PATH);
