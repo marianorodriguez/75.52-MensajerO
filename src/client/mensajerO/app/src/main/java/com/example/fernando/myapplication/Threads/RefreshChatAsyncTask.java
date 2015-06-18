@@ -3,6 +3,8 @@ package com.example.fernando.myapplication.Threads;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Pair;
+import android.widget.Button;
+import android.widget.ScrollView;
 
 import com.example.fernando.myapplication.Activities.ChatActivity;
 import com.example.fernando.myapplication.Entities.Chat;
@@ -19,6 +21,13 @@ public class RefreshChatAsyncTask extends AsyncTask<Pair<Context, Chat>, String,
     private Chat chatToUpdate;
     private Context context;
     ArrayList<Message> newMessages;
+    private Button scrollDown;
+    boolean firstTime = false;
+
+    public void setScrollDownButton (Button scrollDown, boolean firstTime) {
+        this.scrollDown = scrollDown;
+        this.firstTime = firstTime;
+    }
 
     @Override
     protected String doInBackground(Pair<Context, Chat>... params) {
@@ -60,10 +69,17 @@ public class RefreshChatAsyncTask extends AsyncTask<Pair<Context, Chat>, String,
 //            Toast.makeText(context, "new refresh chat", Toast.LENGTH_LONG).show();
             ChatActivity.refreshChat = new RefreshChatAsyncTask();
             ChatActivity.refreshChat.execute(new Pair<>(context, chatToUpdate));
+
+            if (firstTime) {
+                scrollDown.callOnClick();
+                scrollDown.performClick();
+                firstTime = false;
+            }
             this.cancel(true);
         } else {
             Constants.chatEditor.renderNewMessages(newMessages);
             newMessages.clear();
+
         }
     }
 

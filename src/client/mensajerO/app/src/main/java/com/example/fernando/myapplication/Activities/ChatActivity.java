@@ -36,23 +36,29 @@ public class ChatActivity extends ActionBarActivity implements View.OnClickListe
 
         setTitle(getResources().getString(R.string.chat).concat(" " + Constants.chatWith));
 
-        TextView chat = (TextView) findViewById(R.id.chat);
+//        TextView chat = (TextView) findViewById(R.id.chat);
 
         Button sendButton = (Button) findViewById(R.id.sendButton);
         sendButton.setOnClickListener(this);
+        Button focusDownButton = (Button) findViewById(R.id.focusdown);
+        focusDownButton.setOnClickListener(this);
+
+        findViewById(R.id.editText).bringToFront();
 
         // SETEAR EL CHAT CORRESPONDIENTE A CHATEDITOR ANTES DE PASAR A ESTA ACTIVITY
-        Constants.chatEditor.renderChat(chat);
+//        Constants.chatEditor.renderChat(chat);
         // dibujar los mensajes del chat actual con chatwith user
 
         sendMessage = new SendMessagePostAsyncTask();
         refreshChat = new RefreshChatAsyncTask();
 
-        Constants.messagesSize = Constants.chatEditor.getChat().messages.size();
+        Constants.messagesSize = 0;
+        scroll = (ScrollView) findViewById(R.id.scrollView);
+        refreshChat.setScrollDownButton(focusDownButton, true);
+        Constants.chatEditor.setContext(this, Constants.user.username, scroll );
         refreshChat.execute(new Pair<Context, Chat>(this, Constants.chatEditor.getChat()));
         // tirar hilo que se fije si de en la lista de chats hay cambios con este user y actualice la vista
 
-        scroll = (ScrollView) findViewById(R.id.scrollView);
         scroll.fullScroll(ScrollView.FOCUS_DOWN);
     }
 
@@ -66,6 +72,9 @@ public class ChatActivity extends ActionBarActivity implements View.OnClickListe
 
             String package_ = Constants.packager.wrap("sendMessage",
                     Constants.user, Constants.chatWith, message);
+
+
+            Constants.chatEditor.setContext(this, Constants.user.username, scroll);
 
             sendMessage.execute(new Pair<Context, String>(this, package_),
                     new Pair<Context, String>(this, Constants.sendMessageUrl),
@@ -89,6 +98,8 @@ public class ChatActivity extends ActionBarActivity implements View.OnClickListe
                         message,
                         calendar.getTime().toString(),
                         "");
+                Constants.chatEditor.setContext(this, Constants.user.username, scroll);
+                refreshChat.setScrollDownButton((Button)findViewById(R.id.focusdown), true);
                 Constants.chatEditor.getChat().messages.add(newMessage);
 //                Constants.chatEditor.renderNewMessage(newMessage);
             }
@@ -98,6 +109,8 @@ public class ChatActivity extends ActionBarActivity implements View.OnClickListe
 
             scroll.fullScroll(ScrollView.FOCUS_DOWN);
 
+        } else if (v.getId() == R.id.focusdown) {
+            scroll.fullScroll(ScrollView.FOCUS_DOWN);
         }
     }
 
