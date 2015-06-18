@@ -2,42 +2,54 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#3CAFE8">
 
     <Button
         android:id="@+id/backtologin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/b.cancel"
+        android:textAllCaps="false"
         android:layout_below="@+id/imageView7"
-        android:layout_marginTop="20dp"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentLeft="false"
-        android:layout_alignParentRight="false"
-        android:layout_toRightOf="@+id/signupbutton" />
+        android:layout_toRightOf="@+id/online"
+        android:layout_toEndOf="@+id/online"
+        android:background="@drawable/rounded_button"
+        android:textColor="#ffffffff"
+        android:layout_marginTop="10dp"
+        android:textStyle="bold" />
     <Button
         android:id="@+id/signupbutton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/b.done"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/imageView7"
-        android:layout_marginTop="20dp"
-        android:layout_alignParentLeft="false" />
+        android:textAllCaps="false"
+        android:layout_alignTop="@+id/backtologin"
+        android:layout_toLeftOf="@+id/online"
+        android:layout_toStartOf="@+id/online"
+        android:background="@drawable/rounded_button"
+        android:textColor="#ffffffff"
+        android:textStyle="bold" />
 
     <Button
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="Select your Profile Picture"
+        android:text="Select your profile picture"
+        android:textAllCaps="false"
         android:id="@+id/button"
         android:layout_marginTop="25dp"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/rounded_button"
+        android:textColor="#ffffffff"
+        android:textSize="17dp"
+        android:typeface="sans"
+        android:textStyle="bold" />
 
     <RadioButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="ON LINE"
+        android:text="Online"
         android:id="@+id/online"
         android:checked="true"
         android:layout_below="@+id/textView5"
@@ -46,31 +58,34 @@
         android:layout_marginTop="10dp"
         android:textSize="18dp"
         android:textStyle="bold|italic"
-        android:layout_marginLeft="-20dp" />
+        android:layout_marginLeft="-20dp"
+        android:textColor="#ffffffff" />
 
     <RadioButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="OUT"
+        android:text="Out"
         android:id="@+id/out"
         android:checked="false"
         android:layout_below="@+id/offline"
         android:layout_alignLeft="@+id/offline"
         android:layout_alignStart="@+id/offline"
         android:textSize="18dp"
-        android:textStyle="bold|italic" />
+        android:textStyle="bold|italic"
+        android:textColor="#ffffffff" />
 
     <RadioButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="OFF LINE"
+        android:text="Offline"
         android:id="@+id/offline"
         android:checked="false"
         android:layout_below="@+id/online"
         android:layout_alignLeft="@+id/online"
         android:layout_alignStart="@+id/online"
         android:textSize="18dp"
-        android:textStyle="bold|italic" />
+        android:textStyle="bold|italic"
+        android:textColor="#ffffffff" />
 
     <ImageView
         android:layout_width="150dp"
@@ -92,7 +107,9 @@
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/imageView5"
         android:layout_alignParentLeft="false"
-        android:layout_marginTop="10dp" />
+        android:layout_marginTop="10dp"
+        android:textColor="#ffffffff"
+        android:textStyle="bold" />
 
     <ImageView
         android:layout_width="150dp"
@@ -100,7 +117,7 @@
         android:id="@+id/imageView5"
         android:layout_below="@+id/imageView"
         android:layout_centerHorizontal="true"
-        android:background="#ff0400ff"
+        android:background="#1E4072"
         android:minHeight="1dp"
         android:layout_marginTop="10dp" />
 
@@ -115,7 +132,7 @@
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:id="@+id/imageView7"
-        android:background="#ff0400ff"
+        android:background="#1E4072"
         android:minHeight="1dp"
         android:layout_below="@+id/out"
         android:layout_centerHorizontal="true"
