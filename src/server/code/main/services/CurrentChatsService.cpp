@@ -1,9 +1,9 @@
 #include <../../include/main/services/CurrentChatsService.h>
 
-const std::string CurrentChatsService::serviceName = SERVICE_CURRENTCHATS_NAME;
+const std::string serviceName = SERVICE_CURRENTCHATS_NAME;
 
 std::string CurrentChatsService::getUri() const {
-	return CurrentChatsService::serviceName;
+	return serviceName;
 }
 
 std::string CurrentChatsService::executeRequest(

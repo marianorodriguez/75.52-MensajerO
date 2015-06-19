@@ -23,7 +23,7 @@ public:
 	virtual ~IPersistible();
 
 	/*
-	 * Escribe informacion a partir de @params key y value.
+	 * Escribe informacion a partir de @param key y @param value.
 	 */
 	virtual void write(vector<string> key, const string& value);
 	/*

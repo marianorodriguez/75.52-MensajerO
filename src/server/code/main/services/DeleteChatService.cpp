@@ -7,10 +7,10 @@
 
 #include "../../include/main/services/DeleteChatService.h"
 
-const std::string DeleteChatService::serviceName = SERVICE_DELETECHAT_NAME;
+const std::string serviceName = SERVICE_DELETECHAT_NAME;
 
 std::string DeleteChatService::getUri() const {
-	return DeleteChatService::serviceName;
+	return serviceName;
 }
 
 std::string DeleteChatService::executeRequest(

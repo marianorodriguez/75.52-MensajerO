@@ -3,8 +3,14 @@
 
 #include <string>
 
+/**
+ * Clase encargada de proveer la fecha actual.
+ */
 class Date {
 public:
+	/**
+	 * Devuelve la fecha actual.
+	 */
 	static std::string getDate();
 };
 

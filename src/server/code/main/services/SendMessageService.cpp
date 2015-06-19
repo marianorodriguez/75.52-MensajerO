@@ -1,9 +1,9 @@
 #include <../../include/main/services/SendMessageService.h>
 
-const std::string SendMessageService::serviceName = SERVICE_SENDMESSAGE_NAME;
+const std::string serviceName = SERVICE_SENDMESSAGE_NAME;
 
 std::string SendMessageService::getUri() const {
-	return SendMessageService::serviceName;
+	return serviceName;
 }
 
 std::string SendMessageService::executeRequest(

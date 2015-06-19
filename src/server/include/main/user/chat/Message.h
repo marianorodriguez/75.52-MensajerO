@@ -63,7 +63,14 @@ public:
 	 */
 	string getTime() const;
 
+	/**
+	 * Devuelve true si el mensaje ya fué enviado.
+	 */
 	bool getSent() const;
+
+	/**
+	 * Setea al mensaje como enviado.
+	 */
 	void setAsSent();
 
 	

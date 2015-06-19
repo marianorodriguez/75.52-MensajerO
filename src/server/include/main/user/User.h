@@ -89,7 +89,14 @@ public:
 	 */
 	void addChatWithUser(const string& user);
 
+	/**
+	 * Actualiza el tiempo de ultima vez conectado del usuario.
+	 */
 	void setLastTimeConnected();
+
+	/**
+	 * Devuelve true si el usuario está actualmente conectado al servidor.
+	 */
 	bool isConnected() const;
 
 private:

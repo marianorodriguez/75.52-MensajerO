@@ -21,6 +21,7 @@ public:
 	virtual ~ISerializable() {}
 
 	/**
+	 * Serializa un objeto serializable.
 	 * @returns El objeto serializado como una cadena de texto.
 	 */
 	virtual string serialize() const = 0;

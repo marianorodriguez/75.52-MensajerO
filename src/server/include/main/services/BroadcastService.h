@@ -15,23 +15,32 @@
 #include "../user/chat/Chat.h"
 #include "../user/User.h"
 
+/**
+ * Clase encargada de realizar el servicio de difusion de mensajes del servidor.
+ * Un usuario que use este servicio le mandará un mensaje a todos los usuarios registrados en el servidor.
+ */
 class BroadcastService: public ServiceInterface {
 	friend class BroadcastServiceTest;
 public:
-	/**
-	 * Devuelve el nombre con el que se accederá al servicio
-	 */
 	virtual std::string getUri() const;
-
 	virtual std::string executeRequest(const Json::Value &paramMap) const;
+
 private:
-	static const std::string serviceName;
+
+	/**
+	 * Encargado de aplicar el servicio de difusion.
+	 * @param data información de entrada del servicio.
+	 * @return informacion sobre el resultado de la ejecucion del servicio.
+	 */
 	static Json::Value doBroadcast(const Json::Value &data);
 };
 
-class BroadcastServiceCreator : public ServiceCreatorInterface{
+/**
+ * Creator del servicio de difusion.
+ */
+class BroadcastServiceCreator: public ServiceCreatorInterface {
 public:
-    virtual ServiceInterface* create();
+	virtual ServiceInterface* create();
 };
 
 #endif /* CODE_MAIN_SERVICES_BROADCASTSERVICE_H_ */

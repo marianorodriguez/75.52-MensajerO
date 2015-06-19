@@ -1,21 +1,21 @@
 #include <string>
 
 /**
- *Used to encrypt a stream of data with base64 method.
+ *Usado para encriptar un stream de datos con el metodo de base64
  */
 class base64{
 
 public:
 	/**
-	 *\brief Encodes the given data.
-	 *@param data The data to encrypt.
-	 *@param len Length of the data.
+	 *\brief Codifica la informacion pasada.
+	 *@param data La informacion a codificar.
+	 *@param len Longitud de la informacion.
 	 */
 	static std::string encode(unsigned char const* data , unsigned int len);
 
 	/**
-	 * \brief Decodes the given data.
-	 * @param s Data to decode.
+	 * \brief Decodifica la informacion pasada.
+	 * @param s informacion a decodificar.
 	 */
 	static std::string decode(std::string const& s);
 

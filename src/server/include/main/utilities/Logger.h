@@ -25,7 +25,7 @@ public:
 	/**
 	 *Los niveles de eventos del logger.
 	 *ERROR: Para eventos que lanzan una excepción.
-	 *WARNING: Para eventos en donde no se pudo completar un pedido, pero no se lanzó excepcion.
+	 *WARNING: Para eventos en donde no se pudo completar un pedido u ocurrió algo poco usual, pero no se lanzó excepcion.
 	 *INFO: Para dejar constancia de eventos importantes.
 	 *DEBUG: Para facilitar el hallazgo de bugs sin necesidad de recompilar el código, o extender la informacion de INFO.
 	 */
@@ -54,7 +54,7 @@ public:
 	void write(loggingLevel level, string text);
 
 	/**
-	 * Guarda el archivo y lo vuelve a abrir.
+	 * Escribe el buffer al archivo de logging.
 	 */
 	void saveStatus();
 

@@ -7,10 +7,10 @@
 
 #include "../../include/main/services/BroadcastService.h"
 
-const std::string BroadcastService::serviceName = SERVICE_BROADCAST_NAME;
+const std::string serviceName = SERVICE_BROADCAST_NAME;
 
 std::string BroadcastService::getUri() const {
-	return BroadcastService::serviceName;
+	return serviceName;
 }
 
 std::string BroadcastService::executeRequest(

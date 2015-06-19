@@ -1,9 +1,9 @@
 #include <../../../include/main/services/UsersService.h>
 
-const std::string UsersService::serviceName = SERVICE_USERS_NAME;
+const std::string serviceName = SERVICE_USERS_NAME;
 
 std::string UsersService::getUri() const {
-	return UsersService::serviceName;
+	return serviceName;
 }
 
 std::string UsersService::executeRequest(const Json::Value &paramMap) const {

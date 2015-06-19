@@ -1,9 +1,9 @@
 #include "../../../include/main/services/SignUpService.h"
 
-const std::string SignUpService::serviceName = SERVICE_SIGNUP_NAME;
+const std::string serviceName = SERVICE_SIGNUP_NAME;
 
 std::string SignUpService::getUri() const {
-	return SignUpService::serviceName;
+	return serviceName;
 }
 
 std::string SignUpService::executeRequest(const Json::Value &paramMap) const {

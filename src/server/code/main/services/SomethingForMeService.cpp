@@ -1,10 +1,9 @@
 #include <../../../include/main/services/SomethingForMeService.h>
 
-const std::string SomethingForMeService::serviceName =
-		SERVICE_SOMETHINGFORME_NAME;
+const std::string serviceName = SERVICE_SOMETHINGFORME_NAME;
 
 std::string SomethingForMeService::getUri() const {
-	return SomethingForMeService::serviceName;
+	return serviceName;
 }
 
 std::string SomethingForMeService::executeRequest(

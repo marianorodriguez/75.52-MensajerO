@@ -2,14 +2,25 @@
 #define MUTEX_H
 #include <pthread.h>
 
+/**
+ * Encargada de encapsular el comportamiento de mutex.
+ */
 class Mutex{
 	private:
 		pthread_mutex_t mutex;
 	public:
 		Mutex();
-		void lock();
-		void unlock();
 		~Mutex();
+
+		/**
+		 * bloquea el acceso a un objeto.
+		 */
+		void lock();
+
+		/**
+		 * desbloquea el acceso a un objeto.
+		 */
+		void unlock();
 };
 
 class Lock{

@@ -6,23 +6,30 @@
 #include "../user/chat/Chat.h"
 #include "../user/User.h"
 
+/**
+ * Clase encargada de proveer el servicio de envio de mensajes del servidor.
+ * El usuario que use este servicio le enviará un mensaje a otro usuario especificado.
+ */
 class SendMessageService: public ServiceInterface {
 	friend class SendMessageServiceTest;
 	friend class BroadcastService;
+
 public:
-	/**
-	 * Devuelve el nombre con el que se accederá al servicio
-	 */
 	virtual std::string getUri() const;
-	/*
-	 * Agrega mensaje a la lista de conversaciones
-	 */
 	virtual std::string executeRequest(const Json::Value &paramMap) const;
+
 private:
-	static const std::string serviceName;
+	/**
+	 * Encargado de aplicar el servicio de envio de mensajes.
+	 * @param data informacion de entrada.
+	 * @return informacion sobre el resultado de la ejecucion de este servicio.
+	 */
 	static Json::Value doSendMessage(const Json::Value &data);
 };
 
+/**
+ * creador del servicio de envio de mensajes.
+ */
 class SendMessageServiceCreator : public ServiceCreatorInterface{
 public:
     virtual ServiceInterface* create();

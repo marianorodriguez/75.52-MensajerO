@@ -1,8 +1,8 @@
 #include "../../include/main/services/LogInService.h"
-const std::string LogInService::serviceName = SERVICE_LOGIN_NAME;
+const std::string serviceName = SERVICE_LOGIN_NAME;
 
 std::string LogInService::getUri() const {
-	return LogInService::serviceName;
+	return serviceName;
 }
 
 std::string LogInService::executeRequest(const Json::Value &paramMap) const {
