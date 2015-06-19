@@ -15,7 +15,6 @@ Database::Database() {
 	if (!database) {
 		string message = "Database file not found.";
 		FileNotFoundException exception(message);
-		Logger::getLogger()->write(Logger::ERROR, message);
 		throw exception;
 	}
 
@@ -30,7 +29,6 @@ Database::Database(const string& path) {
 	if (!database) {
 		string message = "Database file not found.";
 		FileNotFoundException exception(message);
-		Logger::getLogger()->write(Logger::ERROR, message);
 		throw exception;
 	}
 }
@@ -43,8 +41,7 @@ void Database::write(vector<string> key, const string& value) {
 	string compoundKey = this->getKey(key);
 	rocksdb::Status status = database->Put(rocksdb::WriteOptions(), compoundKey,value);
 	if (!status.ok()) {
-		InvalidKeyException exception("Invalid key.");
-		Logger::getLogger()->write(Logger::ERROR, status.ToString());
+		InvalidKeyException exception(status.ToString() + ": Invalid key.");
 		throw exception;
 	}
 }
@@ -60,7 +57,6 @@ string Database::read(vector<string> key) const {
 	if (!status.ok()) {
 		string message = "Key not found in database: " + compoundKey;
 		KeyNotFoundException exception(message);
-		Logger::getLogger()->write(Logger::ERROR, message);
 		throw exception;
 	}
 	return value;
@@ -71,7 +67,7 @@ void Database::erase(vector<string> key) {
 	rocksdb::Status status = database->Delete(rocksdb::WriteOptions(),
 			compoundKey);
 	if (!status.ok()) {
-		Logger::getLogger()->write(Logger::ERROR, status.ToString());
+		Logger::getLogger()->write(Logger::WARN, status.ToString() + ": couldn't erase a key from the database");
 	}
 }
 
@@ -99,7 +95,7 @@ vector<string> Database::getAllKeys() const {
 		keys.push_back(str);
 	}
 	if (!it->status().ok()) {// Check for any errors found during the scan
-		Logger::getLogger()->write(Logger::ERROR, "Error found during the scan of " + database->GetName());
+		Logger::getLogger()->write(Logger::WARN, "Error found during the scan of " + database->GetName());
 	}
 	delete it;
 

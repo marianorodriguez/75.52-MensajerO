@@ -9,6 +9,7 @@
 
 BaseException::BaseException(string what) {
 	this->description = what;
+	Logger::getLogger()->write(Logger::ERROR, what);
 }
 
 BaseException::~BaseException() {}
