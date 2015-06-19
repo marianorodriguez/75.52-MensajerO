@@ -18,6 +18,7 @@ void ServerConfig::configure(RestServer& server) const{
 }
 
 void ServerConfig::addServiceCreators(RestServer& server) const{
+	Logger::getLogger()->write(Logger::DEBUG, "Loading services...");
 	server.addService(new CurrentChatsServiceCreator());
 	server.addService(new DeleteChatServiceCreator());
 	server.addService(new LogInServiceCreator());
