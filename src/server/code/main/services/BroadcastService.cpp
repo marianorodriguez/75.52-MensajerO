@@ -74,7 +74,7 @@ Json::Value BroadcastService::doBroadcast(const Json::Value &data) {
 	} catch (KeyNotFoundException &e) {
 		broadcastOut[SERVICE_OUT_OK] = false;
 		broadcastOut[SERVICE_OUT_WHAT] = SERVICE_OUT_INVALIDUSER;
-		Logger::getLogger()->write(Logger::WARN, "Some unregistered user tried to send a broadcast message.");
+		Logger::getLogger()->write(Logger::WARN, "Some unregistered user tried to use this service.");
 	}
 	return broadcastOut;
 }

@@ -7,5 +7,6 @@ std::string NullService::getUri() const{
 }
 
 std::string NullService::executeRequest(const Json::Value &paramMap) const{
+	Logger::getLogger()->write(Logger::WARN, "Service not found.");
 	return "";
 }

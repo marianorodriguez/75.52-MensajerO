@@ -10,6 +10,9 @@ std::string LogInService::executeRequest(const Json::Value &paramMap) const {
 	Json::Reader reader;
 	Json::Value data;
 	reader.parse(paramMap.asString(), data);
+
+	Logger::getLogger()->write(Logger::INFO,
+			"Executing LogIn service...");
 	Json::Value output = doLogIn(data);
 
 	ConnectionManager::getInstance()->updateUser(
@@ -39,7 +42,7 @@ Json::Value LogInService::doLogIn(const Json::Value& data) {
 			user.modifyLocation(location);
 			db.write(key, user.serialize());
 		if (user.getPassword() == data[SERVICE_PASSWORD].asString()) {
-
+			Logger::getLogger()->write(Logger::DEBUG, "Granting access to user " + user.getUsername());
 			output[SERVICE_USERCONFIG_LOCATION] = location;
 			output[SERVICE_USERCONFIG_STATUS] = user.getStatus();
 			output[SERVICE_USERCONFIG_PICTURE] = user.getProfilePicture();
@@ -48,11 +51,15 @@ Json::Value LogInService::doLogIn(const Json::Value& data) {
 		} else {
 			output[SERVICE_OUT_OK] = false;
 			output[SERVICE_OUT_WHAT] = SERVICE_OUT_INVALIDPWD;
+			Logger::getLogger()->write(Logger::WARN,
+					"Invalid password from user " + user.getUsername());
 		}
 
 	} catch (KeyNotFoundException &e) {
 		output[SERVICE_OUT_OK] = false;
 		output[SERVICE_OUT_WHAT] = SERVICE_OUT_INVALIDUSER;
+		Logger::getLogger()->write(Logger::WARN, "Some unregistered user tried to use this service.");
+
 	}
 	db.close();
 	return output;

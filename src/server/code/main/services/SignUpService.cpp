@@ -11,8 +11,8 @@ std::string SignUpService::executeRequest(const Json::Value &paramMap) const {
 	Json::Reader reader;
 	Json::Value data;
 	reader.parse(paramMap.asString(), data);
+	Logger::getLogger()->write(Logger::INFO, "Executing SignUp service...");
 	Json::Value output = doSignUp(data);
-
 	ConnectionManager::getInstance()->updateUser(
 			data[SERVICE_USERNAME].asString());
 
@@ -49,6 +49,7 @@ Json::Value SignUpService::doSignUp(const Json::Value& data) {
 	Json::Value output;
 
 	if (!exists) {
+		Logger::getLogger()->write(Logger::DEBUG, "Registering new user...");
 		Database DB(DATABASE_USERS_PATH);
 		std::string username = data[SERVICE_USERNAME].asString();
 		std::string password = data[SERVICE_PASSWORD].asString();
@@ -69,12 +70,16 @@ Json::Value SignUpService::doSignUp(const Json::Value& data) {
 		output[SERVICE_USERCONFIG_LOCATION] = newUser.getLocation();
 		output[SERVICE_OUT_OK] = true;
 		output[SERVICE_OUT_WHAT] = "";
+		Logger::getLogger()->write(Logger::DEBUG,
+				"user " + data[SERVICE_USERNAME].asString()
+						+ " successfully registered.");
 		DB.close();
 	} else {
 		output[SERVICE_OUT_OK] = false;
 		output[SERVICE_OUT_WHAT] = SERVICE_OUT_USERNAMEEXISTS;
+		Logger::getLogger()->write(Logger::DEBUG,
+				"Couldn't register user " + data[SERVICE_USERNAME].asString());
 	}
 
 	return output;
 }
-

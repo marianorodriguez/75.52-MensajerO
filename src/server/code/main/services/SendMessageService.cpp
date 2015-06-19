@@ -12,6 +12,8 @@ std::string SendMessageService::executeRequest(
 	Json::Reader reader;
 	Json::Value data;
 	reader.parse(paramMap.asString(), data);
+	Logger::getLogger()->write(Logger::INFO,
+			"Executing SendMessage service...");
 	Json::Value output = doSendMessage(data);
 
 	ConnectionManager::getInstance()->updateUser(
@@ -43,11 +45,16 @@ Json::Value SendMessageService::doSendMessage(const Json::Value &data) {
 
 		if (user.getPassword() == password) {
 			try {
+				Logger::getLogger()->write(Logger::DEBUG,
+						"Sending message from " + user.getUsername() + " to "
+								+ userTo);
 				string serializedChat = dbChats.read(keyChat);
 				Chat chat(serializedChat);
 				chat.addNewMessage(message);
 				dbChats.write(keyChat, chat.serialize());
 			} catch (KeyNotFoundException &e) {
+				Logger::getLogger()->write(Logger::DEBUG,
+						"Chat not found, starting new conversation.");
 				Chat chat(userFrom, userTo);
 				chat.addNewMessage(message);
 				dbChats.write(keyChat, chat.serialize());
@@ -71,10 +78,14 @@ Json::Value SendMessageService::doSendMessage(const Json::Value &data) {
 		} else {
 			output[SERVICE_OUT_OK] = false;
 			output[SERVICE_OUT_WHAT] = SERVICE_OUT_INVALIDPWD;
+			Logger::getLogger()->write(Logger::WARN,
+					"Invalid password from user " + user.getUsername());
 		}
 	} catch (KeyNotFoundException &e) {
 		output[SERVICE_OUT_OK] = false;
 		output[SERVICE_OUT_WHAT] = SERVICE_OUT_INVALIDUSER;
+		Logger::getLogger()->write(Logger::WARN,
+				"Some unregistered user tried to use this service.");
 	}
 
 	dbChats.close();

@@ -26,8 +26,8 @@ public:
 	 *Los niveles de eventos del logger.
 	 *ERROR: Para eventos que lanzan una excepción.
 	 *WARNING: Para eventos en donde no se pudo completar un pedido, pero no se lanzó excepcion.
-	 *DEBUG: Para facilitar el hallazgo de bugs sin necesidad de recompilar el código.
 	 *INFO: Para dejar constancia de eventos importantes.
+	 *DEBUG: Para facilitar el hallazgo de bugs sin necesidad de recompilar el código, o extender la informacion de INFO.
 	 */
 	enum loggingLevel {
 		ERROR, WARN, DEBUG, INFO,

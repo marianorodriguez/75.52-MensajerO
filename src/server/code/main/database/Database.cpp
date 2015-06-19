@@ -44,7 +44,7 @@ void Database::write(vector<string> key, const string& value) {
 		InvalidKeyException exception(status.ToString() + ": Invalid key.");
 		throw exception;
 	}
-	Logger::getLogger()->write(Logger::INFO, "Key saved in database.");
+	Logger::getLogger()->write(Logger::DEBUG, "Key saved in database.");
 }
 
 string Database::read(vector<string> key) const {
@@ -70,7 +70,7 @@ void Database::erase(vector<string> key) {
 	if (!status.ok()) {
 		Logger::getLogger()->write(Logger::WARN, status.ToString() + ": couldn't erase a key from the database");
 	}
-	Logger::getLogger()->write(Logger::INFO, "Key deleted from database.");
+	Logger::getLogger()->write(Logger::DEBUG, "Key deleted from database.");
 
 }
 
