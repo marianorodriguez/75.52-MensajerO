@@ -8,31 +8,40 @@ using namespace std;
 
 int main(int argc, const char** argv) {
 
+	string starting = "Starting server...";
+	string shutting = "Shutting down server...";
+
 	std::string text;
 	bool exit = false;
 	ServerThread server;
 	OptionMap optionMap = ArgsParser::parseArgs(argc, argv);
 	ServerOptions options(optionMap);
-	std::cout << "Leyendo config desde: " << options.getConfigPath() << std::endl;
-	std::cout << "Utilizando puerto: " << options.getServerPort() << std::endl;
-	std::cout << "Utilizando path de BD: " << options.getDatabasePath() << std::endl;
-	std::cout << "Utilizando tiempo de vida de cliente: "
-				<< options.getUserAliveTime() << std::endl;
-	std::cout << "Utilizando tiempo entre escuchas: " << options.getPollDelay() << std::endl;
+	std::cout << "Reading config from: " << options.getConfigPath()
+			<< std::endl;
+	std::cout << "Using port: " << options.getServerPort() << std::endl;
+	std::cout << "Using Database path: " << options.getDatabasePath()
+			<< std::endl;
+	std::cout << "Using client timeout: " << options.getUserAliveTime()
+			<< std::endl;
+	std::cout << "Using server's poll delay: " << options.getPollDelay()
+			<< std::endl;
 	ServerConfig config(options);
 	server.addConfig(config);
-	try{
+	try {
 		server.run();
-		cout<< "Levantando server..."<<endl;
-		cout<< "Para terminar, escriba 'salir'."<<endl;
-		while (!exit){
+		cout <<starting << endl;
+		Logger::getLogger()->write(Logger::INFO, starting);
+		cout << "To finish, type 'exit'." << endl;
+		while (!exit) {
 			std::cin >> text;
-			exit = (text.compare("salir") == 0);
+			exit = (text.compare("exit") == 0);
 		}
 		server.shutdown();
-	}catch(BaseException &e){
-		cout<<e.getDescription()<<endl;
+	} catch (BaseException &e) {
+		cout << e.getDescription() << endl;
 	}
-	std::cout << "Apagando..." << std::endl;
+	std::cout << shutting << std::endl;
+	Logger::getLogger()->write(Logger::INFO, shutting);
+	Logger::getLogger()->saveStatus();
 	server.join();
 }

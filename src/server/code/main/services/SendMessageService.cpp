@@ -81,7 +81,7 @@ Json::Value SendMessageService::doSendMessage(const Json::Value &data) {
 			Logger::getLogger()->write(Logger::WARN,
 					"Invalid password from user " + user.getUsername());
 		}
-	} catch (KeyNotFoundException &e) {
+	} catch (KeyNotFoundException& e) {
 		output[SERVICE_OUT_OK] = false;
 		output[SERVICE_OUT_WHAT] = SERVICE_OUT_INVALIDUSER;
 		Logger::getLogger()->write(Logger::WARN,

@@ -45,11 +45,15 @@ ConnectionManager::~ConnectionManager() {
 }
 
 void ConnectionManager::startUpdating() {
+	Logger::getLogger()->write(Logger::DEBUG,
+			"Starting connection manager...");
 	running = true;
 	pthread_create(&updateThread, NULL, runFunction, this);
 }
 
 void ConnectionManager::stopUpdating() {
+	Logger::getLogger()->write(Logger::DEBUG,
+			"Stopping connection manager...");
 	running = false;
 	pthread_join(updateThread, NULL);
 }
@@ -113,6 +117,8 @@ void ConnectionManager::updateConnection() {
 	}
 
 	for (unsigned int i = 0; i < disconnectedUsers.size(); i++) {
+		Logger::getLogger()->write(Logger::DEBUG,
+				disconnectedUsers.at(i)+" has disconnected.");
 		connectedUsers.erase(disconnectedUsers.at(i));
 	}
 }

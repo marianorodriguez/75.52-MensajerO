@@ -30,7 +30,7 @@ Message::Message(const string& toDeserialize) {
 
 	if (this->userFromID == this->userToID) {
 		InvalidUsernameException exception( 
-						"Can't add a message between a single user");
+						"Can't add a message between a single user.");
 		throw exception;
 	}
 }
@@ -46,7 +46,7 @@ Message::Message(const string& from, const string& to, const string& message) {
 
 	if (this->userFromID == this->userToID) {
 		InvalidUsernameException exception(
-				"Can't add a message between a single user");
+				"Can't add a message between a single user.");
 		throw exception;
 	}
 }

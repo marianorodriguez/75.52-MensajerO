@@ -39,12 +39,12 @@ void Database::write(vector<string> key, const string& value) {
 		throw exception;
 	}
 	string compoundKey = this->getKey(key);
-	rocksdb::Status status = database->Put(rocksdb::WriteOptions(), compoundKey,value);
+	rocksdb::Status status = database->Put(rocksdb::WriteOptions(), compoundKey,
+			value);
 	if (!status.ok()) {
 		InvalidKeyException exception(status.ToString() + ": Invalid key.");
 		throw exception;
 	}
-	Logger::getLogger()->write(Logger::DEBUG, "Key saved in database.");
 }
 
 string Database::read(vector<string> key) const {
@@ -54,11 +54,11 @@ string Database::read(vector<string> key) const {
 	}
 	string value = "";
 	string compoundKey = this->getKey(key);
-	rocksdb::Status status = database->Get(rocksdb::ReadOptions(), compoundKey,	&value);
+	rocksdb::Status status = database->Get(rocksdb::ReadOptions(), compoundKey,
+			&value);
 	if (!status.ok()) {
-		string message = "Key not found in database: " + compoundKey;
-		KeyNotFoundException exception(message);
-		throw exception;
+		string message = "Key " + compoundKey + " not found in database.";
+		throw KeyNotFoundException(message);
 	}
 	return value;
 }
@@ -68,10 +68,9 @@ void Database::erase(vector<string> key) {
 	rocksdb::Status status = database->Delete(rocksdb::WriteOptions(),
 			compoundKey);
 	if (!status.ok()) {
-		Logger::getLogger()->write(Logger::WARN, status.ToString() + ": couldn't erase a key from the database");
+		Logger::getLogger()->write(Logger::WARN,
+				status.ToString() + ": couldn't erase a key from the database");
 	}
-	Logger::getLogger()->write(Logger::DEBUG, "Key deleted from database.");
-
 }
 
 string Database::getKey(vector<string> key) const {
@@ -91,14 +90,15 @@ vector<string> Database::getAllKeys() const {
 	for (it->SeekToFirst(); it->Valid(); it->Next()) {
 		Json::Value value;
 		Json::Reader reader;
-		reader.parse(it->key().ToString(),value);
-		string str (value[0].toStyledString());
-		str.erase (0, 1);
-		str.erase (str.size()-2,string::npos);
+		reader.parse(it->key().ToString(), value);
+		string str(value[0].toStyledString());
+		str.erase(0, 1);
+		str.erase(str.size() - 2, string::npos);
 		keys.push_back(str);
 	}
-	if (!it->status().ok()) {// Check for any errors found during the scan
-		Logger::getLogger()->write(Logger::WARN, "Error found during the scan of " + database->GetName());
+	if (!it->status().ok()) { // Check for any errors found during the scan
+		Logger::getLogger()->write(Logger::WARN,
+				"Error found during the scan of " + database->GetName());
 	}
 	delete it;
 

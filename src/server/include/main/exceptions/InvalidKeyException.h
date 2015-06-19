@@ -9,6 +9,7 @@
 #define SERVER_MAIN_EXCEPTIONS_INVALIDKEYEXCEPTION_H_
 
 #include "BaseException.h"
+#include "../../../include/main/utilities/Logger.h"
 
 class InvalidKeyException: public BaseException {
 public:

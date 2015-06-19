@@ -2,6 +2,7 @@
 #define SERVICE_INTERFACE_H
 
 #include "../utilities/ConnectionManager.h"
+#include "../utilities/Logger.h"
 #include "Connection.h"
 #include "json/json.h"
 

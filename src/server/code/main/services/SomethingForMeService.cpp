@@ -76,8 +76,10 @@ Json::Value SomethingForMeService::doSomethingForMe(const Json::Value &data) {
 					dbChats.write(keyChats, chat.serialize());
 				}
 			}
+			ostringstream convert;
+			convert << cont;
 			Logger::getLogger()->write(Logger::DEBUG,
-					"found " + cont + " new messages.");
+					"found " + convert.str() + " new messages.");
 			output[SERVICE_OUT_OK] = true;
 			output[SERVICE_OUT_WHAT] = "";
 

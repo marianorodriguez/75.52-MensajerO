@@ -4,6 +4,7 @@
 #include <map>
 #include <string>
 #include "json/json.h"
+#include "../../../include/main/utilities/Logger.h"
 
 // Forwards
 struct mg_connection;

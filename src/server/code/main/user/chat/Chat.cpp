@@ -40,7 +40,7 @@ Chat::Chat(const string& user_1, const string& user_2) {
 
 	if (user_1 == user_2) {
 		InvalidUsernameException exception(
-				"Can't create a new chat between a single user");
+				"Can't create a new chat between a single user.");
 		throw exception;
 	}
 
@@ -57,8 +57,7 @@ void Chat::addNewMessage(const Message& message) {
 		this->sentMessages.push_back(message);
 
 	} else {
-		InvalidUsernameException exception(
-				"Can't add a message between invalid users");
+		InvalidUsernameException exception("Can't add a message between invalid users.");
 		throw exception;
 	}
 

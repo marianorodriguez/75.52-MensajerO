@@ -54,7 +54,7 @@ void UserConfigServiceTest::testUserShouldConfigureProfile() {
 	Json::Value data;
 	data[SERVICE_USERNAME] = "username_config";
 	data[SERVICE_PASSWORD] = "password";
-	data[SERVICE_USERCONFIG_LOCATION] = "(0,5)"; //TODO poner coordenadas que matcheen a San Telmo
+	data[SERVICE_USERCONFIG_LOCATION] = "(0,5)";
 	data[SERVICE_USERCONFIG_STATUS] = "new Status";
 	data[SERVICE_USERCONFIG_PICTURE] = "new profile picture";
 
@@ -64,7 +64,7 @@ void UserConfigServiceTest::testUserShouldConfigureProfile() {
 	User modifiedUser(newDB->read(key));
 	newDB->close();
 
-	CPPUNIT_ASSERT(modifiedUser.getLocation() == "UNKNOWN");//TODO cambiar por San Telmo
+	CPPUNIT_ASSERT(modifiedUser.getLocation() == "CABA");
 	CPPUNIT_ASSERT(modifiedUser.getStatus() == "new Status");
 	CPPUNIT_ASSERT(
 			modifiedUser.getProfilePicture() == "new profile picture");

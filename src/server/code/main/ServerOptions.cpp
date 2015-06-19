@@ -6,7 +6,6 @@
 #include "../../include/main/ServerOptions.h"
 #include "../../include/main/utilities/NumberConverter.h"
 
-
 const std::string ServerOptions::kJsonServerRoot("server");
 const std::string ServerOptions::kDefaultConfigPath("config.json");
 // Valores default de onfigurables
@@ -15,15 +14,15 @@ const int ServerOptions::kDefaultPollDelay = 1000;
 const int ServerOptions::kDefaultServerPort = 8081;
 const int ServerOptions::kDefaultUserAliveTime = 5000;
 
-ServerOptions::ServerOptions(){
+ServerOptions::ServerOptions() {
 	loadDefaultValues();
 	OptionMap fileOptions = loadValuesFromFile();
 }
 
-ServerOptions::ServerOptions(const OptionMap& consoleOptions){
+ServerOptions::ServerOptions(const OptionMap& consoleOptions) {
 	loadDefaultValues();
 	OptionMap::const_iterator it = consoleOptions.find(ArgsParser::kConfigKey);
-	if (it != consoleOptions.end()){
+	if (it != consoleOptions.end()) {
 		this->configPath = it->second;
 	}
 	OptionMap optionMap(consoleOptions);
@@ -33,27 +32,26 @@ ServerOptions::ServerOptions(const OptionMap& consoleOptions){
 	loadOptions(optionMap);
 }
 
-void ServerOptions::loadOptions(const OptionMap& optionMap){
+void ServerOptions::loadOptions(const OptionMap& optionMap) {
 	OptionMap::const_iterator it = optionMap.find(ArgsParser::kDatabaseKey);
-	if (it != optionMap.end()){
+	if (it != optionMap.end()) {
 		this->databasePath = it->second;
 	}
 	it = optionMap.find(ArgsParser::kServerPortKey);
-	if (it != optionMap.end()){
+	if (it != optionMap.end()) {
 		this->serverPort = NumberConverter::getNumber(it->second);
 	}
 	it = optionMap.find(ArgsParser::kPollDelayKey);
-	if (it != optionMap.end()){
+	if (it != optionMap.end()) {
 		this->pollDelay = NumberConverter::getNumber(it->second);
 	}
 	it = optionMap.find(ArgsParser::kAliveTimeKey);
-	if (it != optionMap.end()){
+	if (it != optionMap.end()) {
 		this->userAliveTime = NumberConverter::getNumber(it->second);
 	}
 }
 
-
-void ServerOptions::loadDefaultValues(){
+void ServerOptions::loadDefaultValues() {
 	this->configPath = kDefaultConfigPath;
 	this->databasePath = kDefaultDatabasePath;
 	this->pollDelay = kDefaultPollDelay;
@@ -61,17 +59,17 @@ void ServerOptions::loadDefaultValues(){
 	this->userAliveTime = kDefaultUserAliveTime;
 }
 
-OptionMap ServerOptions::loadValuesFromFile(){
+OptionMap ServerOptions::loadValuesFromFile() {
 	// Intento levantar con la ruta completa
 	std::ifstream configFile(this->configPath);
-	if (!configFile.is_open()){
+	if (!configFile.is_open()) {
 		OptionMap map;
 		return map;
 	}
 	return parseJson(configFile);
 }
 
-OptionMap ServerOptions::parseJson(std::ifstream& configFile){
+OptionMap ServerOptions::parseJson(std::ifstream& configFile) {
 	OptionMap options;
 	Json::Reader jsonReader;
 	Json::Value jsonRoot, serverNode;
@@ -82,35 +80,34 @@ OptionMap ServerOptions::parseJson(std::ifstream& configFile){
 		// TODO integrar configuracion del logger
 		serverNode = jsonRoot[kJsonServerRoot];
 		options[ArgsParser::kAliveTimeKey] = serverNode.get(
-			ArgsParser::kAliveTimeKey, kDefaultUserAliveTime).asString();
+				ArgsParser::kAliveTimeKey, kDefaultUserAliveTime).asString();
 		options[ArgsParser::kDatabaseKey] = serverNode.get(
-			ArgsParser::kDatabaseKey, kDefaultDatabasePath).asString();
+				ArgsParser::kDatabaseKey, kDefaultDatabasePath).asString();
 		options[ArgsParser::kPollDelayKey] = serverNode.get(
-			ArgsParser::kPollDelayKey, kDefaultPollDelay).asString();
+				ArgsParser::kPollDelayKey, kDefaultPollDelay).asString();
 		options[ArgsParser::kServerPortKey] = serverNode.get(
-			ArgsParser::kServerPortKey, kDefaultServerPort).asString();
+				ArgsParser::kServerPortKey, kDefaultServerPort).asString();
 	}
 	return options;
 }
 
-std::string ServerOptions::getConfigPath() const{
+std::string ServerOptions::getConfigPath() const {
 	return this->configPath;
 }
 
-
-std::string ServerOptions::getDatabasePath() const{
+std::string ServerOptions::getDatabasePath() const {
 	return this->databasePath;
 }
 
-int ServerOptions::getPollDelay() const{
+int ServerOptions::getPollDelay() const {
 	return this->pollDelay;
 }
 
-int ServerOptions::getServerPort() const{
+int ServerOptions::getServerPort() const {
 	return this->serverPort;
 }
 
-int ServerOptions::getUserAliveTime() const{
+int ServerOptions::getUserAliveTime() const {
 	return this->userAliveTime;
 }
 
@@ -120,26 +117,22 @@ const std::string ArgsParser::kDatabaseKey("database");
 const std::string ArgsParser::kPollDelayKey("pollDelay");
 const std::string ArgsParser::kServerPortKey("port");
 
-OptionMap ArgsParser::parseArgs(int argc, const char** argv){
+OptionMap ArgsParser::parseArgs(int argc, const char** argv) {
 	OptionMap optionMap;
 	char** optv = const_cast<char**>(argv);
-	struct option longOptions[] =
-	{
-		{kAliveTimeKey.c_str(), required_argument, 0, 'a'},
-		{kConfigKey.c_str(), required_argument, 0, 'c'},
-		{kDatabaseKey.c_str(), required_argument, 0, 'd'},
-		{kServerPortKey.c_str(), required_argument, 0, 'p'},
-		{kPollDelayKey.c_str(), required_argument, 0, 'P'},
-		{"help", no_argument, 0, 'h'},
-		{0, 0, 0, 0}
-	};
+	struct option longOptions[] = { { kAliveTimeKey.c_str(), required_argument,
+			0, 'a' }, { kConfigKey.c_str(), required_argument, 0, 'c' }, {
+			kDatabaseKey.c_str(), required_argument, 0, 'd' }, {
+			kServerPortKey.c_str(), required_argument, 0, 'p' }, {
+			kPollDelayKey.c_str(), required_argument, 0, 'P' }, { "help",
+	no_argument, 0, 'h' }, { 0, 0, 0, 0 } };
 	bool hasOptions = true;
-	while (hasOptions){
-		char c = getopt_long (argc, optv, "a:c:d:p:P:h", longOptions, 0);
-		if (c == -1){
+	while (hasOptions) {
+		char c = getopt_long(argc, optv, "a:c:d:p:P:h", longOptions, 0);
+		if (c == -1) {
 			hasOptions = false;
 		}
-		switch (c){
+		switch (c) {
 		case 'a':
 			optionMap[kAliveTimeKey] = optarg;
 			break;
@@ -165,14 +158,15 @@ OptionMap ArgsParser::parseArgs(int argc, const char** argv){
 	return optionMap;
 }
 
-void ArgsParser::printHelp(){
-	std::cout << "=== MensajerO - Servidor ===" << std::endl;
-	std::cout << "== Opciones == \n" << std::endl;
-	std::cout << "-c --config <path>: directorio del archivo de config" << std::endl;
-	std::cout << "-d --database <path>: directorio de la base de datos" << std::endl;
-	std::cout << "-p --port <port>: numero del puerto del servidor" << std::endl;
-	std::cout << "-P --pollDelay <msec>: demora entre lecturas del socket\
-(mongoose)" << std::endl;
-	std::cout << "-a --aliveTime <msec>: tiempo que se considera que un \
-usuario esta conectado" << std::endl;
+void ArgsParser::printHelp() {
+	std::cout << "=== MensajerO - Server ===" << std::endl;
+	std::cout << "== Options == \n" << std::endl;
+	std::cout << "-c --config <path>: config file path" << std::endl;
+	std::cout << "-d --database <path>: database path" << std::endl;
+	std::cout << "-p --port <port>: server's port number" << std::endl; //TODO hardcodear el puerto!! (desde el celu no varia / es al pedo que varie)
+	std::cout
+			<< "-P --pollDelay <msec>: delay between mongoose polling\
+(mongoose)"
+			<< std::endl;
+	std::cout << "-a --aliveTime <msec>: client timeout." << std::endl;
 }

@@ -9,6 +9,7 @@
 #define SERVER_MAIN_EXCEPTIONS_INVALIDUSERNAMEEXCEPTION_H_
 
 #include "BaseException.h"
+#include "../../../include/main/utilities/Logger.h"
 
 /**
  * Define una excepcion de tipo "usuario invalido".
