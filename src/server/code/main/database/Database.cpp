@@ -13,7 +13,9 @@ Database::Database() {
 	rocksdb::Status status = rocksdb::DB::Open(options, DEFAULT_DATABASE_PATH,
 			&database);
 	if (!database) {
-		FileNotFoundException exception("Database file not found");
+		string message = "Database file not found.";
+		FileNotFoundException exception(message);
+		Logger::getLogger()->write(Logger::ERROR, message);
 		throw exception;
 	}
 
@@ -26,36 +28,39 @@ Database::Database(const string& path) {
 	rocksdb::Status status = rocksdb::DB::Open(options, path, &database);
 	pathDB = path;
 	if (!database) {
-		FileNotFoundException exception("Database file not found");
+		string message = "Database file not found.";
+		FileNotFoundException exception(message);
+		Logger::getLogger()->write(Logger::ERROR, message);
 		throw exception;
 	}
 }
 
 void Database::write(vector<string> key, const string& value) {
 	if (key.size() == 0) {
-		InvalidKeyException exception("Vector de keys esta vacio.");
+		InvalidKeyException exception("Null key.");
 		throw exception;
 	}
 	string compoundKey = this->getKey(key);
 	rocksdb::Status status = database->Put(rocksdb::WriteOptions(), compoundKey,value);
 	if (!status.ok()) {
 		InvalidKeyException exception("Invalid key.");
-		Logger* logger1 = Logger::getLogger();
-		logger1->write(Logger::ERROR, "Error: " + status.ToString()	+ " Hubo un error al escribir en la base de datos de: "
-						+ database->GetName() + " la key: " + compoundKey);
+		Logger::getLogger()->write(Logger::ERROR, status.ToString());
+		throw exception;
 	}
 }
 
 string Database::read(vector<string> key) const {
 	if (key.size() == 0) {
-		InvalidKeyException exception("Vector de keys esta vacio.");
+		InvalidKeyException exception("Null key.");
 		throw exception;
 	}
 	string value = "";
 	string compoundKey = this->getKey(key);
 	rocksdb::Status status = database->Get(rocksdb::ReadOptions(), compoundKey,	&value);
 	if (!status.ok()) {
-		KeyNotFoundException exception("Key no encontrada: " + compoundKey);
+		string message = "Key not found in database: " + compoundKey;
+		KeyNotFoundException exception(message);
+		Logger::getLogger()->write(Logger::ERROR, message);
 		throw exception;
 	}
 	return value;
@@ -66,10 +71,7 @@ void Database::erase(vector<string> key) {
 	rocksdb::Status status = database->Delete(rocksdb::WriteOptions(),
 			compoundKey);
 	if (!status.ok()) {
-		Logger* logger1 = Logger::getLogger();
-		logger1->write(Logger::ERROR,
-				"Error: " + status.ToString()	+ " Hubo un error al borrar de la base de datos de: "
-						+ database->GetName() + "la key: " + compoundKey);
+		Logger::getLogger()->write(Logger::ERROR, status.ToString());
 	}
 }
 
@@ -77,8 +79,6 @@ string Database::getKey(vector<string> key) const {
 	sort(key.begin(), key.end());
 	Json::Value returnKey;
 	for (unsigned int i = 0; i < key.size(); i++) {
-		//string integer = to_string(i);
-		//returnKey["key"][key[i]] = key[i];
 		returnKey.append(key[i]);
 	}
 	return returnKey.toStyledString();
@@ -99,8 +99,7 @@ vector<string> Database::getAllKeys() const {
 		keys.push_back(str);
 	}
 	if (!it->status().ok()) {// Check for any errors found during the scan
-		Logger* logger1 = Logger::getLogger();
-		logger1->write(Logger::ERROR, "Error: Hubo un error al scannear la base de datos de: " + database->GetName());
+		Logger::getLogger()->write(Logger::ERROR, "Error found during the scan of " + database->GetName());
 	}
 	delete it;
 
