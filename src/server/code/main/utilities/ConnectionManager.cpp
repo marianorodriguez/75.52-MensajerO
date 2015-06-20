@@ -5,11 +5,12 @@
  *      Author: marian
  */
 
-#include "../../include/main/services/ConnectionManager.h"
+#include "../../include/main/utilities/ConnectionManager.h"
 #include "../../include/main/config.h"
 #include "../../include/main/user/User.h"
+#include <../../include/main/utilities/Logger.h>
 
-const int ConnectionManager::deltaTime = 2; //MIN DELTA == 2 TODO des-hardcodear
+const int ConnectionManager::deltaTime = 2; //MIN DELTA = 2 TODO des-hardcodear
 ConnectionManager* ConnectionManager::managerInstance = NULL;
 Mutex ConnectionManager::constructorMutex;
 
@@ -41,11 +42,15 @@ ConnectionManager::~ConnectionManager() {
 }
 
 void ConnectionManager::startUpdating() {
+	Logger::getLogger()->write(Logger::DEBUG,
+			"Starting connection manager...");
 	running = true;
 	pthread_create(&updateThread, NULL, runFunction, this);
 }
 
 void ConnectionManager::stopUpdating() {
+	Logger::getLogger()->write(Logger::DEBUG,
+			"Stopping connection manager...");
 	running = false;
 	pthread_join(updateThread, NULL);
 }
@@ -80,11 +85,13 @@ void ConnectionManager::updateUser(const std::string username) {
 	key.push_back(username);
 	try {
 		User user(this->userDb->read(key));
-	if(user.getStatus() != "offline") {
-		user.setLastTimeConnected();
+		if(user.getStatus() != "offline") {
+			user.setLastTimeConnected();
+		}
 		this->userDb->write(key, user.serialize());
+	} catch (KeyNotFoundException &e) {
+		Logger::getLogger()->write(Logger::DEBUG, e.what());
 	}
-	}catch(KeyNotFoundException &e){}
 
 	connectedUsers[username] = time(0);
 }
@@ -105,6 +112,8 @@ void ConnectionManager::updateConnection() {
 	}
 
 	for (unsigned int i = 0; i < disconnectedUsers.size(); i++) {
+		Logger::getLogger()->write(Logger::DEBUG,
+				disconnectedUsers.at(i)+" has disconnected.");
 		connectedUsers.erase(disconnectedUsers.at(i));
 	}
 }

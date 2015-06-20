@@ -1,4 +1,4 @@
-#include <../../include/main/services/CurrentChatsService.h>
+#include "../../include/main/services/CurrentChatsService.h"
 #include "json.h"
 
 const std::string CurrentChatsService::serviceName = SERVICE_CURRENTCHATS_NAME;
@@ -10,7 +10,7 @@ CurrentChatsService::~CurrentChatsService(){}
 
 
 std::string CurrentChatsService::getUri() const {
-	return CurrentChatsService::serviceName;
+	return serviceName;
 }
 
 std::string CurrentChatsService::executeRequest(
@@ -19,6 +19,8 @@ std::string CurrentChatsService::executeRequest(
 	Json::Reader reader;
 	Json::Value data;
 	reader.parse(paramMap.asString(), data);
+	Logger::getLogger()->write(Logger::INFO,
+			"Executing CurrentChats service...");
 	Json::Value output = doCurrentChats(data);
 
 	ConnectionManager::getInstance()->updateUser(
@@ -41,17 +43,19 @@ Json::Value CurrentChatsService::doCurrentChats(const Json::Value &data) const {
 			vector<string> chats = user.getChats();
 			std::string username = data[SERVICE_USERNAME].asString();
 			output[SERVICE_CURRENTCHATS_CHATS] = serializeUserChats(username, chats);
-
 			output[SERVICE_OUT_OK] = true;
 			output[SERVICE_OUT_WHAT] = "";
 
 		} else {
 			output[SERVICE_OUT_OK] = false;
 			output[SERVICE_OUT_WHAT] = SERVICE_OUT_INVALIDPWD;
+			Logger::getLogger()->write(Logger::WARN,
+					"Invalid password from user " + user.getUsername());
 		}
 	} catch (KeyNotFoundException &e) {
 		output[SERVICE_OUT_OK] = false;
 		output[SERVICE_OUT_WHAT] = SERVICE_OUT_INVALIDUSER;
+		Logger::getLogger()->write(Logger::WARN, "Some unregistered user tried to use this service.");
 	}
 
 	return output;
@@ -64,6 +68,7 @@ Json::Value CurrentChatsService::serializeUserChats(const std::string& username,
 		std::vector<std::string> keyChats;
 		keyChats.push_back(username);
 		keyChats.push_back(chats[i]);
+		Logger::getLogger()->write(Logger::DEBUG, "Fetching chat between " + username + " and " + chats[i]);
 		Chat chat(this->chatDb.read(keyChats));
 		jsonArray.append(chat.serializeCurrentChats(username));
 	}

@@ -5,6 +5,10 @@
 #include "../database/Database.h"
 #include "../utilities/LocationManager.h"
 
+/**
+ * Clase encargada de realizar el servicio de registracion del servidor.
+ * Quien use este servicio quedará registrado como usuario del servidor.
+ */
 class SignUpService: public ServiceInterface {
 public:
 	SignUpService(Database& database);
@@ -12,22 +16,26 @@ public:
 	 * Devuelve el nombre del servicio: createUser
 	 */
 	virtual std::string getUri() const;
-	/**
-	 * Verifica que el usuario no exista y devuelve OK si pudo agregarlo.
-	 */
 	virtual std::string executeRequest(const Json::Value &paramMap) const;
 	/**
 	 * Valida si existe un usuario registrado con ese nombre
 	 */
 	bool checkUsernameExists(const std::string& username) const;
+	/**
+	 * Aplica el servicio de registro de un usuario.
+	 * @param data informacion del usuario que se desea registrar.
+	 * @return informacion sobre el resultado de la operacion.
+	 */
 	Json::Value doSignUp(const Json::Value& data) const;
+
 private:
 	static const std::string serviceName;
-
 	Database& userDb;
-
 };
 
+/**
+ * creador del servicio de registracion.
+ */
 class SignUpServiceCreator : public ServiceCreatorInterface{
 public:
 	virtual ServiceInterface* create(Database& userDb, Database& chatDb);

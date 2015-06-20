@@ -10,6 +10,9 @@ class Database;
 class ServiceInterface;
 class ServiceCreatorInterface;
 
+/**
+ * Clase encargada de devolver la instancia del servicio solicitado.
+ */
 class ServiceFactory{
 public:
 	/**
@@ -20,19 +23,23 @@ public:
 	 * Destructor
 	 */
 	~ServiceFactory();
+
 	/**
 	 * Devuelve un servicio según su nombre
 	 */
 	ServiceInterface* createService(const std::string& serviceName) const;
+
 	/**
 	 * Devuelve una lista de nombres de todos los servicios disponibles.
 	 */
 	std::vector<std::string> getServiceNameList() const;
+
 	/**
 	 * Agrega un creator, cuya clave es la que corresponde a la
 	 * URI del servicio que genera.
 	 */
 	void addNewServiceCreator(ServiceCreatorInterface* creator);
+
 private:
 	std::map<std::string, ServiceCreatorInterface*> serviceMap;
 	Database& userDb;

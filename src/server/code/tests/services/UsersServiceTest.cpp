@@ -32,7 +32,7 @@ void UsersServiceTest::setUp(){
 	userDB.write(key2, user2.serialize());
 	userDB.write(key3, user3.serialize());
 	userDB.write(key4, user4.serialize());
-
+	userDB.close();
 }
 
 void UsersServiceTest::tearDown(){
@@ -49,6 +49,7 @@ void UsersServiceTest::tearDown(){
 	userDB.erase(key2);
 	userDB.erase(key3);
 	userDB.erase(key4);
+	userDB.close();
 }
 
 void UsersServiceTest::testShouldReturnAllUsersInDB(){

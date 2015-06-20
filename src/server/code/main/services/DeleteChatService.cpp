@@ -7,7 +7,7 @@
 
 #include "../../include/main/services/DeleteChatService.h"
 
-const std::string DeleteChatService::serviceName = SERVICE_DELETECHAT_NAME;
+const std::string DeleteChatService::serviceName(SERVICE_DELETECHAT_NAME);
 
 DeleteChatService::DeleteChatService(Database& userDb, Database& chatDb) :
 	userDb(userDb), chatDb(chatDb) {}
@@ -17,7 +17,7 @@ DeleteChatService::~DeleteChatService() {}
 
 
 std::string DeleteChatService::getUri() const {
-	return DeleteChatService::serviceName;
+	return serviceName;
 }
 
 std::string DeleteChatService::executeRequest(
@@ -26,6 +26,8 @@ std::string DeleteChatService::executeRequest(
 	Json::Reader reader;
 	Json::Value data;
 	reader.parse(paramMap.asString(), data);
+	Logger::getLogger()->write(Logger::INFO,
+			"Executing DeleteChat service...");
 	Json::Value output = doDeleteChat(data);
 
 	ConnectionManager::getInstance()->updateUser(
@@ -66,12 +68,14 @@ Json::Value DeleteChatService::doDeleteChat(const Json::Value &data) const {
 		} else {
 			output[SERVICE_OUT_OK] = false;
 			output[SERVICE_OUT_WHAT] = SERVICE_OUT_INVALIDPWD;
+			Logger::getLogger()->write(Logger::WARN,
+					"Invalid password from user " + user.getUsername());
 		}
 	} catch (KeyNotFoundException &e) {
 		output[SERVICE_OUT_OK] = false;
 		output[SERVICE_OUT_WHAT] = SERVICE_OUT_INVALIDUSER;
+		Logger::getLogger()->write(Logger::WARN, "Some unregistered user tried to use this service.");
 	}
-
 	return output;
 }
 

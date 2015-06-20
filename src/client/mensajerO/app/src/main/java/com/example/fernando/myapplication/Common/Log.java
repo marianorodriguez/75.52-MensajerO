@@ -1,31 +1,86 @@
-package com.example.fernando.myapplication.Common;
-
-/**
- * Created by fernando on 01/06/15.
- */
-
-//El servidor debe constar con un sistema de log en donde se registren los eventos que se
-//generen durante la ejecución del mismo. El sistema de log debe permitir configurar el nível de
-//los eventos que desean registrar. Estos níveles son:
+//package com.example.fernando.myapplication.Common;
 //
-//Error:  Condición de falla catastrófica, el sistema no puede funcionar. (criterio de las 2 a.m.)
-//Condición que haga que la aplicación no pueda ejecutar una funcionalidad.
-    //Ejemplo:
-    //No es posible conectarse con la base de datos
-//Warn:  Cualquier condición anómala que afecte el funcionamiento del sistema, pero no impida la
-//funcionalidad básica
-    //Ejemplos:
-    //Uso de APIs deprecadas
-    //Mal uso de APIs
-//Info:  Cualquier acción correspondiente a un caso de uso iniciada por el usuario o el sistema.
-//Información que permita trazar el historial de las entidades.
-    //Ejemplos:
-    //Conexión a la base de datos exitosa
-    //Conexión de nuevo cliente
-//Debug: Información de contexto que permita resolver un problema técnico. Debe ser útil incluso sin
-//el código fuente
-    //Ejemplo:
-    //Datos de login para la DB
-
-public class Log {
-}
+//import java.io.FileNotFoundException;
+//import java.io.IOException;
+//import java.io.PrintWriter;
+//import java.io.UnsupportedEncodingException;
+//import java.io.File;
+//import java.text.DateFormat;
+//import java.text.SimpleDateFormat;
+//import java.util.Date;
+//import java.util.logging.Logger;
+//
+//import org.json.JSONException;
+//import org.json.JSONObject;
+//
+//public class Log {
+//	private DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+//	private boolean doInfo, doDebug, doWarning, doError;
+//	private final String defaultPath = "log.txt";
+//	private static Logger instance = null;
+//	private PrintWriter writer;
+//	private String path;
+//
+//	public static Logger getInstance() {
+//		if (instance == null) {
+//			instance = new Logger();
+//		}
+//		return instance;
+//	}
+//
+//	public void info(String message) {
+//		if (doInfo) {
+//			write("INFO: " + message);
+//		}
+//	}
+//
+//	public void debug(String message) {
+//		if (doDebug) {
+//			write("DEBUG: " + message);
+//		}
+//	}
+//
+//	public void warning(String message) {
+//		if (doWarning) {
+//			write("WARNING: " + message);
+//		}
+//	}
+//
+//	public void error(String message) {
+//		if (doError) {
+//			write("ERROR: " + message);
+//		}
+//	}
+//
+//	private void write(String data) {
+//		Date date = new Date();
+//		writer.append(dateFormat.format(date) + " | " + data + "\n");
+//		writer.flush();
+//	}
+//
+//	private Logger() {
+//		try {
+//			String source = new String(File.readAllBytes(Paths.get("config.json")));
+//			JSONObject json = new JSONObject(source);
+//			json = json.getJSONObject("logger");
+//			path = json.getString("logDir");
+//			json = json.getJSONObject("loggingLevels");
+//			doInfo = true;		doInfo = json.getBoolean("INFO");
+//			doDebug = true;		doDebug = json.getBoolean("DEBUG");
+//			doWarning = true; 	doWarning = json.getBoolean("WARNING");
+//			doError = true;		doError = json.getBoolean("ERROR");
+//
+//		} catch (IOException | JSONException e3) {}
+//
+//		try {
+//			writer = new PrintWriter(path, "UTF-8");
+//		} catch (FileNotFoundException | UnsupportedEncodingException e) {
+//			try {
+//				writer = new PrintWriter(defaultPath, "UTF-8");
+//				error("Couldn't find path " + path);
+//			} catch (FileNotFoundException | UnsupportedEncodingException e1) {
+//			}
+//		}
+//	}
+//
+//}

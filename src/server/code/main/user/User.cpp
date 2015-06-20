@@ -49,15 +49,15 @@ User::User(const string& serializedUser) {
 User::~User() {
 }
 
-string User::serialize() const {
+string User::serialize() const{
 
 	Json::Value serializedUser;
+	serializedUser[JSON_USER_LASTTIME] = this->lastTimeConnected;
 	serializedUser[JSON_USER_NAME] = this->username;
 	serializedUser[JSON_USER_PWD] = this->password;
 	serializedUser[JSON_USER_LOCATION] = this->location;
 	serializedUser[JSON_USER_STATUS] = this->status;
 	serializedUser[JSON_USER_PROFILE_PICTURE] = this->hashedProfilePicture;
-	serializedUser[JSON_USER_LASTTIME] = this->lastTimeConnected;
 
 	for (unsigned int i = 0; i < this->hasChatsWith.size(); i++) {
 
@@ -65,6 +65,10 @@ string User::serialize() const {
 
 	}
 	return serializedUser.toStyledString();
+}
+
+bool User::isConnected() const{
+	return (time(0) - this->lastTimeConnected < MAXIMUM_IDLE_TIME);
 }
 
 string User::getUsername() const {
@@ -136,10 +140,6 @@ bool User::isChattingWith(const string& username) const {
 	return isChatting;
 }
 
-int User::getLastTimeConnected(){
-	return this->lastTimeConnected;
-}
-
-void User::setLastTimeConnected(){
+void User::setLastTimeConnected() {
 	this->lastTimeConnected = time(0);
 }

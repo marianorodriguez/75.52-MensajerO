@@ -3,12 +3,14 @@
 
 #include "ServiceInterface.h"
 
-class NullService : public ServiceInterface{
+/**
+ * Servicio que no hace nada.
+ * Se invoca en caso de que el servidor reciba un request para un servicio desconocido.
+ */
+class NullService: public ServiceInterface {
 public:
 	virtual std::string getUri() const;
 	virtual std::string executeRequest(const Json::Value &paramMap) const;
-private:
-	static const std::string serviceName;
 };
 
 #endif // NULLSERVICE_H

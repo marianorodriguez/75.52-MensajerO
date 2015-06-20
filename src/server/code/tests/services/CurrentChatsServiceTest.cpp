@@ -48,6 +48,8 @@ void CurrentChatsServiceTest::setUp(){
 	chatKey.push_back("username1");
 	chatKey.push_back("username3");
 	chatDB.write(chatKey, chat13.serialize());
+	userDB.close();
+	chatDB.close();
 }
 
 void CurrentChatsServiceTest::tearDown(){
@@ -68,6 +70,8 @@ void CurrentChatsServiceTest::tearDown(){
 	chatKey.push_back("username1");
 	chatKey.push_back("username3");
 	chatDB.erase(chatKey);
+	userDB.close();
+	chatDB.close();
 }
 
 void CurrentChatsServiceTest::testShouldGetCurrentChats(){

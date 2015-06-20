@@ -63,12 +63,12 @@ RestServer::~RestServer(){
 }
 
 void RestServer::setOptions(const ServerOptions& options){
+	Logger::getLogger()->write(Logger::DEBUG, "Setting server options...");
 	shutdownServer();
 	this->pollDelay = options.getPollDelay();
 	this->port = options.getServerPort();
 	options.getDatabasePath();
 	startServer();
-	
 }
 
 
@@ -90,6 +90,7 @@ void RestServer::handleConnection(struct mg_connection *mgConnection) const{
 	try{
 		response = service->executeRequest(connectionWrap.getParamMap());
 	} catch (std::out_of_range& e) {
+		Logger::getLogger()->write(Logger::DEBUG, "No se pudo ejecutar el request");
 		response = kInvalidRequestMsg;
 	}
 	connectionWrap.printMessage(response);

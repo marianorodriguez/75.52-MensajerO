@@ -15,11 +15,10 @@
  */
 class BaseException: public std::exception {
 public:
-	BaseException(const std::string& what);
+	explicit BaseException(const std::string& what);
 	virtual ~BaseException();
 
 	std::string getDescription() const;
-
 private:
 	std::string description;
 };

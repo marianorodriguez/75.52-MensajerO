@@ -6,7 +6,7 @@ SignUpService::SignUpService(Database& userDb) : userDb(userDb){}
 
 
 std::string SignUpService::getUri() const {
-	return SignUpService::serviceName;
+	return serviceName;
 }
 
 std::string SignUpService::executeRequest(const Json::Value &paramMap) const {
@@ -14,8 +14,8 @@ std::string SignUpService::executeRequest(const Json::Value &paramMap) const {
 	Json::Reader reader;
 	Json::Value data;
 	reader.parse(paramMap.asString(), data);
+	Logger::getLogger()->write(Logger::INFO, "Executing SignUp service...");
 	Json::Value output = doSignUp(data);
-
 	ConnectionManager::getInstance()->updateUser(
 			data[SERVICE_USERNAME].asString());
 
@@ -50,6 +50,7 @@ Json::Value SignUpService::doSignUp(const Json::Value& data) const {
 	Json::Value output;
 
 	if (!exists) {
+		Logger::getLogger()->write(Logger::DEBUG, "Registering new user...");
 		std::string username = data[SERVICE_USERNAME].asString();
 		std::string password = data[SERVICE_PASSWORD].asString();
 		User newUser(username, password);
@@ -69,11 +70,15 @@ Json::Value SignUpService::doSignUp(const Json::Value& data) const {
 		output[SERVICE_USERCONFIG_LOCATION] = newUser.getLocation();
 		output[SERVICE_OUT_OK] = true;
 		output[SERVICE_OUT_WHAT] = "";
+		Logger::getLogger()->write(Logger::DEBUG,
+				"user " + data[SERVICE_USERNAME].asString()
+						+ " successfully registered.");
 	} else {
 		output[SERVICE_OUT_OK] = false;
 		output[SERVICE_OUT_WHAT] = SERVICE_OUT_USERNAMEEXISTS;
+		Logger::getLogger()->write(Logger::DEBUG,
+				"Couldn't register user " + data[SERVICE_USERNAME].asString());
 	}
 
 	return output;
 }
-

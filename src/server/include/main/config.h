@@ -32,10 +32,12 @@
 #define JSON_USER_PROFILE_PICTURE "profile_picture"
 #define JSON_USER_CHATS_WITH "chats_with"
 #define JSON_USER_LASTTIME "lastTimeConnected"
+#define JSON_USER_CONNECTED "connected"
 //# USER ######################################
-#define DEFAULT_USER_LOCATION "UNKNOWN"
+#define DEFAULT_USER_LOCATION "CABA"
 #define DEFAULT_USER_STATUS "Online"
 #define DEFAULT_USER_PROFILE_PICTURE DEF_PROF_PICT
+#define MAXIMUM_IDLE_TIME 2
 
 
 //# DATABASE ##################################
@@ -60,6 +62,9 @@ const std::string SERVICE_SIGNUP_NAME = "signUp";
 
 //# SERVICIO DE LOGIN
 const std::string SERVICE_LOGIN_NAME = "logIn";
+
+//# SERVICIO DE BROADCAST
+const std::string SERVICE_BROADCAST_NAME = "broadcast";
 
 //# SERVICIO DE SENDMESSAGE
 const std::string SERVICE_SENDMESSAGE_NAME = "sendMessage";
@@ -93,5 +98,6 @@ const std::string SERVICE_OUT_WHAT = "what";
 const std::string SERVICE_OUT_INVALIDUSER = "Error: Invalid username.";
 const std::string SERVICE_OUT_USERNAMEEXISTS = "Error: Username already exists.";
 const std::string SERVICE_OUT_INVALIDPWD = "Error: Invalid password.";
+const std::string SERVICE_OUT_BROADCASTFAILEDTOSOME = "Error: Message could not be sent to some users";
 
 #endif /* CONFIG_CONFIG_H_ */

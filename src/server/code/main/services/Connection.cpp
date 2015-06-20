@@ -2,8 +2,6 @@
 #include "mongoose.h"
 
 #include "../../include/main/services/Connection.h"
-#include "../../include/main/services/QueryParams.h"
-#include "../../include/main/utilities/JsonMap.h"
 #include "../../include/main/utilities/Base64.h"
 
 // Constantes
@@ -46,26 +44,23 @@ void Connection::printMessage(const std::string& message) const{
 }
 
 void Connection::parseGetParams(){
+	Logger::getLogger()->write(Logger::DEBUG, "GET invoked.");
 	this->paramMap.clear();
 	if (this->rawConnection->query_string){
 		std::string query(this->rawConnection->query_string);
-
 		Json::Value params(base64::decode(query));
 		this->paramMap = params;
 	}
 }
 
 void Connection::parsePostParams(){
-	//TODO mlafroce: hacer más genérico
-	
-	if (this->rawConnection->content_len){
-		// TODO mlafroce: verificar si es un bug de mongoose
+	Logger::getLogger()->write(Logger::DEBUG, "POST invoked.");
+	if (this->rawConnection->content){
 		std::string content;
 		content.assign(this->rawConnection->content, this->rawConnection->content_len);
 		std::string package = "package=";
 		content = content.substr(package.size(), content.size());
 		Json::Value jsonMap(base64::decode(content));
-
 		this->paramMap = jsonMap;
 	}
 }

@@ -1,4 +1,5 @@
 #include "../../../include/main/services/ServerConfig.h"
+#include "../../../include/main/services/BroadcastService.h"
 #include "../../../include/main/services/SendMessageService.h"
 #include "../../../include/main/services/CurrentChatsService.h"
 #include "../../../include/main/services/LogInService.h"
@@ -17,6 +18,7 @@ void ServerConfig::configure(RestServer& server) const{
 }
 
 void ServerConfig::addServiceCreators(RestServer& server) const{
+	Logger::getLogger()->write(Logger::DEBUG, "Loading services...");
 	server.addService(new CurrentChatsServiceCreator());
 	server.addService(new DeleteChatServiceCreator());
 	server.addService(new LogInServiceCreator());
@@ -25,4 +27,5 @@ void ServerConfig::addServiceCreators(RestServer& server) const{
 	server.addService(new SomethingForMeServiceCreator());
 	server.addService(new UserConfigServiceCreator());
 	server.addService(new UsersServiceCreator());
+	server.addService(new BroadcastServiceCreator());
 }

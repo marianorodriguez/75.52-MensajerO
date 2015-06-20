@@ -22,9 +22,13 @@ class Logger {
 	friend class LoggerTest;
 
 public:
-/**
- *Los niveles de eventos del logger.
- */
+	/**
+	 *Los niveles de eventos del logger.
+	 *ERROR: Para eventos que lanzan una excepción.
+	 *WARNING: Para eventos en donde no se pudo completar un pedido u ocurrió algo poco usual, pero no se lanzó excepcion.
+	 *INFO: Para dejar constancia de eventos importantes.
+	 *DEBUG: Para facilitar el hallazgo de bugs sin necesidad de recompilar el código, o extender la informacion de INFO.
+	 */
 	enum loggingLevel {
 		ERROR, WARN, DEBUG, INFO,
 	};
@@ -47,10 +51,10 @@ public:
 	 *
 	 *\brief Escribe el problema en el archivo de logging.
 	 */
-	void write(loggingLevel level, string text);
+	void write(loggingLevel level, const std::string& text);
 
 	/**
-	 * Guarda el archivo y lo vuelve a abrir.
+	 * Escribe el buffer al archivo de logging.
 	 */
 	void saveStatus();
 
@@ -71,7 +75,7 @@ private:
 	Logger(const std::string& loggerDir);
 	string getWriteLevel(const loggingLevel& level);
 	void setLoggingLevels(const Json::Value& jsonLogger);
-	
+
 	Mutex mutex;
 	static Mutex constructorMutex;
 };

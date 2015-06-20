@@ -200,5 +200,5 @@ void LoggerTest::should_write_only_an_info() {
 
 void LoggerTest::should_throw_file_not_found_exception() {
 
-	CPPUNIT_ASSERT_THROW(new Logger("invalid route"), FileNotFoundException);
+	CPPUNIT_ASSERT_THROW(new Logger("invalid route"), BaseException);
 }

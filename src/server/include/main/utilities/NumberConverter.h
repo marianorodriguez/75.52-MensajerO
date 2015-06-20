@@ -6,16 +6,18 @@
 class NumberConverter{
 public:
 	/**
-	 * Verifica que sea un número 
+	 * Verifica que @param str sea un número
 	 */
 	static bool isNumber(const std::string& str);
+
+	// TODO mlafroce: tirar excepción si no es número
 	/**
 	 * Devuelve el número  representado en el string
 	 */
-	// TODO mlafroce: tirar excepción si no es número
 	static int getNumber(const std::string& str);
+
 	/**
-	 * Devuelve el string correspondiente al número
+	 * Devuelve el string correspondiente al @param number
 	 */
 	static std::string getString(int number);
 };

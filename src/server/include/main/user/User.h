@@ -12,7 +12,7 @@ using namespace std;
 /**
  * Define a un usuario dentro del servidor.
  */
-class User: public ISerializable{
+class User: public ISerializable {
 	friend class userTests;
 
 public:
@@ -89,8 +89,15 @@ public:
 	 */
 	void addChatWithUser(const string& user);
 
-	int getLastTimeConnected();
+	/**
+	 * Actualiza el tiempo de ultima vez conectado del usuario.
+	 */
 	void setLastTimeConnected();
+
+	/**
+	 * Devuelve true si el usuario está actualmente conectado al servidor.
+	 */
+	bool isConnected() const;
 
 private:
 

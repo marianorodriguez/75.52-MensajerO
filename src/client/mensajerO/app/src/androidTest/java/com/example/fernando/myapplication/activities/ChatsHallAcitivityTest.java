@@ -1,5 +1,18 @@
 package com.example.fernando.myapplication.activities;
 
+import android.app.Instrumentation;
+import android.test.ActivityInstrumentationTestCase2;
+import android.widget.Button;
+import android.widget.EditText;
+
+import com.example.fernando.myapplication.Activities.ChatsHallActivity;
+import com.example.fernando.myapplication.Activities.ConfigurationActivity;
+import com.example.fernando.myapplication.Activities.LogInActivity;
+import com.example.fernando.myapplication.Activities.SignUpActivity;
+import com.example.fernando.myapplication.Common.Constants;
+import com.example.fernando.myapplication.Mocks.Server;
+import com.example.fernando.myapplication.R;
+
 /*
 Prueba que pase a ConfigurationActivity apretando el boton Settings del menu.
 Prueba que pase a LogInActivity apretando el boton LogOut del menu.
@@ -13,5 +26,36 @@ Prueba eliminar un chat de la lista de usuarios desde la vista, que se borre de 
 lista de chats del usuario y que no lo vuelva a mandar el server.
 Prueba que pasa si el server no responde.
  */
-public class ChatsHallAcitivityTest {
+public class ChatsHallAcitivityTest extends
+        ActivityInstrumentationTestCase2<ChatsHallActivity> {
+
+    private ChatsHallActivity activity;
+    private EditText username;
+    private EditText password;
+    private Button backtologin;
+    private Button signupbutton;
+    Instrumentation.ActivityMonitor receiverActivityMonitor;
+
+    public ChatsHallAcitivityTest() {
+        super(ChatsHallActivity.class);
+    }
+
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+        setActivityInitialTouchMode(false);
+        activity = getActivity();
+        Constants.server = new Server();
+        Constants.server.setSharedPref(LogInActivity.getmSharedPref());
+
+        username = (EditText) activity.findViewById(R.id.txtUsername);
+        password = (EditText) activity.findViewById(R.id.txtPassword);
+        backtologin = (Button) activity.findViewById(R.id.backtologin);
+        signupbutton = (Button) activity.findViewById(R.id.signupbutton);
+
+        //Create and add an ActivityMonitor to monitor interaction between the system and the
+        //ReceiverActivity
+        receiverActivityMonitor = getInstrumentation()
+                .addMonitor(SignUpActivity.class.getName(), null, false);
+    }
 }

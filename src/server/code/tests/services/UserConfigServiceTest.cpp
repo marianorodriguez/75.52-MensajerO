@@ -23,6 +23,7 @@ void UserConfigServiceTest::setUp() {
 	std::vector<std::string> key;
 	key.push_back(user.getUsername());
 	DB.write(key, user.serialize());
+	DB.close();
 }
 
 void UserConfigServiceTest::tearDown() {
@@ -32,6 +33,7 @@ void UserConfigServiceTest::tearDown() {
 	std::vector<std::string> key;
 	key.push_back("username_config");
 	DB.erase(key);
+	DB.close();
 }
 
 void UserConfigServiceTest::testUserShouldConfigureProfile() {
@@ -48,12 +50,12 @@ void UserConfigServiceTest::testUserShouldConfigureProfile() {
 	CPPUNIT_ASSERT(
 			user.getProfilePicture() == DEFAULT_USER_PROFILE_PICTURE);
 
-	delete DB;
+	DB->close();
 
 	Json::Value data;
 	data[SERVICE_USERNAME] = "username_config";
 	data[SERVICE_PASSWORD] = "password";
-	data[SERVICE_USERCONFIG_LOCATION] = "(0,5)"; //TODO poner coordenadas que matcheen a San Telmo
+	data[SERVICE_USERCONFIG_LOCATION] = "(0,5)";
 	data[SERVICE_USERCONFIG_STATUS] = "new Status";
 	data[SERVICE_USERCONFIG_PICTURE] = "new profile picture";
 
@@ -61,9 +63,9 @@ void UserConfigServiceTest::testUserShouldConfigureProfile() {
 
 	Database* newDB = new Database(DATABASE_USERS_PATH);
 	User modifiedUser(newDB->read(key));
-	delete newDB;
+	newDB->close();
 
-	CPPUNIT_ASSERT(modifiedUser.getLocation() == "UNKNOWN");//TODO cambiar por San Telmo
+	CPPUNIT_ASSERT(modifiedUser.getLocation() == "CABA");
 	CPPUNIT_ASSERT(modifiedUser.getStatus() == "new Status");
 	CPPUNIT_ASSERT(
 			modifiedUser.getProfilePicture() == "new profile picture");

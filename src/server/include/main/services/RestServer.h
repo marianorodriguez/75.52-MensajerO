@@ -3,66 +3,74 @@
 
 #include "Connection.h"
 #include "ServiceFactory.h"
-#include "ConnectionManager.h"
 #include "../ServerOptions.h"
+#include "../utilities/ConnectionManager.h"
 
 // Forwards
 struct mg_server;
 struct mg_connection;
-
 class ServiceCreatorInterface;
 
 /**
- * Servidor de servicios rest
+ * Servidor que encapsula los servicios de REST.
  */
 class RestServer {
 public:
-	/**
-	 * Constructor
-	 */
+
 	RestServer();
-	/**
-	 * Destructor
-	 */
 	~RestServer();
+
 	/**
-	 * Arranca al servidor
+	 * Arranca al servidor.
 	 */
     void startServer();
+
 	/**
-	 * Desconecta el servidor
+	 * Desconecta el servidor.
 	 */
 	void shutdownServer();
+
 	/**
-	 * Verifica requests pendientes
+	 * Verifica requests pendientes.
 	 */
 	void pollServer();
+
 	/**
-	 * Atrapa los requests
+	 * Atrapa requests y los procesa.
+	 * @param connection información sobre el request atrapado.
 	 */
 	void handleConnection(struct mg_connection *connection) const;
+
 	/**
-	 * Agrega un servicio nuevo
+	 * Registra un nuevo servicio en el servidor.
+	 * @param serviceCreator creador del servicio que se desea registrar.
 	 */
 	void addService(ServiceCreatorInterface* serviceCreator);
+
 	/**
-	 * Variables de configuración del servidor
+	 * Configura los parametros del servidor.
+	 * @param options opciones de configuracion del servidor.
 	 */
     void setOptions (const ServerOptions& options);
     static const std::string kInvalidRequestMsg;
+
 private:
+
 	/**
-	 * Demora entre polls al servidor
+	 * Demora entre polls al servidor.
 	 */
     int pollDelay;
+
 	/**
-	 * Puerto de escucha
+	 * Puerto de escucha del servidor.
 	 */
 	int port;
+
 	/**
-	 * Server mongoose
+	 * Servidor mongoose que se está encapsulando.
 	 */
 	struct mg_server *server;
+
 	/**
 	 * Directorio con las bases de datos de usuarios y chats
 	 */
@@ -72,9 +80,13 @@ private:
 	 */
 	Database userDb, chatDb;
 	/**
-	 * Servicios disponibles para ejecutar
+	 * Fabrica de servicios disponibles para ejecutar.
 	 */
 	ServiceFactory serviceFactory;
+
+	/**
+	 * procesa la conexion/desconexion de los usuarios que ingresan al sistema.
+	 */
 	ConnectionManager* connectionManager;
 	/**
 	 * Nombre del directorio default de bases de datos

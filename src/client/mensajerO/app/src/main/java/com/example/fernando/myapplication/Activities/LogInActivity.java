@@ -21,7 +21,6 @@ import android.widget.Toast;
 
 import com.example.fernando.myapplication.Common.Constants;
 import com.example.fernando.myapplication.Common.MyLocationListener;
-import com.example.fernando.myapplication.Threads.CurrentChatsPostAsyncTask;
 import com.example.fernando.myapplication.Threads.LogInPostAsyncTask;
 import com.example.fernando.myapplication.Entities.User;
 import com.example.fernando.myapplication.R;
@@ -43,18 +42,23 @@ public class LogInActivity extends ActionBarActivity implements View.OnClickList
     EditText txtUsername, txtPassword;
 
     LogInPostAsyncTask logInPost;
-    CurrentChatsPostAsyncTask currentChatsGet;
-    SharedPreferences mSharedPref;
+
+    //    CurrentChatsPostAsyncTask currentChatsGet;
+    static SharedPreferences mSharedPref;
+
+    public static SharedPreferences getmSharedPref() {
+        return mSharedPref;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
 
-        Button button1 = (Button) findViewById(R.id.getinbutton);
+        Button button1 = (Button) findViewById(R.id.backtologin);
         button1.setOnClickListener(this);
 
-        Button button2 = (Button) findViewById(R.id.button2);
+        Button button2 = (Button) findViewById(R.id.signupbutton);
         button2.setOnClickListener(this);
 
         IntentFilter filter = new IntentFilter(ACTION_CLOSE);
@@ -66,7 +70,7 @@ public class LogInActivity extends ActionBarActivity implements View.OnClickList
         txtPassword = (EditText) findViewById(R.id.txtPassword);
 
         logInPost = new LogInPostAsyncTask();
-        currentChatsGet = new CurrentChatsPostAsyncTask();
+//        currentChatsGet = new CurrentChatsPostAsyncTask();
 
         mSharedPref = getSharedPreferences(Constants.PREFS, MODE_PRIVATE);
         Constants.ipServer = mSharedPref.getString("ipServer", "");
@@ -99,7 +103,7 @@ public class LogInActivity extends ActionBarActivity implements View.OnClickList
     @Override
     public void onClick(View v) {
 
-        if (v.getId() == R.id.getinbutton) {
+        if (v.getId() == R.id.backtologin) {
 
             // Get username, password from EditText
             String username = txtUsername.getText().toString();
@@ -155,21 +159,21 @@ public class LogInActivity extends ActionBarActivity implements View.OnClickList
 
                 Constants.logInOk = "";
 
-                currentChatsGet.execute(new Pair<Context, String>(this, package_),
-                        new Pair<Context, String>(this, Constants.currentChatsUrl),
-                        new Pair<Context, String>(this, "get"));
-
-                while (Constants.currentChatsOk.isEmpty()) {
-                    try {
-                        Thread.sleep(10);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-
-                if (Constants.currentChatsOk.contains("Error")) { }
-
-                Constants.currentChatsSize = 0;
+//                currentChatsGet.execute(new Pair<Context, String>(this, package_),
+//                        new Pair<Context, String>(this, Constants.currentChatsUrl),
+//                        new Pair<Context, String>(this, "get"));
+//
+//                while (Constants.currentChatsOk.isEmpty()) {
+//                    try {
+//                        Thread.sleep(10);
+//                    } catch (InterruptedException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//
+//                if (Constants.currentChatsOk.contains("Error")) { }
+//
+//                Constants.currentChatsSize = 0;
 
                 Intent chatsHall = new Intent(this, ChatsHallActivity.class);
                 startActivity(chatsHall);
@@ -183,7 +187,7 @@ public class LogInActivity extends ActionBarActivity implements View.OnClickList
                         Toast.LENGTH_SHORT).show();
             }
 
-        } else if (v.getId() == R.id.button2) {
+        } else if (v.getId() == R.id.signupbutton) {
 
             // create an Intent to take you over to a new DetailActivity
             Intent signUpActivity = new Intent(this, SignUpActivity.class);
@@ -219,10 +223,38 @@ public class LogInActivity extends ActionBarActivity implements View.OnClickList
         }
 //        Toast.makeText(getApplicationContext(),"location: " + l1 + "," + l2, Toast.LENGTH_LONG).show();
         LocationListener mlocListener = new MyLocationListener(this);
-        mlocManager.requestLocationUpdates( LocationManager.GPS_PROVIDER, 0, 0, mlocListener);
+        mlocManager.requestLocationUpdates( LocationManager.GPS_PROVIDER, 5000, 10, mlocListener);
+
+        l = mlocManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+
+        l = getLastBestLocation(mlocManager);
+
+
         // VER SI l1 y l2 son distintas de cero --> si es asi mandar Unknown
-        return String.valueOf(l1)+";"+String.valueOf(l2);
+        return String.valueOf(l2)+";"+String.valueOf(l1);
     }
+
+    private Location getLastBestLocation(LocationManager mLocationManager) {
+        Location locationGPS = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        Location locationNet = mLocationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+
+        long GPSLocationTime = 0;
+        if (null != locationGPS) { GPSLocationTime = locationGPS.getTime(); }
+
+        long NetLocationTime = 0;
+
+        if (null != locationNet) {
+            NetLocationTime = locationNet.getTime();
+        }
+
+        if ( 0 < GPSLocationTime - NetLocationTime ) {
+            return locationGPS;
+        }
+        else {
+            return locationNet;
+        }
+    }
+
 
     @Override
     protected void onDestroy() {

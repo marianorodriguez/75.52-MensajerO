@@ -2,11 +2,10 @@ project(mensajero)
 
 add_library(mensajero-services
 	Connection.cpp
-	ConnectionManager.cpp
 	CurrentChatsService.cpp
+	BroadcastService.cpp
 	LogInService.cpp
 	NullService.cpp
-	QueryParams.cpp
 	RestServer.cpp
 	SendMessageService.cpp
 	ServerConfig.cpp

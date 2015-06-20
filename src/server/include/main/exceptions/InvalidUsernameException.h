@@ -10,6 +10,7 @@
 
 #include <string>
 #include "BaseException.h"
+
 /**
  * Define una excepcion de tipo "usuario invalido".
  * Un usuario puede ser invalido por las siguientes razones:

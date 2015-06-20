@@ -20,7 +20,7 @@
  */
 class NotSerializedDataException: public BaseException {
 public:
-	NotSerializedDataException(const std::string& what);
+	explicit NotSerializedDataException(const std::string& what);
 	virtual ~NotSerializedDataException();
 };
 

@@ -5,6 +5,10 @@
 #include "../database/Database.h"
 #include "../user/chat/Chat.h"
 
+/**
+ * Clase encargada de realizar el servicio de consulta de chats de un usuario.
+ * Un usuario que use este servicio recibirá un listado con todos sus chats activos hasta el momento.
+ */
 class CurrentChatsService: public ServiceInterface  {
 public:
 	CurrentChatsService(Database& userDb, Database& chatDb);
@@ -13,11 +17,14 @@ public:
 	* Devuelve el nombre del servicio: CurrentChats
 	*/
 	virtual std::string getUri() const;
-	/**
-	 * Devuelve chats activos
-	 */
 	virtual std::string executeRequest(const Json::Value &paramMap) const;
+	/**
+	 * Encargado de aplicar el servicio de consulta de chats.
+	 * @param data informacion de entrada para este servicio.
+	 * @return listado de chats activos del usuario que invocó este servicio.
+	 */
 	Json::Value doCurrentChats(const Json::Value &data) const;
+
 private:
 	static const std::string serviceName;
 	Json::Value serializeUserChats(const std::string& username,
@@ -28,6 +35,9 @@ private:
 	Database& chatDb;
 };
 
+/**
+ * Creador del servicio de consulta de chats.
+ */
 class CurrentChatsServiceCreator: public ServiceCreatorInterface{
 	virtual ServiceInterface* create(Database& userDb, Database& chatDb);
 };

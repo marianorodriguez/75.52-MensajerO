@@ -9,59 +9,100 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context=".MainActivity"
-    android:background="@mipmap/back">
+    android:background="#3CAFE8"
+    android:padding="10dp">
 
     <ScrollView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/scrollView"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
+        android:layout_alignParentStart="false"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
+        android:layout_alignParentEnd="false"
         android:layout_above="@+id/sendButton"
         android:layout_alignParentTop="true"
-        android:background="#26ffffff">
+        android:background="@drawable/chatsback"
+        android:layout_marginBottom="10dp"
+        android:padding="5dp"
+        android:scrollbarStyle="outsideOverlay"
+        android:soundEffectsEnabled="true"
+        android:scrollbarThumbVertical="@android:color/white"
+        android:scrollbarAlwaysDrawVerticalTrack="false"
+        android:scrollbarSize="4dp">
 
-        <TextView
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/chat"
-            android:autoText="false"
-            android:textColor="#ffffffff"
-            android:layout_centerVertical="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:typeface="sans"
-            android:padding="5dp" />
+            android:layout_height="fill_parent"
+            android:id="@+id/messages"></LinearLayout>
 
     </ScrollView>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+
+    </LinearLayout>
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:id="@+id/editText"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
+        android:layout_alignParentStart="false"
         android:layout_alignParentBottom="true"
         android:textColor="#ffffffff"
         android:layout_toLeftOf="@+id/sendButton"
-        android:layout_toStartOf="@+id/sendButton"
-        android:background="#1a33ff00"
         android:textStyle="bold|italic"
-        android:typeface="sans" />
+        android:typeface="sans"
+        android:textCursorDrawable="@drawable/cursor"
+        android:cursorVisible="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:paddingTop="5dp"
+        android:paddingLeft="10dp"
+        android:paddingBottom="5dp"
+        android:paddingRight="10dp"
+        android:background="@null" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:id="@+id/backImageMessage"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="false"
+        android:layout_alignParentBottom="true"
+        android:textColor="#ffffffff"
+        android:layout_toLeftOf="@+id/sendButton"
+        android:background="@drawable/mybuble"
+        android:textStyle="bold|italic"
+        android:typeface="sans"
+        android:visibility="visible" />
 
     <Button
-        style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="SEND"
         android:id="@+id/sendButton"
-        android:layout_alignTop="@+id/editText"
         android:layout_alignRight="@+id/scrollView"
         android:layout_alignEnd="@+id/scrollView"
         android:textStyle="bold|italic"
-        android:textSize="20dp" />
+        android:textSize="20dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignTop="@+id/editText"
+        android:background="@drawable/mybuble"
+        android:textColor="#ffffffff"
+        android:padding="10dp"
+        android:typeface="sans" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="1dp"
+        android:text="New Button"
+        android:id="@+id/focusdown"
+        android:layout_gravity="right" />
 
 </RelativeLayout>
 

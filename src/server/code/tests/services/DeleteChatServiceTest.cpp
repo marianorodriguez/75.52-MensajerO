@@ -30,6 +30,8 @@ void DeleteChatServiceTest::setUp() {
 	chatKey.push_back("username1");
 	chatKey.push_back("username2");
 	chatDB.write(chatKey, chat.serialize());
+	userDB.close();
+	chatDB.close();
 }
 
 //TODO mover las DB a un atributo de la clase, para instanciar una
@@ -49,6 +51,9 @@ void DeleteChatServiceTest::tearDown() {
 	chatKey.push_back("username1");
 	chatKey.push_back("username2");
 	chatDB.erase(chatKey);
+
+	userDB.close();
+	chatDB.close();
 }
 
 void DeleteChatServiceTest::testDeleteChat() {

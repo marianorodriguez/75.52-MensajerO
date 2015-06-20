@@ -23,6 +23,7 @@ void LogInServiceTest::setUp() {
 	std::vector<std::string> key;
 	key.push_back(validUser.getUsername());
 	DB.write(key, validUser.serialize());
+	DB.close();
 }
 
 void LogInServiceTest::tearDown() {
@@ -32,26 +33,30 @@ void LogInServiceTest::tearDown() {
 	std::vector<std::string> key;
 	key.push_back("username_1");
 	DB.erase(key);
+	DB.close();
 }
 
 void LogInServiceTest::testLogIn() {
-
+	Database userDb(DATABASE_USERS_PATH);
+	LogInService service(userDb);
 	Json::Value input;
 	input[SERVICE_USERNAME] = "username_1";
 	input[SERVICE_PASSWORD] = "password";
 
-	Json::Value output = LogInService::doLogIn(input);
+	Json::Value output = service.doLogIn(input);
 
 	CPPUNIT_ASSERT(output[SERVICE_OUT_OK].asBool() == true);
 	CPPUNIT_ASSERT(output[SERVICE_OUT_WHAT].asString() == "");
 }
 
 void LogInServiceTest::testShouldThrowInvalidPassword() {
+	Database userDb(DATABASE_USERS_PATH);
+	LogInService service(userDb);
 	Json::Value input;
 	input[SERVICE_USERNAME] = "username_1";
 	input[SERVICE_PASSWORD] = "invalid_password";
 
-	Json::Value output = LogInService::doLogIn(input);
+	Json::Value output = service.doLogIn(input);
 
 	CPPUNIT_ASSERT(output[SERVICE_OUT_OK].asBool() == false);
 	CPPUNIT_ASSERT(
@@ -59,11 +64,13 @@ void LogInServiceTest::testShouldThrowInvalidPassword() {
 }
 
 void LogInServiceTest::testShouldThrowInvalidUsername() {
+	Database userDb(DATABASE_USERS_PATH);
+	LogInService service(userDb);
 	Json::Value input;
 	input[SERVICE_USERNAME] = "unexistant_username";
 	input[SERVICE_PASSWORD] = "password";
 
-	Json::Value output = LogInService::doLogIn(input);
+	Json::Value output = service.doLogIn(input);
 
 	CPPUNIT_ASSERT(output[SERVICE_OUT_OK].asBool() == false);
 	CPPUNIT_ASSERT(

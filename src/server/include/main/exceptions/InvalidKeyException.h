@@ -10,7 +10,12 @@
 
 #include <string>
 #include "BaseException.h"
+#include "../../../include/main/utilities/Logger.h"
 
+/**
+ * Define una excepcion de tipo "key invalida"
+ * Se lanza cuando, en la base de datos, se usa una key que no se puede procesar.
+ */
 class InvalidKeyException: public BaseException {
 public:
 	InvalidKeyException(const std::string& what);

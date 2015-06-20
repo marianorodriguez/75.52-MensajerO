@@ -14,8 +14,8 @@
 
     <string name="b.getIn">Get In</string>
     <string name="b.logIn">Log In</string>
-    <string name="b.signUp">Sign Up</string>
-    <string name="b.Confirm">Confirm</string>
+    <string name="b.signUp">New to MensajerO? \n Sign Up!</string>
+    <string name="b.Confirm">Sign Up</string>
     <string name="b.back">Back To Log In</string>
     <string name="b.chats">Chats</string>
     <string name="b.config">Configuration</string>

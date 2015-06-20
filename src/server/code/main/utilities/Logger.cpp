@@ -14,9 +14,8 @@ Logger::Logger(const std::string& config_dir) {
 	std::ifstream json_file(config_dir);
 
 	if (!json_file.good()) {
-		string configDir(config_dir);
-		string description = "Can't find the file " + configDir + ".";
-		FileNotFoundException e(description);
+		string description = "Can't find the file " + config_dir + ".";
+		BaseException e(description);
 		throw e;
 	}
 	bool parsingSuccessful = json_reader.parse(json_file, json_root, false);
@@ -31,7 +30,7 @@ Logger::Logger(const std::string& config_dir) {
 
 }
 
-void Logger::write(loggingLevel level, string text) {
+void Logger::write(loggingLevel level, const std::string& text) {
 	Lock(this->mutex);
 	if (this->file.is_open()) {
 		if (this->levels[level]) {
@@ -72,11 +71,10 @@ string Logger::getWriteLevel(const loggingLevel& level) {
 }
 
 void Logger::setLoggingLevels(const Json::Value& jsonLogger) {
-	Json::Value loggingLevels = jsonLogger.get("loggingLevels", "");
-	this->levels[ERROR] = loggingLevels[ERROR].get("ERROR", false).asBool();
-	this->levels[WARN] = loggingLevels[WARN].get("WARNING", false).asBool();
-	this->levels[DEBUG] = loggingLevels[DEBUG].get("DEBUG", false).asBool();
-	this->levels[INFO] = loggingLevels[INFO].get("INFO", false).asBool();
+	this->levels[ERROR] = jsonLogger["ERROR"].asBool();
+	this->levels[WARN] = jsonLogger["WARNING"].asBool();
+	this->levels[DEBUG] = jsonLogger["DEBUG"].asBool();
+	this->levels[INFO] = jsonLogger["INFO"].asBool();
 }
 
 string Logger::getLogDir() {
@@ -87,7 +85,6 @@ Logger::~Logger() {
 	if (this->file.is_open()) {
 		this->file.close();
 	}
-
 	this->logInstance = NULL;
 }
 

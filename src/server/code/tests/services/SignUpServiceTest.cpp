@@ -22,6 +22,7 @@ void SignUpServiceTest::setUp(){
 	std::vector<std::string> key;
 	key.push_back(existingUser.getUsername());
 	DB.write(key, existingUser.serialize());
+	DB.close();
 }
 
 void SignUpServiceTest::tearDown(){
@@ -31,6 +32,7 @@ void SignUpServiceTest::tearDown(){
 	std::vector<std::string> key;
 	key.push_back("existingUsername");
 	DB.erase(key);
+	DB.close();
 }
 
 void SignUpServiceTest::testUserShouldSignUp(){

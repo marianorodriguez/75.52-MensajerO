@@ -6,9 +6,12 @@
  */
 
 #include "../../../include/main/exceptions/FileNotFoundException.h"
+#include <../../include/main/utilities/Logger.h>
 
 FileNotFoundException::FileNotFoundException(const std::string& what) :
-		BaseException(what) {}
+		BaseException(what) {
+	Logger::getLogger()->write(Logger::ERROR, what);
+}
 
 FileNotFoundException::~FileNotFoundException() {}
 

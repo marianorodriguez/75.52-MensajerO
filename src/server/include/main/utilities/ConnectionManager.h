@@ -16,7 +16,7 @@
 #include "../database/Database.h"
 
 /**
- * Encargada de detectar usuarios desconectados.
+ * Encargada de detectar usuarios que se conectan y desconectan al servidor.
  */
 class ConnectionManager{
 	friend class ConnectionManagerTest;

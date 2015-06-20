@@ -6,16 +6,19 @@
 
 class ServerConfig;
 
+/**
+ * Clase que representa al servidor de la aplicacion.
+ */
 class ServerThread : public Thread{
 public:
-	/**
-	 * Constructor
-	 */
+
 	ServerThread();
+
 	/**
-	 * Termina el ciclo de polling y libera recursos
+	 * Termina el ciclo de polling y libera recursos.
 	 */
 	void shutdown();
+
 	/**
 	 * Agrega un servicio nuevo
 	 */

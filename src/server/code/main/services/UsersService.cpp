@@ -3,7 +3,7 @@
 const std::string UsersService::serviceName = SERVICE_USERS_NAME;
 
 std::string UsersService::getUri() const {
-	return UsersService::serviceName;
+	return serviceName;
 }
 
 std::string UsersService::executeRequest(const Json::Value &paramMap) const {
@@ -11,6 +11,8 @@ std::string UsersService::executeRequest(const Json::Value &paramMap) const {
 	Json::Reader reader;
 	Json::Value data;
 	reader.parse(paramMap.asString(), data);
+	Logger::getLogger()->write(Logger::INFO,
+			"Executing Users service...");
 	Json::Value output = doUsers(data);
 
 	ConnectionManager::getInstance()->updateUser(
@@ -34,6 +36,8 @@ Json::Value UsersService::doUsers(const Json::Value &data) const {
 
 		if (data[SERVICE_PASSWORD].asString() == user.getPassword()) {
 
+			Logger::getLogger()->write(Logger::DEBUG,
+					"Fetching all users in database...");
 			vector<string> keys = DB.getAllKeys();
 			vector<string> key;
 
@@ -49,12 +53,17 @@ Json::Value UsersService::doUsers(const Json::Value &data) const {
 		} else {
 			output[SERVICE_OUT_OK] = false;
 			output[SERVICE_OUT_WHAT] = SERVICE_OUT_INVALIDPWD;
+			Logger::getLogger()->write(Logger::WARN,
+					"Invalid password from user " + user.getUsername());
 		}
 	} catch (KeyNotFoundException &e) {
 		output[SERVICE_OUT_OK] = false;
 		output[SERVICE_OUT_WHAT] = SERVICE_OUT_INVALIDUSER;
+		Logger::getLogger()->write(Logger::WARN,
+				"Some unregistered user tried to use this service.");
 	}
 
+	DB.close();
 	return output;
 }
 

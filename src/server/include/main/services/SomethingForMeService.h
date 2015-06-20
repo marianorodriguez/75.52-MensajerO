@@ -5,22 +5,28 @@
 #include "../user/chat/Chat.h"
 #include "../database/Database.h"
 
+/**
+ * Clase encargada de realizar el servicio de actualizacion de mensajes del servidor.
+ * El usuario que use este servicio recibirá un listado con los nuevos mensajes que le hayan enviado.
+ */
 class SomethingForMeService: public ServiceInterface {
 public:
-	/**
-	* Devuelve el nombre del servicio: somethingForMe
-	*/
 	virtual std::string getUri() const;
 	virtual std::string executeRequest(const Json::Value &paramMap) const;
 	/**
-	* Se fija si hay mensajes nuevos para el usuario
-	*/
+	 * Aplica el servicio de actualizacion de mensajes.
+	 * @param data informacion de entrada del servicio.
+	 * @return listado de mensajes nuevos edl usuario.
+	 */
 	Json::Value doSomethingForMe(const Json::Value &data) const;
 
 private:
 	static const std::string serviceName;
 };
 
+/**
+ * Creador del servicio de actualizacion de mensajes.
+ */
 class SomethingForMeServiceCreator: public ServiceCreatorInterface{
 	virtual ServiceInterface* create(Database& userDb, Database& chatDb);
 };

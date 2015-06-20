@@ -6,9 +6,12 @@
  */
 
 #include "../../../include/main/exceptions/InvalidUsernameException.h"
+#include "../../../include/main/utilities/Logger.h"
 
 InvalidUsernameException::InvalidUsernameException(const std::string& what) :
-		BaseException(what) {}
+		BaseException(what) {
+	Logger::getLogger()->write(Logger::ERROR, what);
+}
 
 InvalidUsernameException::~InvalidUsernameException() {}
 

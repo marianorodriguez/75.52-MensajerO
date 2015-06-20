@@ -40,6 +40,8 @@ void SomethingForMeServiceTest::setUp() {
 	chatKey.push_back("username1");
 	chatKey.push_back("username2");
 	chatDB.write(chatKey, chat.serialize());
+	userDB.close();
+	chatDB.close();
 }
 
 void SomethingForMeServiceTest::tearDown() {
@@ -57,6 +59,8 @@ void SomethingForMeServiceTest::tearDown() {
 	chatKey.push_back("username1");
 	chatKey.push_back("username2");
 	chatDB.erase(chatKey);
+	userDB.close();
+	chatDB.close();
 }
 
 void SomethingForMeServiceTest::testDoubleRequestShouldReturnNoMessages() {
