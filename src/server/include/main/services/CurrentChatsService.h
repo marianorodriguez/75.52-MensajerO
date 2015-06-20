@@ -18,7 +18,7 @@ public:
 private:
 
 	/**
-	 * Encargado de procesar el servicio de consulta de chats.
+	 * Encargado de aplicar el servicio de consulta de chats.
 	 * @param data informacion de entrada para este servicio.
 	 * @return listado de chats activos del usuario que invocó este servicio.
 	 */
