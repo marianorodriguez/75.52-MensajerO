@@ -8,7 +8,9 @@
 #include "../../../include/main/exceptions/InvalidUsernameException.h"
 
 InvalidUsernameException::InvalidUsernameException(string what) :
-		BaseException(what) {}
+		BaseException(what) {
+	Logger::getLogger()->write(Logger::ERROR, what);
+}
 
 InvalidUsernameException::~InvalidUsernameException() {}
 

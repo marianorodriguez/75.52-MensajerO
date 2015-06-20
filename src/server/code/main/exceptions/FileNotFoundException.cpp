@@ -8,7 +8,9 @@
 #include "../../../include/main/exceptions/FileNotFoundException.h"
 
 FileNotFoundException::FileNotFoundException(string what) :
-		BaseException(what) {}
+		BaseException(what) {
+	Logger::getLogger()->write(Logger::ERROR, what);
+}
 
 FileNotFoundException::~FileNotFoundException() {}
 

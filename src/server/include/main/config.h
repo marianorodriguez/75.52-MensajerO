@@ -35,7 +35,7 @@ using namespace std;
 #define JSON_USER_LASTTIME "lastTimeConnected"
 #define JSON_USER_CONNECTED "connected"
 //# USER ######################################
-#define DEFAULT_USER_LOCATION "UNKNOWN"
+#define DEFAULT_USER_LOCATION "CABA"
 #define DEFAULT_USER_STATUS "Online"
 #define DEFAULT_USER_PROFILE_PICTURE DEF_PROF_PICT
 #define MAXIMUM_IDLE_TIME 2

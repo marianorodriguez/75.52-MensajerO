@@ -9,6 +9,8 @@
 #define SERVER_MAIN_EXCEPTIONS_FILENOTFOUNDEXCEPTION_H_
 
 #include "BaseException.h"
+#include "../../../include/main/utilities/Logger.h"
+
 /**
  * Define una excepción de tipo "archivo no encontrado".
  * Esta excepción se lanza cuando no se encuentra algún archivo dada la ruta usada.

@@ -8,7 +8,9 @@
 #include "../../../include/main/exceptions/NotSerializedDataException.h"
 
 NotSerializedDataException::NotSerializedDataException(string what):
-		BaseException(what) {}
+		BaseException(what) {
+	Logger::getLogger()->write(Logger::ERROR, what);
+}
 
 NotSerializedDataException::~NotSerializedDataException() {}
 

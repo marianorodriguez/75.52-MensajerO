@@ -12,6 +12,8 @@ std::string CurrentChatsService::executeRequest(
 	Json::Reader reader;
 	Json::Value data;
 	reader.parse(paramMap.asString(), data);
+	Logger::getLogger()->write(Logger::INFO,
+			"Executing CurrentChats service...");
 	Json::Value output = doCurrentChats(data);
 
 	ConnectionManager::getInstance()->updateUser(
@@ -41,8 +43,10 @@ Json::Value CurrentChatsService::doCurrentChats(const Json::Value &data) {
 				keyChats.clear();
 				keyChats.push_back(data[SERVICE_USERNAME].asString());
 				keyChats.push_back(chats[i]);
+				Logger::getLogger()->write(Logger::DEBUG, "Fetching chat between " + user.getUsername() + " and " + chats[i]);
 				Chat chat(dbChats.read(keyChats));
-				output[SERVICE_CURRENTCHATS_CHATS].append(chat.serializeCurrentChats(
+				output[SERVICE_CURRENTCHATS_CHATS].append(
+						chat.serializeCurrentChats(
 								data[SERVICE_USERNAME].asString()));
 			}
 
@@ -52,10 +56,13 @@ Json::Value CurrentChatsService::doCurrentChats(const Json::Value &data) {
 		} else {
 			output[SERVICE_OUT_OK] = false;
 			output[SERVICE_OUT_WHAT] = SERVICE_OUT_INVALIDPWD;
+			Logger::getLogger()->write(Logger::WARN,
+					"Invalid password from user " + user.getUsername());
 		}
 	} catch (KeyNotFoundException &e) {
 		output[SERVICE_OUT_OK] = false;
 		output[SERVICE_OUT_WHAT] = SERVICE_OUT_INVALIDUSER;
+		Logger::getLogger()->write(Logger::WARN, "Some unregistered user tried to use this service.");
 	}
 
 	dbChats.close();

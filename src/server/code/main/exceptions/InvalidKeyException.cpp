@@ -7,7 +7,9 @@
 
 #include "../../../include/main/exceptions/InvalidKeyException.h"
 
-InvalidKeyException::InvalidKeyException(string what): BaseException(what) {}
+InvalidKeyException::InvalidKeyException(string what): BaseException(what) {
+	Logger::getLogger()->write(Logger::ERROR, what);
+}
 
 InvalidKeyException::~InvalidKeyException() {
 }

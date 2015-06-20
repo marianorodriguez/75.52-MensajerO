@@ -9,6 +9,7 @@
 #define KEYNOTFOUNDEXCEPTION_H_
 
 #include "BaseException.h"
+#include "../../../include/main/utilities/Logger.h"
 #include <iostream>
 using namespace std;
 

@@ -47,12 +47,12 @@ RestServer::~RestServer(){
 }
 
 void RestServer::setOptions(const ServerOptions& options){
+	Logger::getLogger()->write(Logger::DEBUG, "Setting server options...");
 	shutdownServer();
 	this->pollDelay = options.getPollDelay();
 	this->port = options.getServerPort();
 	options.getDatabasePath();
 	startServer();
-	
 }
 
 
@@ -70,7 +70,6 @@ void RestServer::handleConnection(struct mg_connection *mgConnection) const{
 	// Le saco la barra inicial
 	std::string serviceName(connectionWrap.getUri().substr(1));
 	service = this->serviceFactory.createService(serviceName);
-	std::cout<<"executing "<<serviceName<<std::endl;
 	std::string response = service->executeRequest(connectionWrap.getParamMap());
 	connectionWrap.printMessage(response);
 	delete service;

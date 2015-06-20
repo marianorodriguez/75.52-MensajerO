@@ -9,6 +9,7 @@
 #define SERVER_MAIN_EXCEPTIONS_NOTSERIALIZEDDATAEXCEPTION_H_
 #include "BaseException.h"
 #include <iostream>
+#include "../../../include/main/utilities/Logger.h"
 using namespace std;
 
 /**
