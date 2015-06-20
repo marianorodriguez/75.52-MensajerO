@@ -56,6 +56,8 @@ void BroadcastServiceTest::testShouldDoBroadcast(){
 	input[SERVICE_PASSWORD] = "password1";
 	input[SERVICE_SENDMESSAGE_MESSAGE] = "text to broadcast";
 
+	Json::Value output = service.doBroadcast(input);
+	CPPUNIT_ASSERT(output[SERVICE_OUT_OK].asBool() == true);
 	vector<string> key2, key3;
 	key2.push_back("secondUser");
 	User user2 = userDb.read(key2);

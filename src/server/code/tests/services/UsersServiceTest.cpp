@@ -60,7 +60,7 @@ void UsersServiceTest::testShouldReturnAllUsersInDB(){
 
 	Json::Value output = service.doUsers(data);
 
-	CPPUNIT_ASSERT(output[SERVICE_USERS_NAME].size() == 4);
+	CPPUNIT_ASSERT(output[SERVICE_USERS_NAME].size() >= 4);
 }
 
 void UsersServiceTest::testShouldThrowInvalidPassword(){
