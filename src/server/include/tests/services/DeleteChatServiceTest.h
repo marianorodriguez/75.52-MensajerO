@@ -15,6 +15,7 @@ class DeleteChatServiceTest: public CppUnit::TestFixture {
 
 	CPPUNIT_TEST_SUITE(DeleteChatServiceTest);
 	CPPUNIT_TEST(testDeleteChat);
+	CPPUNIT_TEST(testLoggedOutUser);
 	CPPUNIT_TEST_SUITE_END();
 
 public:
@@ -24,7 +25,7 @@ public:
 
 	void setUp();
 	void tearDown();
-
+	void testLoggedOutUser();
 	void testDeleteChat();
 };
 

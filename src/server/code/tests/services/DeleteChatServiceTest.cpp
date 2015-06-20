@@ -12,6 +12,8 @@ void DeleteChatServiceTest::setUp() {
 	Database userDB(DATABASE_USERS_PATH);
 	User user1("username1", "password1");
 	User user2("username2", "password2");
+	user1.setLoggedIn(true); user1.setLoginToken(0);
+	user2.setLoggedIn(true); user2.setLoginToken(0);
 	user1.addChatWithUser("username2");
 	user2.addChatWithUser("username1");
 	std::vector<std::string> key1, key2;
@@ -54,12 +56,38 @@ void DeleteChatServiceTest::tearDown() {
 	chatDB.close();
 }
 
+void DeleteChatServiceTest::testLoggedOutUser(){
+
+	Json::Value input;
+	input[SERVICE_USERNAME] = "username1";
+	input[SERVICE_PASSWORD] = "password1";
+	input[SERVICE_DELETECHAT_WHO] = "username2";
+	input[SERVICE_TOKEN] = 0;
+
+	Database userDB(DATABASE_USERS_PATH);
+	User user1("username1", "password1");
+	user1.setLastTimeConnected();
+	user1.setLoggedIn(false); user1.setLoginToken(0);
+	vector<string> key; key.push_back("username1");
+	userDB.write(key, user1.serialize());
+	userDB.close();
+
+	Json::Value output = DeleteChatService::doDeleteChat(input);
+	CPPUNIT_ASSERT(output[SERVICE_OUT_OK].asBool() == false);
+	CPPUNIT_ASSERT(output[SERVICE_OUT_WHAT].asString() == SERVICE_OUT_NOTLOGGEDUSER);
+
+	Database DB(DATABASE_USERS_PATH);
+	DB.erase(key);
+	DB.close();
+}
+
 void DeleteChatServiceTest::testDeleteChat() {
 
 	Json::Value input;
 	input[SERVICE_USERNAME] = "username1";
 	input[SERVICE_PASSWORD] = "password1";
 	input[SERVICE_DELETECHAT_WHO] = "username2";
+	input[SERVICE_TOKEN] = 0;
 
 	Json::Value output = DeleteChatService::doDeleteChat(input);
 

@@ -59,12 +59,16 @@ const std::string DEFAULT_DATABASE_PATH = "database";
 
 #define SERVICE_USERNAME "username"
 #define SERVICE_PASSWORD "password"
+#define SERVICE_TOKEN "token"
 
 //# SERVICIO DE SIGNUP
 const std::string SERVICE_SIGNUP_NAME = "signUp";
 
 //# SERVICIO DE LOGIN
 const std::string SERVICE_LOGIN_NAME = "logIn";
+
+//# SERVICIO DE LOGOUT
+const std::string SERVICE_LOGOUT_NAME = "logOut";
 
 //# SERVICIO DE BROADCAST
 const std::string SERVICE_BROADCAST_NAME = "broadcast";
@@ -101,6 +105,8 @@ const std::string SERVICE_OUT_WHAT = "what";
 const std::string SERVICE_OUT_INVALIDUSER = "Error: Invalid username.";
 const std::string SERVICE_OUT_USERNAMEEXISTS = "Error: Username already exists.";
 const std::string SERVICE_OUT_INVALIDPWD = "Error: Invalid password.";
+const std::string SERVICE_OUT_LOGGEDUSER = "Error: User is already logged in.";
+const std::string SERVICE_OUT_NOTLOGGEDUSER = "Error: User is not logged in.";
 const std::string SERVICE_OUT_BROADCASTFAILEDTOSOME = "Error: Message could not be sent to some users";
 
 #endif /* CONFIG_CONFIG_H_ */

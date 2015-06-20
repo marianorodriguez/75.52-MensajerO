@@ -36,6 +36,29 @@ void LogInServiceTest::tearDown() {
 	DB.close();
 }
 
+void LogInServiceTest::testLoggedInUser(){
+
+	Json::Value input;
+	input[SERVICE_USERNAME] = "username1";
+	input[SERVICE_PASSWORD] = "password1";
+
+	Database userDB(DATABASE_USERS_PATH);
+	User user1("username1", "password1");
+	user1.setLastTimeConnected();
+	user1.setLoggedIn(true); user1.setLoginToken(0);
+	vector<string> key; key.push_back("username1");
+	userDB.write(key, user1.serialize());
+	userDB.close();
+
+	Json::Value output = LogInService::doLogIn(input);
+	CPPUNIT_ASSERT(output[SERVICE_OUT_OK].asBool() == false);
+	CPPUNIT_ASSERT(output[SERVICE_OUT_WHAT].asString() == SERVICE_OUT_LOGGEDUSER);
+
+	Database DB(DATABASE_USERS_PATH);
+	DB.erase(key);
+	DB.close();
+}
+
 void LogInServiceTest::testLogIn() {
 
 	Json::Value input;

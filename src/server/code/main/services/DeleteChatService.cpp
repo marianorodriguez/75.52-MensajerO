@@ -19,8 +19,7 @@ std::string DeleteChatService::executeRequest(
 	Json::Reader reader;
 	Json::Value data;
 	reader.parse(paramMap.asString(), data);
-	Logger::getLogger()->write(Logger::INFO,
-			"Executing DeleteChat service...");
+	Logger::getLogger()->write(Logger::INFO, "Executing DeleteChat service...");
 	Json::Value output = doDeleteChat(data);
 
 	ConnectionManager::getInstance()->updateUser(
@@ -44,23 +43,31 @@ Json::Value DeleteChatService::doDeleteChat(const Json::Value &data) {
 	try {
 		std::string serializedUser = dbUsers.read(key);
 		User user(serializedUser);
-		if (user.getPassword() == data[SERVICE_PASSWORD].asString()) {
+		if (user.getPassword() == data[SERVICE_PASSWORD].asString()
+				&& user.getLoginToken() == data[SERVICE_TOKEN].asDouble()) {
 
-			key.push_back(otherUser);
+			if (user.isLoggedIn()) {
+				key.push_back(otherUser);
 
-			Chat chat(dbChats.read(key));
-			int lastMessage = chat.getMessages().size();
+				Chat chat(dbChats.read(key));
+				int lastMessage = chat.getMessages().size();
 
-			if (username == chat.getUsername1()) {
-				chat.setFirstMessageUser1(lastMessage);
+				if (username == chat.getUsername1()) {
+					chat.setFirstMessageUser1(lastMessage);
+				} else {
+					chat.setFirstMessageUser2(lastMessage);
+				}
+
+				dbChats.write(key, chat.serialize());
+
+				output[SERVICE_OUT_OK] = true;
+				output[SERVICE_OUT_WHAT] = "";
 			} else {
-				chat.setFirstMessageUser2(lastMessage);
+				output[SERVICE_OUT_OK] = false;
+				output[SERVICE_OUT_WHAT] = SERVICE_OUT_NOTLOGGEDUSER;
+				Logger::getLogger()->write(Logger::WARN,
+						"User " + user.getUsername() + " is not logged in.");
 			}
-
-			dbChats.write(key, chat.serialize());
-
-			output[SERVICE_OUT_OK] = true;
-			output[SERVICE_OUT_WHAT] = "";
 		} else {
 			output[SERVICE_OUT_OK] = false;
 			output[SERVICE_OUT_WHAT] = SERVICE_OUT_INVALIDPWD;
@@ -70,7 +77,8 @@ Json::Value DeleteChatService::doDeleteChat(const Json::Value &data) {
 	} catch (KeyNotFoundException &e) {
 		output[SERVICE_OUT_OK] = false;
 		output[SERVICE_OUT_WHAT] = SERVICE_OUT_INVALIDUSER;
-		Logger::getLogger()->write(Logger::WARN, "Some unregistered user tried to use this service.");
+		Logger::getLogger()->write(Logger::WARN,
+				"Some unregistered user tried to use this service.");
 	}
 	dbChats.close();
 	dbUsers.close();

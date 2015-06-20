@@ -14,6 +14,7 @@
 class SendMessageServiceTest: public CppUnit::TestFixture {
 
 	CPPUNIT_TEST_SUITE(SendMessageServiceTest);
+	CPPUNIT_TEST(testLoggedOutUser);
 	CPPUNIT_TEST(testShouldThrowInvalidUsername);
 	CPPUNIT_TEST(testShouldThrowInvalidPassword);
 	CPPUNIT_TEST(testShouldAddMessageToExistingChat);
@@ -27,6 +28,7 @@ public:
 	void setUp();
 	void tearDown();
 
+	void testLoggedOutUser();
 	void testShouldThrowInvalidUsername();
 	void testShouldThrowInvalidPassword();
 	void testShouldAddMessageToExistingChat();

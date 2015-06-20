@@ -11,8 +11,7 @@ std::string LogInService::executeRequest(const Json::Value &paramMap) const {
 	Json::Value data;
 	reader.parse(paramMap.asString(), data);
 
-	Logger::getLogger()->write(Logger::INFO,
-			"Executing LogIn service...");
+	Logger::getLogger()->write(Logger::INFO, "Executing LogIn service...");
 	Json::Value output = doLogIn(data);
 
 	ConnectionManager::getInstance()->updateUser(
@@ -37,17 +36,30 @@ Json::Value LogInService::doLogIn(const Json::Value& data) {
 		string serializedUser = db.read(key);
 		User user(serializedUser);
 
-			string location = LocationManager::getInstance()->getLocation(
-					data[SERVICE_USERCONFIG_LOCATION].asString());
-			user.modifyLocation(location);
-			db.write(key, user.serialize());
+		string location = LocationManager::getInstance()->getLocation(
+				data[SERVICE_USERCONFIG_LOCATION].asString());
+		user.modifyLocation(location);
+		db.write(key, user.serialize());
 		if (user.getPassword() == data[SERVICE_PASSWORD].asString()) {
-			Logger::getLogger()->write(Logger::DEBUG, "Granting access to user " + user.getUsername());
-			output[SERVICE_USERCONFIG_LOCATION] = location;
-			output[SERVICE_USERCONFIG_STATUS] = user.getStatus();
-			output[SERVICE_USERCONFIG_PICTURE] = user.getProfilePicture();
-			output[SERVICE_OUT_OK] = true;
-			output[SERVICE_OUT_WHAT] = "";
+			if (!user.isLoggedIn()) {
+				Logger::getLogger()->write(Logger::DEBUG,
+						"User " + user.getUsername() + " has logged in.");
+				user.setLoggedIn(true);
+				user.setLoginToken(Random::getRandom());
+				output[SERVICE_USERCONFIG_LOCATION] = location;
+				output[SERVICE_TOKEN] = user.getLoginToken();
+				output[SERVICE_USERCONFIG_STATUS] = user.getStatus();
+				output[SERVICE_USERCONFIG_PICTURE] = user.getProfilePicture();
+				output[SERVICE_OUT_OK] = true;
+				output[SERVICE_OUT_WHAT] = "";
+				db.write(key, user.serialize());
+			} else {
+				output[SERVICE_OUT_OK] = false;
+				output[SERVICE_OUT_WHAT] = SERVICE_OUT_LOGGEDUSER;
+				Logger::getLogger()->write(Logger::WARN,
+						"User " + user.getUsername()
+								+ " tried to log in, but it's already logged.");
+			}
 		} else {
 			output[SERVICE_OUT_OK] = false;
 			output[SERVICE_OUT_WHAT] = SERVICE_OUT_INVALIDPWD;
@@ -58,7 +70,8 @@ Json::Value LogInService::doLogIn(const Json::Value& data) {
 	} catch (KeyNotFoundException &e) {
 		output[SERVICE_OUT_OK] = false;
 		output[SERVICE_OUT_WHAT] = SERVICE_OUT_INVALIDUSER;
-		Logger::getLogger()->write(Logger::WARN, "Some unregistered user tried to use this service.");
+		Logger::getLogger()->write(Logger::WARN,
+				"Some unregistered user tried to use this service.");
 
 	}
 	db.close();

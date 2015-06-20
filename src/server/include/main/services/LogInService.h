@@ -4,6 +4,7 @@
 #include "../user/User.h"
 #include "../database/Database.h"
 #include "../utilities/LocationManager.h"
+#include "../utilities/Random.h"
 
 /**
  * Clase encargada de proveer el servicio de inicio de sesion en el servidor.

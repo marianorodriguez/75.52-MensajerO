@@ -21,6 +21,9 @@ void CurrentChatsServiceTest::setUp(){
 	User user3("username3", "password3");
 	user1.addChatWithUser("username2");
 	user1.addChatWithUser("username3");
+	user1.setLoggedIn(true); user1.setLoginToken(0);
+	user2.setLoggedIn(true); user2.setLoginToken(0);
+	user3.setLoggedIn(true); user3.setLoginToken(0);
 
 	Database userDB(DATABASE_USERS_PATH);
 	vector<string> key1;
@@ -74,11 +77,36 @@ void CurrentChatsServiceTest::tearDown(){
 	chatDB.close();
 }
 
+void CurrentChatsServiceTest::testLoggedOutUser(){
+
+	Json::Value input;
+	input[SERVICE_USERNAME] = "username1";
+	input[SERVICE_PASSWORD] = "password1";
+	input[SERVICE_TOKEN] = 0;
+
+	Database userDB(DATABASE_USERS_PATH);
+	User user1("username1", "password1");
+	user1.setLastTimeConnected();
+	user1.setLoggedIn(false); user1.setLoginToken(0);
+	vector<string> key; key.push_back("username1");
+	userDB.write(key, user1.serialize());
+	userDB.close();
+
+	Json::Value output = CurrentChatsService::doCurrentChats(input);
+	CPPUNIT_ASSERT(output[SERVICE_OUT_OK].asBool() == false);
+	CPPUNIT_ASSERT(output[SERVICE_OUT_WHAT].asString() == SERVICE_OUT_NOTLOGGEDUSER);
+
+	Database DB(DATABASE_USERS_PATH);
+	DB.erase(key);
+	DB.close();
+}
+
 void CurrentChatsServiceTest::testShouldGetCurrentChats(){
 
 	Json::Value data;
 	data[SERVICE_USERNAME] = "username1";
 	data[SERVICE_PASSWORD] = "password1";
+	data[SERVICE_TOKEN] = 0;
 
 	Json::Value output = CurrentChatsService::doCurrentChats(data);
 
@@ -92,6 +120,7 @@ void CurrentChatsServiceTest::testShouldThrowInvalidPassword(){
 	Json::Value data;
 	data[SERVICE_USERNAME] = "username1";
 	data[SERVICE_PASSWORD] = "password1alr";
+	data[SERVICE_TOKEN] = 0;
 
 	Json::Value output = CurrentChatsService::doCurrentChats(data);
 
@@ -104,6 +133,7 @@ void CurrentChatsServiceTest::testShouldThrowInvalidUsername(){
 	Json::Value data;
 	data[SERVICE_USERNAME] = "username1asd";
 	data[SERVICE_PASSWORD] = "password1";
+	data[SERVICE_TOKEN] = 0;
 
 	Json::Value output = CurrentChatsService::doCurrentChats(data);
 
@@ -116,6 +146,7 @@ void CurrentChatsServiceTest::shouldGetEmptyChatList(){
 	Json::Value data;
 	data[SERVICE_USERNAME] = "username3";
 	data[SERVICE_PASSWORD] = "password3";
+	data[SERVICE_TOKEN] = 0;
 
 	Json::Value output = CurrentChatsService::doCurrentChats(data);
 	CPPUNIT_ASSERT(output[SERVICE_CURRENTCHATS_CHATS].size() == 0);

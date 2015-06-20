@@ -35,52 +35,61 @@ Json::Value SomethingForMeService::doSomethingForMe(const Json::Value &data) {
 	try {
 		User user(dbUsers.read(keyUser));
 
-		if (user.getPassword() == data[SERVICE_PASSWORD].asString()) {
+		if (user.getPassword() == data[SERVICE_PASSWORD].asString()
+				&& user.getLoginToken() == data[SERVICE_TOKEN].asDouble()) {
+			if (user.isLoggedIn()) {
 
-			vector<string> chatsUser = user.getChats();
-			Logger::getLogger()->write(Logger::DEBUG,
-					"Fetching new messages...");
-			int cont = 0;
-			for (unsigned int i = 0; i < chatsUser.size(); i++) {
-				cont = 0;
-				vector<string> keyChats;
-				keyChats.push_back(data[SERVICE_USERNAME].asString());
-				keyChats.push_back(chatsUser[i]);
-				Chat chat(dbChats.read(keyChats));
-
-				vector<Message> messages = chat.getMessages();
+				vector<string> chatsUser = user.getChats();
+				Logger::getLogger()->write(Logger::DEBUG,
+						"Fetching new messages...");
 				int cont = 0;
+				for (unsigned int i = 0; i < chatsUser.size(); i++) {
+					cont = 0;
+					vector<string> keyChats;
+					keyChats.push_back(data[SERVICE_USERNAME].asString());
+					keyChats.push_back(chatsUser[i]);
+					Chat chat(dbChats.read(keyChats));
 
-				unsigned int start = 0;
-				if (data[SERVICE_USERNAME].asString() == chat.getUsername1()) {
-					start = chat.getFirstMessageUser1();
-				} else {
-					start = chat.getFirstMessageUser2();
-				}
+					vector<Message> messages = chat.getMessages();
+					int cont = 0;
 
-				for (unsigned int j = start; j < messages.size(); j++) {
+					unsigned int start = 0;
+					if (data[SERVICE_USERNAME].asString()
+							== chat.getUsername1()) {
+						start = chat.getFirstMessageUser1();
+					} else {
+						start = chat.getFirstMessageUser2();
+					}
 
-					if ((!messages.at(j).getSent())
-							&& (messages.at(j).getUserTo()
-									== data[SERVICE_USERNAME].asString())) {
+					for (unsigned int j = start; j < messages.size(); j++) {
 
-						messages.at(j).setAsSent();
-						output[SERVICE_SOMETHINGFORME_MESSAGES][cont] =
-								messages.at(j).serialize();
-						cont++;
+						if ((!messages.at(j).getSent())
+								&& (messages.at(j).getUserTo()
+										== data[SERVICE_USERNAME].asString())) {
+
+							messages.at(j).setAsSent();
+							output[SERVICE_SOMETHINGFORME_MESSAGES][cont] =
+									messages.at(j).serialize();
+							cont++;
+						}
+					}
+					if (cont != 0) {
+						chat.updateMessages(messages);
+						dbChats.write(keyChats, chat.serialize());
 					}
 				}
-				if (cont != 0) {
-					chat.updateMessages(messages);
-					dbChats.write(keyChats, chat.serialize());
-				}
+				ostringstream convert;
+				convert << cont;
+				Logger::getLogger()->write(Logger::DEBUG,
+						"found " + convert.str() + " new messages.");
+				output[SERVICE_OUT_OK] = true;
+				output[SERVICE_OUT_WHAT] = "";
+			} else {
+				output[SERVICE_OUT_OK] = false;
+				output[SERVICE_OUT_WHAT] = SERVICE_OUT_NOTLOGGEDUSER;
+				Logger::getLogger()->write(Logger::WARN,
+						"User " + user.getUsername() + " is not logged in.");
 			}
-			ostringstream convert;
-			convert << cont;
-			Logger::getLogger()->write(Logger::DEBUG,
-					"found " + convert.str() + " new messages.");
-			output[SERVICE_OUT_OK] = true;
-			output[SERVICE_OUT_WHAT] = "";
 
 		} else {
 			output[SERVICE_OUT_OK] = false;

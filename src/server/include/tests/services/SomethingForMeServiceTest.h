@@ -14,6 +14,7 @@
 class SomethingForMeServiceTest: public CppUnit::TestFixture {
 
 	CPPUNIT_TEST_SUITE(SomethingForMeServiceTest);
+	CPPUNIT_TEST(testLoggedOutUser);
 	CPPUNIT_TEST(shouldThrowInvalidPassword);
 	CPPUNIT_TEST(shouldThrowInvalidUsername);
 	CPPUNIT_TEST(testGetNewMessages);
@@ -27,6 +28,7 @@ public:
 	void setUp();
 	void tearDown();
 
+	void testLoggedOutUser();
 	void shouldThrowInvalidUsername();
 	void shouldThrowInvalidPassword();
 	void testGetNewMessages();

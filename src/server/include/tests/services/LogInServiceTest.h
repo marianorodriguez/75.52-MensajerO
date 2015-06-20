@@ -15,6 +15,7 @@ class LogInServiceTest: public CppUnit::TestFixture {
 
 	CPPUNIT_TEST_SUITE(LogInServiceTest);
 	CPPUNIT_TEST(testLogIn);
+	CPPUNIT_TEST(testLoggedInUser);
 	CPPUNIT_TEST(testShouldThrowInvalidUsername);
 	CPPUNIT_TEST(testShouldThrowInvalidPassword);
 	CPPUNIT_TEST_SUITE_END();
@@ -26,6 +27,7 @@ public:
 	void setUp();
 	void tearDown();
 
+	void testLoggedInUser();
 	void testLogIn();
 	void testShouldThrowInvalidUsername();
 	void testShouldThrowInvalidPassword();

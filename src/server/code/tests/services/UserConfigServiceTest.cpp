@@ -20,6 +20,7 @@ void UserConfigServiceTest::setUp() {
 	Database DB(DATABASE_USERS_PATH);
 
 	User user("username_config", "password");
+	user.setLoggedIn(true); user.setLoginToken(0);
 	std::vector<std::string> key;
 	key.push_back(user.getUsername());
 	DB.write(key, user.serialize());
@@ -32,6 +33,33 @@ void UserConfigServiceTest::tearDown() {
 	Database DB(DATABASE_USERS_PATH);
 	std::vector<std::string> key;
 	key.push_back("username_config");
+	DB.erase(key);
+	DB.close();
+}
+
+void UserConfigServiceTest::testLoggedOutUser(){
+
+	Json::Value data;
+	data[SERVICE_USERNAME] = "username1";
+	data[SERVICE_PASSWORD] = "password1";
+	data[SERVICE_TOKEN] = 0;
+	data[SERVICE_USERCONFIG_LOCATION] = "(0,5)";
+	data[SERVICE_USERCONFIG_STATUS] = "new Status";
+	data[SERVICE_USERCONFIG_PICTURE] = "new profile picture";
+
+	Database userDB(DATABASE_USERS_PATH);
+	User user1("username1", "password1");
+	user1.setLastTimeConnected();
+	user1.setLoggedIn(false); user1.setLoginToken(0);
+	vector<string> key; key.push_back("username1");
+	userDB.write(key, user1.serialize());
+	userDB.close();
+
+	Json::Value output =  UserConfigService::doUserConfig(data);
+	CPPUNIT_ASSERT(output[SERVICE_OUT_OK].asBool() == false);
+	CPPUNIT_ASSERT(output[SERVICE_OUT_WHAT].asString() == SERVICE_OUT_NOTLOGGEDUSER);
+
+	Database DB(DATABASE_USERS_PATH);
 	DB.erase(key);
 	DB.close();
 }
@@ -54,6 +82,7 @@ void UserConfigServiceTest::testUserShouldConfigureProfile() {
 	Json::Value data;
 	data[SERVICE_USERNAME] = "username_config";
 	data[SERVICE_PASSWORD] = "password";
+	data[SERVICE_TOKEN] = 0;
 	data[SERVICE_USERCONFIG_LOCATION] = "(0,5)";
 	data[SERVICE_USERCONFIG_STATUS] = "new Status";
 	data[SERVICE_USERCONFIG_PICTURE] = "new profile picture";
@@ -78,6 +107,7 @@ void UserConfigServiceTest::testShouldBeInvalidPassword() {
 	Json::Value data;
 	data[SERVICE_USERNAME] = "username_config";
 	data[SERVICE_PASSWORD] = "invalidPassword";
+	data[SERVICE_TOKEN] = 0;
 	data[SERVICE_USERCONFIG_LOCATION] = "new Location";
 	data[SERVICE_USERCONFIG_STATUS] = "new Status";
 	data[SERVICE_USERCONFIG_PICTURE] = "new profile picture";
@@ -94,6 +124,7 @@ void UserConfigServiceTest::testUsernameShouldNotExist() {
 	Json::Value data;
 	data[SERVICE_USERNAME] = "non-existant-user";
 	data[SERVICE_PASSWORD] = "password";
+	data[SERVICE_TOKEN] = 0;
 	data[SERVICE_USERCONFIG_LOCATION] = "new Location";
 	data[SERVICE_USERCONFIG_STATUS] = "new Status";
 	data[SERVICE_USERCONFIG_PICTURE] = "new profile picture";

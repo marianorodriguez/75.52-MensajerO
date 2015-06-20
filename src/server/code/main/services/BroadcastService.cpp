@@ -33,6 +33,7 @@ Json::Value BroadcastService::doBroadcast(const Json::Value &data) {
 	Json::Value input;
 	input[SERVICE_USERNAME] = data[SERVICE_USERNAME].asString();
 	input[SERVICE_PASSWORD] = data[SERVICE_PASSWORD].asString();
+	input[SERVICE_TOKEN] = data[SERVICE_TOKEN].asDouble();
 	input[SERVICE_SENDMESSAGE_MESSAGE] =
 			data[SERVICE_SENDMESSAGE_MESSAGE].asString();
 
@@ -50,23 +51,36 @@ Json::Value BroadcastService::doBroadcast(const Json::Value &data) {
 		User user(dbUsers.read(keyUser));
 		dbUsers.close();
 
-		if(user.getPassword() != data[SERVICE_PASSWORD].asString()){
+		if (user.getPassword() != data[SERVICE_PASSWORD].asString()
+				|| user.getLoginToken() != data[SERVICE_TOKEN].asDouble()) {
 			broadcastOut[SERVICE_OUT_OK] = false;
 			broadcastOut[SERVICE_OUT_WHAT] = SERVICE_OUT_INVALIDPWD;
-			Logger::getLogger()->write(Logger::WARN, "Invalid password from user " + user.getUsername());
+			Logger::getLogger()->write(Logger::WARN,
+					"Invalid password from user " + user.getUsername());
+			return broadcastOut;
+		}
+
+		if(!user.isLoggedIn()){
+			broadcastOut[SERVICE_OUT_OK] = false;
+			broadcastOut[SERVICE_OUT_WHAT] = SERVICE_OUT_NOTLOGGEDUSER;
+			Logger::getLogger()->write(Logger::WARN,
+					"User " + user.getUsername() + " is not logged in.");
 			return broadcastOut;
 		}
 
 		for (unsigned int i = 0; i < users.size(); i++) {
 			if (users.at(i) != data[SERVICE_USERNAME].asString()) {
 				input[SERVICE_SENDMESSAGE_USERNAME_TO] = users.at(i);
-				Logger::getLogger()->write(Logger::DEBUG, "Sending broadcast message to user " + users.at(i));
+				Logger::getLogger()->write(Logger::DEBUG,
+						"Sending broadcast message to user " + users.at(i));
 				Json::Value output = SendMessageService::doSendMessage(input);
 				if (output[SERVICE_OUT_WHAT] == SERVICE_OUT_INVALIDUSER) {
 					broadcastOut[SERVICE_OUT_OK] = false;
-					broadcastOut[SERVICE_OUT_WHAT] = SERVICE_OUT_BROADCASTFAILEDTOSOME;
-					Logger::getLogger()->write(Logger::WARN, "Failed to send broadcast message to " + users.at(i));
-
+					broadcastOut[SERVICE_OUT_WHAT] =
+							SERVICE_OUT_BROADCASTFAILEDTOSOME;
+					Logger::getLogger()->write(Logger::WARN,
+							"Failed to send broadcast message to "
+									+ users.at(i));
 				}
 			}
 		}
@@ -74,7 +88,8 @@ Json::Value BroadcastService::doBroadcast(const Json::Value &data) {
 	} catch (KeyNotFoundException &e) {
 		broadcastOut[SERVICE_OUT_OK] = false;
 		broadcastOut[SERVICE_OUT_WHAT] = SERVICE_OUT_INVALIDUSER;
-		Logger::getLogger()->write(Logger::WARN, "Some unregistered user tried to use this service.");
+		Logger::getLogger()->write(Logger::WARN,
+				"Some unregistered user tried to use this service.");
 	}
 	return broadcastOut;
 }

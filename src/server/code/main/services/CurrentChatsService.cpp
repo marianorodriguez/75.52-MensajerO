@@ -34,25 +34,34 @@ Json::Value CurrentChatsService::doCurrentChats(const Json::Value &data) {
 
 	try {
 		User user(dbUsers.read(keyUser));
-		if (user.getPassword() == data[SERVICE_PASSWORD].asString()) {
+		if (user.getPassword() == data[SERVICE_PASSWORD].asString()
+				&& user.getLoginToken() == data[SERVICE_TOKEN].asDouble()) {
 
-			vector<string> chats = user.getChats();
-			output[SERVICE_CURRENTCHATS_CHATS] = Json::Value(Json::arrayValue);
-			vector<string> keyChats;
-			for (unsigned int i = 0; i < chats.size(); i++) {
-				keyChats.clear();
-				keyChats.push_back(data[SERVICE_USERNAME].asString());
-				keyChats.push_back(chats[i]);
-				Logger::getLogger()->write(Logger::DEBUG, "Fetching chat between " + user.getUsername() + " and " + chats[i]);
-				Chat chat(dbChats.read(keyChats));
-				output[SERVICE_CURRENTCHATS_CHATS].append(
-						chat.serializeCurrentChats(
-								data[SERVICE_USERNAME].asString()));
+			if (user.isLoggedIn()) {
+				vector<string> chats = user.getChats();
+				output[SERVICE_CURRENTCHATS_CHATS] = Json::Value(
+						Json::arrayValue);
+				vector<string> keyChats;
+				for (unsigned int i = 0; i < chats.size(); i++) {
+					keyChats.clear();
+					keyChats.push_back(data[SERVICE_USERNAME].asString());
+					keyChats.push_back(chats[i]);
+					Logger::getLogger()->write(Logger::DEBUG,
+							"Fetching chat between " + user.getUsername()
+									+ " and " + chats[i]);
+					Chat chat(dbChats.read(keyChats));
+					output[SERVICE_CURRENTCHATS_CHATS].append(
+							chat.serializeCurrentChats(
+									data[SERVICE_USERNAME].asString()));
+				}
+				output[SERVICE_OUT_OK] = true;
+				output[SERVICE_OUT_WHAT] = "";
+			} else {
+				output[SERVICE_OUT_OK] = false;
+				output[SERVICE_OUT_WHAT] = SERVICE_OUT_NOTLOGGEDUSER;
+				Logger::getLogger()->write(Logger::WARN,
+						"User " + user.getUsername() + " is not logged in.");
 			}
-
-			output[SERVICE_OUT_OK] = true;
-			output[SERVICE_OUT_WHAT] = "";
-
 		} else {
 			output[SERVICE_OUT_OK] = false;
 			output[SERVICE_OUT_WHAT] = SERVICE_OUT_INVALIDPWD;
@@ -62,7 +71,8 @@ Json::Value CurrentChatsService::doCurrentChats(const Json::Value &data) {
 	} catch (KeyNotFoundException &e) {
 		output[SERVICE_OUT_OK] = false;
 		output[SERVICE_OUT_WHAT] = SERVICE_OUT_INVALIDUSER;
-		Logger::getLogger()->write(Logger::WARN, "Some unregistered user tried to use this service.");
+		Logger::getLogger()->write(Logger::WARN,
+				"Some unregistered user tried to use this service.");
 	}
 
 	dbChats.close();

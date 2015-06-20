@@ -20,6 +20,9 @@ void SendMessageServiceTest::setUp(){
 	User user1("username1", "password1");
 	User user2("username2", "password2");
 	User user3("username3", "password3");
+	user1.setLoggedIn(true); user1.setLoginToken(0);
+	user2.setLoggedIn(true); user2.setLoginToken(0);
+	user3.setLoggedIn(true); user3.setLoginToken(0);
 	user1.addChatWithUser("username2");
 	user2.addChatWithUser("username1");
 	vector<string> key1, key2, key3;
@@ -65,6 +68,30 @@ void SendMessageServiceTest::tearDown(){
 	chatDB.close();
 }
 
+void SendMessageServiceTest::testLoggedOutUser(){
+
+	Json::Value input;
+	input[SERVICE_USERNAME] = "username1";
+	input[SERVICE_PASSWORD] = "password1";
+	input[SERVICE_TOKEN] = 0;
+
+	Database userDB(DATABASE_USERS_PATH);
+	User user1("username1", "password1");
+	user1.setLastTimeConnected();
+	user1.setLoggedIn(false); user1.setLoginToken(0);
+	vector<string> key; key.push_back("username1");
+	userDB.write(key, user1.serialize());
+	userDB.close();
+
+	Json::Value output = SendMessageService::doSendMessage(input);
+	CPPUNIT_ASSERT(output[SERVICE_OUT_OK].asBool() == false);
+	CPPUNIT_ASSERT(output[SERVICE_OUT_WHAT].asString() == SERVICE_OUT_NOTLOGGEDUSER);
+
+	Database DB(DATABASE_USERS_PATH);
+	DB.erase(key);
+	DB.close();
+}
+
 void SendMessageServiceTest::testShouldAddMessageToExistingChat(){
 
 	Json::Value data;
@@ -72,6 +99,7 @@ void SendMessageServiceTest::testShouldAddMessageToExistingChat(){
 	data[SERVICE_PASSWORD] = "password1";
 	data[SERVICE_SENDMESSAGE_USERNAME_TO] = "username2";
 	data[SERVICE_SENDMESSAGE_MESSAGE] = "thirdMessage";
+	data[SERVICE_TOKEN] = 0;
 
 	Json::Value output = SendMessageService::doSendMessage(data);
 
@@ -95,6 +123,7 @@ void SendMessageServiceTest::testShouldCreateNewChat(){
 	data[SERVICE_PASSWORD] = "password1";
 	data[SERVICE_SENDMESSAGE_USERNAME_TO] = "username3";
 	data[SERVICE_SENDMESSAGE_MESSAGE] = "firstMessage";
+	data[SERVICE_TOKEN] = 0;
 
 	Json::Value output = SendMessageService::doSendMessage(data);
 
@@ -118,6 +147,7 @@ void SendMessageServiceTest::testShouldThrowInvalidPassword(){
 	data[SERVICE_PASSWORD] = "invalid_pass";
 	data[SERVICE_SENDMESSAGE_USERNAME_TO] = "username2";
 	data[SERVICE_SENDMESSAGE_MESSAGE] = "firstMessage";
+	data[SERVICE_TOKEN] = 0;
 
 	Json::Value output = SendMessageService::doSendMessage(data);
 
@@ -132,6 +162,7 @@ void SendMessageServiceTest::testShouldThrowInvalidUsername(){
 	data[SERVICE_PASSWORD] = "password";
 	data[SERVICE_SENDMESSAGE_USERNAME_TO] = "username2";
 	data[SERVICE_SENDMESSAGE_MESSAGE] = "firstMessage";
+	data[SERVICE_TOKEN] = 0;
 
 	Json::Value output = SendMessageService::doSendMessage(data);
 

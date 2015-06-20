@@ -15,6 +15,7 @@ class CurrentChatsServiceTest: public CppUnit::TestFixture {
 
 	CPPUNIT_TEST_SUITE(CurrentChatsServiceTest);
 	CPPUNIT_TEST(testShouldGetCurrentChats);
+	CPPUNIT_TEST(testLoggedOutUser);
 	CPPUNIT_TEST(testShouldThrowInvalidPassword);
 	CPPUNIT_TEST(testShouldThrowInvalidUsername);
 	CPPUNIT_TEST(shouldGetEmptyChatList);
@@ -27,6 +28,7 @@ public:
 	void setUp();
 	void tearDown();
 
+	void testLoggedOutUser();
 	void testShouldGetCurrentChats();
 	void shouldGetEmptyChatList();
 	void testShouldThrowInvalidUsername();

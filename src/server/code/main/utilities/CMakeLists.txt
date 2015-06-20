@@ -10,6 +10,7 @@ add_library(mensajero-utilities
 	NumberConverter.cpp
 	LocationManager.cpp
 	ConnectionManager.cpp
+	Random.cpp
 	)
 
 target_link_libraries(mensajero-utilities mensajero-model pthread)

@@ -5,6 +5,7 @@ add_library(mensajero-services
 	CurrentChatsService.cpp
 	BroadcastService.cpp
 	LogInService.cpp
+	LogOutService.cpp
 	NullService.cpp
 	RestServer.cpp
 	SendMessageService.cpp

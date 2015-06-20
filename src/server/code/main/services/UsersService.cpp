@@ -11,8 +11,7 @@ std::string UsersService::executeRequest(const Json::Value &paramMap) const {
 	Json::Reader reader;
 	Json::Value data;
 	reader.parse(paramMap.asString(), data);
-	Logger::getLogger()->write(Logger::INFO,
-			"Executing Users service...");
+	Logger::getLogger()->write(Logger::INFO, "Executing Users service...");
 	Json::Value output = doUsers(data);
 
 	ConnectionManager::getInstance()->updateUser(
@@ -34,21 +33,29 @@ Json::Value UsersService::doUsers(const Json::Value &data) {
 		std::string userValue = DB.read(key);
 		User user(userValue);
 
-		if (data[SERVICE_PASSWORD].asString() == user.getPassword()) {
+		if (data[SERVICE_PASSWORD].asString() == user.getPassword()
+				&& user.getLoginToken() == data[SERVICE_TOKEN].asDouble()) {
 
-			Logger::getLogger()->write(Logger::DEBUG,
-					"Fetching all users in database...");
-			vector<string> keys = DB.getAllKeys();
-			vector<string> key;
+			if (user.isLoggedIn()) {
+				Logger::getLogger()->write(Logger::DEBUG,
+						"Fetching all users in database...");
+				vector<string> keys = DB.getAllKeys();
+				vector<string> key;
 
-			for (unsigned int i = 0; i < keys.size(); i++) {
-				key.push_back(keys.at(i));
-				output["users"][i] = DB.read(key);
-				key.clear();
+				for (unsigned int i = 0; i < keys.size(); i++) {
+					key.push_back(keys.at(i));
+					output["users"][i] = DB.read(key);
+					key.clear();
+				}
+
+				output[SERVICE_OUT_OK] = true;
+				output[SERVICE_OUT_WHAT] = "";
+			} else {
+				output[SERVICE_OUT_OK] = false;
+				output[SERVICE_OUT_WHAT] = SERVICE_OUT_NOTLOGGEDUSER;
+				Logger::getLogger()->write(Logger::WARN,
+						"User " + user.getUsername() + " is not logged in.");
 			}
-
-			output[SERVICE_OUT_OK] = true;
-			output[SERVICE_OUT_WHAT] = "";
 
 		} else {
 			output[SERVICE_OUT_OK] = false;

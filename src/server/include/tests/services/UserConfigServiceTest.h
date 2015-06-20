@@ -14,6 +14,7 @@
 class UserConfigServiceTest: public CppUnit::TestFixture {
 
 	CPPUNIT_TEST_SUITE(UserConfigServiceTest);
+	CPPUNIT_TEST(testLoggedOutUser);
 	CPPUNIT_TEST(testUserShouldConfigureProfile);
 	CPPUNIT_TEST(testUsernameShouldNotExist);
 	CPPUNIT_TEST(testShouldBeInvalidPassword);
@@ -25,6 +26,7 @@ public:
 	void setUp();
 	void tearDown();
 
+	void testLoggedOutUser();
 	void testUserShouldConfigureProfile();
 	void testShouldBeInvalidPassword();
 	void testUsernameShouldNotExist();

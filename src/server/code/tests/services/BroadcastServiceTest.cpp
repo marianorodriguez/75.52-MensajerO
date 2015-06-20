@@ -21,7 +21,9 @@ void BroadcastServiceTest::setUp(){
 	user1.setLastTimeConnected();
 	user2.setLastTimeConnected();
 	user3.setLastTimeConnected();
-
+	user1.setLoggedIn(true); user1.setLoginToken(0);
+	user2.setLoggedIn(true); user2.setLoginToken(0);
+	user3.setLoggedIn(true); user3.setLoginToken(0);
 	vector<string> key1, key2, key3;
 	key1.push_back("username1_bc");
 	key2.push_back("secondUser");
@@ -48,13 +50,40 @@ void BroadcastServiceTest::tearDown(){
 	userDB.close();
 }
 
+void BroadcastServiceTest::testLoggedOutUser(){
+
+	Json::Value input;
+	input[SERVICE_USERNAME] = "username1asd_bc";
+	input[SERVICE_PASSWORD] = "password1";
+	input[SERVICE_SENDMESSAGE_MESSAGE] = "text to broadcast";
+	input[SERVICE_TOKEN] = 0;
+
+	Database userDB(DATABASE_USERS_PATH);
+	User user1("username1asd_bc", "password1");
+	user1.setLastTimeConnected();
+	user1.setLoggedIn(false); user1.setLoginToken(0);
+	vector<string> key; key.push_back("username1asd_bc");
+	userDB.write(key, user1.serialize());
+	userDB.close();
+
+	Json::Value output = BroadcastService::doBroadcast(input);
+	CPPUNIT_ASSERT(output[SERVICE_OUT_OK].asBool() == false);
+	CPPUNIT_ASSERT(output[SERVICE_OUT_WHAT].asString() == SERVICE_OUT_NOTLOGGEDUSER);
+
+	Database DB(DATABASE_USERS_PATH);
+	DB.erase(key);
+	DB.close();
+}
+
 void BroadcastServiceTest::testShouldDoBroadcast(){
 	Json::Value input;
 	input[SERVICE_USERNAME] = "username1_bc";
 	input[SERVICE_PASSWORD] = "password1";
 	input[SERVICE_SENDMESSAGE_MESSAGE] = "text to broadcast";
+	input[SERVICE_TOKEN] = 0;
 
 	Json::Value output = BroadcastService::doBroadcast(input);
+	CPPUNIT_ASSERT(output[SERVICE_OUT_OK].asBool() == true);
 
 	Database userDB(DATABASE_USERS_PATH);
 	vector<string> key2, key3;
@@ -62,6 +91,7 @@ void BroadcastServiceTest::testShouldDoBroadcast(){
 	User user2 = userDB.read(key2);
 	key3.push_back("username3");
 	User user3 = userDB.read(key3);
+
 	CPPUNIT_ASSERT(user2.getChats().size() == 1);
 	CPPUNIT_ASSERT(user3.getChats().size() == 1);
 	userDB.close();
@@ -82,6 +112,7 @@ void BroadcastServiceTest::testShouldBeInvalidPassword(){
 	input[SERVICE_USERNAME] = "username1_bc";
 	input[SERVICE_PASSWORD] = "password1asd";
 	input[SERVICE_SENDMESSAGE_MESSAGE] = "text to broadcast";
+	input[SERVICE_TOKEN] = 0;
 
 	Json::Value output = BroadcastService::doBroadcast(input);
 
@@ -94,6 +125,7 @@ void BroadcastServiceTest::testShouldBeInvalidUsername(){
 	input[SERVICE_USERNAME] = "username1asd";
 	input[SERVICE_PASSWORD] = "password1";
 	input[SERVICE_SENDMESSAGE_MESSAGE] = "text to broadcast";
+	input[SERVICE_TOKEN] = 0;
 
 	Json::Value output = BroadcastService::doBroadcast(input);
 
