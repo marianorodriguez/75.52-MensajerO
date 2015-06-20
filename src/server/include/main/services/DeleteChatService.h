@@ -36,7 +36,7 @@ private:
 };
 
 /**
- * Creador del servicio de borrado de chats.
+ * Creador del servicio de borrado de chats del servidor.
  */
 class DeleteChatServiceCreator: public ServiceCreatorInterface {
 
