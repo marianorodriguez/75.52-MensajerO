@@ -21,7 +21,7 @@ Desde consola dirigirse a la carpeta del proyecto y ejecutar los siguientes coma
 
 Instalar dependencias
 
-    $ sudo apt-get install libbz2-dev zlib1g-dev libcppunit-dev libcurl4-gnutls-dev 
+    $ sudo apt-get install g++ cmake libbz2-dev zlib1g-dev libcppunit-dev libcurl4-gnutls-dev 
 
 	Además, si se quieren ejecutar las pruebas de coverage, se deberá ingresar:
 

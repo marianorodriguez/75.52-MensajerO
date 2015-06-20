@@ -2,7 +2,7 @@
 # Compilo rocksDB
 
 echo "Instalando dependencias"
-sudo apt-get install libbz2-dev zlib1g-dev libcppunit-dev libcurl4-gnutls-dev 
+sudo apt-get install g++ cmake libbz2-dev zlib1g-dev libcppunit-dev libcurl4-gnutls-dev lcov
 
 echo "Compilando rocksDB"
 cd 3rd-party/rocksdb
