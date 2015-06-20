@@ -5,7 +5,10 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v7.app.ActionBarActivity;
 import android.text.InputType;
 import android.util.Pair;
@@ -364,10 +367,22 @@ public class ChatsHallActivity extends ActionBarActivity implements View.OnClick
             TextView userItemData = (TextView) userView.findViewById(R.id.userItemData);
             ImageView userItemImage = (ImageView) userView.findViewById(R.id.userItemImage);
 
+            RoundedBitmapDrawable img;
+//            RoundedBitmapDrawable img; = RoundedBitmapDrawableFactory.create(getResources(), bitmap);
+//            img.setCornerRadius(radius);
+//
+//            imageView.setImageDrawable(img);
+
             String username = userItemData.getText().toString().split("\n")[0];
             for (int otherUser = 0; otherUser < Constants.otherUsers.size(); otherUser++) {
                 if (Constants.otherUsers.get(otherUser).username.compareTo(username) == 0) {
-                    userItemImage.setImageBitmap(Constants.otherUsers.get(otherUser).profile_picture);
+
+                    Bitmap a = Constants.otherUsers.get(otherUser).profile_picture;
+                    img = RoundedBitmapDrawableFactory.create(getResources(), a);
+                    img.setCornerRadius(Math.max(a.getWidth(), a.getHeight()) / 1.0f);
+                    userItemImage.setImageDrawable(img);
+
+//                    userItemImage.setImageBitmap(Constants.otherUsers.get(otherUser).profile_picture);
                     break;
                 }
             }
