@@ -99,9 +99,32 @@ public:
 	 */
 	bool isConnected() const;
 
+	/**
+	 * Devuelve true si el usuario tiene la sesión iniciada.
+	 */
+	bool isLoggedIn() const;
+
+	/**
+	 * Modifica el estado de la sesión del usuario.
+	 * @param logged true si tiene la sesion iniciada, false en caso contrario.
+	 */
+	void setLoggedIn(bool logged);
+
+	/**
+	 * Devuelve el identificador de sesion del usuario.
+	 */
+	double getLoginToken() const;
+
+	/**
+	 * Le asigna al usuario un identificador de sesion.
+	 */
+	void setLoginToken(double token);
+
 private:
 
 	int lastTimeConnected;
+	bool loggedIn;
+	double loginToken;
 
 	string username;
 	string password;

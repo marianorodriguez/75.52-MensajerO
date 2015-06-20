@@ -95,6 +95,8 @@ void userTests::should_serialize_user() {
 
 	Json::Value jsonUser;
 
+	jsonUser[JSON_USER_LOGINTOKEN] = user->loginToken;
+	jsonUser[JSON_USER_LOGGEDIN] = user->loggedIn;
 	jsonUser[JSON_USER_LASTTIME] = user->lastTimeConnected;
 	jsonUser[JSON_USER_NAME] = "username";
 	jsonUser[JSON_USER_PWD] = "password";
@@ -117,6 +119,8 @@ void userTests::should_deserialize_user() {
 
 	User* user2 = new User(serializedUser);
 
+	CPPUNIT_ASSERT(user1->loginToken == user2->loginToken);
+	CPPUNIT_ASSERT(user1->loggedIn == user2->loggedIn);
 	CPPUNIT_ASSERT(user1->username == user2->username);
 	CPPUNIT_ASSERT(user1->password == user2->password);
 	CPPUNIT_ASSERT(user1->location == user2->location);

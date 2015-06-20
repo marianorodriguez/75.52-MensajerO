@@ -8,7 +8,8 @@
 #include "../../../include/main/user/User.h"
 
 User::User(const string& username, const string& password) {
-
+	this->loginToken = 0;
+	this->loggedIn = false;
 	this->lastTimeConnected = time(0);
 	this->username = username;
 	this->password = password;
@@ -29,6 +30,8 @@ User::User(const string& serializedUser) {
 		throw exception;
 	}
 
+	this->loginToken = parsedFromString[JSON_USER_LOGINTOKEN].asDouble();
+	this->loggedIn = parsedFromString[JSON_USER_LOGGEDIN].asBool();
 	this->lastTimeConnected = parsedFromString[JSON_USER_LASTTIME].asInt();
 	this->username = parsedFromString[JSON_USER_NAME].asString();
 	this->password = parsedFromString[JSON_USER_PWD].asString();
@@ -51,6 +54,8 @@ User::~User() {
 string User::serialize() const{
 
 	Json::Value serializedUser;
+	serializedUser[JSON_USER_LOGINTOKEN] = this->loginToken;
+	serializedUser[JSON_USER_LOGGEDIN] = this->loggedIn;
 	serializedUser[JSON_USER_LASTTIME] = this->lastTimeConnected;
 	serializedUser[JSON_USER_NAME] = this->username;
 	serializedUser[JSON_USER_PWD] = this->password;
@@ -68,6 +73,22 @@ string User::serialize() const{
 
 bool User::isConnected() const{
 	return (time(0) - this->lastTimeConnected < MAXIMUM_IDLE_TIME);
+}
+
+bool User::isLoggedIn() const{
+	return this->loggedIn;
+}
+
+void User::setLoggedIn(bool logged){
+	this->loggedIn = logged;
+}
+
+double User::getLoginToken() const{
+	return this->loginToken;
+}
+
+void User::setLoginToken(double token){
+	this->loginToken = token;
 }
 
 string User::getUsername() const {

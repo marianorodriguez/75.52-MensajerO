@@ -34,6 +34,8 @@ using namespace std;
 #define JSON_USER_CHATS_WITH "chats_with"
 #define JSON_USER_LASTTIME "lastTimeConnected"
 #define JSON_USER_CONNECTED "connected"
+#define JSON_USER_LOGGEDIN "logged"
+#define JSON_USER_LOGINTOKEN "token"
 //# USER ######################################
 #define DEFAULT_USER_LOCATION "CABA"
 #define DEFAULT_USER_STATUS "Online"
