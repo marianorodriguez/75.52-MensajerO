@@ -1,6 +1,6 @@
 #include <../../../include/main/services/UsersService.h>
 
-const std::string serviceName = SERVICE_USERS_NAME;
+const std::string UsersService::serviceName = SERVICE_USERS_NAME;
 
 std::string UsersService::getUri() const {
 	return serviceName;
@@ -21,7 +21,7 @@ std::string UsersService::executeRequest(const Json::Value &paramMap) const {
 	return output.toStyledString();
 }
 
-Json::Value UsersService::doUsers(const Json::Value &data) {
+Json::Value UsersService::doUsers(const Json::Value &data) const {
 
 	Database DB(DATABASE_USERS_PATH);
 
@@ -67,6 +67,6 @@ Json::Value UsersService::doUsers(const Json::Value &data) {
 	return output;
 }
 
-ServiceInterface* UsersServiceCreator::create() {
+ServiceInterface* UsersServiceCreator::create(Database& userDb, Database& chatDb) {
 	return new UsersService();
 }

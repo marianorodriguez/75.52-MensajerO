@@ -52,6 +52,7 @@ public:
 	 * @param options opciones de configuracion del servidor.
 	 */
     void setOptions (const ServerOptions& options);
+    static const std::string kInvalidRequestMsg;
 
 private:
 
@@ -71,6 +72,14 @@ private:
 	struct mg_server *server;
 
 	/**
+	 * Directorio con las bases de datos de usuarios y chats
+	 */
+	std::string userDbPath, chatDbPath;
+	/**
+	 * Bases de datos utilizadas por los servicios
+	 */
+	Database userDb, chatDb;
+	/**
 	 * Fabrica de servicios disponibles para ejecutar.
 	 */
 	ServiceFactory serviceFactory;
@@ -79,6 +88,13 @@ private:
 	 * procesa la conexion/desconexion de los usuarios que ingresan al sistema.
 	 */
 	ConnectionManager* connectionManager;
+	/**
+	 * Nombre del directorio default de bases de datos
+	 */
+	static const std::string kPathSeparator;
+	static const std::string kDefaultDBPath;
+	static const std::string kDefaultUserFolder;
+	static const std::string kDefaultChatFolder;
 };
 
 #endif // REST_SERVER_H

@@ -6,6 +6,7 @@
 #include <vector>
 
 // Forwards
+class Database;
 class ServiceInterface;
 class ServiceCreatorInterface;
 
@@ -14,8 +15,13 @@ class ServiceCreatorInterface;
  */
 class ServiceFactory{
 public:
-
-	ServiceFactory();
+	/**
+	 * Constructor
+	 */
+	ServiceFactory(Database& userDb, Database& chatDb);
+	/**
+	 * Destructor
+	 */
 	~ServiceFactory();
 
 	/**
@@ -36,6 +42,8 @@ public:
 
 private:
 	std::map<std::string, ServiceCreatorInterface*> serviceMap;
+	Database& userDb;
+	Database& chatDb;
 };
 
 #endif // SERVICE_FACTORY_H

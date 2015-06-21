@@ -6,8 +6,16 @@
  */
 
 #include "../../include/main/services/BroadcastService.h"
+#include "../../include/main/database/Database.h"
+#include "../../include/main/user/chat/Chat.h"
+#include "../../include/main/user/User.h"
 
 const std::string serviceName = SERVICE_BROADCAST_NAME;
+
+BroadcastService::BroadcastService(Database& userDb, Database& chatDb)
+		:userDb(userDb), chatDb(chatDb) {}
+
+BroadcastService::~BroadcastService() {}
 
 std::string BroadcastService::getUri() const {
 	return serviceName;
@@ -28,7 +36,7 @@ std::string BroadcastService::executeRequest(
 	return output.toStyledString();
 }
 
-Json::Value BroadcastService::doBroadcast(const Json::Value &data) {
+Json::Value BroadcastService::doBroadcast(const Json::Value &data) const {
 
 	Json::Value input;
 	input[SERVICE_USERNAME] = data[SERVICE_USERNAME].asString();
@@ -36,19 +44,16 @@ Json::Value BroadcastService::doBroadcast(const Json::Value &data) {
 	input[SERVICE_SENDMESSAGE_MESSAGE] =
 			data[SERVICE_SENDMESSAGE_MESSAGE].asString();
 
-	Database dbUsers(DATABASE_USERS_PATH);
-
 	Json::Value broadcastOut;
 	broadcastOut[SERVICE_OUT_OK] = true;
 	broadcastOut[SERVICE_OUT_WHAT] = "";
 
-	vector<string> keyUser;
+	std::vector<std::string> keyUser;
 	keyUser.push_back(data[SERVICE_USERNAME].asString());
 
 	try {
-		vector<string> users = dbUsers.getAllKeys();
-		User user(dbUsers.read(keyUser));
-		dbUsers.close();
+		std::vector<std::string> users = this->userDb.getAllKeys();
+		User user(this->userDb.read(keyUser));
 
 		if(user.getPassword() != data[SERVICE_PASSWORD].asString()){
 			broadcastOut[SERVICE_OUT_OK] = false;
@@ -57,16 +62,16 @@ Json::Value BroadcastService::doBroadcast(const Json::Value &data) {
 			return broadcastOut;
 		}
 
+		SendMessageService sendMessageService(this->userDb, this->chatDb);
 		for (unsigned int i = 0; i < users.size(); i++) {
 			if (users.at(i) != data[SERVICE_USERNAME].asString()) {
 				input[SERVICE_SENDMESSAGE_USERNAME_TO] = users.at(i);
 				Logger::getLogger()->write(Logger::DEBUG, "Sending broadcast message to user " + users.at(i));
-				Json::Value output = SendMessageService::doSendMessage(input);
+				Json::Value output = sendMessageService.doSendMessage(input);
 				if (output[SERVICE_OUT_WHAT] == SERVICE_OUT_INVALIDUSER) {
 					broadcastOut[SERVICE_OUT_OK] = false;
 					broadcastOut[SERVICE_OUT_WHAT] = SERVICE_OUT_BROADCASTFAILEDTOSOME;
 					Logger::getLogger()->write(Logger::WARN, "Failed to send broadcast message to " + users.at(i));
-
 				}
 			}
 		}
@@ -79,6 +84,7 @@ Json::Value BroadcastService::doBroadcast(const Json::Value &data) {
 	return broadcastOut;
 }
 
-ServiceInterface* BroadcastServiceCreator::create() {
-	return new BroadcastService();
+
+ServiceInterface* BroadcastServiceCreator::create(Database& userDb, Database& chatDb) {
+	return new BroadcastService(userDb, chatDb);
 }

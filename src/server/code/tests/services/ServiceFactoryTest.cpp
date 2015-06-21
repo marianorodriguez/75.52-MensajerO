@@ -13,7 +13,8 @@ void ServiceFactoryTest::tearDown(){
 }
 
 void ServiceFactoryTest::testGetService(){
-	ServiceFactory serviceFactory;
+	Database fooDb;
+	ServiceFactory serviceFactory(fooDb, fooDb);
 	serviceFactory.addNewServiceCreator(new EchoServiceCreator());
 	ServiceInterface* service;
 	// Compruebo que me devuelva un servicio con nombre válido

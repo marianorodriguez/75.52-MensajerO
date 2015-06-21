@@ -6,8 +6,9 @@
  */
 
 #include "../../../include/main/exceptions/NotSerializedDataException.h"
+#include "../../../include/main/utilities/Logger.h"
 
-NotSerializedDataException::NotSerializedDataException(string what):
+NotSerializedDataException::NotSerializedDataException(const std::string& what):
 		BaseException(what) {
 	Logger::getLogger()->write(Logger::ERROR, what);
 }

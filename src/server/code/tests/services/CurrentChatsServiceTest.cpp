@@ -75,12 +75,14 @@ void CurrentChatsServiceTest::tearDown(){
 }
 
 void CurrentChatsServiceTest::testShouldGetCurrentChats(){
-
+	Database userDb(DATABASE_USERS_PATH);
+	Database chatDb(DATABASE_CHATS_PATH);
+	CurrentChatsService service(userDb, chatDb);
 	Json::Value data;
 	data[SERVICE_USERNAME] = "username1";
 	data[SERVICE_PASSWORD] = "password1";
 
-	Json::Value output = CurrentChatsService::doCurrentChats(data);
+	Json::Value output = service.doCurrentChats(data);
 
 	CPPUNIT_ASSERT(output[SERVICE_CURRENTCHATS_CHATS].size() == 2);
 	CPPUNIT_ASSERT(output[SERVICE_OUT_OK].asBool() == true);
@@ -88,35 +90,41 @@ void CurrentChatsServiceTest::testShouldGetCurrentChats(){
 }
 
 void CurrentChatsServiceTest::testShouldThrowInvalidPassword(){
-
+	Database userDb(DATABASE_USERS_PATH);
+	Database chatDb(DATABASE_CHATS_PATH);
+	CurrentChatsService service(userDb, chatDb);
 	Json::Value data;
 	data[SERVICE_USERNAME] = "username1";
 	data[SERVICE_PASSWORD] = "password1alr";
 
-	Json::Value output = CurrentChatsService::doCurrentChats(data);
+	Json::Value output = service.doCurrentChats(data);
 
 	CPPUNIT_ASSERT(output[SERVICE_OUT_OK].asBool() == false);
 	CPPUNIT_ASSERT(output[SERVICE_OUT_WHAT].asString() == SERVICE_OUT_INVALIDPWD);
 }
 
 void CurrentChatsServiceTest::testShouldThrowInvalidUsername(){
-
+	Database userDb(DATABASE_USERS_PATH);
+	Database chatDb(DATABASE_CHATS_PATH);
+	CurrentChatsService service(userDb, chatDb);
 	Json::Value data;
 	data[SERVICE_USERNAME] = "username1asd";
 	data[SERVICE_PASSWORD] = "password1";
 
-	Json::Value output = CurrentChatsService::doCurrentChats(data);
+	Json::Value output = service.doCurrentChats(data);
 
 	CPPUNIT_ASSERT(output[SERVICE_OUT_OK].asBool() == false);
 	CPPUNIT_ASSERT(output[SERVICE_OUT_WHAT].asString() == SERVICE_OUT_INVALIDUSER);
 }
 
 void CurrentChatsServiceTest::shouldGetEmptyChatList(){
-
+	Database userDb(DATABASE_USERS_PATH);
+	Database chatDb(DATABASE_CHATS_PATH);
+	CurrentChatsService service(userDb, chatDb);
 	Json::Value data;
 	data[SERVICE_USERNAME] = "username3";
 	data[SERVICE_PASSWORD] = "password3";
 
-	Json::Value output = CurrentChatsService::doCurrentChats(data);
+	Json::Value output = service.doCurrentChats(data);
 	CPPUNIT_ASSERT(output[SERVICE_CURRENTCHATS_CHATS].size() == 0);
 }

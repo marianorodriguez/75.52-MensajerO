@@ -1,5 +1,12 @@
 #include "../../include/main/services/LogInService.h"
-const std::string serviceName = SERVICE_LOGIN_NAME;
+#include "../../include/main/user/User.h"
+#include "../../include/main/utilities/LocationManager.h"
+
+const std::string LogInService::serviceName = SERVICE_LOGIN_NAME;
+
+LogInService::LogInService(Database& userDb) : userDb(userDb){}
+
+LogInService::~LogInService(){}
 
 std::string LogInService::getUri() const {
 	return serviceName;
@@ -21,26 +28,22 @@ std::string LogInService::executeRequest(const Json::Value &paramMap) const {
 	return output.toStyledString();
 }
 
-ServiceInterface* LogInServiceCreator::create() {
-	return new LogInService();
-}
 
-Json::Value LogInService::doLogIn(const Json::Value& data) {
+Json::Value LogInService::doLogIn(const Json::Value& data) const{
 
-	Database db(DATABASE_USERS_PATH);
-	vector<string> key;
+	std::vector<std::string> key;
 	key.push_back(data[SERVICE_USERNAME].asString());
 
 	Json::Value output;
 
 	try {
-		string serializedUser = db.read(key);
+		string serializedUser = userDb.read(key);
 		User user(serializedUser);
 
 			string location = LocationManager::getInstance()->getLocation(
 					data[SERVICE_USERCONFIG_LOCATION].asString());
 			user.modifyLocation(location);
-			db.write(key, user.serialize());
+			userDb.write(key, user.serialize());
 		if (user.getPassword() == data[SERVICE_PASSWORD].asString()) {
 			Logger::getLogger()->write(Logger::DEBUG, "Granting access to user " + user.getUsername());
 			output[SERVICE_USERCONFIG_LOCATION] = location;
@@ -61,6 +64,9 @@ Json::Value LogInService::doLogIn(const Json::Value& data) {
 		Logger::getLogger()->write(Logger::WARN, "Some unregistered user tried to use this service.");
 
 	}
-	db.close();
 	return output;
+}
+
+ServiceInterface* LogInServiceCreator::create(Database& userDb, Database& chatDb) {
+	return new LogInService(userDb);
 }

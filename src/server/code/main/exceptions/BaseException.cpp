@@ -7,13 +7,13 @@
 
 #include "../../../include/main/exceptions/BaseException.h"
 
-BaseException::BaseException(string what) {
+BaseException::BaseException(const std::string& what) {
 	this->description = what;
 }
 
 BaseException::~BaseException() {}
 
-string BaseException::getDescription() const{
+std::string BaseException::getDescription() const{
 	return this->description;
 }
 

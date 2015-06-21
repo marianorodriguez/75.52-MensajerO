@@ -4,7 +4,7 @@
 #include "../utilities/ConnectionManager.h"
 #include "../utilities/Logger.h"
 #include "Connection.h"
-#include "json/json.h"
+#include "json.h"
 
 class ServiceInterface{
 public:
@@ -29,7 +29,7 @@ public:
 	/**
 	 * Devuelve un puntero a una instancia de un servicio
 	 */
-	virtual ServiceInterface* create() = 0;
+	virtual ServiceInterface* create(Database& userDb, Database& chatDb) = 0;
 };
 
 #endif // SERVICE_INTERFACE_H

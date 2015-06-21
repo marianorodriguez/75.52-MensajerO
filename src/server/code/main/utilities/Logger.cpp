@@ -30,7 +30,7 @@ Logger::Logger(const std::string& config_dir) {
 
 }
 
-void Logger::write(loggingLevel level, string text) {
+void Logger::write(loggingLevel level, const std::string& text) {
 	Lock(this->mutex);
 	if (this->file.is_open()) {
 		if (this->levels[level]) {

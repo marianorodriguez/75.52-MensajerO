@@ -10,6 +10,14 @@
 #include "../../include/main/services/ServiceFactory.h"
 #include "../../include/main/services/ServiceInterface.h"
 
+const std::string RestServer::kPathSeparator("/");
+const std::string RestServer::kDefaultDBPath("database");
+const std::string RestServer::kDefaultChatFolder("chats");
+const std::string RestServer::kDefaultUserFolder("users");
+
+
+const std::string RestServer::kInvalidRequestMsg = "Invalid request content";
+
 /**
 * Captura los requests que le llegan al servidor
 */
@@ -29,11 +37,19 @@ static int eventHandler(struct mg_connection *mgConnection, enum mg_event event)
 /**
  * Constructor
  */
-RestServer::RestServer(){
+RestServer::RestServer() : 
+		userDbPath(kDefaultDBPath + kPathSeparator + kDefaultUserFolder),
+		chatDbPath(kDefaultDBPath + kPathSeparator + kDefaultChatFolder),
+		userDb(userDbPath),
+		chatDb(chatDbPath),
+		serviceFactory(userDb, chatDb){
 	this->pollDelay = 1000;
 	this->port = 8081;
+	this->userDbPath = kDefaultDBPath + kDefaultUserFolder;
+	this->chatDbPath = kDefaultDBPath + kDefaultChatFolder;
 	startServer();
 	connectionManager = ConnectionManager::getInstance();
+	connectionManager->setDatabase(&this->userDb);
 	connectionManager->startUpdating();
 }
 
@@ -70,7 +86,13 @@ void RestServer::handleConnection(struct mg_connection *mgConnection) const{
 	// Le saco la barra inicial
 	std::string serviceName(connectionWrap.getUri().substr(1));
 	service = this->serviceFactory.createService(serviceName);
-	std::string response = service->executeRequest(connectionWrap.getParamMap());
+	std::string response;
+	try{
+		response = service->executeRequest(connectionWrap.getParamMap());
+	} catch (std::out_of_range& e) {
+		Logger::getLogger()->write(Logger::DEBUG, "No se pudo ejecutar el request");
+		response = kInvalidRequestMsg;
+	}
 	connectionWrap.printMessage(response);
 	delete service;
 }
@@ -79,7 +101,7 @@ void RestServer::handleConnection(struct mg_connection *mgConnection) const{
  * Arranco el servidor
  */
 void RestServer::startServer(){
-this->server = mg_create_server(this, eventHandler);
+	this->server = mg_create_server(this, eventHandler);
 	std::string strPort;
 	strPort = NumberConverter::getString(port);
 	mg_set_option(this->server, "listening_port", strPort.c_str());

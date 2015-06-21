@@ -20,7 +20,7 @@ private:
 
 class EchoServiceCreator : public ServiceCreatorInterface{
 public:
-    virtual ServiceInterface* create();
+    virtual ServiceInterface* create(Database& userDb, Database& chatDb);
 };
 
 #endif // ECHOSERVICE_H

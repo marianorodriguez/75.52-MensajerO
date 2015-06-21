@@ -1,6 +1,13 @@
-#include <../../include/main/services/CurrentChatsService.h>
+#include "../../include/main/services/CurrentChatsService.h"
+#include "json.h"
 
-const std::string serviceName = SERVICE_CURRENTCHATS_NAME;
+const std::string CurrentChatsService::serviceName = SERVICE_CURRENTCHATS_NAME;
+
+CurrentChatsService::CurrentChatsService(Database& userDb, Database& chatDb) :
+	userDb(userDb), chatDb(chatDb){}
+
+CurrentChatsService::~CurrentChatsService(){}
+
 
 std::string CurrentChatsService::getUri() const {
 	return serviceName;
@@ -22,10 +29,7 @@ std::string CurrentChatsService::executeRequest(
 	return output.toStyledString();
 }
 
-Json::Value CurrentChatsService::doCurrentChats(const Json::Value &data) {
-
-	Database dbUsers(DATABASE_USERS_PATH);
-	Database dbChats(DATABASE_CHATS_PATH);
+Json::Value CurrentChatsService::doCurrentChats(const Json::Value &data) const {
 
 	vector<string> keyUser;
 	keyUser.push_back(data[SERVICE_USERNAME].asString());
@@ -33,23 +37,12 @@ Json::Value CurrentChatsService::doCurrentChats(const Json::Value &data) {
 	Json::Value output;
 
 	try {
-		User user(dbUsers.read(keyUser));
+		User user(this->userDb.read(keyUser));
 		if (user.getPassword() == data[SERVICE_PASSWORD].asString()) {
 
 			vector<string> chats = user.getChats();
-			output[SERVICE_CURRENTCHATS_CHATS] = Json::Value(Json::arrayValue);
-			vector<string> keyChats;
-			for (unsigned int i = 0; i < chats.size(); i++) {
-				keyChats.clear();
-				keyChats.push_back(data[SERVICE_USERNAME].asString());
-				keyChats.push_back(chats[i]);
-				Logger::getLogger()->write(Logger::DEBUG, "Fetching chat between " + user.getUsername() + " and " + chats[i]);
-				Chat chat(dbChats.read(keyChats));
-				output[SERVICE_CURRENTCHATS_CHATS].append(
-						chat.serializeCurrentChats(
-								data[SERVICE_USERNAME].asString()));
-			}
-
+			std::string username = data[SERVICE_USERNAME].asString();
+			output[SERVICE_CURRENTCHATS_CHATS] = serializeUserChats(username, chats);
 			output[SERVICE_OUT_OK] = true;
 			output[SERVICE_OUT_WHAT] = "";
 
@@ -65,11 +58,23 @@ Json::Value CurrentChatsService::doCurrentChats(const Json::Value &data) {
 		Logger::getLogger()->write(Logger::WARN, "Some unregistered user tried to use this service.");
 	}
 
-	dbChats.close();
-	dbUsers.close();
 	return output;
 }
 
-ServiceInterface* CurrentChatsServiceCreator::create() {
-	return new CurrentChatsService();
+Json::Value CurrentChatsService::serializeUserChats(const std::string& username,
+										const std::vector<std::string>& chats) const{
+	Json::Value jsonArray(Json::arrayValue) ;
+	for (unsigned int i = 0; i < chats.size(); i++) {
+		std::vector<std::string> keyChats;
+		keyChats.push_back(username);
+		keyChats.push_back(chats[i]);
+		Logger::getLogger()->write(Logger::DEBUG, "Fetching chat between " + username + " and " + chats[i]);
+		Chat chat(this->chatDb.read(keyChats));
+		jsonArray.append(chat.serializeCurrentChats(username));
+	}
+	return jsonArray;
+}
+
+ServiceInterface* CurrentChatsServiceCreator::create(Database& userDb, Database& chatDb) {
+	return new CurrentChatsService(userDb, chatDb);
 }
