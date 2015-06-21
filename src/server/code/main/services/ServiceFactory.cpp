@@ -2,7 +2,8 @@
 #include "../../../include/main/services/ServiceInterface.h"
 #include "../../../include/main/services/NullService.h"
 
-ServiceFactory::ServiceFactory(){}
+ServiceFactory::ServiceFactory(Database& userDb, Database& chatDb) :
+	userDb(userDb), chatDb(chatDb){}
 
 
 ServiceFactory::~ServiceFactory(){
@@ -18,7 +19,7 @@ ServiceInterface* ServiceFactory::createService(const std::string& serviceName) 
 	if (it == this->serviceMap.end()){
 		return new NullService();
 	} else {
-		return it->second->create();
+		return it->second->create(this->userDb, this->chatDb);
 	}
 }
 
@@ -33,7 +34,7 @@ std::vector<std::string> ServiceFactory::getServiceNameList() const{
 
 void ServiceFactory::addNewServiceCreator(ServiceCreatorInterface* creator){
 	std::map<std::string, ServiceCreatorInterface*>::iterator it;
-	ServiceInterface* service = creator->create();
+	ServiceInterface* service = creator->create(userDb, chatDb);
 	it = this->serviceMap.find(service->getUri());
 	if (it != serviceMap.end()){
 		delete it->second;

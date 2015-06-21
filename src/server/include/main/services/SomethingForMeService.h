@@ -10,25 +10,25 @@
  * El usuario que use este servicio recibirá un listado con los nuevos mensajes que le hayan enviado.
  */
 class SomethingForMeService: public ServiceInterface {
-	friend class SomethingForMeServiceTest;
 public:
 	virtual std::string getUri() const;
 	virtual std::string executeRequest(const Json::Value &paramMap) const;
-
-private:
 	/**
 	 * Aplica el servicio de actualizacion de mensajes.
 	 * @param data informacion de entrada del servicio.
 	 * @return listado de mensajes nuevos edl usuario.
 	 */
-	static Json::Value doSomethingForMe(const Json::Value &data);
+	Json::Value doSomethingForMe(const Json::Value &data) const;
+
+private:
+	static const std::string serviceName;
 };
 
 /**
- * creador del servicio de actualizacion de mensajes.
+ * Creador del servicio de actualizacion de mensajes.
  */
-class SomethingForMeServiceCreator: public ServiceCreatorInterface {
-	virtual ServiceInterface* create();
+class SomethingForMeServiceCreator: public ServiceCreatorInterface{
+	virtual ServiceInterface* create(Database& userDb, Database& chatDb);
 };
 
 #endif /* SOMETHINGFORMESERVICE_H_ */

@@ -22,7 +22,7 @@ void SendMessageServiceTest::setUp(){
 	User user3("username3", "password3");
 	user1.addChatWithUser("username2");
 	user2.addChatWithUser("username1");
-	vector<string> key1, key2, key3;
+	std::vector<std::string> key1, key2, key3;
 	key1.push_back("username1");
 	key2.push_back("username2");
 	key3.push_back("username3");
@@ -36,19 +36,17 @@ void SendMessageServiceTest::setUp(){
 	chat.addNewMessage(Message("username2", "username1", "response"));// username2 replies username1
 
 	Database chatDB(DATABASE_CHATS_PATH);
-	vector<string> chatKey;
+	std::vector<std::string> chatKey;
 	chatKey.push_back("username1");
 	chatKey.push_back("username2");
 	chatDB.write(chatKey, chat.serialize());
-	userDB.close();
-	chatDB.close();
 }
 
 void SendMessageServiceTest::tearDown(){
 	CppUnit::TestFixture::tearDown();
 
 	Database userDB(DATABASE_USERS_PATH);
-	vector<string> key1, key2, key3;
+	std::vector<std::string> key1, key2, key3;
 	key1.push_back("username1");
 	key2.push_back("username2");
 	key3.push_back("username3");
@@ -57,7 +55,7 @@ void SendMessageServiceTest::tearDown(){
 	userDB.erase(key3);
 
 	Database chatDB(DATABASE_CHATS_PATH);
-	vector<string> chatKey;
+	std::vector<std::string> chatKey;
 	chatKey.push_back("username1");
 	chatKey.push_back("username2");
 	chatDB.erase(chatKey);
@@ -66,66 +64,72 @@ void SendMessageServiceTest::tearDown(){
 }
 
 void SendMessageServiceTest::testShouldAddMessageToExistingChat(){
-
+	Database userDb(DATABASE_USERS_PATH);
+	Database chatDb(DATABASE_CHATS_PATH);
+	SendMessageService service(userDb, chatDb);
 	Json::Value data;
 	data[SERVICE_USERNAME] = "username1";
 	data[SERVICE_PASSWORD] = "password1";
 	data[SERVICE_SENDMESSAGE_USERNAME_TO] = "username2";
 	data[SERVICE_SENDMESSAGE_MESSAGE] = "thirdMessage";
 
-	Json::Value output = SendMessageService::doSendMessage(data);
+	Json::Value output = service.doSendMessage(data);
 
 	CPPUNIT_ASSERT(output[SERVICE_OUT_OK].asBool() == true);
 	CPPUNIT_ASSERT(output[SERVICE_OUT_WHAT].asString() == "");
 
-	Database chatDB(DATABASE_CHATS_PATH);
-	vector<string> chatKey;
+	std::vector<std::string> chatKey;
 	chatKey.push_back("username1");
 	chatKey.push_back("username2");
-	Chat chat(chatDB.read(chatKey));
+	Chat chat(chatDb.read(chatKey));
 
 	CPPUNIT_ASSERT(chat.getMessages().size() == 4);
-	chatDB.close();
+	chatDb.close();
 }
 
 void SendMessageServiceTest::testShouldCreateNewChat(){
-
+	Database userDb(DATABASE_USERS_PATH);
+	Database chatDb(DATABASE_CHATS_PATH);
+	SendMessageService service(userDb, chatDb);
 	Json::Value data;
 	data[SERVICE_USERNAME] = "username1";
 	data[SERVICE_PASSWORD] = "password1";
 	data[SERVICE_SENDMESSAGE_USERNAME_TO] = "username3";
 	data[SERVICE_SENDMESSAGE_MESSAGE] = "firstMessage";
 
-	Json::Value output = SendMessageService::doSendMessage(data);
+	Json::Value output = service.doSendMessage(data);
 
 	CPPUNIT_ASSERT(output[SERVICE_OUT_OK].asBool() == true);
 	CPPUNIT_ASSERT(output[SERVICE_OUT_WHAT].asString() == "");
 
-	Database chatDB(DATABASE_CHATS_PATH);
-	vector<string> chatKey;
+	std::vector<std::string> chatKey;
 	chatKey.push_back("username1");
 	chatKey.push_back("username3");
-	Chat chat(chatDB.read(chatKey));
+	Chat chat(chatDb.read(chatKey));
 
 	CPPUNIT_ASSERT(chat.getMessages().size() == 1);
-	chatDB.close();
 }
 
 void SendMessageServiceTest::testShouldThrowInvalidPassword(){
-
+	Database userDb(DATABASE_USERS_PATH);
+	Database chatDb(DATABASE_CHATS_PATH);
+	SendMessageService service(userDb, chatDb);
 	Json::Value data;
 	data[SERVICE_USERNAME] = "username1";
 	data[SERVICE_PASSWORD] = "invalid_pass";
 	data[SERVICE_SENDMESSAGE_USERNAME_TO] = "username2";
 	data[SERVICE_SENDMESSAGE_MESSAGE] = "firstMessage";
 
-	Json::Value output = SendMessageService::doSendMessage(data);
+	Json::Value output = service.doSendMessage(data);
 
 	CPPUNIT_ASSERT(output[SERVICE_OUT_OK].asBool() == false);
 	CPPUNIT_ASSERT(output[SERVICE_OUT_WHAT].asString() == SERVICE_OUT_INVALIDPWD);
 }
 
 void SendMessageServiceTest::testShouldThrowInvalidUsername(){
+	Database userDb(DATABASE_USERS_PATH);
+	Database chatDb(DATABASE_CHATS_PATH);
+	SendMessageService service(userDb, chatDb);
 
 	Json::Value data;
 	data[SERVICE_USERNAME] = "usernameASDF";
@@ -133,7 +137,7 @@ void SendMessageServiceTest::testShouldThrowInvalidUsername(){
 	data[SERVICE_SENDMESSAGE_USERNAME_TO] = "username2";
 	data[SERVICE_SENDMESSAGE_MESSAGE] = "firstMessage";
 
-	Json::Value output = SendMessageService::doSendMessage(data);
+	Json::Value output = service.doSendMessage(data);
 
 	CPPUNIT_ASSERT(output[SERVICE_OUT_OK].asBool() == false);
 	CPPUNIT_ASSERT(output[SERVICE_OUT_WHAT].asString() == SERVICE_OUT_INVALIDUSER);

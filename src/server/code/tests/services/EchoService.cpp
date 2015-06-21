@@ -17,6 +17,6 @@ std::string EchoService::executeRequest(const Json::Value &paramMap) const{
 	return output;
 }
 
-ServiceInterface* EchoServiceCreator::create(){
+ServiceInterface* EchoServiceCreator::create(Database& userDb, Database& chatDb){
 	return new EchoService();
 }

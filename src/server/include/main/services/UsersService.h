@@ -11,26 +11,25 @@
  * El usuario que use este servicio obtendrá un listado con información sobre todos los usuarios registrados en el servidor.
  */
 class UsersService: public ServiceInterface {
-	friend class UsersServiceTest;
 public:
 	virtual std::string getUri() const;
 	virtual std::string executeRequest(const Json::Value &paramMap) const;
-
-private:
 	/**
 	 * Aplica el servicio de listado de usuarios.
 	 * @param data informacion de entrada para el servicio.
 	 * @return listado con informacion de todos los usuarios registrados en el servidor.
 	 */
-	static Json::Value doUsers(const Json::Value &data);
-
+	Json::Value doUsers(const Json::Value &data) const;
+	
+private:
+	static const std::string serviceName;
 };
 
 /**
  * creador del servicio de listado de usuarios.
  */
 class UsersServiceCreator: public ServiceCreatorInterface {
-	virtual ServiceInterface* create();
+	virtual ServiceInterface* create(Database& userDb, Database& chatDb);
 };
 
 #endif /* SERVER_MAIN_SERVICES_USERSSERVICE_H_ */

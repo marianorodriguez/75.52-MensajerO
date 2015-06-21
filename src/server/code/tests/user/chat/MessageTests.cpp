@@ -1,8 +1,6 @@
 #include <cppunit/config/SourcePrefix.h>
 #include "../../../include/tests/user/chat/MessageTests.h"
 #include "../../include/main/user/chat/Message.h"
-#include <stdio.h>
-#include <iostream>
 using namespace std;
 
 CPPUNIT_TEST_SUITE_REGISTRATION(messageTests);

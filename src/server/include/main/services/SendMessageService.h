@@ -15,16 +15,21 @@ class SendMessageService: public ServiceInterface {
 	friend class BroadcastService;
 
 public:
+	SendMessageService(Database& userDb, Database& chatDb);
+    virtual ~SendMessageService();
 	virtual std::string getUri() const;
 	virtual std::string executeRequest(const Json::Value &paramMap) const;
-
-private:
 	/**
 	 * Encargado de aplicar el servicio de envio de mensajes.
 	 * @param data informacion de entrada.
 	 * @return informacion sobre el resultado de la ejecucion de este servicio.
 	 */
-	static Json::Value doSendMessage(const Json::Value &data);
+	Json::Value doSendMessage(const Json::Value &data) const;
+
+private:
+	static const std::string serviceName;
+    Database& userDb;
+	Database& chatDb;
 };
 
 /**
@@ -32,7 +37,7 @@ private:
  */
 class SendMessageServiceCreator : public ServiceCreatorInterface{
 public:
-    virtual ServiceInterface* create();
+    virtual ServiceInterface* create(Database& userDb, Database& chatDb);
 };
 
 #endif /* SENDMESSAGESERVICE_H_ */

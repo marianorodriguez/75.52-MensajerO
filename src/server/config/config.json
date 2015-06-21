@@ -1,7 +1,7 @@
 {   
 "logger" : {
       "logDir" : "log.txt",
-      "DEBUG" : false,
+      "DEBUG" : true,
       "ERROR" : true,
       "INFO" : true,
       "WARNING" : true

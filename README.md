@@ -21,7 +21,7 @@ Desde consola dirigirse a la carpeta del proyecto y ejecutar los siguientes coma
 
 Instalar dependencias
 
-    $ sudo apt-get install libbz2-dev zlib1g-dev libcppunit-dev libcurl4-gnutls-dev 
+    $ sudo apt-get install g++ cmake libbz2-dev zlib1g-dev libcppunit-dev libcurl4-gnutls-dev 
 
 	Además, si se quieren ejecutar las pruebas de coverage, se deberá ingresar:
 
@@ -61,7 +61,7 @@ Para limpiar el proyecto:
 
 Para facilitar la instalación de la aplicación, se armaron algunos scripts en bash que agrupan varios de los comandos detallados abajo.
 
-**build.sh** : Compila la aplicación en una carpeta llamada *build*, y copia en su interior a *run.sh*, *runTests.sh*, *coverage.sh*. Además, si se le agrega el parametro "coverage" compila con soporte para pruebas de cobertura.
+**build.sh** : Instala las dependencias, compila las librerías y genera los archivos binarios para ejecución. Además, si se le agrega el parametro "coverage" compila con soporte para pruebas de cobertura.
 
 **run.sh** : Ejecuta el servidor, y crea una carpeta para las bases de datos si es necesario.
 

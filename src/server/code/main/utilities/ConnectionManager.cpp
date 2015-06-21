@@ -5,16 +5,13 @@
  *      Author: marian
  */
 
-#include "../../../include/main/utilities/ConnectionManager.h"
-
-#include <iostream>
+#include "../../include/main/utilities/ConnectionManager.h"
 #include "../../include/main/config.h"
 #include "../../include/main/user/User.h"
+#include <../../include/main/utilities/Logger.h>
 
-bool ConnectionManager::running = false;
-std::map<std::string, int> ConnectionManager::connectedUsers;
+const int ConnectionManager::deltaTime = 2; //MIN DELTA = 2 TODO des-hardcodear
 ConnectionManager* ConnectionManager::managerInstance = NULL;
-Mutex ConnectionManager::mtx;
 Mutex ConnectionManager::constructorMutex;
 
 ConnectionManager* ConnectionManager::getInstance() {
@@ -37,8 +34,8 @@ void ConnectionManager::destroyInstance() {
 }
 
 ConnectionManager::ConnectionManager() {
-	connectedUsers.clear();
 	this->updateThread = 0;
+	this->running = false;
 }
 
 ConnectionManager::~ConnectionManager() {
@@ -59,12 +56,10 @@ void ConnectionManager::stopUpdating() {
 }
 
 void* ConnectionManager::runFunction(void* args) {
-
-	while (running) {
+	ConnectionManager* manager = static_cast<ConnectionManager*>(args);
+	while (manager->running) {
 		usleep(1000);
-		mtx.lock();
-		updateConnection();
-		mtx.unlock();
+		manager->updateConnection();
 	}
 	return NULL;
 }
@@ -86,31 +81,31 @@ std::vector<std::string> ConnectionManager::getConnectedUsers() {
 void ConnectionManager::updateUser(const std::string username) {
 
 	//tengo que abrir el user, si status != offline , le actualizo el lastTime
-	Database DB(DATABASE_USERS_PATH);
 	std::vector<std::string> key;
 	key.push_back(username);
 	try {
-		User user(DB.read(key));
-		if (user.getStatus() != "offline") {
+		User user(this->userDb->read(key));
+		if(user.getStatus() != "offline") {
 			user.setLastTimeConnected();
 		}
-		DB.write(key, user.serialize());
+		this->userDb->write(key, user.serialize());
 	} catch (KeyNotFoundException &e) {
+		Logger::getLogger()->write(Logger::DEBUG, e.what());
 	}
 
-	mtx.lock();
 	connectedUsers[username] = time(0);
-	mtx.unlock();
+}
+
+void ConnectionManager::setDatabase(Database* userDb){
+	this->userDb = userDb;
 }
 
 void ConnectionManager::updateConnection() {
-
 	std::vector<std::string> disconnectedUsers;
 
 	for (std::map<std::string, int>::iterator it = connectedUsers.begin();
 			it != connectedUsers.end(); ++it) {
-
-		if (time(0) - it->second > MAXIMUM_IDLE_TIME) {
+		if (time(0) - it->second > deltaTime) {
 			//el usuario se desconectó, lo saco del map
 			disconnectedUsers.push_back(it->first);
 		}

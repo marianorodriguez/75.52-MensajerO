@@ -2,3 +2,4 @@
 logging.txt
 /include/librocksdb.a
 database/
+src/server/log.txt

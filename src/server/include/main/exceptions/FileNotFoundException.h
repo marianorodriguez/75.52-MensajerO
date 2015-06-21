@@ -8,6 +8,7 @@
 #ifndef SERVER_MAIN_EXCEPTIONS_FILENOTFOUNDEXCEPTION_H_
 #define SERVER_MAIN_EXCEPTIONS_FILENOTFOUNDEXCEPTION_H_
 
+#include <string>
 #include "BaseException.h"
 #include "../../../include/main/utilities/Logger.h"
 
@@ -17,7 +18,7 @@
  */
 class FileNotFoundException: public BaseException {
 public:
-	FileNotFoundException(string what);
+	FileNotFoundException(const std::string& what);
 	virtual ~FileNotFoundException();
 };
 
