@@ -12,7 +12,8 @@
 
 const std::string serviceName = SERVICE_BROADCAST_NAME;
 
-BroadcastService::BroadcastService(Database& userDb) :userDb(userDb) {}
+BroadcastService::BroadcastService(Database& userDb, Database& chatDb)
+		:userDb(userDb), chatDb(chatDb) {}
 
 BroadcastService::~BroadcastService() {}
 
@@ -61,7 +62,7 @@ Json::Value BroadcastService::doBroadcast(const Json::Value &data) const {
 			return broadcastOut;
 		}
 
-		SendMessageService sendMessageService;
+		SendMessageService sendMessageService(this->userDb, this->chatDb);
 		for (unsigned int i = 0; i < users.size(); i++) {
 			if (users.at(i) != data[SERVICE_USERNAME].asString()) {
 				input[SERVICE_SENDMESSAGE_USERNAME_TO] = users.at(i);
@@ -85,5 +86,5 @@ Json::Value BroadcastService::doBroadcast(const Json::Value &data) const {
 
 
 ServiceInterface* BroadcastServiceCreator::create(Database& userDb, Database& chatDb) {
-	return new BroadcastService(userDb);
+	return new BroadcastService(userDb, chatDb);
 }

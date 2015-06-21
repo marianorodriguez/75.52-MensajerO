@@ -19,7 +19,7 @@ class Database;
  */
 class BroadcastService: public ServiceInterface {
 public:
-	BroadcastService(Database& userDb);
+	BroadcastService(Database& userDb, Database& chatDb);
 	virtual ~BroadcastService();
 	virtual std::string getUri() const;
 	virtual std::string executeRequest(const Json::Value &paramMap) const;
@@ -32,6 +32,7 @@ public:
 
 private:
 	Database& userDb;
+	Database& chatDb;
 };
 
 /**

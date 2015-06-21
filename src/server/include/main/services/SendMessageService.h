@@ -15,6 +15,8 @@ class SendMessageService: public ServiceInterface {
 	friend class BroadcastService;
 
 public:
+	SendMessageService(Database& userDb, Database& chatDb);
+    virtual ~SendMessageService();
 	virtual std::string getUri() const;
 	virtual std::string executeRequest(const Json::Value &paramMap) const;
 	/**
@@ -26,6 +28,8 @@ public:
 
 private:
 	static const std::string serviceName;
+    Database& userDb;
+	Database& chatDb;
 };
 
 /**

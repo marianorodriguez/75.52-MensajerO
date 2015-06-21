@@ -2,6 +2,12 @@
 
 const std::string SendMessageService::serviceName = SERVICE_SENDMESSAGE_NAME;
 
+SendMessageService::SendMessageService(Database& userDb, Database& chatDb) :
+										userDb(userDb), chatDb(chatDb){}
+
+
+SendMessageService::~SendMessageService() {}
+
 std::string SendMessageService::getUri() const {
 	return serviceName;
 }
@@ -31,8 +37,6 @@ Json::Value SendMessageService::doSendMessage(const Json::Value &data) const {
 
 	Message message(userFrom, userTo, text);
 
-	Database dbChats(DATABASE_CHATS_PATH);
-	Database dbUsers(DATABASE_USERS_PATH);
 	vector<string> keyChat, keyUser;
 	keyChat.push_back(userFrom);
 	keyChat.push_back(userTo);
@@ -41,36 +45,36 @@ Json::Value SendMessageService::doSendMessage(const Json::Value &data) const {
 	Json::Value output;
 
 	try {
-		User user(dbUsers.read(keyUser));
+		User user(userDb.read(keyUser));
 
 		if (user.getPassword() == password) {
 			try {
 				Logger::getLogger()->write(Logger::DEBUG,
 						"Sending message from " + user.getUsername() + " to "
 								+ userTo);
-				string serializedChat = dbChats.read(keyChat);
+				string serializedChat = chatDb.read(keyChat);
 				Chat chat(serializedChat);
 				chat.addNewMessage(message);
-				dbChats.write(keyChat, chat.serialize());
+				chatDb.write(keyChat, chat.serialize());
 			} catch (KeyNotFoundException &e) {
 				Logger::getLogger()->write(Logger::DEBUG,
 						"Chat not found, starting new conversation.");
 				Chat chat(userFrom, userTo);
 				chat.addNewMessage(message);
-				dbChats.write(keyChat, chat.serialize());
+				chatDb.write(keyChat, chat.serialize());
 
 				vector<string> keyUserFrom;
 				keyUserFrom.push_back(userFrom);
-				User userF(dbUsers.read(keyUserFrom));
+				User userF(userDb.read(keyUserFrom));
 				userF.addChatWithUser(userTo);
 
 				vector<string> keyUserTo;
 				keyUserTo.push_back(userTo);
-				User userT(dbUsers.read(keyUserTo));
+				User userT(userDb.read(keyUserTo));
 				userT.addChatWithUser(userFrom);
 
-				dbUsers.write(keyUserFrom, userF.serialize());
-				dbUsers.write(keyUserTo, userT.serialize());
+				userDb.write(keyUserFrom, userF.serialize());
+				userDb.write(keyUserTo, userT.serialize());
 
 			}
 			output[SERVICE_OUT_OK] = true;
@@ -87,13 +91,10 @@ Json::Value SendMessageService::doSendMessage(const Json::Value &data) const {
 		Logger::getLogger()->write(Logger::WARN,
 				"Some unregistered user tried to use this service.");
 	}
-
-	dbChats.close();
-	dbUsers.close();
 	return output;
 }
 
 ServiceInterface* SendMessageServiceCreator::create(Database& userDb, Database& chatDb) {
-	return new SendMessageService();
+	return new SendMessageService(userDb, chatDb);
 }
 
