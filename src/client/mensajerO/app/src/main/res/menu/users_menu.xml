@@ -5,10 +5,12 @@
     tools:context=".MainActivity">
 
     <item android:id="@+id/broadcast"
+        android:icon="@drawable/broadcast5"
         android:title="BROADCAST"
         app:showAsAction="always"/>
 
     <item android:id="@+id/chatsHall"
+        android:icon="@drawable/chats1"
         android:title="CHATS"
         app:showAsAction="always" />
 

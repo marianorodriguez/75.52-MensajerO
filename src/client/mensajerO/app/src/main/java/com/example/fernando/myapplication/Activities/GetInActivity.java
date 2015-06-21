@@ -43,60 +43,82 @@ public class GetInActivity extends ActionBarActivity implements View.OnClickList
 
         ipContainer = (EditText) findViewById(R.id.ipedittext);
 
-//        setContentView(R.layout.chat);
+//        setContentView(R.layout.users);
+
+//        LinearLayout linearLayout = (LinearLayout) findViewById(R.id.users);
 //
-//        ScrollView cont = (ScrollView) findViewById(R.id.scrollView);
-//        LinearLayout linearLayout = (LinearLayout) cont.findViewById(R.id.messages);
-//        ImageView end = (ImageView) findViewById(R.id.endflag);
-//
-//        Button send = (Button) findViewById(R.id.sendButton);
-//        send.setOnClickListener(new View.OnClickListener() {
-//
-//            @Override
-//            public void onClick(View v) {
-//                ScrollView cont = (ScrollView) findViewById(R.id.scrollView);
-//                cont.fullScroll(ScrollView.FOCUS_DOWN);
-//
-//            }
-//        });
+////        Button send = (Button) findViewById(R.id.sendButton);
+////        send.setOnClickListener(new View.OnClickListener() {
+////
+////            @Override
+////            public void onClick(View v) {
+////                ScrollView cont = (ScrollView) findViewById(R.id.scrollView);
+////                cont.fullScroll(ScrollView.FOCUS_DOWN);
+////
+////            }
+////        });
 //
 //        LayoutInflater vi = (LayoutInflater) getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//        View message = vi.inflate(R.layout.chatmessage, null);
-//        View message2 = vi.inflate(R.layout.chatmessage, null);
-//        View message3 = vi.inflate(R.layout.chatmessage, null);
-//        View message4 = vi.inflate(R.layout.chatmessage, null);
-//        View message5 = vi.inflate(R.layout.chatmessage, null);
-//        View message6 = vi.inflate(R.layout.chatmessage, null);
-//        View message7 = vi.inflate(R.layout.chatmessage, null);
-//        View message8 = vi.inflate(R.layout.chatmessage, null);
+//        final View message = vi.inflate(R.layout.user_item_chats, null);
+//        View message2 = vi.inflate(R.layout.user_item_chats, null);
+//        View message3 = vi.inflate(R.layout.user_item_chats, null);
+//        View message4 = vi.inflate(R.layout.user_item_chats, null);
+//        View message5 = vi.inflate(R.layout.user_item_chats, null);
+//        View message6 = vi.inflate(R.layout.user_item_chats, null);
+//        View message7 = vi.inflate(R.layout.user_item_chats, null);
+//        View message8 = vi.inflate(R.layout.user_item_chats, null);
+//
+//        ((TextView) message.findViewById(R.id.userItemData)).setText("fer");
+//        ((TextView) message.findViewById(R.id.userItemData)).setText("2");
+//        ((TextView) message.findViewById(R.id.userItemData)).setText("3");
+//
+//
+//        message.setOnClickListener(this);
+//        message2.setOnClickListener(this);
+//        message3.setOnClickListener(this);
+//
+////        message.setOnClickListener(new View.OnClickListener() {
+////
+////            @Override
+////            public void onClick(View v) {
+////                ((ImageView) message.findViewById(R.id.userItemImage)).setVisibility(View.INVISIBLE);
+////
+////            });
+////        }
 //
 //        message8.setVisibility(View.VISIBLE);
 //
-//        ((TextView)message7.findViewById(R.id.myText)).setText("the lastfsdf\n\nsdfsDFSDssssssssss  FSDSDFSD one");
+////        ((TextView)message7.findViewById(R.id.myText)).setText("the lastfsdf\n\nsdfsDFSDssssssssss  FSDSDFSD one");
 //
-//        message.findViewById(R.id.othersMessage).setVisibility(View.INVISIBLE);
-//        message3.findViewById(R.id.myMessage).setVisibility(View.INVISIBLE);
+////        message.findViewById(R.id.othersMessage).setVisibility(View.INVISIBLE);
+////        message3.findViewById(R.id.myMessage).setVisibility(View.INVISIBLE);
 //
 //        linearLayout.setOrientation(LinearLayout.VERTICAL);
 ////        RelativeLayout.LayoutParams newrlp = new RelativeLayout()
-//        linearLayout.addView(message, 0, new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.FILL_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT));
-//        linearLayout.addView(message2, 1, new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.FILL_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT));
-//        linearLayout.addView(message3, 2, new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.FILL_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT));
-//        linearLayout.addView(message4, 3, new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.FILL_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT));
-//        linearLayout.addView(message5, 4, new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.FILL_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT));
-//        linearLayout.addView(message6, 5, new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.FILL_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT));
+//        linearLayout.addView(message, 0, new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.FILL_PARENT, 200));
+//        linearLayout.addView(message2, 1, new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.FILL_PARENT, 200));
+//        linearLayout.addView(message3, 0, new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.FILL_PARENT, 200));
+//        linearLayout.addView(message4, 3, new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.FILL_PARENT, 200));
+//        linearLayout.addView(message5, 4, new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.FILL_PARENT, 200));
+//        linearLayout.addView(message6, 5, new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.FILL_PARENT, 200));
 ////        linearLayout.addView(message6, 6, new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.FILL_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT));
-//        linearLayout.addView(message7, 6, new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.FILL_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT));
-//        linearLayout.addView(message8, 7, new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.FILL_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT));
+//        linearLayout.addView(message7, 6, new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.FILL_PARENT, 200));
+//        linearLayout.addView(message8, 7, new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.FILL_PARENT, 200));
 //
-////        linearLayout.addView(message);
-////        linearLayout.addView(message);
+
+
+//        linearLayout.addView(message);
+//        linearLayout.addView(message);
+
+
 //
-//        cont.removeAllViews();
-//
-////                cont.addView(linearLayout);
+//        v.findViewById(R.id.userItemImage).setVisibility(View.INVISIBLE);
+//        return;
+
+
+//                cont.addView(linearLayout);
 //        cont.addView(linearLayout, 0, new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.FILL_PARENT, RelativeLayout.LayoutParams.FILL_PARENT));
-//
+
 //        send.callOnClick();
 //        send.performClick();
     }

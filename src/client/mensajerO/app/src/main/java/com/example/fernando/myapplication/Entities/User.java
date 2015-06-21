@@ -11,6 +11,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -47,19 +49,27 @@ public class User {
     }
 
     // En este metodo se haria la conversion de segundos a la fecha y hora corresp
-    private static String getLastTimeConnected(String lastTimeConnected) {
+    private String getLastTimeConnected(String lastTimeConnected) {
         Calendar c = Calendar.getInstance();
 
-        Long miliseconds = Long.parseLong(lastTimeConnected);
+        Long actualSeconds = c.getTimeInMillis()/1000;
+        Long seconds = Long.parseLong(lastTimeConnected);
 
-        Date date = new Date(miliseconds*1000);
+        if ((actualSeconds - seconds) < 60) {
+            return "NOW";
+        }
 
-        // si hace menos de 60 segundos que es la ultima hora de conexion
-        // entonces devolver NOW
+        Date date = new Date(seconds*1000);
 
-        c.getTimeZone();
+        String intMonth = (String) android.text.format.DateFormat.format("MM", date);
+        String day = (String) android.text.format.DateFormat.format("dd", date);
+        String min = (String) android.text.format.DateFormat.format("mm", date);
 
-        return date.toString();
+        String[] parts = date.toString().split(" ");
+        String[] parts2 = parts[3].split(":");
+        String hour2 = parts2[0];
+
+        return intMonth+"/"+day+" - "+ hour2 +":"+min;
     }
 
     public User(JSONObject jsonObject) {
@@ -173,7 +183,7 @@ public class User {
             newUser.location = jsonObject.getString("location");
             newUser.profile_picture = newUser.stringToBitmap(jsonObject.getString("profile_picture"));
             newUser.status = jsonObject.getString("status");
-            newUser.lastTimeConnected = getLastTimeConnected(jsonObject.getString("lastTimeConnected"));
+            newUser.lastTimeConnected = newUser.getLastTimeConnected(jsonObject.getString("lastTimeConnected"));
 
             return newUser;
         } catch (JSONException e) {

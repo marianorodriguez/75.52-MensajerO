@@ -23,18 +23,6 @@ public class RefreshChatsHallAsyncTask extends AsyncTask<Pair<Context, String>, 
         try {
             Thread.sleep(1000);
 
-//            if (Constants.user.chats.size() > Constants.currentChatsSize) {
-//
-//                for (int chat = Constants.currentChatsSize;
-//                     chat < Constants.user.chats.size();
-//                     chat++) {
-//
-//                    publishProgress("refresh", Constants.user.chats.get(chat).otherUser);
-//                }
-//                Constants.currentChatsSize = Constants.user.chats.size();
-//            }
-
-//            refreshChatsData();
             publishProgress("refresh");
 
             publishProgress("run again", params[0].second,
@@ -65,16 +53,10 @@ public class RefreshChatsHallAsyncTask extends AsyncTask<Pair<Context, String>, 
                 Chat chatToShow = Constants.user.chats.get(chat);
 
                 Constants.chatsAdapter.add(chatToShow.otherUser);
-//                        + "\n" +
-//                        userToShow.status + " - "
-//                        + userToShow.lastTimeConnected
-//                        + " - " + userToShow.location);
-//                Constants.usersListView.setAdapter(Constants.usersAdapter);
+
             }
             Constants.chatListView.setAdapter(Constants.chatsAdapter);
-//
-//            Constants.chatsAdapter.add(values[1]);
-//            Constants.chatListView.setAdapter(Constants.chatsAdapter);
+
         }
     }
 }
