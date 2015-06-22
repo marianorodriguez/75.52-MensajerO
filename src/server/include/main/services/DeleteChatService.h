@@ -20,19 +20,24 @@
  * El chat entre estos dos usuarios no se eliminará de la base de datos.
  */
 class DeleteChatService: public ServiceInterface {
-	friend class DeleteChatServiceTest;
 public:
+	DeleteChatService(Database& userDb, Database& chatDb);
+	virtual ~DeleteChatService();
 	virtual std::string getUri() const;
 	virtual std::string executeRequest(const Json::Value &paramMap) const;
-
-private:
-
 	/**
 	 * Metodo encargado de aplicar el servicio de borrado de chats del servidor.
 	 * @param data informacion de entrada para este servicio.
 	 * @return información sobre el resultado de aplicar este servicio.
 	 */
-	static Json::Value doDeleteChat(const Json::Value &data);
+	Json::Value doDeleteChat(const Json::Value &data) const;
+
+private:
+	static const std::string serviceName;
+	/** Base de datos de usuarios **/
+	Database& userDb;
+	/** Base de datos de chats **/
+	Database& chatDb;
 };
 
 /**
@@ -40,7 +45,7 @@ private:
  */
 class DeleteChatServiceCreator: public ServiceCreatorInterface {
 
-	virtual ServiceInterface* create();
+	virtual ServiceInterface* create(Database& userDb, Database& chatDb);
 };
 
 #endif /* CURRENTCHATSSERVICE_H_ */

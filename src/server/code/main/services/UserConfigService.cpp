@@ -7,7 +7,7 @@
 
 #include "../../../include/main/services/UserConfigService.h"
 
-const std::string serviceName = SERVICE_USERCONFIG_NAME;
+const std::string UserConfigService::serviceName = SERVICE_USERCONFIG_NAME;
 
 std::string UserConfigService::getUri() const {
 	return serviceName;
@@ -28,7 +28,7 @@ std::string UserConfigService::executeRequest(
 	return output.toStyledString();
 }
 
-Json::Value UserConfigService::doUserConfig(const Json::Value &data) {
+Json::Value UserConfigService::doUserConfig(const Json::Value &data) const {
 
 	Database db(DATABASE_USERS_PATH);
 	std::vector<std::string> key;
@@ -66,6 +66,6 @@ Json::Value UserConfigService::doUserConfig(const Json::Value &data) {
 	return output;
 }
 
-ServiceInterface* UserConfigServiceCreator::create() {
+ServiceInterface* UserConfigServiceCreator::create(Database& userDb, Database& chatDb) {
 	return new UserConfigService();
 }

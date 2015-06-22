@@ -51,7 +51,7 @@ public:
 	 *
 	 *\brief Escribe el problema en el archivo de logging.
 	 */
-	void write(loggingLevel level, string text);
+	void write(loggingLevel level, const std::string& text);
 
 	/**
 	 * Escribe el buffer al archivo de logging.

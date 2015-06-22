@@ -1,14 +1,26 @@
 package com.example.fernando.myapplication.Threads;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
 import android.os.AsyncTask;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.util.Pair;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.example.fernando.myapplication.Activities.ChatActivity;
 import com.example.fernando.myapplication.Activities.UsersActivity;
 import com.example.fernando.myapplication.Common.Constants;
+import com.example.fernando.myapplication.Entities.Chat;
 import com.example.fernando.myapplication.Entities.User;
+import com.example.fernando.myapplication.R;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 
 /**
  * Created by fernando on 27/04/15.
@@ -16,6 +28,11 @@ import java.util.HashMap;
 public class RefreshUsersAsyncTask extends AsyncTask<Pair<Context, String>, String, String> {
 
     private Context context;
+    private Resources resources;
+
+    public void setResources(Resources resources) {
+        this.resources = resources;
+    }
 
     @Override
     protected String doInBackground(Pair<Context, String>... params) {
@@ -23,18 +40,8 @@ public class RefreshUsersAsyncTask extends AsyncTask<Pair<Context, String>, Stri
 //        Constants.currentUsersSize = Constants.otherUsers.size();
         context = params[0].first;
             try {
-                Thread.sleep(1000);
+                Thread.sleep(5000);
 
-//                if (Constants.otherUsers.size() > Constants.currentUsersSize) {
-//
-//                    for (int user = Constants.currentUsersSize;
-//                         user < Constants.otherUsers.size();
-//                         user++) {
-//
-//                        publishProgress(Constants.otherUsers.get(user).username);
-//                    }
-//                    Constants.currentUsersSize = Constants.otherUsers.size();
-//                }
                 publishProgress("updateUsers");
 
                 publishProgress("run again", params[0].second,
@@ -57,23 +64,119 @@ public class RefreshUsersAsyncTask extends AsyncTask<Pair<Context, String>, Stri
                     new Pair<>(context, values[2]),
                     new Pair<>(context, values[3]));
             this.cancel(true);
+
         } else {
 
-            Constants.usersAdapter.clear();
+            int actualUsersSize = Constants.usersListView.getChildCount();
+            ArrayList<String> ids = new ArrayList<>();
+            ArrayList<Integer> deleted = new ArrayList<>();
+            RoundedBitmapDrawable img = null;
 
-            for (int user = 0; user < Constants.otherUsers.size(); user++) {
-                User userToShow = Constants.otherUsers.get(user);
-
-                Constants.usersAdapter.add(userToShow.username + "\n" +
-                        userToShow.status + " - "
-                        + userToShow.lastTimeConnected
-                        + " - " + userToShow.location);
-//                Constants.usersListView.setAdapter(Constants.usersAdapter);
+            for (int actualUser = 0; actualUser < actualUsersSize; actualUser++) {
+                String username = ((TextView) Constants.usersListView.getChildAt(actualUser).
+                        findViewById(R.id.userItemData)).getText().toString().split("\n")[0];
+                ids.add(username);
+                User wanted = isInOtherUsers(username);
+                if (wanted != null) {
+                    refreshCurrentData(Constants.usersListView.getChildAt(actualUser), wanted, img);
+                } else {
+                    deleted.add(actualUser);
+                }
             }
-            Constants.usersListView.setAdapter(Constants.usersAdapter);
-//            Constants.usersAdapter.add(values[0]);
-//            Constants.usersListView.setAdapter(Constants.usersAdapter);
+
+            for (int userDeleted = 0; userDeleted < deleted.size(); userDeleted++) {
+                Constants.usersListView.removeView(Constants.usersListView.
+                        getChildAt(deleted.get(userDeleted)));
+            }
+
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+            for (int otherUser = 0; otherUser < Constants.otherUsers.size(); otherUser++) {
+                if (!ids.contains(Constants.otherUsers.get(otherUser).username)) {
+                    addNewOtherUser(inflater, img, Constants.otherUsers.get(otherUser));
+                }
+            }
         }
+    }
+
+    private void refreshCurrentData(View user, User wanted, RoundedBitmapDrawable img) {
+
+        Bitmap a = wanted.profile_picture;
+        img = RoundedBitmapDrawableFactory.create(resources, a);
+        img.setCornerRadius(Math.max(a.getWidth(), a.getHeight()) / 1.0f);
+
+        ((ImageView) user.findViewById(R.id.userItemImage)).setImageDrawable(img);
+
+        ((TextView) user.findViewById(R.id.userItemData)).setText(wanted.username + "\n" +
+                wanted.status + " -- "
+                + wanted.lastTimeConnected
+                + " -- " + wanted.location);
+    }
+
+    private User isInOtherUsers(String username) {
+
+        for (int otherUser = 0; otherUser < Constants.otherUsers.size(); otherUser++) {
+            if (Constants.otherUsers.get(otherUser).username.compareTo(username) == 0) {
+                return Constants.otherUsers.get(otherUser);
+            }
+        }
+        return null;
+    }
+
+    private void addNewOtherUser(LayoutInflater inflater, RoundedBitmapDrawable img, User userToShow) {
+
+        View newUser = inflater.inflate(R.layout.user_item_users, null);
+
+        Bitmap a = userToShow.profile_picture;
+        img = RoundedBitmapDrawableFactory.create(resources, a);
+        img.setCornerRadius(Math.max(a.getWidth(), a.getHeight()) / 2.0f);
+
+        ((ImageView) newUser.findViewById(R.id.userItemImage)).setImageDrawable(img);
+
+        ((TextView) newUser.findViewById(R.id.userItemData)).setText(userToShow.username + "\n" +
+                userToShow.status + " -- "
+                + userToShow.lastTimeConnected
+                + " -- " + userToShow.location);
+
+        newUser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                boolean hasChat = false;
+
+                TextView userData = (TextView) v.findViewById(R.id.userItemData);
+
+                String userSelected = userData.getText().toString().split("\n")[0];
+
+                Constants.chatWith = userSelected;
+
+                for (int chat = 0; chat < Constants.user.chats.size(); chat++) {
+                    if (Constants.user.chats.get(chat).otherUser.compareTo(userSelected) == 0) {
+                        hasChat = true;
+
+                        Constants.chatEditor.setChat(Constants.user.chats.get(chat));
+
+                        Intent chat_ = new Intent(context, ChatActivity.class);
+                        context.startActivity(chat_);
+                        break;
+                    }
+                }
+                if (!hasChat) {
+                    Chat newChat = new Chat(userSelected);
+                    Constants.user.chats.add(newChat);
+
+                    Constants.chatEditor.setChat(newChat);
+
+                    Intent chat_ = new Intent(context, ChatActivity.class);
+                    context.startActivity(chat_);
+                }
+            }
+        });
+
+        Constants.usersListView.addView(newUser);
+
+        Constants.usersScroll.removeAllViews();
+        Constants.usersScroll.addView(Constants.usersListView);
     }
 
 }

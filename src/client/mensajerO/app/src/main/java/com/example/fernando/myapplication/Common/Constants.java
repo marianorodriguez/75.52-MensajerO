@@ -4,7 +4,9 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Base64;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ScrollView;
 
 import com.example.fernando.myapplication.Activities.ChatsHallActivity;
 import com.example.fernando.myapplication.Activities.UsersActivity;
@@ -66,8 +68,8 @@ final public class Constants//final to prevent instantiation
 
     public static ListView chatListView = null;
     public static ChatsHallActivity.StableArrayAdapter chatsAdapter = null;
-    public static ListView usersListView = null;
-    public static UsersActivity.StableArrayAdapter usersAdapter = null;
+    public static LinearLayout usersListView = null;
+    public static ScrollView usersScroll = null;
 
     public static Server server = null;
 //  public static Server server = new Server(); //si no pones en null
@@ -78,6 +80,7 @@ final public class Constants//final to prevent instantiation
     public static int currentUsersSize = 0;
     //La cantidad actual de messages en un chat x renderizados hasta el momento
     public static int messagesSize = 0;
+
 
 
     //private constructor to prevent instantiation/inheritance
@@ -159,7 +162,7 @@ final public class Constants//final to prevent instantiation
         chatListView = null;
         chatsAdapter = null;
         usersListView = null;
-        usersAdapter = null;
+        usersScroll = null;
 
         currentChatsSize = 0;
         //La cantidad actual de users renderizados hasta el momento

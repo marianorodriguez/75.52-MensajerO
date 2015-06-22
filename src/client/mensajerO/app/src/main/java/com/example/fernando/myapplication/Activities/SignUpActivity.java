@@ -41,6 +41,9 @@ public class SignUpActivity extends ActionBarActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.signup);
 
+        android.support.v7.app.ActionBar s = getSupportActionBar();
+        s.hide();
+
         Button button1 = (Button) findViewById(R.id.backtologin);
         button1.setOnClickListener(this);
 

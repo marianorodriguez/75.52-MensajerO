@@ -1,6 +1,6 @@
-#include <../../../include/main/services/SomethingForMeService.h>
+#include "../../../include/main/services/SomethingForMeService.h"
 
-const std::string serviceName = SERVICE_SOMETHINGFORME_NAME;
+const std::string SomethingForMeService::serviceName = SERVICE_SOMETHINGFORME_NAME;
 
 std::string SomethingForMeService::getUri() const {
 	return serviceName;
@@ -22,7 +22,7 @@ std::string SomethingForMeService::executeRequest(
 	return output.toStyledString();
 }
 
-Json::Value SomethingForMeService::doSomethingForMe(const Json::Value &data) {
+Json::Value SomethingForMeService::doSomethingForMe(const Json::Value &data) const{
 
 	Database dbUsers(DATABASE_USERS_PATH);
 	Database dbChats(DATABASE_CHATS_PATH);
@@ -100,6 +100,6 @@ Json::Value SomethingForMeService::doSomethingForMe(const Json::Value &data) {
 	return output;
 }
 
-ServiceInterface* SomethingForMeServiceCreator::create() {
+ServiceInterface* SomethingForMeServiceCreator::create(Database& userDb, Database& chatDb) {
 	return new SomethingForMeService();
 }

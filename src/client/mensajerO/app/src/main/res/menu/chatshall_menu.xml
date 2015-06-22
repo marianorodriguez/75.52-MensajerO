@@ -6,15 +6,17 @@
     tools:context=".MainActivity">
 
     <item android:id="@+id/users"
+        android:icon="@drawable/users3"
+
         android:title="USERS"
         app:showAsAction="always"/>
 
     <item android:id="@+id/settings"
-        android:title="Settings"
+        android:title="SETTINGS"
         app:showAsAction="never"/>
 
     <item android:id="@+id/logOut"
-        android:title="Log Out"
+        android:title="LOG OUT"
         app:showAsAction="never"/>
 
 </menu>

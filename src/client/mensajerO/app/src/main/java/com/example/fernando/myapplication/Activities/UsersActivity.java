@@ -6,33 +6,31 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v7.app.ActionBarActivity;
 import android.text.InputType;
 import android.util.Base64;
 import android.util.Pair;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ListView;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.fernando.myapplication.Entities.Chat;
 import com.example.fernando.myapplication.Common.Constants;
-import com.example.fernando.myapplication.Entities.Message;
+import com.example.fernando.myapplication.Entities.Chat;
 import com.example.fernando.myapplication.Entities.User;
-import com.example.fernando.myapplication.Threads.RefreshUsersAsyncTask;
 import com.example.fernando.myapplication.R;
+import com.example.fernando.myapplication.Threads.RefreshUsersAsyncTask;
 import com.example.fernando.myapplication.Threads.SendMessagePostAsyncTask;
-
-import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * Created by fernando on 10/04/15.
@@ -41,16 +39,19 @@ public class UsersActivity extends ActionBarActivity implements View.OnClickList
 
     public static RefreshUsersAsyncTask refreshUsers;
     public static SendMessagePostAsyncTask sendMessage;
+    Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.users);
+        context = this;
 
         // dibujar los usuarios de la lista de usuarios Constants.users
         drawCurrentUsers();
 
         refreshUsers = new RefreshUsersAsyncTask();
+        refreshUsers.setResources(getResources());
         refreshUsers.execute(new Pair<Context, String>(this, ""),
                 new Pair<Context, String>(this, Constants.usersUrl),
                 new Pair<Context, String>(this, "post"));
@@ -82,17 +83,18 @@ public class UsersActivity extends ActionBarActivity implements View.OnClickList
 
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("Send broadcast");
-            builder.setIcon(android.R.drawable.ic_dialog_alert);
+            builder.setIcon(R.drawable.broadcastdialog);
 
             // Set up the input
             final EditText input = new EditText(this);
             // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
             input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_WEB_EDIT_TEXT);
+            input.setTypeface(Typeface.SANS_SERIF);
+            input.setHint("Write your broadcast message here");
             builder.setView(input);
 
-
             // Set up the buttons
-            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            builder.setPositiveButton("SEND", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     if (!input.getText().toString().isEmpty()) {
@@ -153,126 +155,72 @@ public class UsersActivity extends ActionBarActivity implements View.OnClickList
 
     private void drawCurrentUsers() {
 
-        final ListView listview = (ListView) findViewById(R.id.listview);
+        Constants.usersScroll = (ScrollView)findViewById(R.id.scroll);
 
-        Constants.usersListView = listview;
+        LinearLayout users = (LinearLayout) Constants.usersScroll.findViewById(R.id.users);
+        Constants.usersListView = users;
 
-        ArrayList<String> users = new ArrayList<>();
-
-        for (int user = 0; user < Constants.otherUsers.size(); user++) {
-            User userToShow = Constants.otherUsers.get(user);
-            users.add(userToShow.username + "\n" +
-                    userToShow.status + " - "
-                    + userToShow.lastTimeConnected
-                    + " - " + userToShow.location);
-        }
+        RoundedBitmapDrawable img;
+        LayoutInflater inflater = (LayoutInflater) getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         Constants.currentUsersSize = Constants.otherUsers.size();
 
-        final StableArrayAdapter adapter = new StableArrayAdapter(this,
-                R.layout.user_item, R.id.userItemData, users);
-        listview.setAdapter(adapter);
+        for (int user = 0; user < Constants.otherUsers.size(); user++) {
+            User userToShow = Constants.otherUsers.get(user);
 
-//        final StableArrayAdapter adapter = new StableArrayAdapter(this,
-//                android.R.layout.simple_list_item_1, users);
-//        listview.setAdapter(adapter);
+            View newUser = inflater.inflate(R.layout.user_item_users, null);
 
-        Constants.usersAdapter = adapter;
+            Bitmap a = userToShow.profile_picture;
+            img = RoundedBitmapDrawableFactory.create(getResources(), a);
+            img.setCornerRadius(Math.max(a.getWidth(), a.getHeight()) / 2.0f);
 
-        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            ((ImageView) newUser.findViewById(R.id.userItemImage)).setImageDrawable(img);
 
-            @Override
-            public void onItemClick(AdapterView<?> parent, final View view,
-                                    int position, long id) {
+            ((TextView) newUser.findViewById(R.id.userItemData)).setText(userToShow.username + "\n" +
+                    userToShow.status + " -- "
+                    + userToShow.lastTimeConnected
+                    + " -- " + userToShow.location);
 
-                final String userSelected = (String) parent.getItemAtPosition(position);
-                boolean hasChat = false;
+            newUser.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 
-                String userSelected2 = userSelected.split("\n")[0];
+                    boolean hasChat = false;
 
-                Constants.chatWith = userSelected2;
+                    TextView userData = (TextView) v.findViewById(R.id.userItemData);
 
-                for (int chat = 0; chat < Constants.user.chats.size(); chat++) {
-                    if (Constants.user.chats.get(chat).otherUser.compareTo(userSelected2) == 0) {
-                        hasChat = true;
+                    String userSelected = userData.getText().toString().split("\n")[0];
 
-                        Constants.chatEditor.setChat(Constants.user.chats.get(chat));
+                    Constants.chatWith = userSelected;
+
+                    for (int chat = 0; chat < Constants.user.chats.size(); chat++) {
+                        if (Constants.user.chats.get(chat).otherUser.compareTo(userSelected) == 0) {
+                            hasChat = true;
+
+                            Constants.chatEditor.setChat(Constants.user.chats.get(chat));
+
+                            Intent chat_ = new Intent(getApplicationContext(), ChatActivity.class);
+                            startActivity(chat_);
+                            break;
+                        }
+                    }
+                    if (!hasChat) {
+                        Chat newChat = new Chat(userSelected);
+                        Constants.user.chats.add(newChat);
+
+                        Constants.chatEditor.setChat(newChat);
 
                         Intent chat_ = new Intent(getApplicationContext(), ChatActivity.class);
                         startActivity(chat_);
-                        break;
                     }
                 }
-                if (!hasChat) {
-                    Chat newChat = new Chat(userSelected2);
-                    Constants.user.chats.add(newChat);
-
-                    Constants.chatEditor.setChat(newChat);
-
-                    Intent chat_ = new Intent(getApplicationContext(), ChatActivity.class);
-                    startActivity(chat_);
-
-                }
-            }
-
-        });
-    }
-
-    public class StableArrayAdapter extends ArrayAdapter<String> {
-
-        public HashMap<String, Integer> mIdMap = new HashMap<>();
-
-        public StableArrayAdapter(Context context,
-                                  int resource,
-                                  int textViewResourceId,
-                                  ArrayList<String> objects) {
-            super(context, resource, textViewResourceId, objects);
-            for (int i = 0; i < objects.size(); ++i) {
-                mIdMap.put(objects.get(i), i);
-            }
+            });
+            Constants.usersListView.addView(newUser);
         }
 
-        @Override
-        public void clear() {
-            super.clear();
-//            mIdMap.clear();
-        }
+        Constants.usersScroll.removeAllViews();
+        Constants.usersScroll.addView(Constants.usersListView);
 
-        @Override
-        public long getItemId(int position) {
-            String item = getItem(position);
-            return mIdMap.get(item);
-        }
-
-        @Override
-        public boolean hasStableIds() {
-            return true;
-        }
-
-        @Override
-        public void add(String object) {
-            super.add(object);
-
-            //            Toast.makeText(getApplicationContext(),mIdMap.size(), Toast.LENGTH_LONG ).show();
-            mIdMap.put(object, Constants.otherUsers.size());
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            View userView = super.getView(position, convertView, parent);
-
-            TextView userItemData = (TextView) userView.findViewById(R.id.userItemData);
-            ImageView userItemImage = (ImageView) userView.findViewById(R.id.userItemImage);
-
-            String username = userItemData.getText().toString().split("\n")[0];
-            for (int otherUser = 0; otherUser < Constants.otherUsers.size(); otherUser++) {
-                if (Constants.otherUsers.get(otherUser).username.compareTo(username) == 0) {
-                    userItemImage.setImageBitmap(Constants.otherUsers.get(otherUser).profile_picture);
-                    break;
-                }
-            }
-            return userView;
-        }
     }
 
     public Bitmap stringToBitmap(String pictureString){

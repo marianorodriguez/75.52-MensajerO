@@ -5,9 +5,10 @@
 #include "json.h"
 #include "../../include/main/ServerOptions.h"
 #include "../../include/main/utilities/NumberConverter.h"
+#include "../../include/main/utilities/Logger.h"
 
 const std::string ServerOptions::kJsonServerRoot("server");
-const std::string ServerOptions::kDefaultConfigPath("config.json");
+const std::string ServerOptions::kDefaultConfigPath("config/config.json");
 // Valores default de onfigurables
 const std::string ServerOptions::kDefaultDatabasePath("database");
 const int ServerOptions::kDefaultPollDelay = 1000;
@@ -63,6 +64,7 @@ OptionMap ServerOptions::loadValuesFromFile() {
 	// Intento levantar con la ruta completa
 	std::ifstream configFile(this->configPath);
 	if (!configFile.is_open()) {
+		Logger::getLogger()->write(Logger::WARN, "config.json missing");
 		OptionMap map;
 		return map;
 	}
@@ -75,7 +77,6 @@ OptionMap ServerOptions::parseJson(std::ifstream& configFile) {
 	Json::Value jsonRoot, serverNode;
 	bool parsingSuccessful = jsonReader.parse(configFile, jsonRoot, false);
 	configFile.close();
-
 	if (parsingSuccessful) {
 		// TODO integrar configuracion del logger
 		serverNode = jsonRoot[kJsonServerRoot];
@@ -87,6 +88,8 @@ OptionMap ServerOptions::parseJson(std::ifstream& configFile) {
 				ArgsParser::kPollDelayKey, kDefaultPollDelay).asString();
 		options[ArgsParser::kServerPortKey] = serverNode.get(
 				ArgsParser::kServerPortKey, kDefaultServerPort).asString();
+	} else {
+		Logger::getLogger()->write(Logger::WARN, "Invalid config.json");
 	}
 	return options;
 }

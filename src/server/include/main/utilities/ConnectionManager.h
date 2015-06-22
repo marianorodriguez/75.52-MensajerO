@@ -47,29 +47,40 @@ public:
 	 */
 	void stopUpdating();
 
+	/**
+	 * TODO: Que la BD se setee en el constructor (implica que esta clase no sea
+	 * singleton)
+	 */
+	void setDatabase(Database* userDb);
 private:
 
 	ConnectionManager();
 	static ConnectionManager* managerInstance;
+	static Mutex constructorMutex;
 
 	/**
 	 * Recorre la lista de usuarios conectados, se fija cuando fue la ultima
 	 * vez que le llegó algo, y lo elimina de esa lista en caso de detectar
 	 * que se desconectó.
 	 */
-	static void updateConnection();
+	void updateConnection();
 
 	/**
 	 * Función que ejecuta el thread para automatizar las actualizaciones.
 	 */
 	static void* runFunction(void* args);
-
-	static Mutex mtx;
-	static Mutex constructorMutex;
+	/**
+	 * Base de datos de usuarios
+	 * TODO: que sea una referencia
+	 */
+	Database* userDb;
+	Mutex mtx;
 	pthread_t updateThread;
-	static std::map<std::string, int> connectedUsers;
+	std::map<std::string, int> connectedUsers;
 	std::map<std::string, int>::iterator it;
-	static bool running;
+	bool running;
+	// Tiempo en el que un usuario se desconecta
+	static const int deltaTime;
 };
 
 #endif /* SERVER_MAIN_SERVICES_CONNECTIONMANAGER_H_ */

@@ -1,5 +1,6 @@
 package com.example.fernando.myapplication.Activities;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -10,7 +11,6 @@ import android.os.Bundle;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v7.app.ActionBarActivity;
-import android.text.InputType;
 import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,7 +18,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -30,7 +29,6 @@ import com.example.fernando.myapplication.Threads.CurrentChatsPostAsyncTask;
 import com.example.fernando.myapplication.Threads.DeleteChatPostAsyncTask;
 import com.example.fernando.myapplication.Threads.GetUsersPostAsyncTask;
 import com.example.fernando.myapplication.Threads.RefreshChatsHallAsyncTask;
-import com.example.fernando.myapplication.Threads.SignUpPostAsyncTask;
 import com.example.fernando.myapplication.Threads.SomethingForMePostAsyncTask;
 
 import java.util.ArrayList;
@@ -39,7 +37,7 @@ import java.util.HashMap;
 /**
  * Created by fernando on 10/04/15.
  */
-public class ChatsHallActivity extends ActionBarActivity implements View.OnClickListener {
+public class ChatsHallActivity extends Activity implements View.OnClickListener {
 
     public static SomethingForMePostAsyncTask somethingForMePost;
     public static GetUsersPostAsyncTask getUsersPost;
@@ -211,31 +209,16 @@ public class ChatsHallActivity extends ActionBarActivity implements View.OnClick
 
     public void drawCurrentChats() {
 
-        // si Constants.users.chats esta vacia --> tratar de leer de sharedprefs los chats y armar esos.
-        //o sea cargar constants.user.chats con los chats de sharedprefs
-
         final ListView listview = (ListView) findViewById(R.id.listview);
         Constants.chatListView = listview;
 
-        // ESta deberia ser una lista de User, igual Constants.users
-        // que saca los users del get users, que hay qe hacerlo antes.
         ArrayList<String> otherUsersChatingWith = new ArrayList<>();
-
-//        for (int chat = 0; chat < Constants.user.chats.size(); chat++) {
-//            otherUsersChatingWith.add(Constants.user.chats.get(chat).otherUser);
-//        }
-//
-//        Constants.currentChatsSize = Constants.user.chats.size();
 
         Constants.currentChatsSize = 0;
 
         final StableArrayAdapter adapter = new StableArrayAdapter(this,
-                R.layout.user_item, R.id.userItemData, otherUsersChatingWith);
+                R.layout.user_item_chats, R.id.userItemData, otherUsersChatingWith);
         listview.setAdapter(adapter);
-
-//        final StableArrayAdapter adapter = new StableArrayAdapter(this,
-//                android.R.layout.simple_list_item_1 , otherUsersChatingWith);
-//        listview.setAdapter(adapter);
 
         Constants.chatsAdapter = adapter;
 
@@ -330,7 +313,6 @@ public class ChatsHallActivity extends ActionBarActivity implements View.OnClick
         // hashmap <User, integer>
         HashMap<String, Integer> mIdMap = new HashMap<>();
 
-        // Aca deberia pasarle un ArrayList<User>
         public StableArrayAdapter(Context context,
                                   int resource,
                                   int textViewResourceId,
@@ -372,14 +354,13 @@ public class ChatsHallActivity extends ActionBarActivity implements View.OnClick
 //            img.setCornerRadius(radius);
 //
 //            imageView.setImageDrawable(img);
-
             String username = userItemData.getText().toString().split("\n")[0];
             for (int otherUser = 0; otherUser < Constants.otherUsers.size(); otherUser++) {
                 if (Constants.otherUsers.get(otherUser).username.compareTo(username) == 0) {
 
                     Bitmap a = Constants.otherUsers.get(otherUser).profile_picture;
                     img = RoundedBitmapDrawableFactory.create(getResources(), a);
-                    img.setCornerRadius(Math.max(a.getWidth(), a.getHeight()) / 1.0f);
+                    img.setCornerRadius(Math.max(a.getWidth(), a.getHeight()) / 2.0f);
                     userItemImage.setImageDrawable(img);
 
 //                    userItemImage.setImageBitmap(Constants.otherUsers.get(otherUser).profile_picture);

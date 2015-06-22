@@ -7,7 +7,14 @@
 
 #include "../../include/main/services/DeleteChatService.h"
 
-const std::string serviceName = SERVICE_DELETECHAT_NAME;
+const std::string DeleteChatService::serviceName(SERVICE_DELETECHAT_NAME);
+
+DeleteChatService::DeleteChatService(Database& userDb, Database& chatDb) :
+	userDb(userDb), chatDb(chatDb) {}
+
+
+DeleteChatService::~DeleteChatService() {}
+
 
 std::string DeleteChatService::getUri() const {
 	return serviceName;
@@ -29,10 +36,7 @@ std::string DeleteChatService::executeRequest(
 	return output.toStyledString();
 }
 
-Json::Value DeleteChatService::doDeleteChat(const Json::Value &data) {
-
-	Database dbChats(DATABASE_CHATS_PATH);
-	Database dbUsers(DATABASE_USERS_PATH);
+Json::Value DeleteChatService::doDeleteChat(const Json::Value &data) const {
 	std::vector<std::string> key;
 	std::string username = data[SERVICE_USERNAME].asString();
 	std::string otherUser = data[SERVICE_DELETECHAT_WHO].asString();
@@ -42,13 +46,13 @@ Json::Value DeleteChatService::doDeleteChat(const Json::Value &data) {
 	Json::Value output;
 
 	try {
-		std::string serializedUser = dbUsers.read(key);
+		std::string serializedUser = this->userDb.read(key);
 		User user(serializedUser);
 		if (user.getPassword() == data[SERVICE_PASSWORD].asString()) {
 
 			key.push_back(otherUser);
 
-			Chat chat(dbChats.read(key));
+			Chat chat(this->chatDb.read(key));
 			int lastMessage = chat.getMessages().size();
 
 			if (username == chat.getUsername1()) {
@@ -57,7 +61,7 @@ Json::Value DeleteChatService::doDeleteChat(const Json::Value &data) {
 				chat.setFirstMessageUser2(lastMessage);
 			}
 
-			dbChats.write(key, chat.serialize());
+			this->chatDb.write(key, chat.serialize());
 
 			output[SERVICE_OUT_OK] = true;
 			output[SERVICE_OUT_WHAT] = "";
@@ -72,11 +76,9 @@ Json::Value DeleteChatService::doDeleteChat(const Json::Value &data) {
 		output[SERVICE_OUT_WHAT] = SERVICE_OUT_INVALIDUSER;
 		Logger::getLogger()->write(Logger::WARN, "Some unregistered user tried to use this service.");
 	}
-	dbChats.close();
-	dbUsers.close();
 	return output;
 }
 
-ServiceInterface* DeleteChatServiceCreator::create() {
-	return new DeleteChatService();
+ServiceInterface* DeleteChatServiceCreator::create(Database& userDb, Database& chatDb) {
+	return new DeleteChatService(userDb, chatDb);
 }

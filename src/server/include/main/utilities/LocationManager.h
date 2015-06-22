@@ -21,8 +21,8 @@ class GeoNode {
 	friend class LocationManager;
 	friend class LocationManagerTests;
 public:
-	GeoNode(std::string dl, std::string ur);
-	GeoNode(const string &serialized);
+	GeoNode(std::string& dl, std::string& ur);
+	GeoNode(const std::string &serialized);
 
 	/**
 	 * Devuelve true si @param location está dentro de este nodo.
@@ -37,7 +37,7 @@ private:
 	 */
 	static void parseLocation(const std::string &location, double &lat,
 			double &lon);
-	string serialize() const;
+	std::string serialize() const;
 };
 
 /**
@@ -57,7 +57,7 @@ public:
 private:
 	LocationManager();
 	static LocationManager* instance;
-	static map<string, string> nodes;
+	static std::map<std::string, std::string> nodes;
 };
 
 #endif /* MAIN_UTILITIES_LOCATIONMANAGER_H_ */

@@ -7,26 +7,29 @@
 class ServerConfig;
 
 /**
- * Clase que representa al servidor de la aplicacion.
+ * Hilo dedicado a correr una instancia del servidor
  */
 class ServerThread : public Thread{
 public:
-
 	ServerThread();
-
 	/**
 	 * Termina el ciclo de polling y libera recursos.
 	 */
 	void shutdown();
-
 	/**
 	 * Agrega un servicio nuevo
 	 */
 	void addService(ServiceCreatorInterface* serviceCreator);
-    void addConfig(const ServerConfig& config);
+	/**
+	 * Configura el servidor y bases de datos.
+	 */
+	void addConfig(const ServerConfig& config);
 protected:
 	virtual void runFunction();
 private:
+	/**
+	 * Wrapper del servidor mongoose
+	 */
 	RestServer server;
 	bool exit;
 };

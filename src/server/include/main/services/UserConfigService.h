@@ -21,25 +21,25 @@ using namespace std;
  * El usuario que use este servicio podrá actualizar su informacion personal.
  */
 class UserConfigService: public ServiceInterface {
-	friend class UserConfigServiceTest;
 public:
 	std::string getUri() const;
 	std::string executeRequest(const Json::Value &paramMap) const;
-
-private:
 	/**
 	 * Aplica el servicio de configuracion de un usuario.
 	 * @param data informacion actualizada de un usuario.
 	 * @return informacion sobre el resultado del servicio.
 	 */
-	static Json::Value doUserConfig(const Json::Value &data);
+	Json::Value doUserConfig(const Json::Value &data) const;
+
+private:
+	static const std::string serviceName;
 };
 
 /**
- * creador del servicio de actualizacion del usuario.
+ * Creador del servicio de actualizacion del usuario.
  */
 class UserConfigServiceCreator: public ServiceCreatorInterface{
-	virtual ServiceInterface* create();
+	virtual ServiceInterface* create(Database& userDb, Database& chatDb);
 };
 
 #endif /* SERVER_MAIN_SERVICES_USERCONFIGSERVICE_H_ */

@@ -2,7 +2,34 @@
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
+        <item name="android:actionBarStyle">@style/MyActionBar</item>
+        <item name="android:alertDialogTheme">@style/Theme_Dialog_Alert</item>
+    </style>
+
+    <!-- Sign Up - Reduced Action Bar-->
+    <style name="LoginActionBarAppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:actionBarStyle">@style/MyActionBar</item>
+        <item name="android:alertDialogTheme">@style/Theme_Dialog_Alert</item>
+    </style>
+
+    <!-- ***************** -->
+    <!-- Action Bar Styles -->
+    <!-- ***************** -->
+    <!-- Default -->
+    <style name="MyActionBar"
+        parent="@style/Widget.AppCompat.ActionBar">
+        <item name="android:displayOptions">showCustom</item>
+        <item name="android:customNavigationLayout">@layout/action_bar</item>
+    </style>
+
+    <!-- ***************** -->
+    <!-- Dialog Styles -->
+    <!-- ***************** -->
+    <style name="Theme_Dialog_Alert" parent="@android:style/Theme.Dialog">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowMinWidthMajor">@android:dimen/dialog_min_width_major</item>
+        <item name="android:windowMinWidthMinor">@android:dimen/dialog_min_width_minor</item>
     </style>
 
 </resources>

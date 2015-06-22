@@ -149,31 +149,8 @@ public class GetUsersPostAsyncTask extends AsyncTask<Pair<Context, String>, Stri
 
         if (users == null) return;
 
-//        Constants.otherUsers.clear();
-//        for (int userr = 0; userr < users.length(); userr++) {
-//            try {
-////                    Constants.otherUsers.add(new User(users.getJSONObject(user)));
-////                    users.optJSONObject(user);
-//                JSONObject object = new JSONObject(users.get(userr).toString());
-////                    JSONObject jsonObject = new JSONObject(username);
-//
-//                User newUser = User.toUser(object);
-//                if (newUser.username.compareTo(Constants.user.username) != 0) {
-//                    Constants.otherUsers.add(newUser);
-//                }
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//            }
-//        }
-//        return;
-
-        //sacar
-
-        //c
-
-        //sacar
         ArrayList<User> otherUsers = new ArrayList<>();
-//        Constants.otherUsers.clear();
+
         for (int user = 0; user < users.length(); user++) {
             try {
 
@@ -189,35 +166,7 @@ public class GetUsersPostAsyncTask extends AsyncTask<Pair<Context, String>, Stri
                 e.printStackTrace();
             }
         }
-
         Constants.otherUsers = otherUsers;
-
-//        publishProgress ("updateUsers");
-
-//        sacar este usuario y sacar los qe tiene estado de conexion no conectdo (antes de agregar a la lista);
-//
-//        if ((users.length()-1) > Constants.otherUsers.size()) {
-//            // se agrego uno o mas usuarios nuevos a mensajerO
-//
-//            for (int user = 0; user < users.length(); user++) {
-//                try {
-//
-//                    JSONObject objectUser = new JSONObject(users.get(user).toString());
-//                    User newUser = User.toUser(objectUser);
-//
-//                    for (int otherUser = 0; other)
-//
-//                    if (newUser.username.compareTo(Constants.user.username) != 0) {
-//                        Constants.otherUsers.add(newUser);
-//                    }
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        }
-//
-//        refreshUsersData(users);
-
     }
 
 }

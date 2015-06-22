@@ -1,35 +1,45 @@
 package com.example.fernando.myapplication.Activities;
 
+import android.annotation.TargetApi;
+import android.app.ActionBar;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import com.example.fernando.myapplication.Common.Constants;
 import com.example.fernando.myapplication.R;
 
 import java.io.ByteArrayOutputStream;
 
-public class GetInActivity extends ActionBarActivity implements View.OnClickListener {
+public class GetInActivity extends Activity implements View.OnClickListener {
 
-    private LocationManager locationManager;
-    private String provider;
+//    private LocationManager locationManager;
+//    private String provider;
 
     EditText ipContainer;
 
@@ -43,62 +53,16 @@ public class GetInActivity extends ActionBarActivity implements View.OnClickList
 
         ipContainer = (EditText) findViewById(R.id.ipedittext);
 
-//        setContentView(R.layout.chat);
-//
-//        ScrollView cont = (ScrollView) findViewById(R.id.scrollView);
-//        LinearLayout linearLayout = (LinearLayout) cont.findViewById(R.id.messages);
-//        ImageView end = (ImageView) findViewById(R.id.endflag);
-//
-//        Button send = (Button) findViewById(R.id.sendButton);
-//        send.setOnClickListener(new View.OnClickListener() {
-//
-//            @Override
-//            public void onClick(View v) {
-//                ScrollView cont = (ScrollView) findViewById(R.id.scrollView);
-//                cont.fullScroll(ScrollView.FOCUS_DOWN);
-//
-//            }
-//        });
-//
-//        LayoutInflater vi = (LayoutInflater) getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//        View message = vi.inflate(R.layout.chatmessage, null);
-//        View message2 = vi.inflate(R.layout.chatmessage, null);
-//        View message3 = vi.inflate(R.layout.chatmessage, null);
-//        View message4 = vi.inflate(R.layout.chatmessage, null);
-//        View message5 = vi.inflate(R.layout.chatmessage, null);
-//        View message6 = vi.inflate(R.layout.chatmessage, null);
-//        View message7 = vi.inflate(R.layout.chatmessage, null);
-//        View message8 = vi.inflate(R.layout.chatmessage, null);
-//
-//        message8.setVisibility(View.VISIBLE);
-//
-//        ((TextView)message7.findViewById(R.id.myText)).setText("the lastfsdf\n\nsdfsDFSDssssssssss  FSDSDFSD one");
-//
-//        message.findViewById(R.id.othersMessage).setVisibility(View.INVISIBLE);
-//        message3.findViewById(R.id.myMessage).setVisibility(View.INVISIBLE);
-//
-//        linearLayout.setOrientation(LinearLayout.VERTICAL);
-////        RelativeLayout.LayoutParams newrlp = new RelativeLayout()
-//        linearLayout.addView(message, 0, new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.FILL_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT));
-//        linearLayout.addView(message2, 1, new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.FILL_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT));
-//        linearLayout.addView(message3, 2, new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.FILL_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT));
-//        linearLayout.addView(message4, 3, new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.FILL_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT));
-//        linearLayout.addView(message5, 4, new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.FILL_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT));
-//        linearLayout.addView(message6, 5, new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.FILL_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT));
-////        linearLayout.addView(message6, 6, new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.FILL_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT));
-//        linearLayout.addView(message7, 6, new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.FILL_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT));
-//        linearLayout.addView(message8, 7, new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.FILL_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT));
-//
-////        linearLayout.addView(message);
-////        linearLayout.addView(message);
-//
-//        cont.removeAllViews();
-//
-////                cont.addView(linearLayout);
-//        cont.addView(linearLayout, 0, new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.FILL_PARENT, RelativeLayout.LayoutParams.FILL_PARENT));
-//
-//        send.callOnClick();
-//        send.performClick();
+        ActionBar s = getActionBar();
+        s.setIcon(R.drawable.ic_launcher);
+        s.setSubtitle("fer");
+
+
+//        android.support.v7.app.ActionBar s = getSupportActionBar();
+//        s.hide();
+//        s.setIcon(R.drawable.ic_launcher);
+//        s.setSubtitle("fer");
+
     }
 
     private Bitmap setPicture(Bitmap pictureBitmap) {
@@ -188,6 +152,7 @@ public class GetInActivity extends ActionBarActivity implements View.OnClickList
 
         Intent logIn = new Intent(this, LogInActivity.class);
         startActivity(logIn);
+        overridePendingTransition(R.anim.open_next, R.anim.close_main);
         finish();
 
     }

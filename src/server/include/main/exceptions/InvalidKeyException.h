@@ -8,6 +8,7 @@
 #ifndef SERVER_MAIN_EXCEPTIONS_INVALIDKEYEXCEPTION_H_
 #define SERVER_MAIN_EXCEPTIONS_INVALIDKEYEXCEPTION_H_
 
+#include <string>
 #include "BaseException.h"
 #include "../../../include/main/utilities/Logger.h"
 
@@ -17,7 +18,7 @@
  */
 class InvalidKeyException: public BaseException {
 public:
-	InvalidKeyException(string what);
+	InvalidKeyException(const std::string& what);
 	virtual ~InvalidKeyException();
 };
 

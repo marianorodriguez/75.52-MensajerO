@@ -69,8 +69,9 @@ void SomethingForMeServiceTest::testDoubleRequestShouldReturnNoMessages() {
 	data[SERVICE_USERNAME] = "username2";
 	data[SERVICE_PASSWORD] = "password2";
 
-	SomethingForMeService::doSomethingForMe(data);
-	Json::Value output = SomethingForMeService::doSomethingForMe(data);
+	SomethingForMeService service;
+	service.doSomethingForMe(data);
+	Json::Value output = service.doSomethingForMe(data);
 
 	CPPUNIT_ASSERT(output[SERVICE_OUT_OK].asBool() == true);
 	CPPUNIT_ASSERT(output[SERVICE_OUT_WHAT].asString() == "");
@@ -85,7 +86,8 @@ void SomethingForMeServiceTest::testGetNewMessages() {
 	data[SERVICE_USERNAME] = "username2";
 	data[SERVICE_PASSWORD] = "password2";
 
-	Json::Value output = SomethingForMeService::doSomethingForMe(data);
+	SomethingForMeService service;
+	Json::Value output = service.doSomethingForMe(data);
 
 	CPPUNIT_ASSERT(output[SERVICE_OUT_OK].asBool() == true);
 	CPPUNIT_ASSERT(output[SERVICE_OUT_WHAT].asString() == "");
@@ -100,7 +102,7 @@ void SomethingForMeServiceTest::testGetNewMessages() {
 	data2[SERVICE_USERNAME] = "username1";
 	data2[SERVICE_PASSWORD] = "password1";
 
-	Json::Value output2 = SomethingForMeService::doSomethingForMe(data2);
+	Json::Value output2 = service.doSomethingForMe(data2);
 
 	CPPUNIT_ASSERT(output2[SERVICE_OUT_OK].asBool() == true);
 	CPPUNIT_ASSERT(output2[SERVICE_OUT_WHAT].asString() == "");
@@ -117,7 +119,8 @@ void SomethingForMeServiceTest::shouldThrowInvalidPassword() {
 	data[SERVICE_USERNAME] = "username2";
 	data[SERVICE_PASSWORD] = "password_invalid";
 
-	Json::Value output = SomethingForMeService::doSomethingForMe(data);
+	SomethingForMeService service;
+	Json::Value output = service.doSomethingForMe(data);
 
 	CPPUNIT_ASSERT(output[SERVICE_OUT_OK].asBool() == false);
 	CPPUNIT_ASSERT(
@@ -130,7 +133,8 @@ void SomethingForMeServiceTest::shouldThrowInvalidUsername() {
 	data[SERVICE_USERNAME] = "invalidUsername";
 	data[SERVICE_PASSWORD] = "password2";
 
-	Json::Value output = SomethingForMeService::doSomethingForMe(data);
+	SomethingForMeService service;
+	Json::Value output = service.doSomethingForMe(data);
 
 	CPPUNIT_ASSERT(output[SERVICE_OUT_OK].asBool() == false);
 	CPPUNIT_ASSERT(

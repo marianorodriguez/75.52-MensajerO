@@ -49,53 +49,61 @@ void BroadcastServiceTest::tearDown(){
 }
 
 void BroadcastServiceTest::testShouldDoBroadcast(){
+	Database userDb(DATABASE_USERS_PATH);
+	Database chatDb(DATABASE_CHATS_PATH);
+	BroadcastService service(userDb, chatDb);
 	Json::Value input;
 	input[SERVICE_USERNAME] = "username1_bc";
 	input[SERVICE_PASSWORD] = "password1";
 	input[SERVICE_SENDMESSAGE_MESSAGE] = "text to broadcast";
 
-	Json::Value output = BroadcastService::doBroadcast(input);
-
-	Database userDB(DATABASE_USERS_PATH);
-	vector<string> key2, key3;
+	Json::Value output = service.doBroadcast(input);
+	CPPUNIT_ASSERT(output[SERVICE_OUT_OK].asBool() == true);
+	std::vector<std::string> key2, key3;
 	key2.push_back("secondUser");
-	User user2 = userDB.read(key2);
+	User user2 = userDb.read(key2);
 	key3.push_back("username3");
-	User user3 = userDB.read(key3);
-	CPPUNIT_ASSERT(user2.getChats().size() == 1);
-	CPPUNIT_ASSERT(user3.getChats().size() == 1);
-	userDB.close();
+	User user3 = userDb.read(key3);
+	int user2Chats = user2.getChats().size();
+	int user3Chats = user3.getChats().size();
+	CPPUNIT_ASSERT_EQUAL(1, user2Chats);
+	CPPUNIT_ASSERT_EQUAL(1, user3Chats);
 
-	Database chatDB(DATABASE_CHATS_PATH);
-	vector<string> keyChat1, keyChat2;
+	std::vector<std::string> keyChat1, keyChat2;
 	keyChat1.push_back("username1_bc");
 	keyChat1.push_back("secondUser");
 	keyChat2.push_back("username1_bc");
 	keyChat2.push_back("username3");
-	chatDB.erase(keyChat1);
-	chatDB.erase(keyChat2);
-	chatDB.close();
+	chatDb.erase(keyChat1);
+	chatDb.erase(keyChat2);
+	chatDb.close();
 }
 
 void BroadcastServiceTest::testShouldBeInvalidPassword(){
+	Database userDb(DATABASE_USERS_PATH);
+	Database chatDb(DATABASE_CHATS_PATH);
+	BroadcastService service(userDb, chatDb);
 	Json::Value input;
 	input[SERVICE_USERNAME] = "username1_bc";
 	input[SERVICE_PASSWORD] = "password1asd";
 	input[SERVICE_SENDMESSAGE_MESSAGE] = "text to broadcast";
 
-	Json::Value output = BroadcastService::doBroadcast(input);
+	Json::Value output = service.doBroadcast(input);
 
 	CPPUNIT_ASSERT(output[SERVICE_OUT_OK].asBool() == false);
 	CPPUNIT_ASSERT(output[SERVICE_OUT_WHAT].asString() == SERVICE_OUT_INVALIDPWD);
 }
 
 void BroadcastServiceTest::testShouldBeInvalidUsername(){
+	Database userDb(DATABASE_USERS_PATH);
+	Database chatDb(DATABASE_CHATS_PATH);
+	BroadcastService service(userDb, chatDb);
 	Json::Value input;
 	input[SERVICE_USERNAME] = "username1asd";
 	input[SERVICE_PASSWORD] = "password1";
 	input[SERVICE_SENDMESSAGE_MESSAGE] = "text to broadcast";
 
-	Json::Value output = BroadcastService::doBroadcast(input);
+	Json::Value output = service.doBroadcast(input);
 
 	CPPUNIT_ASSERT(output[SERVICE_OUT_OK].asBool() == false);
 	CPPUNIT_ASSERT(output[SERVICE_OUT_WHAT].asString() == SERVICE_OUT_INVALIDUSER);
