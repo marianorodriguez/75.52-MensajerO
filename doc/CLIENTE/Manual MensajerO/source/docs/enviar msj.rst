@@ -1,6 +1,6 @@
 .. index:: Envío de mensajes
 .. |send| image:: images/send.png
-.. |difusion| image:: images/iconoDifusion.png
+.. |difusion| image:: images/difusion.png
 
 Envío de mensajes
 *****************
