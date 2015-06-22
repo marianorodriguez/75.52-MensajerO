@@ -1,35 +1,45 @@
 package com.example.fernando.myapplication.Activities;
 
+import android.annotation.TargetApi;
+import android.app.ActionBar;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import com.example.fernando.myapplication.Common.Constants;
 import com.example.fernando.myapplication.R;
 
 import java.io.ByteArrayOutputStream;
 
-public class GetInActivity extends ActionBarActivity implements View.OnClickListener {
+public class GetInActivity extends Activity implements View.OnClickListener {
 
-    private LocationManager locationManager;
-    private String provider;
+//    private LocationManager locationManager;
+//    private String provider;
 
     EditText ipContainer;
 
@@ -43,84 +53,16 @@ public class GetInActivity extends ActionBarActivity implements View.OnClickList
 
         ipContainer = (EditText) findViewById(R.id.ipedittext);
 
-//        setContentView(R.layout.users);
-
-//        LinearLayout linearLayout = (LinearLayout) findViewById(R.id.users);
-//
-////        Button send = (Button) findViewById(R.id.sendButton);
-////        send.setOnClickListener(new View.OnClickListener() {
-////
-////            @Override
-////            public void onClick(View v) {
-////                ScrollView cont = (ScrollView) findViewById(R.id.scrollView);
-////                cont.fullScroll(ScrollView.FOCUS_DOWN);
-////
-////            }
-////        });
-//
-//        LayoutInflater vi = (LayoutInflater) getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//        final View message = vi.inflate(R.layout.user_item_chats, null);
-//        View message2 = vi.inflate(R.layout.user_item_chats, null);
-//        View message3 = vi.inflate(R.layout.user_item_chats, null);
-//        View message4 = vi.inflate(R.layout.user_item_chats, null);
-//        View message5 = vi.inflate(R.layout.user_item_chats, null);
-//        View message6 = vi.inflate(R.layout.user_item_chats, null);
-//        View message7 = vi.inflate(R.layout.user_item_chats, null);
-//        View message8 = vi.inflate(R.layout.user_item_chats, null);
-//
-//        ((TextView) message.findViewById(R.id.userItemData)).setText("fer");
-//        ((TextView) message.findViewById(R.id.userItemData)).setText("2");
-//        ((TextView) message.findViewById(R.id.userItemData)).setText("3");
-//
-//
-//        message.setOnClickListener(this);
-//        message2.setOnClickListener(this);
-//        message3.setOnClickListener(this);
-//
-////        message.setOnClickListener(new View.OnClickListener() {
-////
-////            @Override
-////            public void onClick(View v) {
-////                ((ImageView) message.findViewById(R.id.userItemImage)).setVisibility(View.INVISIBLE);
-////
-////            });
-////        }
-//
-//        message8.setVisibility(View.VISIBLE);
-//
-////        ((TextView)message7.findViewById(R.id.myText)).setText("the lastfsdf\n\nsdfsDFSDssssssssss  FSDSDFSD one");
-//
-////        message.findViewById(R.id.othersMessage).setVisibility(View.INVISIBLE);
-////        message3.findViewById(R.id.myMessage).setVisibility(View.INVISIBLE);
-//
-//        linearLayout.setOrientation(LinearLayout.VERTICAL);
-////        RelativeLayout.LayoutParams newrlp = new RelativeLayout()
-//        linearLayout.addView(message, 0, new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.FILL_PARENT, 200));
-//        linearLayout.addView(message2, 1, new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.FILL_PARENT, 200));
-//        linearLayout.addView(message3, 0, new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.FILL_PARENT, 200));
-//        linearLayout.addView(message4, 3, new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.FILL_PARENT, 200));
-//        linearLayout.addView(message5, 4, new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.FILL_PARENT, 200));
-//        linearLayout.addView(message6, 5, new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.FILL_PARENT, 200));
-////        linearLayout.addView(message6, 6, new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.FILL_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT));
-//        linearLayout.addView(message7, 6, new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.FILL_PARENT, 200));
-//        linearLayout.addView(message8, 7, new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.FILL_PARENT, 200));
-//
+        ActionBar s = getActionBar();
+        s.setIcon(R.drawable.ic_launcher);
+        s.setSubtitle("fer");
 
 
-//        linearLayout.addView(message);
-//        linearLayout.addView(message);
+//        android.support.v7.app.ActionBar s = getSupportActionBar();
+//        s.hide();
+//        s.setIcon(R.drawable.ic_launcher);
+//        s.setSubtitle("fer");
 
-
-//
-//        v.findViewById(R.id.userItemImage).setVisibility(View.INVISIBLE);
-//        return;
-
-
-//                cont.addView(linearLayout);
-//        cont.addView(linearLayout, 0, new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.FILL_PARENT, RelativeLayout.LayoutParams.FILL_PARENT));
-
-//        send.callOnClick();
-//        send.performClick();
     }
 
     private Bitmap setPicture(Bitmap pictureBitmap) {
@@ -210,6 +152,7 @@ public class GetInActivity extends ActionBarActivity implements View.OnClickList
 
         Intent logIn = new Intent(this, LogInActivity.class);
         startActivity(logIn);
+        overridePendingTransition(R.anim.open_next, R.anim.close_main);
         finish();
 
     }

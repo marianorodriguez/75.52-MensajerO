@@ -7,6 +7,7 @@
 
     <item android:id="@+id/users"
         android:icon="@drawable/users3"
+
         android:title="USERS"
         app:showAsAction="always"/>
 

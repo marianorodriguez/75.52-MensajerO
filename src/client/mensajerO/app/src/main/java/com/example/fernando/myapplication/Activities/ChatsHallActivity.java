@@ -1,5 +1,6 @@
 package com.example.fernando.myapplication.Activities;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -36,7 +37,7 @@ import java.util.HashMap;
 /**
  * Created by fernando on 10/04/15.
  */
-public class ChatsHallActivity extends ActionBarActivity implements View.OnClickListener {
+public class ChatsHallActivity extends Activity implements View.OnClickListener {
 
     public static SomethingForMePostAsyncTask somethingForMePost;
     public static GetUsersPostAsyncTask getUsersPost;
