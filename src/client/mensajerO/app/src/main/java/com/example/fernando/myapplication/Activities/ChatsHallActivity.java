@@ -7,11 +7,13 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Pair;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,6 +26,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.fernando.myapplication.Common.Constants;
+import com.example.fernando.myapplication.Entities.User;
 import com.example.fernando.myapplication.R;
 import com.example.fernando.myapplication.Threads.CurrentChatsPostAsyncTask;
 import com.example.fernando.myapplication.Threads.DeleteChatPostAsyncTask;
@@ -37,7 +40,7 @@ import java.util.HashMap;
 /**
  * Created by fernando on 10/04/15.
  */
-public class ChatsHallActivity extends Activity implements View.OnClickListener {
+public class ChatsHallActivity extends ActionBarActivity implements View.OnClickListener {
 
     public static SomethingForMePostAsyncTask somethingForMePost;
     public static GetUsersPostAsyncTask getUsersPost;
@@ -57,7 +60,6 @@ public class ChatsHallActivity extends Activity implements View.OnClickListener 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.chatshall);
 
-        setTitle("CHATS");
         context = this;
 //        mSharedPref= getSharedPreferences(Constants.PREFS, MODE_PRIVATE);
 //        SharedPreferences.Editor ee = mSharedPref.edit();
@@ -66,16 +68,7 @@ public class ChatsHallActivity extends Activity implements View.OnClickListener 
 
         mSharedPref = getSharedPreferences(Constants.PREFS, MODE_PRIVATE);
 
-//        if ((Constants.server != null && Constants.server.loguedUsers.size() == 0) ||
-        if (/*(Constants.server != null) ||*/
-                mSharedPref.getString(Constants.PREF_NAME, "").isEmpty()) {
-//        if (Constants.mSharedPreferences.getString(Constants.PREF_NAME, "").isEmpty() || Constants.server == null ||
-//                Constants.server.loguedUsers.size() == 0) {
-
-//            if (Constants.mSharedPreferences.getString(Constants.PREF_NAME, "").isEmpty()) {
-//            SharedPreferences.Editor e = mSharedPref.edit();
-//            e.clear();
-//            e.commit();
+        if (mSharedPref.getString(Constants.PREF_NAME, "").isEmpty()) {
 
             Intent getIn = new Intent(this, GetInActivity.class);
             startActivity(getIn);
@@ -134,8 +127,24 @@ public class ChatsHallActivity extends Activity implements View.OnClickListener 
 //            hilo que ve si hay chats nuevos en la lista de chats y si los hay
 //            o si hay mensajes nuevo los muestre y los ordene
 
-        }
+            getSupportActionBar().setDisplayShowCustomEnabled(true);
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
 
+            LayoutInflater inflater = (LayoutInflater) getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View actionBar = inflater.inflate(R.layout.action_bar, null);
+            getSupportActionBar().setCustomView(actionBar);
+
+            ((TextView) actionBar.findViewById(R.id.actionBarTitle)).setText("CHATS HALL");
+            ((TextView) actionBar.findViewById(R.id.actionBarSubtitle)).setText("Status: "+Constants.user.status);
+
+            RoundedBitmapDrawable img;
+            img = RoundedBitmapDrawableFactory.create(getResources(), Constants.user.profile_picture);
+            img.setCornerRadius(300f);
+            ((ImageView) actionBar.findViewById(R.id.actionBarIcon)).setImageDrawable(img);
+
+            Constants.chatsHallActionBar = actionBar;
+
+        }
     }
 
     @Override
@@ -197,6 +206,8 @@ public class ChatsHallActivity extends Activity implements View.OnClickListener 
         if (Constants.user != null) {
             SharedPreferences.Editor e = mSharedPref.edit();
             e.putString(Constants.user.username + "chats", Constants.user.chatsToJson().toString());
+            e.putString(Constants.user.username + "profile_picture", Constants.user.profile_picture.toString());
+            e.putString(Constants.user.username + "status", Constants.user.status);
             e.commit();
         }
 

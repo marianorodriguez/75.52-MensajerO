@@ -47,6 +47,23 @@ public class UsersActivity extends ActionBarActivity implements View.OnClickList
         setContentView(R.layout.users);
         context = this;
 
+        getSupportActionBar().setDisplayShowCustomEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+        LayoutInflater inflater = (LayoutInflater) getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View actionBar = inflater.inflate(R.layout.action_bar, null);
+        getSupportActionBar().setCustomView(actionBar);
+
+        ((TextView) actionBar.findViewById(R.id.actionBarTitle)).setText("USERS");
+        ((TextView) actionBar.findViewById(R.id.actionBarSubtitle)).setText("Status: "+Constants.user.status);
+
+        RoundedBitmapDrawable img;
+        img = RoundedBitmapDrawableFactory.create(getResources(), Constants.user.profile_picture);
+        img.setCornerRadius(300f);
+        ((ImageView) actionBar.findViewById(R.id.actionBarIcon)).setImageDrawable(img);
+
+        Constants.usersHallActionBar = actionBar;
+
         // dibujar los usuarios de la lista de usuarios Constants.users
         drawCurrentUsers();
 

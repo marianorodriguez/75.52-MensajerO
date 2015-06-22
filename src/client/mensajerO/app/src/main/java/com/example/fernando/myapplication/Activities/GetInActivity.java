@@ -1,45 +1,25 @@
 package com.example.fernando.myapplication.Activities;
 
-import android.annotation.TargetApi;
 import android.app.ActionBar;
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.location.LocationManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Base64;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.ScrollView;
-import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.ToggleButton;
 
 import com.example.fernando.myapplication.Common.Constants;
 import com.example.fernando.myapplication.R;
 
 import java.io.ByteArrayOutputStream;
 
-public class GetInActivity extends Activity implements View.OnClickListener {
-
-//    private LocationManager locationManager;
-//    private String provider;
+public class GetInActivity extends ActionBarActivity implements View.OnClickListener {
 
     EditText ipContainer;
 
@@ -53,10 +33,17 @@ public class GetInActivity extends Activity implements View.OnClickListener {
 
         ipContainer = (EditText) findViewById(R.id.ipedittext);
 
-        ActionBar s = getActionBar();
-        s.setIcon(R.drawable.ic_launcher);
-        s.setSubtitle("fer");
+        getSupportActionBar().hide();
 
+//        s.setIcon(R.drawable.ic_launcher);
+//        s.setSubtitle("fer");
+//
+//        RoundedBitmapDrawable img;
+//        Bitmap a = BitmapFactory.decodeResource(this.getResources(),
+//                R.drawable.gotochats);;
+//        img = RoundedBitmapDrawableFactory.create(getResources(), a);
+//        img.setCornerRadius(Math.max(a.getWidth(), a.getHeight()) / 2.0f);
+//        s.setIcon(img);
 
 //        android.support.v7.app.ActionBar s = getSupportActionBar();
 //        s.hide();

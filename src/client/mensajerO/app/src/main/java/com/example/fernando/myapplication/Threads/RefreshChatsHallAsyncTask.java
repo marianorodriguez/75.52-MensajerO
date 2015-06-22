@@ -1,13 +1,20 @@
 package com.example.fernando.myapplication.Threads;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.util.Pair;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.fernando.myapplication.Activities.ChatsHallActivity;
 import com.example.fernando.myapplication.Common.Constants;
 import com.example.fernando.myapplication.Entities.Chat;
 import com.example.fernando.myapplication.Entities.User;
+import com.example.fernando.myapplication.R;
 
 /**
  * Created by fernando on 27/04/15.
@@ -15,6 +22,7 @@ import com.example.fernando.myapplication.Entities.User;
 public class RefreshChatsHallAsyncTask extends AsyncTask<Pair<Context, String>, String, String> {
 
     private Context context;
+
     @Override
     protected String doInBackground(Pair<Context, String>... params) {
 

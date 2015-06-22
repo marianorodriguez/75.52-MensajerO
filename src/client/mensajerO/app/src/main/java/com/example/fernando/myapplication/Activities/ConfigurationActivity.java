@@ -1,5 +1,6 @@
 package com.example.fernando.myapplication.Activities;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -9,13 +10,17 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Base64;
 import android.util.Pair;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RadioButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.fernando.myapplication.Common.Constants;
@@ -48,6 +53,18 @@ public class ConfigurationActivity extends ActionBarActivity implements View.OnC
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.configuration);
+
+        getSupportActionBar().setDisplayShowCustomEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+        LayoutInflater inflater = (LayoutInflater) getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View actionBar = inflater.inflate(R.layout.action_bar, null);
+        getSupportActionBar().setCustomView(actionBar);
+
+        ((TextView) actionBar.findViewById(R.id.actionBarTitle)).setText("SETTINGS");
+        ((TextView) actionBar.findViewById(R.id.actionBarSubtitle)).setText("");
+
+        ((ImageView) actionBar.findViewById(R.id.actionBarIcon)).setImageResource(R.drawable.settings);
 
         Button button1 = (Button) findViewById(R.id.backtologin);
         button1.setOnClickListener(this);
@@ -94,11 +111,16 @@ public class ConfigurationActivity extends ActionBarActivity implements View.OnC
             profilePicture.setImageBitmap(Constants.user.profile_picture);
 
             float scaleRatio = getResources().getDisplayMetrics().density;
-            int dps = 150;
+            int dps = 120;
             int pixels = (int) (dps * scaleRatio + 0.5f);
 
             profilePicture.getLayoutParams().height = pixels; // OR
             profilePicture.getLayoutParams().width = pixels;
+
+            RoundedBitmapDrawable img;
+            img = RoundedBitmapDrawableFactory.create(getResources(), Constants.user.profile_picture);
+            img.setCornerRadius(500f);
+            profilePicture.setImageDrawable(img);
         }
     }
 
@@ -157,6 +179,12 @@ public class ConfigurationActivity extends ActionBarActivity implements View.OnC
 
                 profilePicture.getLayoutParams().height = pixels; // OR
                 profilePicture.getLayoutParams().width = pixels;
+
+                RoundedBitmapDrawable img;
+                img = RoundedBitmapDrawableFactory.create(getResources(), Constants.user.profile_picture);
+                img.setCornerRadius(300f);
+                profilePicture.setImageDrawable(img);
+
             }
         }
     }
@@ -217,6 +245,13 @@ public class ConfigurationActivity extends ActionBarActivity implements View.OnC
                 Toast.makeText(this, "Changes saved properly", Toast.LENGTH_SHORT).show();
                 Constants.configOK = "";
                 finish();
+
+                ((TextView) Constants.chatsHallActionBar.findViewById(R.id.actionBarSubtitle)).setText("Status: "+Constants.user.status);
+
+                RoundedBitmapDrawable img;
+                img = RoundedBitmapDrawableFactory.create(getResources(), Constants.user.profile_picture);
+                img.setCornerRadius(300f);
+                ((ImageView) Constants.chatsHallActionBar.findViewById(R.id.actionBarIcon)).setImageDrawable(img);
 
             } else {
                 Toast.makeText(this, "Could't connect with server. Your changes won't be saved.", Toast.LENGTH_LONG).show();

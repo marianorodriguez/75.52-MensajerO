@@ -1,12 +1,18 @@
 package com.example.fernando.myapplication.Activities;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Pair;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -29,13 +35,42 @@ public class ChatActivity extends ActionBarActivity implements View.OnClickListe
     private Calendar calendar = Calendar.getInstance();
     private ScrollView scroll;
 
+    String otherUserStatus = null;
+    Bitmap otherUserPicture = null;
+    String otherUserLastTimeConnected = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.chat);
 
-        setTitle(getResources().getString(R.string.chat).concat(" " + Constants.chatWith));
+        getSupportActionBar().setDisplayShowCustomEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
+        LayoutInflater inflater = (LayoutInflater) getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View actionBar = inflater.inflate(R.layout.action_bar, null);
+        getSupportActionBar().setCustomView(actionBar);
+
+        findOtherUserData();
+
+        ((TextView) actionBar.findViewById(R.id.actionBarTitle)).setText("CHAT WITH ".concat(Constants.chatWith));
+        if (otherUserStatus.compareTo("offline") != 0) {
+            ((TextView) actionBar.findViewById(R.id.actionBarSubtitle)).setText("Status: " + otherUserStatus +
+                    "\nLast time seen: " + otherUserLastTimeConnected);
+            ((TextView) actionBar.findViewById(R.id.actionBarSubtitle)).setTextSize(10);
+        } else {
+            ((TextView) actionBar.findViewById(R.id.actionBarSubtitle)).setText("Status: " + otherUserStatus);
+        }
+
+        RoundedBitmapDrawable img;
+        img = RoundedBitmapDrawableFactory.create(getResources(), otherUserPicture);
+        img.setCornerRadius(300f);
+        ((ImageView) actionBar.findViewById(R.id.actionBarIcon)).setImageDrawable(img);
+
+        Constants.chatActionBar = actionBar;
+        Constants.resources = getResources();
+
+//        setTitle(getResources().getString(R.string.chat).concat(" " + Constants.chatWith));
 //        TextView chat = (TextView) findViewById(R.id.chat);
 
         Button sendButton = (Button) findViewById(R.id.sendButton);
@@ -60,6 +95,21 @@ public class ChatActivity extends ActionBarActivity implements View.OnClickListe
         // tirar hilo que se fije si de en la lista de chats hay cambios con este user y actualice la vista
 
         scroll.fullScroll(ScrollView.FOCUS_DOWN);
+    }
+
+    private void findOtherUserData() {
+        for (int otherUser = 0; otherUser < Constants.otherUsers.size(); otherUser++) {
+            if (Constants.otherUsers.get(otherUser).username.compareTo(Constants.chatWith) == 0) {
+                otherUserStatus = Constants.otherUsers.get(otherUser).status;
+                otherUserPicture = Constants.otherUsers.get(otherUser).profile_picture;
+                otherUserLastTimeConnected = Constants.otherUsers.get(otherUser).lastTimeConnected;
+                return;
+            }
+        }
+        otherUserStatus = "offline";
+        otherUserPicture = BitmapFactory.decodeResource(this.getResources(),
+                R.drawable.offline1);
+        otherUserLastTimeConnected = "";
     }
 
     @Override

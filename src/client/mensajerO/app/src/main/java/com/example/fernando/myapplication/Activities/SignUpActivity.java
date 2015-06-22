@@ -1,5 +1,7 @@
 package com.example.fernando.myapplication.Activities;
 
+import android.app.ActionBar;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -41,8 +43,7 @@ public class SignUpActivity extends ActionBarActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.signup);
 
-        android.support.v7.app.ActionBar s = getSupportActionBar();
-        s.hide();
+        getSupportActionBar().hide();
 
         Button button1 = (Button) findViewById(R.id.backtologin);
         button1.setOnClickListener(this);

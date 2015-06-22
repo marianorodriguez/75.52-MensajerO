@@ -1,9 +1,12 @@
 package com.example.fernando.myapplication.Common;
 
+import android.app.ActionBar;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Base64;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ScrollView;
@@ -81,7 +84,10 @@ final public class Constants//final to prevent instantiation
     //La cantidad actual de messages en un chat x renderizados hasta el momento
     public static int messagesSize = 0;
 
-
+    public static View chatsHallActionBar = null;
+    public static View usersHallActionBar = null;
+    public static View chatActionBar = null;
+    public static Resources resources;
 
     //private constructor to prevent instantiation/inheritance
     private Constants() {}

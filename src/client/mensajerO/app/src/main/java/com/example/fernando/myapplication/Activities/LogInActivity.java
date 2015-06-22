@@ -1,5 +1,7 @@
 package com.example.fernando.myapplication.Activities;
 
+import android.app.ActionBar;
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -54,6 +56,8 @@ public class LogInActivity extends ActionBarActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
+
+        getSupportActionBar().hide();
 
         Button button1 = (Button) findViewById(R.id.backtologin);
         button1.setOnClickListener(this);
