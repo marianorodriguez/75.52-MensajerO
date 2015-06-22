@@ -3,7 +3,6 @@ package com.example.fernando.myapplication.Threads;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
-import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
@@ -40,7 +39,7 @@ public class RefreshUsersAsyncTask extends AsyncTask<Pair<Context, String>, Stri
 //        Constants.currentUsersSize = Constants.otherUsers.size();
         context = params[0].first;
             try {
-                Thread.sleep(5000);
+                Thread.sleep(2000);
 
                 publishProgress("updateUsers");
 
@@ -93,7 +92,7 @@ public class RefreshUsersAsyncTask extends AsyncTask<Pair<Context, String>, Stri
 
             for (int otherUser = 0; otherUser < Constants.otherUsers.size(); otherUser++) {
                 if (!ids.contains(Constants.otherUsers.get(otherUser).username)) {
-                    addNewOtherUser(inflater, img, Constants.otherUsers.get(otherUser));
+                    addNewOtherUser(inflater, Constants.otherUsers.get(otherUser));
                 }
             }
         }
@@ -101,11 +100,11 @@ public class RefreshUsersAsyncTask extends AsyncTask<Pair<Context, String>, Stri
 
     private void refreshCurrentData(View user, User wanted, RoundedBitmapDrawable img) {
 
-        Bitmap a = wanted.profile_picture;
-        img = RoundedBitmapDrawableFactory.create(resources, a);
-        img.setCornerRadius(Math.max(a.getWidth(), a.getHeight()) / 1.0f);
-
+        img = RoundedBitmapDrawableFactory.create(resources, wanted.profile_picture);
+        img.setCornerRadius(300f);
+        ((ImageView) user.findViewById(R.id.userItemImage)).setScaleType(ImageView.ScaleType.CENTER_CROP);
         ((ImageView) user.findViewById(R.id.userItemImage)).setImageDrawable(img);
+        ((ImageView) user.findViewById(R.id.userItemImage)).setScaleType(ImageView.ScaleType.CENTER_CROP);
 
         ((TextView) user.findViewById(R.id.userItemData)).setText(wanted.username + "\n" +
                 wanted.status + " -- "
@@ -123,14 +122,13 @@ public class RefreshUsersAsyncTask extends AsyncTask<Pair<Context, String>, Stri
         return null;
     }
 
-    private void addNewOtherUser(LayoutInflater inflater, RoundedBitmapDrawable img, User userToShow) {
+    private void addNewOtherUser(LayoutInflater inflater, User userToShow) {
 
         View newUser = inflater.inflate(R.layout.user_item_users, null);
 
-        Bitmap a = userToShow.profile_picture;
-        img = RoundedBitmapDrawableFactory.create(resources, a);
-        img.setCornerRadius(Math.max(a.getWidth(), a.getHeight()) / 2.0f);
-
+        RoundedBitmapDrawable img = RoundedBitmapDrawableFactory.create(resources, userToShow.profile_picture);
+        img.setCornerRadius(300f);
+        ((ImageView) newUser.findViewById(R.id.userItemImage)).setScaleType(ImageView.ScaleType.CENTER_CROP);
         ((ImageView) newUser.findViewById(R.id.userItemImage)).setImageDrawable(img);
 
         ((TextView) newUser.findViewById(R.id.userItemData)).setText(userToShow.username + "\n" +

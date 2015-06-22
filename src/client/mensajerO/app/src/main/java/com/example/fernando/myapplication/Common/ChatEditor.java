@@ -68,11 +68,13 @@ public class ChatEditor {
             if (messageToRender.msg_fromID.compareTo(owner) == 0) {
                 chatMessage.findViewById(R.id.othersMessage).setVisibility(View.INVISIBLE);
                 ((TextView)chatMessage.findViewById(R.id.myMessage).findViewById(R.id.myText)).setText(messageToRender.msg_text);
-                ((TextView)chatMessage.findViewById(R.id.myMessage).findViewById(R.id.myDateTime)).setText(messageToRender.msg_date);
+                ((TextView)chatMessage.findViewById(R.id.myMessage).findViewById(R.id.myDateTime)).
+                        setText(giveFormatToDate(messageToRender.msg_date, messageToRender.msg_time));
             } else {
                 chatMessage.findViewById(R.id.myMessage).setVisibility(View.INVISIBLE);
                 ((TextView)chatMessage.findViewById(R.id.othersMessage).findViewById(R.id.othersText)).setText(messageToRender.msg_text);
-                ((TextView)chatMessage.findViewById(R.id.othersMessage).findViewById(R.id.othersDateTime)).setText(messageToRender.msg_date);
+                ((TextView)chatMessage.findViewById(R.id.othersMessage).findViewById(R.id.othersDateTime)).
+                        setText(giveFormatToDate(messageToRender.msg_date, messageToRender.msg_time));
             }
 
             linearLayout.addView(chatMessage, linearLayout.getChildCount(), new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.FILL_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT));
@@ -82,24 +84,11 @@ public class ChatEditor {
         messagesContainer.removeAllViews();
         messagesContainer.addView(linearLayout);
 
-
-
-//
-//        cont.removeAllViews();
-//
-////                cont.addView(linearLayout);
-//        cont.addView(linearLayout, 0, new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.FILL_PARENT, RelativeLayout.LayoutParams.FILL_PARENT));
-//
-//        send.callOnClick();
-//        send.performClick();
-
     }
 
-//    public void renderNewMessage(Message newMessage) {
-//        ArrayList<Message> tmp = new ArrayList<>();
-//        tmp.add(newMessage);
-//        renderNewMessages(tmp);
-//    }
+    public String giveFormatToDate(String date, String time) {
+        return date + " - " + time;
+    }
 
     public void setChat(Chat chat) {
         this.chat = chat;

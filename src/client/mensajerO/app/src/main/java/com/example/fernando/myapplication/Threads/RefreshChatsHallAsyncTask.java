@@ -29,7 +29,7 @@ public class RefreshChatsHallAsyncTask extends AsyncTask<Pair<Context, String>, 
         //Constants.currentChatsSize = Constants.user.chats.size();
         context = params[0].first;
         try {
-            Thread.sleep(1000);
+            Thread.sleep(2000);
 
             publishProgress("refresh");
 

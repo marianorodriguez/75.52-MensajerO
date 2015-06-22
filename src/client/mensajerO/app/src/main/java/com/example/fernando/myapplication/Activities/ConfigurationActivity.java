@@ -15,6 +15,7 @@ import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Base64;
 import android.util.Pair;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -62,7 +63,7 @@ public class ConfigurationActivity extends ActionBarActivity implements View.OnC
         getSupportActionBar().setCustomView(actionBar);
 
         ((TextView) actionBar.findViewById(R.id.actionBarTitle)).setText("SETTINGS");
-        ((TextView) actionBar.findViewById(R.id.actionBarSubtitle)).setText("");
+        ((TextView) actionBar.findViewById(R.id.actionBarSubtitle)).setText("Your username: " + Constants.user.username);
 
         ((ImageView) actionBar.findViewById(R.id.actionBarIcon)).setImageResource(R.drawable.settings);
 
@@ -108,18 +109,19 @@ public class ConfigurationActivity extends ActionBarActivity implements View.OnC
 
         if (Constants.user.profile_picture != null) {
 
-            profilePicture.setImageBitmap(Constants.user.profile_picture);
+//            profilePicture.setImageBitmap(Constants.user.profile_picture);
 
-            float scaleRatio = getResources().getDisplayMetrics().density;
-            int dps = 120;
-            int pixels = (int) (dps * scaleRatio + 0.5f);
-
-            profilePicture.getLayoutParams().height = pixels; // OR
-            profilePicture.getLayoutParams().width = pixels;
-
+//            float scaleRatio = getResources().getDisplayMetrics().density;
+//            int dps = 120;
+//            int pixels = (int) (dps * scaleRatio + 0.5f);
+//
+//            profilePicture.getLayoutParams().height = pixels; // OR
+//            profilePicture.getLayoutParams().width = pixels;
+//            Bitmap a = Constants.user.profile_picture;
             RoundedBitmapDrawable img;
             img = RoundedBitmapDrawableFactory.create(getResources(), Constants.user.profile_picture);
-            img.setCornerRadius(500f);
+            img.setCornerRadius(300f);
+            profilePicture.setScaleType(ImageView.ScaleType.CENTER_CROP);
             profilePicture.setImageDrawable(img);
         }
     }
@@ -173,16 +175,10 @@ public class ConfigurationActivity extends ActionBarActivity implements View.OnC
                 e.putString(Constants.user.username+"profile_picture", setPicture(Constants.user.profile_picture));
                 e.commit();
 
-                float scaleRatio = getResources().getDisplayMetrics().density;
-                int dps = 150;
-                int pixels = (int) (dps * scaleRatio + 0.5f);
-
-                profilePicture.getLayoutParams().height = pixels; // OR
-                profilePicture.getLayoutParams().width = pixels;
-
                 RoundedBitmapDrawable img;
                 img = RoundedBitmapDrawableFactory.create(getResources(), Constants.user.profile_picture);
                 img.setCornerRadius(300f);
+                profilePicture.setScaleType(ImageView.ScaleType.CENTER_CROP);
                 profilePicture.setImageDrawable(img);
 
             }

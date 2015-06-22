@@ -24,6 +24,7 @@ import com.example.fernando.myapplication.R;
 import com.example.fernando.myapplication.Threads.SendMessagePostAsyncTask;
 
 import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Created by fernando on 10/04/15.
@@ -70,19 +71,12 @@ public class ChatActivity extends ActionBarActivity implements View.OnClickListe
         Constants.chatActionBar = actionBar;
         Constants.resources = getResources();
 
-//        setTitle(getResources().getString(R.string.chat).concat(" " + Constants.chatWith));
-//        TextView chat = (TextView) findViewById(R.id.chat);
-
         Button sendButton = (Button) findViewById(R.id.sendButton);
         sendButton.setOnClickListener(this);
         Button focusDownButton = (Button) findViewById(R.id.focusdown);
         focusDownButton.setOnClickListener(this);
 
         findViewById(R.id.editText).bringToFront();
-
-        // SETEAR EL CHAT CORRESPONDIENTE A CHATEDITOR ANTES DE PASAR A ESTA ACTIVITY
-//        Constants.chatEditor.renderChat(chat);
-        // dibujar los mensajes del chat actual con chatwith user
 
         sendMessage = new SendMessagePostAsyncTask();
         refreshChat = new RefreshChatAsyncTask();
@@ -132,7 +126,7 @@ public class ChatActivity extends ActionBarActivity implements View.OnClickListe
 
             while (Constants.sendMessageOk.compareTo("") == 0) {
                 try {
-                    Thread.sleep(10);
+                    Thread.sleep(1);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -146,8 +140,8 @@ public class ChatActivity extends ActionBarActivity implements View.OnClickListe
                         Constants.user.username,
                         Constants.chatWith,
                         message,
-                        calendar.getTime().toString(),
-                        "");
+                        getDate(calendar.getTime()),
+                        getTime(calendar.getTime()));
                 Constants.chatEditor.setContext(this, Constants.user.username, scroll);
                 refreshChat.setScrollDownButton((Button)findViewById(R.id.focusdown), true);
                 Constants.chatEditor.getChat().messages.add(newMessage);
@@ -163,6 +157,26 @@ public class ChatActivity extends ActionBarActivity implements View.OnClickListe
             scroll.fullScroll(ScrollView.FOCUS_DOWN);
         }
     }
+
+    private String getDate(Date todaysDate) {
+        String year = (String) android.text.format.DateFormat.format("yyyy", todaysDate);
+        String intMonth = (String) android.text.format.DateFormat.format("MM", todaysDate);
+        String day = (String) android.text.format.DateFormat.format("dd", todaysDate);
+
+        return day+"/"+intMonth+ "/"+year;
+    }
+
+    private String getTime(Date todaysDate) {
+        String min = (String) android.text.format.DateFormat.format("mm", todaysDate);
+
+        String[] parts = todaysDate.toString().split(" ");
+        String[] parts2 = parts[3].split(":");
+        String hour = parts2[0];
+
+        return hour +":"+min;
+    }
+
+
 
     @Override
     protected void onDestroy() {

@@ -39,7 +39,7 @@ public class GetUsersPostAsyncTask extends AsyncTask<Pair<Context, String>, Stri
     protected String doInBackground(Pair<Context, String>... params) {
 
         try {
-            Thread.sleep(200);
+            Thread.sleep(1000);
             context = params[0].first;
 
             if ( Constants.server != null ) {

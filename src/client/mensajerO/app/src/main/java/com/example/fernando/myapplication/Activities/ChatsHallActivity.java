@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Base64;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -32,8 +33,10 @@ import com.example.fernando.myapplication.Threads.CurrentChatsPostAsyncTask;
 import com.example.fernando.myapplication.Threads.DeleteChatPostAsyncTask;
 import com.example.fernando.myapplication.Threads.GetUsersPostAsyncTask;
 import com.example.fernando.myapplication.Threads.RefreshChatsHallAsyncTask;
+import com.example.fernando.myapplication.Threads.RefreshUsersAsyncTask;
 import com.example.fernando.myapplication.Threads.SomethingForMePostAsyncTask;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -97,9 +100,9 @@ public class ChatsHallActivity extends ActionBarActivity implements View.OnClick
                     new Pair<Context, String>(this, "get"));
 
 
-            getUsersPost.execute(new Pair<Context, String>(this, package_),
-                    new Pair<Context, String>(this, Constants.usersUrl),
-                    new Pair<Context, String>(this, "get"));
+//            getUsersPost.execute(new Pair<Context, String>(this, package_),
+//                    new Pair<Context, String>(this, Constants.usersUrl),
+//                    new Pair<Context, String>(this, "get"));
 
 
             currentChatsGet.execute(new Pair<Context, String>(this, package_),
@@ -147,11 +150,36 @@ public class ChatsHallActivity extends ActionBarActivity implements View.OnClick
         }
     }
 
+    public String BitMapToString(Bitmap bitmap){
+
+        ByteArrayOutputStream baos=new  ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        byte [] b=baos.toByteArray();
+        String temp=Base64.encodeToString(b, Base64.DEFAULT);
+        temp = temp.replaceAll("(?:\\r\\n|\\n\\r|\\n|\\r)", "");
+        return temp;
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.chatshall_menu, menu);
         return true;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        refreshChats = new RefreshChatsHallAsyncTask();
+        refreshChats.execute(new Pair<Context, String>(this, package_),
+                new Pair<Context, String>(this, Constants.usersUrl),
+                new Pair<Context, String>(this, "post"));
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        refreshChats.cancel(true);
     }
 
     @Override
@@ -206,7 +234,7 @@ public class ChatsHallActivity extends ActionBarActivity implements View.OnClick
         if (Constants.user != null) {
             SharedPreferences.Editor e = mSharedPref.edit();
             e.putString(Constants.user.username + "chats", Constants.user.chatsToJson().toString());
-            e.putString(Constants.user.username + "profile_picture", Constants.user.profile_picture.toString());
+            e.putString(Constants.user.username + "profile_picture", BitMapToString(Constants.user.profile_picture));
             e.putString(Constants.user.username + "status", Constants.user.status);
             e.commit();
         }

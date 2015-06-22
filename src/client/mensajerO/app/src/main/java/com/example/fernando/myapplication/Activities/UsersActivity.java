@@ -29,6 +29,7 @@ import com.example.fernando.myapplication.Common.Constants;
 import com.example.fernando.myapplication.Entities.Chat;
 import com.example.fernando.myapplication.Entities.User;
 import com.example.fernando.myapplication.R;
+import com.example.fernando.myapplication.Threads.GetUsersPostAsyncTask;
 import com.example.fernando.myapplication.Threads.RefreshUsersAsyncTask;
 import com.example.fernando.myapplication.Threads.SendMessagePostAsyncTask;
 
@@ -40,6 +41,7 @@ public class UsersActivity extends ActionBarActivity implements View.OnClickList
     public static RefreshUsersAsyncTask refreshUsers;
     public static SendMessagePostAsyncTask sendMessage;
     Context context;
+    public static GetUsersPostAsyncTask getUsersPost;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +65,13 @@ public class UsersActivity extends ActionBarActivity implements View.OnClickList
         ((ImageView) actionBar.findViewById(R.id.actionBarIcon)).setImageDrawable(img);
 
         Constants.usersHallActionBar = actionBar;
+
+        String package_ = Constants.packager.wrap("somethingForMe", Constants.user);
+
+        getUsersPost = new GetUsersPostAsyncTask();
+        getUsersPost.execute(new Pair<Context, String>(this, package_),
+                new Pair<Context, String>(this, Constants.usersUrl),
+                new Pair<Context, String>(this, "get"));
 
         // dibujar los usuarios de la lista de usuarios Constants.users
         drawCurrentUsers();
@@ -164,10 +173,37 @@ public class UsersActivity extends ActionBarActivity implements View.OnClickList
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+
+        String package_ = Constants.packager.wrap("somethingForMe", Constants.user);
+
+        getUsersPost = new GetUsersPostAsyncTask();
+        getUsersPost.execute(new Pair<Context, String>(this, package_),
+                new Pair<Context, String>(this, Constants.usersUrl),
+                new Pair<Context, String>(this, "get"));
+
+        refreshUsers = new RefreshUsersAsyncTask();
+        refreshUsers.setResources(getResources());
+        refreshUsers.execute(new Pair<Context, String>(this, ""),
+                new Pair<Context, String>(this, Constants.usersUrl),
+                new Pair<Context, String>(this, "post"));
+
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        getUsersPost.cancel(true);
+        refreshUsers.cancel(true);
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
 
         refreshUsers.cancel(true);
+        getUsersPost.cancel(true);
     }
 
     private void drawCurrentUsers() {
@@ -189,9 +225,10 @@ public class UsersActivity extends ActionBarActivity implements View.OnClickList
 
             Bitmap a = userToShow.profile_picture;
             img = RoundedBitmapDrawableFactory.create(getResources(), a);
-            img.setCornerRadius(Math.max(a.getWidth(), a.getHeight()) / 2.0f);
+            img.setCornerRadius(300f);
 
             ((ImageView) newUser.findViewById(R.id.userItemImage)).setImageDrawable(img);
+            ((ImageView) newUser.findViewById(R.id.userItemImage)).setScaleType(ImageView.ScaleType.CENTER_CROP);
 
             ((TextView) newUser.findViewById(R.id.userItemData)).setText(userToShow.username + "\n" +
                     userToShow.status + " -- "
