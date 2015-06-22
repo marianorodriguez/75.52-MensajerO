@@ -8,30 +8,12 @@
 #include "../../include/main/database/Database.h"
 #include "json.h"
 
-Database::Database() {
-	rocksdb::Options options;
-	options.create_if_missing = true;
-	rocksdb::Status status = rocksdb::DB::Open(options, DEFAULT_DATABASE_PATH,
-			&database);
-	if (!database) {
-		string message = "Database file not found.";
-		FileNotFoundException exception(message);
-		throw exception;
-	}
-
-	pathDB = DEFAULT_DATABASE_PATH;
+Database::Database() : database(NULL) {
+	open(DEFAULT_DATABASE_PATH);
 }
 
-Database::Database(const string& path) {
-	rocksdb::Options options;
-	options.create_if_missing = true;
-	rocksdb::Status status = rocksdb::DB::Open(options, path, &database);
-	pathDB = path;
-	if (!database) {
-		string message = "Database file not found.";
-		FileNotFoundException exception(message);
-		throw exception;
-	}
+Database::Database(const string& path) : database(NULL) {
+	open(path);
 }
 
 void Database::write(const std::vector<std::string>& key, const string& value) {
@@ -39,7 +21,7 @@ void Database::write(const std::vector<std::string>& key, const string& value) {
 		InvalidKeyException exception("Null key.");
 		throw exception;
 	}
-	string compoundKey = this->getKey(key);
+	std::string compoundKey = this->getKey(key);
 	rocksdb::Status status = database->Put(rocksdb::WriteOptions(), compoundKey,
 			value);
 	if (!status.ok()) {
@@ -110,6 +92,20 @@ vector<string> Database::getAllKeys() const {
 
 	return keys;
 }
+
+void Database::open(const string& path){
+	close();
+	rocksdb::Options options;
+	options.create_if_missing = true;
+	rocksdb::Status status = rocksdb::DB::Open(options, path, &database);
+	pathDB = path;
+	if (!database) {
+		std::string message = "Database file not found.";
+		FileNotFoundException exception(message);
+		throw exception;
+	}
+}
+
 
 void Database::close() {
 	delete database;
