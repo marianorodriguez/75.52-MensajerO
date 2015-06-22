@@ -4,16 +4,19 @@
 #include "../../include/main/ServerOptions.h"
 #include <iostream>
 
-using namespace std;
-
 int main(int argc, const char** argv) {
 
-	string starting = "Starting server...";
-	string shutting = "Shutting down server...";
-
+	std::string starting = "Starting server...";
+	std::string running = "Running server...";
+	std::string shutting = "Shutting down server...";
+	try {
+		Logger::getLogger()->write(Logger::INFO, starting);
+	} catch (BaseException &e) {
+		cout << e.getDescription() << endl;
+		return -1;
+	}
 	std::string text;
 	bool exit = false;
-	ServerThread server;
 	OptionMap optionMap = ArgsParser::parseArgs(argc, argv);
 	ServerOptions options(optionMap);
 	std::cout << "Reading config from: " << options.getConfigPath()
@@ -26,11 +29,12 @@ int main(int argc, const char** argv) {
 	std::cout << "Using server's poll delay: " << options.getPollDelay()
 			<< std::endl;
 	ServerConfig config(options);
-	server.addConfig(config);
+	ServerThread server;
 	try {
+		server.addConfig(config);
 		server.run();
 		cout <<starting << endl;
-		Logger::getLogger()->write(Logger::INFO, starting);
+		Logger::getLogger()->write(Logger::INFO, running);
 		cout << "To finish, type 'exit'." << endl;
 		while (!exit) {
 			std::cin >> text;

@@ -5,5 +5,9 @@
       "ERROR" : true,
       "INFO" : true,
       "WARNING" : true
-   }
+   },
+"server" : {
+   "port": 8084,
+   "database" : "database"
+}
 }

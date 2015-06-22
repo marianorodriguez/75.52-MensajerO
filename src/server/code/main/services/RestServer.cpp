@@ -45,8 +45,6 @@ RestServer::RestServer() :
 		serviceFactory(userDb, chatDb){
 	this->pollDelay = 1000;
 	this->port = 8081;
-	this->userDbPath = kDefaultDBPath + kDefaultUserFolder;
-	this->chatDbPath = kDefaultDBPath + kDefaultChatFolder;
 	startServer();
 	connectionManager = ConnectionManager::getInstance();
 	connectionManager->setDatabase(&this->userDb);
@@ -67,7 +65,11 @@ void RestServer::setOptions(const ServerOptions& options){
 	shutdownServer();
 	this->pollDelay = options.getPollDelay();
 	this->port = options.getServerPort();
-	options.getDatabasePath();
+	std::string dbPath = options.getDatabasePath();
+	this->userDbPath = dbPath + kPathSeparator + kDefaultUserFolder;
+	this->chatDbPath = dbPath + kPathSeparator + kDefaultChatFolder;
+	this->userDb.open(userDbPath);
+	this->chatDb.open(chatDbPath);
 	startServer();
 }
 
