@@ -8,18 +8,18 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context=".MainActivity"
-    android:background="#3CAFE8">
+    android:background="@drawable/back">
 
     <!-- Set OnClickListener to trigger results when pressed -->
         <Button
             android:id="@+id/backtologin"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:text="@string/b.getIn"
             android:textAllCaps="false"
             android:typeface="sans"
             android:background="@drawable/rounded_button"
-            android:textSize="17dp"
+            android:textSize="18dp"
             android:textColor="#ffffffff"
             android:singleLine="false"
             android:layout_alignParentBottom="true"
@@ -30,28 +30,27 @@
 
     <EditText
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:id="@+id/ipedittext"
         android:hint="Enter server&apos;s IP"
-        android:textSize="22dp"
-        android:textColorHint="#ffffffff"
-        android:gravity="center_horizontal"
+        android:textSize="18dp"
+        android:textColorHint="#bbffffff"
+        android:gravity="center_vertical|center_horizontal"
         android:textColor="#ffffffff"
         android:background="@drawable/rounded_text"
-        android:layout_marginBottom="43dp"
+        android:layout_marginBottom="5dp"
         android:layout_above="@+id/backtologin"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:textStyle="normal"
+        android:layout_alignParentStart="false"
+        android:textStyle="bold|italic"
         android:typeface="sans"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp" />
+        android:singleLine="true"
+        android:cursorVisible="false"/>
 
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/imageView3"
-        android:background="@drawable/logo"
         android:layout_alignParentBottom="false"
         android:layout_alignParentLeft="false"
         android:layout_alignParentStart="false"
@@ -60,6 +59,9 @@
         android:layout_marginLeft="40dp"
         android:layout_marginTop="20dp"
         android:layout_marginRight="40dp"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/logo"
+        android:scaleType="fitXY"
+        android:background="@drawable/chatsback" />
 
 </RelativeLayout>
