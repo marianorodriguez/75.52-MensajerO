@@ -69,7 +69,7 @@ void RestServer::setOptions(const ServerOptions& options){
 	this->chatDbPath = options.getDatabasePath() +
 						kPathSeparator + kDefaultChatFolder;
 	this->userDb.open(userDbPath);
-	this->userDb.open(chatDbPath);
+	this->chatDb.open(chatDbPath);
 	connectionManager->setUserAliveTime(options.getUserAliveTime());
 	startServer();
 }
