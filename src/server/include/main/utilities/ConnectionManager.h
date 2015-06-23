@@ -52,6 +52,10 @@ public:
 	 * singleton)
 	 */
 	void setDatabase(Database* userDb);
+	/**
+	 * Indica el tiempo en segundos que un usuario permanece "conectado"
+	 */
+	void setUserAliveTime(int deltaTime);
 private:
 
 	ConnectionManager();
@@ -80,7 +84,8 @@ private:
 	std::map<std::string, int>::iterator it;
 	bool running;
 	// Tiempo en el que un usuario se desconecta
-	static const int deltaTime;
+	int deltaTime;
+	static const int kDefaultDeltaTime;
 };
 
 #endif /* SERVER_MAIN_SERVICES_CONNECTIONMANAGER_H_ */
