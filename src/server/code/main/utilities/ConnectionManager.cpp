@@ -10,7 +10,7 @@
 #include "../../include/main/user/User.h"
 #include <../../include/main/utilities/Logger.h>
 
-const int ConnectionManager::deltaTime = 2; //MIN DELTA = 2 TODO des-hardcodear
+const int ConnectionManager::kDefaultDeltaTime = 2;
 ConnectionManager* ConnectionManager::managerInstance = NULL;
 Mutex ConnectionManager::constructorMutex;
 
@@ -35,6 +35,7 @@ void ConnectionManager::destroyInstance() {
 
 ConnectionManager::ConnectionManager() {
 	this->updateThread = 0;
+	this->deltaTime = kDefaultDeltaTime;
 	this->running = false;
 }
 
@@ -99,6 +100,12 @@ void ConnectionManager::updateUser(const std::string username) {
 void ConnectionManager::setDatabase(Database* userDb){
 	this->userDb = userDb;
 }
+
+void ConnectionManager::setUserAliveTime(int deltaTimeMsecs){
+	// this->deltaTime in seconds
+	this->deltaTime = deltaTimeMsecs / 1000;
+}
+
 
 void ConnectionManager::updateConnection() {
 	std::vector<std::string> disconnectedUsers;
