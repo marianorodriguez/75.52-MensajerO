@@ -13,7 +13,7 @@ const std::string ServerOptions::kDefaultConfigPath("config/config.json");
 const std::string ServerOptions::kDefaultDatabasePath("database");
 const int ServerOptions::kDefaultPollDelay = 1000;
 const int ServerOptions::kDefaultServerPort = 8081;
-const int ServerOptions::kDefaultUserAliveTime = 5000;
+const int ServerOptions::kDefaultUserAliveTime = 2000;
 
 ServerOptions::ServerOptions() {
 	loadDefaultValues();

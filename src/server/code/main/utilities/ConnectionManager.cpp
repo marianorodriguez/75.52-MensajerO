@@ -101,8 +101,9 @@ void ConnectionManager::setDatabase(Database* userDb){
 	this->userDb = userDb;
 }
 
-void ConnectionManager::setUserAliveTime(int deltaTime){
-	this->deltaTime = deltaTime;
+void ConnectionManager::setUserAliveTime(int deltaTimeMsecs){
+	// this->deltaTime in seconds
+	this->deltaTime = deltaTimeMsecs / 1000;
 }
 
 

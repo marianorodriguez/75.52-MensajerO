@@ -55,7 +55,7 @@ public:
 	/**
 	 * Indica el tiempo en segundos que un usuario permanece "conectado"
 	 */
-	void setUserAliveTime(int deltaTime);
+	void setUserAliveTime(int deltaTimeMsecs);
 private:
 
 	ConnectionManager();
