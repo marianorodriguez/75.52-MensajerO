@@ -21,6 +21,14 @@ void LocationManagerTests::setUp() {
 
 void LocationManagerTests::tearDown() {
 	TestFixture::tearDown();
+	LocationManager::destroyInstance();
+}
+
+void LocationManagerTests::testShouldThrowFileNotFound(){
+
+	LocationManager::path = "invalidPath";
+	CPPUNIT_ASSERT_THROW(LocationManager::getInstance(), FileNotFoundException);
+	LocationManager::path = "config/geolocation.json";
 }
 
 void LocationManagerTests::testShouldReturnUnknown() {

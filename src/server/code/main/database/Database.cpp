@@ -95,10 +95,12 @@ vector<string> Database::getAllKeys() const {
 
 void Database::open(const string& path){
 	close();
+	database = NULL;
 	rocksdb::Options options;
 	options.create_if_missing = true;
 	rocksdb::Status status = rocksdb::DB::Open(options, path, &database);
 	pathDB = path;
+
 	if (!database) {
 		std::string message = "Database file not found.";
 		FileNotFoundException exception(message);

@@ -34,6 +34,7 @@ void LogInServiceTest::tearDown() {
 	key.push_back("username_1");
 	DB.erase(key);
 	DB.close();
+	LocationManager::destroyInstance();
 }
 
 void LogInServiceTest::testLogIn() {

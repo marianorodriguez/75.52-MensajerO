@@ -66,6 +66,8 @@ OptionMap ServerOptions::loadValuesFromFile() {
 	if (!configFile.is_open()) {
 		Logger::getLogger()->write(Logger::WARN, "config.json missing");
 		OptionMap map;
+		this->configPath = kDefaultConfigPath;
+		map[ArgsParser::kConfigKey] = kDefaultConfigPath;
 		return map;
 	}
 	return parseJson(configFile);

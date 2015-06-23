@@ -14,6 +14,7 @@ add_executable(tests
 	user/userTests.cpp
 	ArgsParserTests.cpp
 	NumberConverterTests.cpp
+	ServerOptionsTests.cpp
 	services/ConnectionManagerTest.cpp
 	services/LogInServiceTest.cpp
 	LocationManagerTests.cpp

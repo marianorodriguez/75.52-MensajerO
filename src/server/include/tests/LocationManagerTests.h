@@ -19,6 +19,7 @@ CPPUNIT_TEST_SUITE(LocationManagerTests);
 	CPPUNIT_TEST(testShouldParseAllLocations);
 	CPPUNIT_TEST(testShouldParseLocation);
 	CPPUNIT_TEST(testShouldGetLocation);
+	CPPUNIT_TEST(testShouldThrowFileNotFound);
 	CPPUNIT_TEST_SUITE_END();
 
 public:
@@ -28,6 +29,7 @@ public:
 	void setUp();
 	void tearDown();
 
+	void testShouldThrowFileNotFound();
 	void testShouldReturnUnknown();
 	void testShouldReturnCABA();
 	void testShouldParseAllLocations();
