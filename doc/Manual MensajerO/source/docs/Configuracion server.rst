@@ -9,13 +9,11 @@ Por lo tanto, antes de empezar a utilizar MensajerO!, debes ingresar el número 
 Consultando el número de IP.
 ----------------------------
 
-Ponete en contacto con el administrador del servidor de MensajerO!.
-En la pantalla principal del servidor aparecerá información sobre su número de IP.
+Ponete en contacto con el administrador del servidor de MensajerO! para que te indique la dirección IP que tenés que usar.
 
-.. figure::  images/showIP.png
-   :align:   center
+El número de IP debería tener un formato de 4 números separados por puntos.
 
-   *Al iniciar, el servidor te indicará cual es su número de IP.*
+Por ejemplo, la dirección IP que usaremos de ejemplo es la *192.168.1.7*
 
 Asignando el número de IP.
 --------------------------
