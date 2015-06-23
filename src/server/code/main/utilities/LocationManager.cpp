@@ -40,6 +40,9 @@ LocationManager* LocationManager::getInstance() {
 
 std::string LocationManager::getLocation(const std::string &location) {
 
+	//si me llega 0;0, significa que el usuario tiene desactivado el check-in
+	if(strcmp(location.c_str(), "0;0")==0){return "unknown";}
+
 	for (std::map<std::string, std::string>::iterator i = nodes.begin(); i != nodes.end();
 			++i) {
 		GeoNode node(i->first);

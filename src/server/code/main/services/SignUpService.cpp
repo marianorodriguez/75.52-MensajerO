@@ -57,7 +57,7 @@ Json::Value SignUpService::doSignUp(const Json::Value& data) const {
 
 		newUser.modifyStatus(data[SERVICE_USERCONFIG_STATUS].asString());
 		newUser.modifyLocation(
-				LocationManager::getLocation(
+				LocationManager::getInstance()->getLocation(
 						data[SERVICE_USERCONFIG_LOCATION].asString()));
 		newUser.modifyProfilePicture(
 				data[SERVICE_USERCONFIG_PICTURE].asString());

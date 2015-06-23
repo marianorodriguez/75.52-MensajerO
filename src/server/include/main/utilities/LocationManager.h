@@ -12,6 +12,7 @@
 #include "json/json.h"
 #include <map>
 #include <fstream>
+#include <string.h>
 #include <math.h>
 
 /**
@@ -52,7 +53,7 @@ public:
 	/**
 	 * Devuelve el nombre del barrio al que apunta @param location
 	 */
-	static std::string getLocation(const std::string &location);
+	std::string getLocation(const std::string &location);
 
 private:
 	LocationManager();

@@ -38,6 +38,7 @@ void BroadcastServiceTest::tearDown(){
 	CppUnit::TestFixture::tearDown();
 
 	Database userDB(DATABASE_USERS_PATH);
+	Database chatDB(DATABASE_CHATS_PATH);
 	vector<string> key1, key2, key3;
 	key1.push_back("username1_bc");
 	key2.push_back("secondUser");
@@ -46,6 +47,15 @@ void BroadcastServiceTest::tearDown(){
 	userDB.erase(key2);
 	userDB.erase(key3);
 	userDB.close();
+
+	std::vector<std::string> keyChat1, keyChat2;
+	keyChat1.push_back("username1_bc");
+	keyChat1.push_back("secondUser");
+	keyChat2.push_back("username1_bc");
+	keyChat2.push_back("username3");
+	chatDB.erase(keyChat1);
+	chatDB.erase(keyChat2);
+	chatDB.close();
 }
 
 void BroadcastServiceTest::testShouldDoBroadcast(){
@@ -68,15 +78,6 @@ void BroadcastServiceTest::testShouldDoBroadcast(){
 	int user3Chats = user3.getChats().size();
 	CPPUNIT_ASSERT_EQUAL(1, user2Chats);
 	CPPUNIT_ASSERT_EQUAL(1, user3Chats);
-
-	std::vector<std::string> keyChat1, keyChat2;
-	keyChat1.push_back("username1_bc");
-	keyChat1.push_back("secondUser");
-	keyChat2.push_back("username1_bc");
-	keyChat2.push_back("username3");
-	chatDb.erase(keyChat1);
-	chatDb.erase(keyChat2);
-	chatDb.close();
 }
 
 void BroadcastServiceTest::testShouldBeInvalidPassword(){
