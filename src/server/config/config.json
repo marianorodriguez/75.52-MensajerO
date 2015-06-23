@@ -1,13 +1,16 @@
 {   
-"logger" : {
-      "logDir" : "log.txt",
-      "DEBUG" : true,
-      "ERROR" : true,
-      "INFO" : true,
-      "WARNING" : true
-   },
-"server" : {
-   "port": 8084,
-   "database" : "database"
-}
+	"logger" : {
+		"logDir" : "log.txt",
+		"DEBUG" : true,
+		"ERROR" : true,
+		"INFO" : true,
+		"WARNING" : true
+	},
+
+	"server" : {
+		"port" : 8081,
+		"database" : "database",
+		"pollDelay" : 1000,
+		"aliveTime" : 5000
+	}
 }
