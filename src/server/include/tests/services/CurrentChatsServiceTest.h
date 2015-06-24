@@ -14,6 +14,7 @@
 class CurrentChatsServiceTest: public ServiceTest {
 
 	CPPUNIT_TEST_SUITE(CurrentChatsServiceTest);
+	CPPUNIT_TEST(testShouldGetUri);
 	CPPUNIT_TEST(testShouldGetCurrentChats);
 	CPPUNIT_TEST(testShouldThrowInvalidPassword);
 	CPPUNIT_TEST(testShouldThrowInvalidUsername);
@@ -26,6 +27,7 @@ public:
 	void setUp();
 	void tearDown();
 
+	void testShouldGetUri();
 	void testShouldGetCurrentChats();
 	void shouldGetEmptyChatList();
 	void testShouldThrowInvalidUsername();

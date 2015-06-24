@@ -14,6 +14,7 @@
 class UserConfigServiceTest: public ServiceTest {
 
 	CPPUNIT_TEST_SUITE(UserConfigServiceTest);
+	CPPUNIT_TEST(testGetUri);
 	CPPUNIT_TEST(testUserShouldConfigureProfile);
 	CPPUNIT_TEST(testUsernameShouldNotExist);
 	CPPUNIT_TEST(testShouldBeInvalidPassword);
@@ -24,6 +25,7 @@ public:
 	void setUp();
 	void tearDown();
 
+	void testGetUri();
 	void testUserShouldConfigureProfile();
 	void testShouldBeInvalidPassword();
 	void testUsernameShouldNotExist();

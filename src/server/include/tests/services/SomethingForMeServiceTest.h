@@ -14,6 +14,7 @@
 class SomethingForMeServiceTest: public ServiceTest{
 
 	CPPUNIT_TEST_SUITE(SomethingForMeServiceTest);
+	CPPUNIT_TEST(testGetUri);
 	CPPUNIT_TEST(shouldThrowInvalidPassword);
 	CPPUNIT_TEST(shouldThrowInvalidUsername);
 	CPPUNIT_TEST(testGetNewMessages);
@@ -26,6 +27,7 @@ public:
 	void setUp();
 	void tearDown();
 
+	void testGetUri();
 	void shouldThrowInvalidUsername();
 	void shouldThrowInvalidPassword();
 	void testGetNewMessages();

@@ -48,6 +48,10 @@ void UsersServiceTest::tearDown(){
 	ServiceTest::tearDown();
 }
 
+void UsersServiceTest::testGetUri(){
+	CPPUNIT_ASSERT(this->service->getUri() == "users");
+}
+
 void UsersServiceTest::testShouldReturnAllUsersInDB(){
 	Json::Value data;
 	data[SERVICE_USERNAME] = "usernameASD";

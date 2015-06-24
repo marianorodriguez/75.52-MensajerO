@@ -14,6 +14,7 @@
 class SignUpServiceTest: public ServiceTest {
 
 	CPPUNIT_TEST_SUITE(SignUpServiceTest);
+	CPPUNIT_TEST(testGetUri);
 	CPPUNIT_TEST(testUserShouldSignUp);
 	CPPUNIT_TEST(testSignUpShouldRegisterUserInDatabase);
 	CPPUNIT_TEST(testUsernameShouldAlreadyExist);
@@ -24,6 +25,7 @@ public:
 	void setUp();
 	void tearDown();
 
+	void testGetUri();
 	void testUserShouldSignUp();
 	void testSignUpShouldRegisterUserInDatabase();
 	void testUsernameShouldAlreadyExist();

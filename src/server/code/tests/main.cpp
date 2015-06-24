@@ -22,6 +22,8 @@
 #include "../../include/tests/services/DeleteChatServiceTest.h"
 #include "../../include/tests/services/BroadcastServiceTest.h"
 #include "../../include/tests/LocationManagerTests.h"
+#include "../../include/tests/services/NullServiceTest.h"
+#include "../../include/tests/services/ServerConfigTest.h"
 
 int main(int argc, char* argv[]){
 	curl_global_init(CURL_GLOBAL_ALL);
@@ -37,6 +39,8 @@ int main(int argc, char* argv[]){
 
 	// Instancio para que ejecuten las pruebas
 	//*ArgsParserTests apt;
+	ServerConfigTest sct;
+	NullServiceTest nst;
 	BroadcastServiceTest bst;
 	CurrentChatsServiceTest ccst;
 	DatabaseTests dbt;

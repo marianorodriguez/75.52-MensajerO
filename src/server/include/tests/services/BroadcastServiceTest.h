@@ -14,6 +14,7 @@
 class BroadcastServiceTest: public ServiceTest {
 
 	CPPUNIT_TEST_SUITE(BroadcastServiceTest);
+	CPPUNIT_TEST(testShouldGetUri);
 	CPPUNIT_TEST(testShouldDoBroadcast);
 	CPPUNIT_TEST(testShouldBeInvalidPassword);
 	CPPUNIT_TEST(testShouldBeInvalidUsername);
@@ -26,6 +27,7 @@ public:
 
 	virtual ~BroadcastServiceTest();
 
+	void testShouldGetUri();
 	void testShouldDoBroadcast();
 	void testShouldBeInvalidPassword();
 	void testShouldBeInvalidUsername();

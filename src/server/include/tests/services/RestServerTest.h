@@ -11,7 +11,8 @@
 class RestServerTest : public CppUnit::TestFixture{
 	CPPUNIT_TEST_SUITE(RestServerTest);
 	CPPUNIT_TEST(testConstructor);
-//	CPPUNIT_TEST(testEchoReply);
+	CPPUNIT_TEST(testSetOptions);
+	//CPPUNIT_TEST(testEchoReply);
 	CPPUNIT_TEST_SUITE_END();
 
 public:
@@ -27,6 +28,8 @@ public:
 	 * de prueba EchoService.
 	 */
 	void testEchoReply();
+
+	void testSetOptions();
 private:
 	ServerThread* testServer;
 };

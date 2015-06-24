@@ -53,6 +53,10 @@ void BroadcastServiceTest::tearDown(){
 	ServiceTest::tearDown();
 }
 
+void BroadcastServiceTest::testShouldGetUri(){
+	CPPUNIT_ASSERT(this->service->getUri() == "broadcast");
+}
+
 void BroadcastServiceTest::testShouldDoBroadcast(){
 
 	Json::Value input;

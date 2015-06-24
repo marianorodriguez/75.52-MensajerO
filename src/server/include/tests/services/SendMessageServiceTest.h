@@ -14,6 +14,7 @@
 class SendMessageServiceTest: public ServiceTest {
 
 	CPPUNIT_TEST_SUITE(SendMessageServiceTest);
+	CPPUNIT_TEST(testGetUri);
 	CPPUNIT_TEST(testShouldThrowInvalidUsername);
 	CPPUNIT_TEST(testShouldThrowInvalidPassword);
 	CPPUNIT_TEST(testShouldAddMessageToExistingChat);
@@ -26,6 +27,7 @@ public:
 	void setUp();
 	void tearDown();
 
+	void testGetUri();
 	void testShouldThrowInvalidUsername();
 	void testShouldThrowInvalidPassword();
 	void testShouldAddMessageToExistingChat();

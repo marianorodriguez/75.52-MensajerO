@@ -14,6 +14,7 @@
 class UsersServiceTest: public ServiceTest {
 
 	CPPUNIT_TEST_SUITE(UsersServiceTest);
+	CPPUNIT_TEST(testGetUri);
 	CPPUNIT_TEST(testShouldReturnAllUsersInDB);
 	CPPUNIT_TEST(testShouldThrowInvalidPassword);
 	CPPUNIT_TEST(testShouldThrowInvalidUsername);
@@ -25,6 +26,7 @@ public:
 	void setUp();
 	void tearDown();
 
+	void testGetUri();
 	void testShouldReturnAllUsersInDB();
 	void testShouldThrowInvalidPassword();
 	void testShouldThrowInvalidUsername();
