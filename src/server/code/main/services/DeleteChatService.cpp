@@ -21,25 +21,25 @@ std::string DeleteChatService::getUri() const {
 }
 
 std::string DeleteChatService::executeRequest(
-		const Json::Value &paramMap) const {
+		const string &paramMap) const {
 
-	Json::Reader reader;
-	Json::Value data;
-	reader.parse(paramMap.asString(), data);
 	Logger::getLogger()->write(Logger::INFO,
 			"Executing DeleteChat service...");
-	Json::Value output = doDeleteChat(data);
 
-	ConnectionManager::getInstance()->updateUser(
-			data[SERVICE_USERNAME].asString());
+	string output = doDeleteChat(paramMap);
 
-	return output.toStyledString();
+	return output;
 }
 
-Json::Value DeleteChatService::doDeleteChat(const Json::Value &data) const {
+string DeleteChatService::doDeleteChat(const string &data) const {
+	Json::Value jsonIn;
+	Json::Reader reader;
+	reader.parse(data, jsonIn);
+
 	std::vector<std::string> key;
-	std::string username = data[SERVICE_USERNAME].asString();
-	std::string otherUser = data[SERVICE_DELETECHAT_WHO].asString();
+	std::string username = jsonIn[SERVICE_USERNAME].asString();
+	std::string otherUser = jsonIn[SERVICE_DELETECHAT_WHO].asString();
+	std::string password = jsonIn[SERVICE_PASSWORD].asString();
 
 	key.push_back(username);
 
@@ -48,7 +48,7 @@ Json::Value DeleteChatService::doDeleteChat(const Json::Value &data) const {
 	try {
 		std::string serializedUser = this->userDb.read(key);
 		User user(serializedUser);
-		if (user.getPassword() == data[SERVICE_PASSWORD].asString()) {
+		if (user.getPassword() == password) {
 
 			key.push_back(otherUser);
 
@@ -69,14 +69,16 @@ Json::Value DeleteChatService::doDeleteChat(const Json::Value &data) const {
 			output[SERVICE_OUT_OK] = false;
 			output[SERVICE_OUT_WHAT] = SERVICE_OUT_INVALIDPWD;
 			Logger::getLogger()->write(Logger::WARN,
-					"Invalid password from user " + user.getUsername());
+					"Invalid password from user " + username);
 		}
 	} catch (KeyNotFoundException &e) {
 		output[SERVICE_OUT_OK] = false;
 		output[SERVICE_OUT_WHAT] = SERVICE_OUT_INVALIDUSER;
 		Logger::getLogger()->write(Logger::WARN, "Some unregistered user tried to use this service.");
 	}
-	return output;
+
+	ConnectionManager::getInstance()->updateUser(this->userDb, username);
+	return output.toStyledString();
 }
 
 ServiceInterface* DeleteChatServiceCreator::create(Database& userDb, Database& chatDb) {

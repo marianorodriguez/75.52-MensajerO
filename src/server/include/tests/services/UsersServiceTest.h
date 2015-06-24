@@ -8,10 +8,10 @@
 #ifndef TESTS_SERVICES_USERSSERVICETEST_H_
 #define TESTS_SERVICES_USERSSERVICETEST_H_
 
-#include <cppunit/extensions/HelperMacros.h>
+#include "ServiceTest.h"
 #include "../../main/services/UsersService.h"
 
-class UsersServiceTest: public CppUnit::TestFixture {
+class UsersServiceTest: public ServiceTest {
 
 	CPPUNIT_TEST_SUITE(UsersServiceTest);
 	CPPUNIT_TEST(testShouldReturnAllUsersInDB);
@@ -20,7 +20,6 @@ class UsersServiceTest: public CppUnit::TestFixture {
 	CPPUNIT_TEST_SUITE_END();
 
 public:
-	UsersServiceTest();
 	virtual ~UsersServiceTest();
 
 	void setUp();

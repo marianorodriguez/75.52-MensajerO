@@ -23,8 +23,6 @@ class ConnectionManagerTest: public CppUnit::TestFixture {
 	CPPUNIT_TEST_SUITE_END();
 
 public:
-
-	ConnectionManagerTest();
 	virtual ~ConnectionManagerTest();
 
 	void setUp();

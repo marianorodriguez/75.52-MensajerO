@@ -46,7 +46,6 @@ RestServer::RestServer() :
 	this->chatDbPath = kDefaultDBPath + kPathSeparator + kDefaultUserFolder;
 	startServer();
 	connectionManager = ConnectionManager::getInstance();
-	connectionManager->setDatabase(&this->userDb);
 	connectionManager->startUpdating();
 }
 
@@ -91,7 +90,7 @@ void RestServer::handleConnection(struct mg_connection *mgConnection) const{
 	service = this->serviceFactory.createService(serviceName);
 	std::string response;
 	try{
-		response = service->executeRequest(connectionWrap.getParamMap());
+		response = service->executeRequest(connectionWrap.getParamMap().asString());
 	} catch (std::out_of_range& e) {
 		Logger::getLogger()->write(Logger::DEBUG, "No se pudo ejecutar el request");
 		response = kInvalidRequestMsg;

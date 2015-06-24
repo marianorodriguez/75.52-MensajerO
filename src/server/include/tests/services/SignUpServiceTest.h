@@ -8,10 +8,10 @@
 #ifndef TESTS_SERVICES_SIGNUPSERVICETEST_H_
 #define TESTS_SERVICES_SIGNUPSERVICETEST_H_
 
-#include <cppunit/extensions/HelperMacros.h>
+#include "ServiceTest.h"
 #include "../../main/services/SignUpService.h"
 
-class SignUpServiceTest: public CppUnit::TestFixture {
+class SignUpServiceTest: public ServiceTest {
 
 	CPPUNIT_TEST_SUITE(SignUpServiceTest);
 	CPPUNIT_TEST(testUserShouldSignUp);
@@ -19,7 +19,6 @@ class SignUpServiceTest: public CppUnit::TestFixture {
 	CPPUNIT_TEST(testUsernameShouldAlreadyExist);
 	CPPUNIT_TEST_SUITE_END();
 public:
-	SignUpServiceTest();
 	virtual ~SignUpServiceTest();
 
 	void setUp();

@@ -61,6 +61,7 @@ public:
 	 * Cierra la base de datos
 	 */
 	void close();
+
 	virtual ~Database();
 
 private:

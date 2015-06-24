@@ -13,34 +13,33 @@ std::string SendMessageService::getUri() const {
 }
 
 std::string SendMessageService::executeRequest(
-		const Json::Value &paramMap) const {
+		const std::string &paramMap) const {
 
-	Json::Reader reader;
-	Json::Value data;
-	reader.parse(paramMap.asString(), data);
 	Logger::getLogger()->write(Logger::INFO,
 			"Executing SendMessage service...");
-	Json::Value output = doSendMessage(data);
 
-	ConnectionManager::getInstance()->updateUser(
-			data[SERVICE_USERNAME].asString());
+	string output = doSendMessage(paramMap);
 
-	return output.toStyledString();
+	return output;
 }
 
-Json::Value SendMessageService::doSendMessage(const Json::Value &data) const {
+string SendMessageService::doSendMessage(const string &data) const {
 
-	string userFrom = data[SERVICE_USERNAME].asString();
-	string password = data[SERVICE_PASSWORD].asString();
-	string userTo = data[SERVICE_SENDMESSAGE_USERNAME_TO].asString();
-	string text = data[SERVICE_SENDMESSAGE_MESSAGE].asString();
+	Json::Value jsonIn;
+	Json::Reader reader;
+	reader.parse(data, jsonIn);
 
-	Message message(userFrom, userTo, text);
+	string username = jsonIn[SERVICE_USERNAME].asString();
+	string password = jsonIn[SERVICE_PASSWORD].asString();
+	string userTo = jsonIn[SERVICE_SENDMESSAGE_USERNAME_TO].asString();
+	string text = jsonIn[SERVICE_SENDMESSAGE_MESSAGE].asString();
+
+	Message message(username, userTo, text);
 
 	vector<string> keyChat, keyUser;
-	keyChat.push_back(userFrom);
+	keyChat.push_back(username);
 	keyChat.push_back(userTo);
-	keyUser.push_back(userFrom);
+	keyUser.push_back(username);
 
 	Json::Value output;
 
@@ -59,19 +58,19 @@ Json::Value SendMessageService::doSendMessage(const Json::Value &data) const {
 			} catch (KeyNotFoundException &e) {
 				Logger::getLogger()->write(Logger::DEBUG,
 						"Chat not found, starting new conversation.");
-				Chat chat(userFrom, userTo);
+				Chat chat(username, userTo);
 				chat.addNewMessage(message);
 				chatDb.write(keyChat, chat.serialize());
 
 				vector<string> keyUserFrom;
-				keyUserFrom.push_back(userFrom);
+				keyUserFrom.push_back(username);
 				User userF(userDb.read(keyUserFrom));
 				userF.addChatWithUser(userTo);
 
 				vector<string> keyUserTo;
 				keyUserTo.push_back(userTo);
 				User userT(userDb.read(keyUserTo));
-				userT.addChatWithUser(userFrom);
+				userT.addChatWithUser(username);
 
 				userDb.write(keyUserFrom, userF.serialize());
 				userDb.write(keyUserTo, userT.serialize());
@@ -91,7 +90,9 @@ Json::Value SendMessageService::doSendMessage(const Json::Value &data) const {
 		Logger::getLogger()->write(Logger::WARN,
 				"Some unregistered user tried to use this service.");
 	}
-	return output;
+
+	ConnectionManager::getInstance()->updateUser(userDb, username);
+	return output.toStyledString();
 }
 
 ServiceInterface* SendMessageServiceCreator::create(Database& userDb, Database& chatDb) {

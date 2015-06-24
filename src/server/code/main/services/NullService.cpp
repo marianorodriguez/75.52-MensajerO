@@ -6,7 +6,7 @@ std::string NullService::getUri() const{
 	return serviceName;
 }
 
-std::string NullService::executeRequest(const Json::Value &paramMap) const{
+std::string NullService::executeRequest(const std::string &paramMap) const{
 	Logger::getLogger()->write(Logger::WARN, "Someone tried to invoke an unknown service.");
 	return "";
 }

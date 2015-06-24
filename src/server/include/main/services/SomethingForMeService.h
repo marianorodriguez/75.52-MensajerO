@@ -11,17 +11,21 @@
  */
 class SomethingForMeService: public ServiceInterface {
 public:
+
+	SomethingForMeService(Database& userDb, Database& chatDb);
 	virtual std::string getUri() const;
-	virtual std::string executeRequest(const Json::Value &paramMap) const;
+	virtual std::string executeRequest(const std::string &paramMap) const;
 	/**
 	 * Aplica el servicio de actualizacion de mensajes.
 	 * @param data informacion de entrada del servicio.
 	 * @return listado de mensajes nuevos edl usuario.
 	 */
-	Json::Value doSomethingForMe(const Json::Value &data) const;
+	std::string doSomethingForMe(const std::string &data) const;
 
 private:
 	static const std::string serviceName;
+	Database& userDb;
+	Database& chatDb;
 };
 
 /**

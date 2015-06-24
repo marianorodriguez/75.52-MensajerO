@@ -8,10 +8,10 @@
 #ifndef INCLUDE_TESTS_SERVICES_BROADCASTSERVICETEST_H_
 #define INCLUDE_TESTS_SERVICES_BROADCASTSERVICETEST_H_
 
+#include "../../../include/tests/services/ServiceTest.h"
 #include "../../main/services/BroadcastService.h"
-#include <cppunit/extensions/HelperMacros.h>
 
-class BroadcastServiceTest: public CppUnit::TestFixture {
+class BroadcastServiceTest: public ServiceTest {
 
 	CPPUNIT_TEST_SUITE(BroadcastServiceTest);
 	CPPUNIT_TEST(testShouldDoBroadcast);
@@ -19,12 +19,11 @@ class BroadcastServiceTest: public CppUnit::TestFixture {
 	CPPUNIT_TEST(testShouldBeInvalidUsername);
 	CPPUNIT_TEST_SUITE_END();
 
-
 public:
 
 	void setUp();
 	void tearDown();
-	BroadcastServiceTest();
+
 	virtual ~BroadcastServiceTest();
 
 	void testShouldDoBroadcast();

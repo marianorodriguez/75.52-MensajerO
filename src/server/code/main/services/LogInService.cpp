@@ -12,27 +12,27 @@ std::string LogInService::getUri() const {
 	return serviceName;
 }
 
-std::string LogInService::executeRequest(const Json::Value &paramMap) const {
-
-	Json::Reader reader;
-	Json::Value data;
-	reader.parse(paramMap.asString(), data);
+std::string LogInService::executeRequest(const string &paramMap) const {
 
 	Logger::getLogger()->write(Logger::INFO,
 			"Executing LogIn service...");
-	Json::Value output = doLogIn(data);
 
-	ConnectionManager::getInstance()->updateUser(
-			data[SERVICE_USERNAME].asString());
+	string output = doLogIn(paramMap);
 
-	return output.toStyledString();
+	return output;
 }
 
 
-Json::Value LogInService::doLogIn(const Json::Value& data) const{
+string LogInService::doLogIn(const string& data) const{
+
+	Json::Value jsonIn;
+	Json::Reader reader;
+	reader.parse(data, jsonIn);
+	string username = jsonIn[SERVICE_USERNAME].asString();
+	string password = jsonIn[SERVICE_PASSWORD].asString();
 
 	std::vector<std::string> key;
-	key.push_back(data[SERVICE_USERNAME].asString());
+	key.push_back(username);
 
 	Json::Value output;
 
@@ -41,11 +41,11 @@ Json::Value LogInService::doLogIn(const Json::Value& data) const{
 		User user(serializedUser);
 
 			string location = LocationManager::getInstance()->getLocation(
-					data[SERVICE_USERCONFIG_LOCATION].asString());
+					jsonIn[SERVICE_USERCONFIG_LOCATION].asString());
 			user.modifyLocation(location);
 			userDb.write(key, user.serialize());
-		if (user.getPassword() == data[SERVICE_PASSWORD].asString()) {
-			Logger::getLogger()->write(Logger::DEBUG, "Granting access to user " + user.getUsername());
+		if (user.getPassword() == password) {
+			Logger::getLogger()->write(Logger::DEBUG, "Granting access to user " + username);
 			output[SERVICE_USERCONFIG_LOCATION] = location;
 			output[SERVICE_USERCONFIG_STATUS] = user.getStatus();
 			output[SERVICE_USERCONFIG_PICTURE] = user.getProfilePicture();
@@ -64,7 +64,9 @@ Json::Value LogInService::doLogIn(const Json::Value& data) const{
 		Logger::getLogger()->write(Logger::WARN, "Some unregistered user tried to use this service.");
 
 	}
-	return output;
+
+	ConnectionManager::getInstance()->updateUser(this->userDb, username);
+	return output.toStyledString();
 }
 
 ServiceInterface* LogInServiceCreator::create(Database& userDb, Database& chatDb) {

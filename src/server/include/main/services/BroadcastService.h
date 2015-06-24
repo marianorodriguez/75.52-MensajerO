@@ -22,13 +22,13 @@ public:
 	BroadcastService(Database& userDb, Database& chatDb);
 	virtual ~BroadcastService();
 	virtual std::string getUri() const;
-	virtual std::string executeRequest(const Json::Value &paramMap) const;
+	virtual std::string executeRequest(const std::string &paramMap) const;
 	/**
 	 * Encargado de aplicar el servicio de difusion.
 	 * @param data información de entrada del servicio.
 	 * @return informacion sobre el resultado de la ejecucion del servicio.
 	 */
-	Json::Value doBroadcast(const Json::Value &data) const;
+	std::string doBroadcast(const std::string &data) const;
 
 private:
 	Database& userDb;

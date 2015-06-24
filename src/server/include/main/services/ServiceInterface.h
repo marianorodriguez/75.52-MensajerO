@@ -20,7 +20,7 @@ public:
 	 * Ejecuta el servicio instanciado
 	 * @param data contiene los datos de la conexion con el cliente.
 	 */
-	virtual std::string executeRequest(const Json::Value &data) const = 0;
+	virtual std::string executeRequest(const std::string &data) const = 0;
 };
 
 class ServiceCreatorInterface{

@@ -24,13 +24,13 @@ public:
 	DeleteChatService(Database& userDb, Database& chatDb);
 	virtual ~DeleteChatService();
 	virtual std::string getUri() const;
-	virtual std::string executeRequest(const Json::Value &paramMap) const;
+	virtual std::string executeRequest(const std::string &paramMap) const;
 	/**
 	 * Metodo encargado de aplicar el servicio de borrado de chats del servidor.
 	 * @param data informacion de entrada para este servicio.
 	 * @return información sobre el resultado de aplicar este servicio.
 	 */
-	Json::Value doDeleteChat(const Json::Value &data) const;
+	std::string doDeleteChat(const std::string &data) const;
 
 private:
 	static const std::string serviceName;

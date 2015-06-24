@@ -8,10 +8,10 @@
 #ifndef SERVER_TESTS_SERVICES_LOGINSERVICETEST_H_
 #define SERVER_TESTS_SERVICES_LOGINSERVICETEST_H_
 
-#include <cppunit/extensions/HelperMacros.h>
+#include "ServiceTest.h"
 #include "../../main/services/LogInService.h"
 
-class LogInServiceTest: public CppUnit::TestFixture {
+class LogInServiceTest: public ServiceTest {
 
 	CPPUNIT_TEST_SUITE(LogInServiceTest);
 	CPPUNIT_TEST(testLogIn);
@@ -20,7 +20,6 @@ class LogInServiceTest: public CppUnit::TestFixture {
 	CPPUNIT_TEST_SUITE_END();
 
 public:
-	LogInServiceTest();
 	virtual ~LogInServiceTest();
 
 	void setUp();

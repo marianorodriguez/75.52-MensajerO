@@ -18,13 +18,13 @@ public:
 	SendMessageService(Database& userDb, Database& chatDb);
     virtual ~SendMessageService();
 	virtual std::string getUri() const;
-	virtual std::string executeRequest(const Json::Value &paramMap) const;
+	virtual std::string executeRequest(const std::string &paramMap) const;
 	/**
 	 * Encargado de aplicar el servicio de envio de mensajes.
 	 * @param data informacion de entrada.
 	 * @return informacion sobre el resultado de la ejecucion de este servicio.
 	 */
-	Json::Value doSendMessage(const Json::Value &data) const;
+	std::string doSendMessage(const std::string &data) const;
 
 private:
 	static const std::string serviceName;

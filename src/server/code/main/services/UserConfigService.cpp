@@ -9,43 +9,48 @@
 
 const std::string UserConfigService::serviceName = SERVICE_USERCONFIG_NAME;
 
+UserConfigService::UserConfigService(Database& userDB) :
+		userDb(userDB) {
+}
+
 std::string UserConfigService::getUri() const {
 	return serviceName;
 }
 
 std::string UserConfigService::executeRequest(
-		const Json::Value &paramMap) const {
+		const string &paramMap) const {
 
-	Json::Reader reader;
-	Json::Value data;
-	reader.parse(paramMap.asString(), data);
-	Logger::getLogger()->write(Logger::INFO,
-			"Executing UserConfig service...");
-	Json::Value output = doUserConfig(data);
-	ConnectionManager::getInstance()->updateUser(
-			data[SERVICE_USERNAME].asString());
+	Logger::getLogger()->write(Logger::INFO, "Executing UserConfig service...");
 
-	return output.toStyledString();
+	string output = doUserConfig(paramMap);
+
+	return output;
 }
 
-Json::Value UserConfigService::doUserConfig(const Json::Value &data) const {
+string UserConfigService::doUserConfig(const string &data) const {
 
-	Database db(DATABASE_USERS_PATH);
+	Json::Value jsonData;
+	Json::Reader reader;
+	reader.parse(data, jsonData);
+
+	string username = jsonData[SERVICE_USERNAME].asString();
+	string password = jsonData[SERVICE_PASSWORD].asString();
+
 	std::vector<std::string> key;
-	key.push_back(data[SERVICE_USERNAME].asString());
+	key.push_back(username);
 
 	Json::Value output;
 
 	try {
-		string serializedUser = db.read(key);
+		string serializedUser = userDb.read(key);
 		User user(serializedUser);
-		if (user.getPassword() == data[SERVICE_PASSWORD].asString()) {
+		if (user.getPassword() == password) {
 			Logger::getLogger()->write(Logger::DEBUG,
-					"updating " + user.getUsername() + "'s info...");
+					"updating " + username + "'s info...");
 			user.modifyProfilePicture(
-					data[SERVICE_USERCONFIG_PICTURE].asString());
-			user.modifyStatus(data[SERVICE_USERCONFIG_STATUS].asString());
-			db.write(key, user.serialize());
+					jsonData[SERVICE_USERCONFIG_PICTURE].asString());
+			user.modifyStatus(jsonData[SERVICE_USERCONFIG_STATUS].asString());
+			userDb.write(key, user.serialize());
 
 			output[SERVICE_OUT_OK] = true;
 			output[SERVICE_OUT_WHAT] = "";
@@ -62,10 +67,11 @@ Json::Value UserConfigService::doUserConfig(const Json::Value &data) const {
 				"Some unregistered user tried to use this service.");
 	}
 
-	db.close();
-	return output;
+	ConnectionManager::getInstance()->updateUser(userDb, username);
+	return output.toStyledString();
 }
 
-ServiceInterface* UserConfigServiceCreator::create(Database& userDb, Database& chatDb) {
-	return new UserConfigService();
+ServiceInterface* UserConfigServiceCreator::create(Database& userDb,
+		Database& chatDb) {
+	return new UserConfigService(userDb);
 }

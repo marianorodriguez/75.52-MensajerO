@@ -8,11 +8,13 @@
 #include "../../include/main/database/Database.h"
 #include "json.h"
 
-Database::Database() : database(NULL) {
+Database::Database() :
+		database(NULL) {
 	open(DEFAULT_DATABASE_PATH);
 }
 
-Database::Database(const string& path) : database(NULL) {
+Database::Database(const string& path) :
+		database(NULL) {
 	open(path);
 }
 
@@ -24,12 +26,14 @@ void Database::write(const std::vector<std::string>& key, const string& value) {
 	std::string compoundKey = this->getKey(key);
 	rocksdb::Status status = database->Put(rocksdb::WriteOptions(), compoundKey,
 			value);
+
 	if (!status.ok()) {
 		InvalidKeyException exception("Invalid key.");
 		Logger* logger1 = Logger::getLogger();
-		logger1->write(Logger::ERROR, "Error: " + status.ToString() +
-					" Hubo un error al escribir en la base de datos de: " +
-					database->GetName() + " la key: " + compoundKey);
+		logger1->write(Logger::ERROR,
+				"Error: " + status.ToString()
+						+ " Hubo un error al escribir en la base de datos de: "
+						+ database->GetName() + " la key: " + compoundKey);
 		throw exception;
 	}
 }
@@ -93,7 +97,7 @@ vector<string> Database::getAllKeys() const {
 	return keys;
 }
 
-void Database::open(const string& path){
+void Database::open(const string& path) {
 	close();
 	database = NULL;
 	rocksdb::Options options;
@@ -107,7 +111,6 @@ void Database::open(const string& path){
 		throw exception;
 	}
 }
-
 
 void Database::close() {
 	delete database;

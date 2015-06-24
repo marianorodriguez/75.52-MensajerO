@@ -8,10 +8,10 @@
 #ifndef SERVER_TESTS_SERVICES_CONNECTIONMANAGERTEST_H_
 #define SERVER_TESTS_SERVICES_CONNECTIONMANAGERTEST_H_
 
-#include <cppunit/extensions/HelperMacros.h>
+#include "ServiceTest.h"
 #include "../../main/services/DeleteChatService.h"
 
-class DeleteChatServiceTest: public CppUnit::TestFixture {
+class DeleteChatServiceTest: public ServiceTest{
 
 	CPPUNIT_TEST_SUITE(DeleteChatServiceTest);
 	CPPUNIT_TEST(testDeleteChat);
@@ -19,7 +19,6 @@ class DeleteChatServiceTest: public CppUnit::TestFixture {
 
 public:
 
-	DeleteChatServiceTest();
 	virtual ~DeleteChatServiceTest();
 
 	void setUp();

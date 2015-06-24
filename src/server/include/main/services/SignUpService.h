@@ -16,7 +16,7 @@ public:
 	 * Devuelve el nombre del servicio: createUser
 	 */
 	virtual std::string getUri() const;
-	virtual std::string executeRequest(const Json::Value &paramMap) const;
+	virtual std::string executeRequest(const std::string &paramMap) const;
 	/**
 	 * Valida si existe un usuario registrado con ese nombre
 	 */
@@ -26,7 +26,7 @@ public:
 	 * @param data informacion del usuario que se desea registrar.
 	 * @return informacion sobre el resultado de la operacion.
 	 */
-	Json::Value doSignUp(const Json::Value& data) const;
+	std::string doSignUp(const std::string& data) const;
 
 private:
 	static const std::string serviceName;
