@@ -6,8 +6,8 @@ Documemtación técnica de MensajerO!
    :maxdepth: 2
 
 	Introducción.<docs/Introduccion>
-	Instalación.<docs/Instalacion>
 	Librerías y Compilación.<docs/Librerias>
 	Ambiente de Desarrollo.<docs/AmbienteDesarrollo>
-	Clases.<docs/Clases.rst>
+	Clases y Actividades.<docs/Clases>
+	Pruebas.<docs/Pruebas>
 	
