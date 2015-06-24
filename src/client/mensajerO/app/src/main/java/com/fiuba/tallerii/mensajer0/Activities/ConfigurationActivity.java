@@ -17,6 +17,7 @@ import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
@@ -35,7 +36,7 @@ public class ConfigurationActivity extends ActionBarActivity implements View.OnC
 
     RadioButton online;
     RadioButton offline;
-    RadioButton out;
+    CheckBox checkin;
 
     ImageView profilePicture;
 
@@ -52,24 +53,25 @@ public class ConfigurationActivity extends ActionBarActivity implements View.OnC
 
         getSupportActionBar().setDisplayShowCustomEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-
         LayoutInflater inflater = (LayoutInflater) getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View actionBar = inflater.inflate(R.layout.action_bar, null);
         getSupportActionBar().setCustomView(actionBar);
 
         ((TextView) actionBar.findViewById(R.id.actionBarTitle)).setText("SETTINGS");
-        ((TextView) actionBar.findViewById(R.id.actionBarSubtitle)).setText("Your username: " + Constants.user.username);
+        ((TextView) actionBar.findViewById(R.id.actionBarSubtitle)).setText(Constants.user.username);
 
         ((ImageView) actionBar.findViewById(R.id.actionBarIcon)).setImageResource(R.drawable.settings);
 
-        Button button1 = (Button) findViewById(R.id.backtologin);
-        button1.setOnClickListener(this);
 
-        Button button2 = (Button) findViewById(R.id.signupbutton);
-        button2.setOnClickListener(this);
+        ImageView cancelButton = (ImageView) findViewById(R.id.config_cancelButton);
+        cancelButton.setOnClickListener(this);
 
-        Button buttonLoadImage = (Button) findViewById(R.id.button);
-        buttonLoadImage.setOnClickListener(new View.OnClickListener() {
+        ImageView okButton = (ImageView) findViewById(R.id.config_okButton);
+        okButton.setOnClickListener(this);
+
+        profilePicture = (ImageView) findViewById(R.id.picture);
+
+        profilePicture.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View arg0) {
@@ -82,14 +84,13 @@ public class ConfigurationActivity extends ActionBarActivity implements View.OnC
             }
         });
 
-        profilePicture = (ImageView) findViewById(R.id.imageView);
 
         offline = (RadioButton) findViewById(R.id.offline);
         offline.setOnClickListener(this);
-        out = (RadioButton) findViewById(R.id.out);
-        out.setOnClickListener(this);
         online = (RadioButton) findViewById(R.id.online);
         online.setOnClickListener(this);
+        checkin = (CheckBox) findViewById(R.id.config_checkBox);
+        checkin.setOnClickListener(this);
 
         configPost = new ConfigPostAsyncTask();
 
@@ -117,15 +118,9 @@ public class ConfigurationActivity extends ActionBarActivity implements View.OnC
         if (Constants.user.status.compareTo("online")== 0) {
             online.setChecked(true);
             offline.setChecked(false);
-            out.setChecked(false);
         } else if (Constants.user.status.compareTo("offline")== 0) {
             online.setChecked(false);
             offline.setChecked(true);
-            out.setChecked(false);
-        } else if (Constants.user.status.compareTo("out")== 0) {
-            online.setChecked(false);
-            offline.setChecked(false);
-            out.setChecked(true);
         }
     }
 
@@ -149,7 +144,7 @@ public class ConfigurationActivity extends ActionBarActivity implements View.OnC
             Bitmap imageSelected = BitmapFactory.decodeFile(picturePath);
 
             if (imageSelected == null) {
-                Toast.makeText(this, "Problem happen while trying to open your picture", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Problem happen while trying to open your picture.", Toast.LENGTH_SHORT).show();
                 return;
             } else {
 
@@ -185,7 +180,7 @@ public class ConfigurationActivity extends ActionBarActivity implements View.OnC
     @Override
     public void onClick(View v) {
 
-        if (v.getId() == R.id.backtologin) {
+        if (v.getId() == R.id.config_cancelButton) {
             //Cancel button
             // seteo al user los valores que tenia antes de entrar
             SharedPreferences.Editor e = mSharedPref.edit();
@@ -200,7 +195,7 @@ public class ConfigurationActivity extends ActionBarActivity implements View.OnC
 
             finish();
 
-        } else if (v.getId() == R.id.signupbutton) {
+        } else if (v.getId() == R.id.config_okButton) {
             //Done button
 
             String package_ = Constants.packager.wrap("setConfig", Constants.user);
@@ -222,7 +217,7 @@ public class ConfigurationActivity extends ActionBarActivity implements View.OnC
             }
 
             if (Constants.configOK.compareTo("true") == 0) {
-                Toast.makeText(this, "Changes saved properly", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Changes saved properly.", Toast.LENGTH_SHORT).show();
                 Constants.configOK = "";
                 finish();
 
@@ -242,14 +237,8 @@ public class ConfigurationActivity extends ActionBarActivity implements View.OnC
         } else if (v.getId() == R.id.online) {
             changeUserStatus(0);
             offline.setChecked(false);
-            out.setChecked(false);
         } else if (v.getId() == R.id.offline) {
             changeUserStatus(1);
-            online.setChecked(false);
-            out.setChecked(false);
-        } else if (v.getId() == R.id.out) {
-            changeUserStatus(2);
-            offline.setChecked(false);
             online.setChecked(false);
         }
     }
@@ -265,10 +254,6 @@ public class ConfigurationActivity extends ActionBarActivity implements View.OnC
             case 1:
                 Constants.user.status = "offline";
                 e.putString(Constants.user.username+"status", "offline");
-                break;
-            case 2:
-                Constants.user.status = "out";
-                e.putString(Constants.user.username+"status", "out");
                 break;
         }
         e.commit();
