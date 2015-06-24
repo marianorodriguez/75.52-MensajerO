@@ -13,6 +13,7 @@ int main(int argc, const char** argv) {
 
 	std::string text;
 	bool exit = false;
+	LoggerManager manager;
 	ServerThread server;
 	OptionMap optionMap = ArgsParser::parseArgs(argc, argv);
 	ServerOptions options(optionMap);
@@ -44,6 +45,6 @@ int main(int argc, const char** argv) {
 	Logger::getLogger()->write(Logger::INFO, shutting);
 	Logger::getLogger()->saveStatus();
 	server.join();
-
+	std::cout << "destroying" << std::endl;
 	return 0;
 }

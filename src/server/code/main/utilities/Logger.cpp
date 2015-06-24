@@ -103,3 +103,17 @@ void Logger::destroy(){
 	delete logInstance;
 	logInstance = 0;
 }
+
+/**
+ * Instancia un logger
+ */
+LoggerManager::LoggerManager(){
+	Logger::getLogger();
+}
+
+/**
+ * Destruye al logger
+ */
+LoggerManager::~LoggerManager(){
+	Logger::destroy();
+}
