@@ -9,9 +9,10 @@
 
 CPPUNIT_TEST_SUITE_REGISTRATION(SendMessageServiceTest);
 
-SendMessageServiceTest::~SendMessageServiceTest() {}
+SendMessageServiceTest::~SendMessageServiceTest() {
+}
 
-void SendMessageServiceTest::setUp(){
+void SendMessageServiceTest::setUp() {
 	ServiceTest::setUp();
 
 	this->service = new SendMessageService(*userDB, *chatDB);
@@ -40,7 +41,7 @@ void SendMessageServiceTest::setUp(){
 	chatDB->write(chatKey, chat.serialize());
 }
 
-void SendMessageServiceTest::tearDown(){
+void SendMessageServiceTest::tearDown() {
 
 	std::vector<std::string> key1, key2, key3;
 	key1.push_back("username1");
@@ -58,7 +59,11 @@ void SendMessageServiceTest::tearDown(){
 	ServiceTest::tearDown();
 }
 
-void SendMessageServiceTest::testShouldAddMessageToExistingChat(){
+void SendMessageServiceTest::testGetUri() {
+	CPPUNIT_ASSERT(this->service->getUri() == "sendMessage");
+}
+
+void SendMessageServiceTest::testShouldAddMessageToExistingChat() {
 
 	Json::Value data;
 	data[SERVICE_USERNAME] = "username1";
@@ -82,7 +87,7 @@ void SendMessageServiceTest::testShouldAddMessageToExistingChat(){
 	CPPUNIT_ASSERT(chat.getMessages().size() == 4);
 }
 
-void SendMessageServiceTest::testShouldCreateNewChat(){
+void SendMessageServiceTest::testShouldCreateNewChat() {
 
 	Json::Value data;
 	data[SERVICE_USERNAME] = "username1";
@@ -106,7 +111,7 @@ void SendMessageServiceTest::testShouldCreateNewChat(){
 	CPPUNIT_ASSERT(chat.getMessages().size() == 1);
 }
 
-void SendMessageServiceTest::testShouldThrowInvalidPassword(){
+void SendMessageServiceTest::testShouldThrowInvalidPassword() {
 
 	Json::Value data;
 	data[SERVICE_USERNAME] = "username1";
@@ -120,10 +125,11 @@ void SendMessageServiceTest::testShouldThrowInvalidPassword(){
 	reader.parse(output, jsonOut);
 
 	CPPUNIT_ASSERT(jsonOut[SERVICE_OUT_OK].asBool() == false);
-	CPPUNIT_ASSERT(jsonOut[SERVICE_OUT_WHAT].asString() == SERVICE_OUT_INVALIDPWD);
+	CPPUNIT_ASSERT(
+			jsonOut[SERVICE_OUT_WHAT].asString() == SERVICE_OUT_INVALIDPWD);
 }
 
-void SendMessageServiceTest::testShouldThrowInvalidUsername(){
+void SendMessageServiceTest::testShouldThrowInvalidUsername() {
 
 	Json::Value data;
 	data[SERVICE_USERNAME] = "usernameASDF";
@@ -137,5 +143,6 @@ void SendMessageServiceTest::testShouldThrowInvalidUsername(){
 	reader.parse(output, jsonOut);
 
 	CPPUNIT_ASSERT(jsonOut[SERVICE_OUT_OK].asBool() == false);
-	CPPUNIT_ASSERT(jsonOut[SERVICE_OUT_WHAT].asString() == SERVICE_OUT_INVALIDUSER);
+	CPPUNIT_ASSERT(
+			jsonOut[SERVICE_OUT_WHAT].asString() == SERVICE_OUT_INVALIDUSER);
 }

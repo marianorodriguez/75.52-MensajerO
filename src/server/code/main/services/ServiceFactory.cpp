@@ -23,15 +23,6 @@ ServiceInterface* ServiceFactory::createService(const std::string& serviceName) 
 	}
 }
 
-std::vector<std::string> ServiceFactory::getServiceNameList() const{
-	std::vector<std::string> nameList;
-	std::map<std::string, ServiceCreatorInterface*>::const_iterator it;
-	for (it = this->serviceMap.begin(); it != this->serviceMap.end(); ++it){
-		nameList.push_back(it->first);
-	}
-	return nameList;
-}
-
 void ServiceFactory::addNewServiceCreator(ServiceCreatorInterface* creator){
 	std::map<std::string, ServiceCreatorInterface*>::iterator it;
 	ServiceInterface* service = creator->create(userDb, chatDb);

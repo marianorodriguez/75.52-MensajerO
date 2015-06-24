@@ -15,6 +15,7 @@ class LogInServiceTest: public ServiceTest {
 
 	CPPUNIT_TEST_SUITE(LogInServiceTest);
 	CPPUNIT_TEST(testLogIn);
+	CPPUNIT_TEST(testShouldGetUri);
 	CPPUNIT_TEST(testShouldThrowInvalidUsername);
 	CPPUNIT_TEST(testShouldThrowInvalidPassword);
 	CPPUNIT_TEST_SUITE_END();
@@ -26,6 +27,7 @@ public:
 	void tearDown();
 
 	void testLogIn();
+	void testShouldGetUri();
 	void testShouldThrowInvalidUsername();
 	void testShouldThrowInvalidPassword();
 

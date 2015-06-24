@@ -30,11 +30,6 @@ public:
 	ServiceInterface* createService(const std::string& serviceName) const;
 
 	/**
-	 * Devuelve una lista de nombres de todos los servicios disponibles.
-	 */
-	std::vector<std::string> getServiceNameList() const;
-
-	/**
 	 * Agrega un creator, cuya clave es la que corresponde a la
 	 * URI del servicio que genera.
 	 */

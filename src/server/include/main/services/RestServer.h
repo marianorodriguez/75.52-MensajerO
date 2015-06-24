@@ -10,11 +10,12 @@
 struct mg_server;
 struct mg_connection;
 class ServiceCreatorInterface;
-
 /**
  * Servidor que encapsula los servicios de REST.
  */
 class RestServer {
+	friend class RestServerTest;
+	friend class ServerConfigTest;
 public:
 
 	RestServer();

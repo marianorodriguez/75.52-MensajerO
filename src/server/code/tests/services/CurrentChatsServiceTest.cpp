@@ -65,6 +65,10 @@ void CurrentChatsServiceTest::tearDown(){
 	ServiceTest::tearDown();
 }
 
+void CurrentChatsServiceTest::testShouldGetUri(){
+	CPPUNIT_ASSERT(this->service->getUri() == "currentChats");
+}
+
 void CurrentChatsServiceTest::testShouldGetCurrentChats(){
 
 	Json::Value data;

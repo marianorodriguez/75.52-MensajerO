@@ -2,6 +2,8 @@ project(mensajero)
 
 add_library(service-test
 	ServiceTest.cpp
+	NullServiceTest.cpp
+	ServerConfigTest.cpp
 	EchoService.cpp
 	RestServerTest.cpp
 	ServiceFactoryTest.cpp

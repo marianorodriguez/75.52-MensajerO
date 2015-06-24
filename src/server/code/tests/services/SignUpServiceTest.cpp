@@ -31,6 +31,10 @@ void SignUpServiceTest::tearDown(){
 	ServiceTest::tearDown();
 }
 
+void SignUpServiceTest::testGetUri(){
+	CPPUNIT_ASSERT(this->service->getUri() == "signUp");
+}
+
 void SignUpServiceTest::testUserShouldSignUp(){
 
 	Json::Value input;

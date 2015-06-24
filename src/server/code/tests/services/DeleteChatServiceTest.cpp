@@ -47,6 +47,40 @@ void DeleteChatServiceTest::tearDown() {
 	ServiceTest::tearDown();
 }
 
+void DeleteChatServiceTest::testShouldGetUri(){
+	CPPUNIT_ASSERT(this->service->getUri() == "deleteChat");
+}
+
+void DeleteChatServiceTest::testShouldBeInvalidUsername(){
+	Json::Value input;
+	input[SERVICE_USERNAME] = "username1asdasd";
+	input[SERVICE_PASSWORD] = "password1";
+	input[SERVICE_DELETECHAT_WHO] = "username2";
+
+	string output = service->executeRequest(input.toStyledString());
+	Json::Value jsonOut;
+	Json::Reader reader;
+	reader.parse(output, jsonOut);
+
+	CPPUNIT_ASSERT(jsonOut[SERVICE_OUT_OK].asBool() == false);
+	CPPUNIT_ASSERT(jsonOut[SERVICE_OUT_WHAT].asString() == SERVICE_OUT_INVALIDUSER);
+}
+
+void DeleteChatServiceTest::testShouldBeInvalidPassword(){
+	Json::Value input;
+	input[SERVICE_USERNAME] = "username1";
+	input[SERVICE_PASSWORD] = "password1asdasdasd";
+	input[SERVICE_DELETECHAT_WHO] = "username2";
+
+	string output = service->executeRequest(input.toStyledString());
+	Json::Value jsonOut;
+	Json::Reader reader;
+	reader.parse(output, jsonOut);
+
+	CPPUNIT_ASSERT(jsonOut[SERVICE_OUT_OK].asBool() == false);
+	CPPUNIT_ASSERT(jsonOut[SERVICE_OUT_WHAT].asString() == SERVICE_OUT_INVALIDPWD);
+}
+
 void DeleteChatServiceTest::testDeleteChat() {
 
 	Json::Value input;

@@ -56,6 +56,10 @@ void SomethingForMeServiceTest::tearDown() {
 	ServiceTest::tearDown();
 }
 
+void SomethingForMeServiceTest::testGetUri(){
+	CPPUNIT_ASSERT(this->service->getUri() == "somethingForMe");
+}
+
 void SomethingForMeServiceTest::testDoubleRequestShouldReturnNoMessages() {
 
 	Json::Value data;

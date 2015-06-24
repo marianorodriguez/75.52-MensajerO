@@ -32,6 +32,10 @@ void UserConfigServiceTest::tearDown() {
 	ServiceTest::tearDown();
 }
 
+void UserConfigServiceTest::testGetUri(){
+	CPPUNIT_ASSERT(this->service->getUri() == "setConfig");
+}
+
 void UserConfigServiceTest::testUserShouldConfigureProfile() {
 
 	std::vector<std::string> key;
