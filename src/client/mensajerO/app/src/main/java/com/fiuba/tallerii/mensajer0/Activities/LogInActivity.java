@@ -17,6 +17,7 @@ import android.util.Pair;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fiuba.tallerii.mensajer0.Common.Constants;
@@ -60,7 +61,7 @@ public class LogInActivity extends ActionBarActivity implements View.OnClickList
         Button button1 = (Button) findViewById(R.id.backtologin);
         button1.setOnClickListener(this);
 
-        Button button2 = (Button) findViewById(R.id.signupbutton);
+        TextView button2 = (TextView) findViewById(R.id.signupbutton);
         button2.setOnClickListener(this);
 
         IntentFilter filter = new IntentFilter(ACTION_CLOSE);
@@ -180,7 +181,7 @@ public class LogInActivity extends ActionBarActivity implements View.OnClickList
 
                 // user didn't entered username or password
                 Toast.makeText(this,
-                        "Please enter username and password",
+                        "Please enter username and password.",
                         Toast.LENGTH_SHORT).show();
             }
 

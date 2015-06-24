@@ -12,16 +12,15 @@
         android:phoneNumber="false"
         android:hint="Username"
         android:textColor="#ffffffff"
-        android:textColorHint="#ffffffff"
+        android:textColorHint="#55000000"
         android:textSize="18dp"
         android:typeface="sans"
         android:singleLine="true"
         android:background="@drawable/rounded_text"
-        android:textStyle="bold|normal|italic"
         android:layout_above="@+id/txtPassword"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="5dp"
         android:layout_centerHorizontal="true"
         android:cursorVisible="false"
         android:gravity="center_vertical|center_horizontal" />
@@ -31,17 +30,16 @@
         android:layout_height="50dp"
         android:singleLine="true"
         android:textColor="#ffffffff"
-        android:textColorHint="#ffffffff"
+        android:textColorHint="#55000000"
         android:hint="Password"
         android:textSize="18dp"
         android:password="true"
         android:background="@drawable/rounded_text"
         android:typeface="sans"
-        android:textStyle="bold|normal|italic"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="false"
         android:layout_above="@+id/signupbutton"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="5dp"
         android:gravity="center_vertical|center_horizontal"
         android:cursorVisible="false"/>
 
@@ -55,40 +53,26 @@
         android:focusable="false"
         android:singleLine="false"
         android:textColor="#ffffffff"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="75dp"
-        android:layout_above="@+id/backtologin"
         android:textSize="18dp"
         android:typeface="sans"
-        android:textStyle="bold" />
-
-    <Button
-        android:id="@+id/backtologin"
-        android:layout_width="fill_parent"
-        android:layout_height="50dp"
-        android:text="@string/b.back"
-        android:textAllCaps="false"
-        android:background="@drawable/rounded_button"
-        android:textColor="#ffffffff"
+        android:textStyle="bold"
+        android:layout_marginBottom="125dp"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:typeface="sans"
-        android:textSize="18dp"
-        android:textStyle="bold" />
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
 
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/imageView2"
-        android:background="@drawable/chatsback"
-        android:layout_above="@+id/txtUsername"
-        android:layout_centerHorizontal="true"
-        android:layout_marginLeft="40dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginRight="40dp"
-        android:layout_marginBottom="15dp"
         android:src="@drawable/logo"
-        android:scaleType="fitXY" />
+        android:scaleType="fitXY"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_above="@+id/txtUsername"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
 </RelativeLayout>

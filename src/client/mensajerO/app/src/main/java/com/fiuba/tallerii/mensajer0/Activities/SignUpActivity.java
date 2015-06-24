@@ -43,9 +43,6 @@ public class SignUpActivity extends ActionBarActivity implements View.OnClickLis
 
         getSupportActionBar().hide();
 
-        Button button1 = (Button) findViewById(R.id.backtologin);
-        button1.setOnClickListener(this);
-
         Button button2 = (Button) findViewById(R.id.signupbutton);
         button2.setOnClickListener(this);
 
