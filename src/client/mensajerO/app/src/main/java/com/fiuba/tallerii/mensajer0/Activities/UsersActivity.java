@@ -226,10 +226,10 @@ public class UsersActivity extends ActionBarActivity implements View.OnClickList
 //            ((ImageView) newUser.findViewById(R.id.userItemImage)).setImageDrawable(img);
 //            ((ImageView) newUser.findViewById(R.id.userItemImage)).setScaleType(ImageView.ScaleType.CENTER_CROP);
 
-            ((TextView) newUser.findViewById(R.id.userItemData)).setText(userToShow.username + "\n" +
-                    userToShow.status + " -- "
-                    + userToShow.lastTimeConnected
-                    + " -- " + userToShow.location);
+            ((TextView) newUser.findViewById(R.id.userItemData)).setText(userToShow.username);
+            ((TextView) newUser.findViewById(R.id.userItemStatus)).setText(userToShow.status);
+            ((TextView) newUser.findViewById(R.id.userItemLastTime)).setText(userToShow.lastTimeConnected);
+            ((TextView) newUser.findViewById(R.id.userItemLocation)).setText(userToShow.location);
 
             newUser.setOnClickListener(new View.OnClickListener() {
                 @Override

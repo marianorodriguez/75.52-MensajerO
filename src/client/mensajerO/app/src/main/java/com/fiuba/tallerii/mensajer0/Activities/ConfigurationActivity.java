@@ -60,9 +60,9 @@ public class ConfigurationActivity extends ActionBarActivity implements View.OnC
         getSupportActionBar().setCustomView(actionBar);
 
         ((TextView) actionBar.findViewById(R.id.actionBarTitle)).setText("SETTINGS");
-        ((TextView) actionBar.findViewById(R.id.actionBarSubtitle)).setText(Constants.user.username);
+        ((TextView) actionBar.findViewById(R.id.actionBarSubtitle)).setText("Hi " + Constants.user.username + "!");
 
-        ((ImageView) actionBar.findViewById(R.id.actionBarIcon)).setImageResource(R.drawable.settings);
+        ((ImageView) actionBar.findViewById(R.id.actionBarIcon)).setImageResource(R.drawable.settings4);
 
 
         ImageView cancelButton = (ImageView) findViewById(R.id.config_cancelButton);
@@ -112,6 +112,7 @@ public class ConfigurationActivity extends ActionBarActivity implements View.OnC
             img.setCornerRadius(300f);
             profilePicture.setScaleType(ImageView.ScaleType.CENTER_CROP);
             profilePicture.setImageDrawable(img);
+            profilePicture.bringToFront();
         }
     }
 
@@ -163,7 +164,7 @@ public class ConfigurationActivity extends ActionBarActivity implements View.OnC
                 img.setCornerRadius(300f);
                 profilePicture.setScaleType(ImageView.ScaleType.CENTER_CROP);
                 profilePicture.setImageDrawable(img);
-
+                profilePicture.bringToFront();
             }
         }
     }

@@ -106,16 +106,10 @@ public class RefreshUsersAsyncTask extends AsyncTask<Pair<Context, String>, Stri
 
         ((ImageView)user.findViewById(R.id.userItemImage)).setImageBitmap(wanted.profile_picture);
 
-//        img = RoundedBitmapDrawableFactory.create(resources, wanted.profile_picture);
-//        img.setCornerRadius(300f);
-//        ((ImageView) user.findViewById(R.id.userItemImage)).setScaleType(ImageView.ScaleType.CENTER_CROP);
-//        ((ImageView) user.findViewById(R.id.userItemImage)).setImageDrawable(img);
-//        ((ImageView) user.findViewById(R.id.userItemImage)).setScaleType(ImageView.ScaleType.CENTER_CROP);
-
-        ((TextView) user.findViewById(R.id.userItemData)).setText(wanted.username + "\n" +
-                wanted.status + " -- "
-                + wanted.lastTimeConnected
-                + " -- " + wanted.location);
+        ((TextView) user.findViewById(R.id.userItemData)).setText(wanted.username);
+        ((TextView) user.findViewById(R.id.userItemStatus)).setText(wanted.status);
+        ((TextView) user.findViewById(R.id.userItemLastTime)).setText(wanted.lastTimeConnected);
+        ((TextView) user.findViewById(R.id.userItemLocation)).setText(wanted.location);
     }
 
     private User isInOtherUsers(String username) {
@@ -134,15 +128,10 @@ public class RefreshUsersAsyncTask extends AsyncTask<Pair<Context, String>, Stri
 
         ((ImageView)newUser.findViewById(R.id.userItemImage)).setImageBitmap(userToShow.profile_picture);
 
-//        RoundedBitmapDrawable img = RoundedBitmapDrawableFactory.create(resources, userToShow.profile_picture);
-//        img.setCornerRadius(300f);
-//        ((ImageView) newUser.findViewById(R.id.userItemImage)).setScaleType(ImageView.ScaleType.CENTER_CROP);
-//        ((ImageView) newUser.findViewById(R.id.userItemImage)).setImageDrawable(img);
-
-        ((TextView) newUser.findViewById(R.id.userItemData)).setText(userToShow.username + "\n" +
-                userToShow.status + " -- "
-                + userToShow.lastTimeConnected
-                + " -- " + userToShow.location);
+        ((TextView) newUser.findViewById(R.id.userItemData)).setText(userToShow.username);
+        ((TextView) newUser.findViewById(R.id.userItemStatus)).setText(userToShow.status);
+        ((TextView) newUser.findViewById(R.id.userItemLastTime)).setText(userToShow.lastTimeConnected);
+        ((TextView) newUser.findViewById(R.id.userItemLocation)).setText(userToShow.location);
 
         newUser.setOnClickListener(new View.OnClickListener() {
             @Override

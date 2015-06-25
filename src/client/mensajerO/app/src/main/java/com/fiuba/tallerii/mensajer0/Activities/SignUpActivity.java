@@ -74,7 +74,7 @@ public class SignUpActivity extends ActionBarActivity implements View.OnClickLis
                 currentUser.location = getLocation();
                 currentUser.status = "online";
 
-                Drawable myDrawable = getResources().getDrawable(R.drawable.ic_launcher);
+                Drawable myDrawable = getResources().getDrawable(R.drawable.defprofpic);
                 currentUser.profile_picture = ((BitmapDrawable) myDrawable).getBitmap();
 
                 String package_ = Constants.packager.wrap("signUp", currentUser);
@@ -177,7 +177,7 @@ public class SignUpActivity extends ActionBarActivity implements View.OnClickLis
     }
 
     private String setDefaultPicture() {
-        Drawable myDrawable = getResources().getDrawable(R.drawable.ic_launcher);
+        Drawable myDrawable = getResources().getDrawable(R.drawable.defprofpic);
         Bitmap defaultPicture = ((BitmapDrawable) myDrawable).getBitmap();
 
         ByteArrayOutputStream baos = new  ByteArrayOutputStream();

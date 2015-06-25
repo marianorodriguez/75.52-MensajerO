@@ -16,16 +16,63 @@
         android:padding="2dp"
         android:background="@drawable/back_photo" />
 
-    <TextView
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/userItemData"
-        android:textSize="14dp"
-        android:textStyle="bold|italic"
-        android:paddingLeft="15dp"
-        android:typeface="sans"
-        android:gravity="center_vertical"
-        android:textIsSelectable="false"
-        android:textColor="#ffffffff" />
+        android:layout_height="match_parent">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:id="@+id/userItemData"
+            android:textSize="16dp"
+            android:textStyle="bold|italic"
+            android:paddingLeft="15dp"
+            android:typeface="sans"
+            android:gravity="center_vertical"
+            android:textIsSelectable="false"
+            android:textColor="#ffffffff"
+            android:layout_weight="1" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:id="@+id/userItemStatus"
+                android:gravity="center_vertical|center_horizontal"
+                android:layout_weight="1"
+                android:background="@drawable/back"
+                android:textSize="12dp"
+                android:textColor="#ffffffff"
+                android:textStyle="italic" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:id="@+id/userItemLastTime"
+                android:gravity="center_vertical|center_horizontal"
+                android:layout_weight="1"
+                android:background="@drawable/back"
+                android:textSize="12dp"
+                android:textColor="#ffffffff"
+                android:textStyle="italic" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:id="@+id/userItemLocation"
+                android:gravity="center_vertical|center_horizontal"
+                android:layout_weight="1"
+                android:background="@drawable/back"
+                android:textSize="12dp"
+                android:textColor="#ffffffff"
+                android:textStyle="italic" />
+        </LinearLayout>
+    </LinearLayout>
 
 </LinearLayout>

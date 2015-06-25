@@ -100,7 +100,7 @@ public class ChatsHallActivity extends ActionBarActivity implements View.OnClick
             //dibujar los chats que vienen de login en Constants.user.chats
             drawCurrentChats();
 
-            Toast.makeText(this, "Welcome, " + Constants.user.username + "!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Welcome, " + Constants.user.username + "!", Toast.LENGTH_LONG).show();
 
             package_ = Constants.packager.wrap("somethingForMe", Constants.user);
 
@@ -251,14 +251,6 @@ public class ChatsHallActivity extends ActionBarActivity implements View.OnClick
     protected void onDestroy() {
         super.onDestroy();
 
-        if (somethingForMePost != null) {
-
-            Constants.RefreshChatsHallAsyncTaskFinish = true;
-            Constants.GetUsersPostAsyncTaskFinish = true;
-            Constants.SomethingForMePostAsyncTaskFinish = true;
-            Constants.RefreshUsersAsyncTaskFinish = true;
-        }
-
         // GUARDAR CHATS en sharedPreferences !
         if (Constants.user != null) {
             SharedPreferences.Editor e = mSharedPref.edit();
@@ -266,6 +258,14 @@ public class ChatsHallActivity extends ActionBarActivity implements View.OnClick
             e.putString(Constants.user.username + "profile_picture", BitMapToString(Constants.user.profile_picture));
             e.putString(Constants.user.username + "status", Constants.user.status);
             e.commit();
+        }
+
+        if (somethingForMePost != null) {
+
+            Constants.RefreshChatsHallAsyncTaskFinish = true;
+            Constants.GetUsersPostAsyncTaskFinish = true;
+            Constants.SomethingForMePostAsyncTaskFinish = true;
+            Constants.RefreshUsersAsyncTaskFinish = true;
         }
 
         Constants.reset();
