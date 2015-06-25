@@ -39,7 +39,7 @@ public class GetUsersPostAsyncTask extends AsyncTask<Pair<Context, String>, Stri
     protected String doInBackground(Pair<Context, String>... params) {
 
         try {
-            Thread.sleep(50);
+            Thread.sleep(Constants.GetUsersPostAsyncTaskFrec);
             context = params[0].first;
 
             if (Constants.GetUsersPostAsyncTaskFinish) return null;
@@ -56,6 +56,7 @@ public class GetUsersPostAsyncTask extends AsyncTask<Pair<Context, String>, Stri
 
             } else {
                 HttpResponse response = doRequest(params);
+
                 if ( response!= null && response.getStatusLine().getStatusCode() == 200) {
 
                     resizeUsers(EntityUtils.toString(response.getEntity()));
@@ -164,7 +165,7 @@ public class GetUsersPostAsyncTask extends AsyncTask<Pair<Context, String>, Stri
                     otherUsers.add(newUser);
                 }
 
-            } catch (JSONException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }

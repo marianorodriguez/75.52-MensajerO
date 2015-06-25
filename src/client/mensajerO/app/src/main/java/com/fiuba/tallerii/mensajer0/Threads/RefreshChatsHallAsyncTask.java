@@ -3,6 +3,7 @@ package com.fiuba.tallerii.mensajer0.Threads;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Pair;
+import android.widget.Toast;
 
 import com.fiuba.tallerii.mensajer0.Activities.ChatsHallActivity;
 import com.fiuba.tallerii.mensajer0.Common.Constants;
@@ -22,6 +23,7 @@ public class RefreshChatsHallAsyncTask extends AsyncTask<Pair<Context, String>, 
         context = params[0].first;
         try {
             Thread.sleep(1000);
+//            System.out.println("refreshing chats amigoooo\n\n\n");
 
             if (Constants.RefreshChatsHallAsyncTaskFinish) return null;
 

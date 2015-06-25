@@ -32,6 +32,7 @@ import com.example.fernando.mensajerO.R;
 import com.fiuba.tallerii.mensajer0.Threads.GetUsersPostAsyncTask;
 import com.fiuba.tallerii.mensajer0.Threads.RefreshUsersAsyncTask;
 import com.fiuba.tallerii.mensajer0.Threads.SendMessagePostAsyncTask;
+import com.fiuba.tallerii.mensajer0.Threads.SomethingForMePostAsyncTask;
 
 /**
  * Created by fernando on 10/04/15.
@@ -41,7 +42,7 @@ public class UsersActivity extends ActionBarActivity implements View.OnClickList
     public static RefreshUsersAsyncTask refreshUsers;
     public static SendMessagePostAsyncTask sendMessage;
     Context context;
-    public static GetUsersPostAsyncTask getUsersPost;
+    boolean goingToChats = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,17 +69,11 @@ public class UsersActivity extends ActionBarActivity implements View.OnClickList
 
         String package_ = Constants.packager.wrap("somethingForMe", Constants.user);
 
-        Constants.RefreshChatsHallAsyncTaskFinish = true;
-        Constants.RefreshUsersAsyncTaskFinish = false;
-//        Constants.GetUsersPostAsyncTaskFinish = false;
-//        getUsersPost = new GetUsersPostAsyncTask();
-//        getUsersPost.execute(new Pair<Context, String>(this, package_),
-//                new Pair<Context, String>(this, Constants.usersUrl),
-//                new Pair<Context, String>(this, "get"));
-
         // dibujar los usuarios de la lista de usuarios Constants.users
         drawCurrentUsers();
 
+        goingToChats = false;
+        Constants.RefreshUsersAsyncTaskFinish = false;
         refreshUsers = new RefreshUsersAsyncTask();
         refreshUsers.setResources(getResources());
         refreshUsers.execute(new Pair<Context, String>(this, ""),
@@ -90,21 +85,18 @@ public class UsersActivity extends ActionBarActivity implements View.OnClickList
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.users_menu, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent login in AndroidManifest.xml.
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.chatsHall) {
 
+            goingToChats = true;
             finish();
             return true;
 
@@ -179,41 +171,33 @@ public class UsersActivity extends ActionBarActivity implements View.OnClickList
     protected void onResume() {
         super.onResume();
 
-        String package_ = Constants.packager.wrap("somethingForMe", Constants.user);
+        if (Constants.RefreshUsersAsyncTaskFinish) {
 
-        Constants.RefreshUsersAsyncTaskFinish = false;
-//        Constants.GetUsersPostAsyncTaskFinish = false;
-//        getUsersPost = new GetUsersPostAsyncTask();
-//        getUsersPost.execute(new Pair<Context, String>(this, package_),
-//                new Pair<Context, String>(this, Constants.usersUrl),
-//                new Pair<Context, String>(this, "get"));
+            String package_ = Constants.packager.wrap("somethingForMe", Constants.user);
 
-        refreshUsers = new RefreshUsersAsyncTask();
-        refreshUsers.setResources(getResources());
-        refreshUsers.execute(new Pair<Context, String>(this, ""),
-                new Pair<Context, String>(this, Constants.usersUrl),
-                new Pair<Context, String>(this, "post"));
+            Constants.RefreshUsersAsyncTaskFinish = false;
+
+            refreshUsers = new RefreshUsersAsyncTask();
+            refreshUsers.setResources(getResources());
+            refreshUsers.execute(new Pair<Context, String>(this, ""),
+                    new Pair<Context, String>(this, Constants.usersUrl),
+                    new Pair<Context, String>(this, "post"));
+        }
 
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-//        getUsersPost.cancel(true);
-        refreshUsers.cancel(true);
+
         Constants.RefreshUsersAsyncTaskFinish = true;
-//        Constants.GetUsersPostAsyncTaskFinish = true;
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
 
-        refreshUsers.cancel(true);
-//        getUsersPost.cancel(true);
-//        Constants.GetUsersPostAsyncTaskFinish = true;
         Constants.RefreshUsersAsyncTaskFinish = true;
-        Constants.RefreshChatsHallAsyncTaskFinish = false;
     }
 
     private void drawCurrentUsers() {
@@ -233,12 +217,14 @@ public class UsersActivity extends ActionBarActivity implements View.OnClickList
 
             View newUser = inflater.inflate(R.layout.user_item_users, null);
 
-            Bitmap a = userToShow.profile_picture;
-            img = RoundedBitmapDrawableFactory.create(getResources(), a);
-            img.setCornerRadius(300f);
+//            Bitmap a = userToShow.profile_picture;
+//            img = RoundedBitmapDrawableFactory.create(getResources(), a);
+//            img.setCornerRadius(300f);
 
-            ((ImageView) newUser.findViewById(R.id.userItemImage)).setImageDrawable(img);
-            ((ImageView) newUser.findViewById(R.id.userItemImage)).setScaleType(ImageView.ScaleType.CENTER_CROP);
+            ((ImageView)newUser.findViewById(R.id.userItemImage)).setImageBitmap(userToShow.profile_picture);
+
+//            ((ImageView) newUser.findViewById(R.id.userItemImage)).setImageDrawable(img);
+//            ((ImageView) newUser.findViewById(R.id.userItemImage)).setScaleType(ImageView.ScaleType.CENTER_CROP);
 
             ((TextView) newUser.findViewById(R.id.userItemData)).setText(userToShow.username + "\n" +
                     userToShow.status + " -- "

@@ -7,8 +7,11 @@ import android.os.AsyncTask;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.util.Pair;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.fiuba.tallerii.mensajer0.Activities.ChatActivity;
@@ -32,8 +35,12 @@ public class RefreshChatAsyncTask extends AsyncTask<Pair<Context, Chat>, String,
     String otherUserStatus = null;
     Bitmap otherUserPicture = null;
     String otherUserLastTimeConnected = null;
+    ScrollView scroll = null;
 
-    public void setScrollDownButton (Button scrollDown, boolean firstTime) {
+    boolean scrollRequired = false;
+
+    public void setScrollDownButton (Button scrollDown, boolean firstTime, ScrollView cont) {
+        this.scroll = cont;
         this.scrollDown = scrollDown;
         this.firstTime = firstTime;
     }
@@ -45,10 +52,8 @@ public class RefreshChatAsyncTask extends AsyncTask<Pair<Context, Chat>, String,
 
         newMessages = new ArrayList<>();
 
-//        Constants.messagesSize = chatToUpdate.messages.size();
-
         try {
-            Thread.sleep(10);
+            Thread.sleep(100);
 
             if (Constants.RefreshChatAsyncTaskFinish) return null;
 
@@ -76,36 +81,67 @@ public class RefreshChatAsyncTask extends AsyncTask<Pair<Context, Chat>, String,
     protected void onProgressUpdate(String... values) {
         super.onProgressUpdate(values);
 
+        findOtherUserData();
+
+        ((TextView) Constants.chatActionBar.findViewById(R.id.actionBarTitle)).setText("CHAT WITH ".concat(Constants.chatWith));
+        if (otherUserStatus.compareTo("offline") != 0) {
+            ((TextView) Constants.chatActionBar.findViewById(R.id.actionBarSubtitle)).setText("Status: " + otherUserStatus +
+                    "\nLast time seen: " + otherUserLastTimeConnected);
+            ((TextView) Constants.chatActionBar.findViewById(R.id.actionBarSubtitle)).setTextSize(10);
+        } else {
+            ((TextView) Constants.chatActionBar.findViewById(R.id.actionBarSubtitle)).setText("Status: " + otherUserStatus);
+        }
+
+        RoundedBitmapDrawable img;
+        img = RoundedBitmapDrawableFactory.create(Constants.resources, otherUserPicture);
+        img.setCornerRadius(300f);
+        ((ImageView) Constants.chatActionBar.findViewById(R.id.actionBarIcon)).setImageDrawable(img);
+
         if (values[0].compareTo("run again") == 0) {
 //            Toast.makeText(context, "new refresh chat", Toast.LENGTH_LONG).show();
             ChatActivity.refreshChat = new RefreshChatAsyncTask();
             ChatActivity.refreshChat.execute(new Pair<>(context, chatToUpdate));
+
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View chat = inflater.inflate(R.layout.chat, null);
+            chat.findViewById(R.id.editText).requestFocus();
+//            scrollDown = (Button) chat.findViewById(R.id.focusdown);
+//            scrollDown.performClick();
+//            scrollDown.callOnClick();
+
+
 
             if (firstTime) {
                 scrollDown.callOnClick();
                 scrollDown.performClick();
                 firstTime = false;
             }
-            this.cancel(true);
-        } else {
 
-            findOtherUserData();
-
-            ((TextView) Constants.chatActionBar.findViewById(R.id.actionBarTitle)).setText("CHAT WITH ".concat(Constants.chatWith));
-            if (otherUserStatus.compareTo("offline") != 0) {
-                ((TextView) Constants.chatActionBar.findViewById(R.id.actionBarSubtitle)).setText("Status: " + otherUserStatus +
-                        "\nLast time seen: " + otherUserLastTimeConnected);
-                ((TextView) Constants.chatActionBar.findViewById(R.id.actionBarSubtitle)).setTextSize(10);
-            } else {
-                ((TextView) Constants.chatActionBar.findViewById(R.id.actionBarSubtitle)).setText("Status: " + otherUserStatus);
+            if (scrollRequired)
+                chat.findViewById(R.id.editText).callOnClick();
+            else {
+                scrollRequired = false;
+                chat.findViewById(R.id.editText).requestFocus();
             }
 
-            RoundedBitmapDrawable img;
-            img = RoundedBitmapDrawableFactory.create(Constants.resources, otherUserPicture);
-            img.setCornerRadius(300f);
-            ((ImageView) Constants.chatActionBar.findViewById(R.id.actionBarIcon)).setImageDrawable(img);
+        } else {
+
+//            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+//            View chat = inflater.inflate(R.layout.chat, null);
+//            scrollDown = (Button) chat.findViewById(R.id.focusdown);
+//
+//            scroll = (ScrollView) chat.findViewById(R.id.scrollView);
+
+
 
             Constants.chatEditor.renderNewMessages(newMessages);
+
+            scrollRequired = true;
+
+//            scroll.scrollTo(0, scroll.getBottom());
+//            scroll.fullScroll(ScrollView.FOCUS_DOWN);
+//            ChatActivity.scrollDown();
+
             newMessages.clear();
 
         }

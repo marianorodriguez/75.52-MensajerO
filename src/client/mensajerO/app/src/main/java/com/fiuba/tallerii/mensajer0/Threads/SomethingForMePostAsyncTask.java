@@ -46,8 +46,10 @@ public class SomethingForMePostAsyncTask extends AsyncTask<Pair<Context, String>
     protected String doInBackground(Pair<Context, String>... params) {
 
         try {
-            Thread.sleep(50);
+            Thread.sleep(Constants.SomethingForMePostAsyncTaskFrec);
             context = params[0].first;
+
+            if (Constants.SomethingForMePostAsyncTaskFinish) return null;
 
             if ( Constants.server != null ) {
                 String response = Constants.server.somethingForMe(params[0].second);
@@ -100,11 +102,11 @@ public class SomethingForMePostAsyncTask extends AsyncTask<Pair<Context, String>
             HttpParams httpParameters = new BasicHttpParams();
 // Set the timeout in milliseconds until a connection is established.
 // The default value is zero, that means the timeout is not used.
-            int timeoutConnection = 3000;
+            int timeoutConnection = 8000;
             HttpConnectionParams.setConnectionTimeout(httpParameters, timeoutConnection);
 // Set the default socket timeout (SO_TIMEOUT)
 // in milliseconds which is the timeout for waiting for data.
-            int timeoutSocket = 5000;
+            int timeoutSocket = 8000;
             HttpConnectionParams.setSoTimeout(httpParameters, timeoutSocket);
 
             HttpClient httpClient = new DefaultHttpClient(httpParameters);
@@ -147,28 +149,31 @@ public class SomethingForMePostAsyncTask extends AsyncTask<Pair<Context, String>
     protected void onProgressUpdate(String... values) {
         super.onProgressUpdate(values);
 
-        if (values[0].compareTo("serverError") == 0) {
-            Toast.makeText(context, "Couldn't connect with server. Try again later. Excuse us.", Toast.LENGTH_LONG).show();
+        try {
+            if (values[0].compareTo("serverError") == 0) {
+                Toast.makeText(context, "Couldn't connect with server. Try again later. Excuse us.", Toast.LENGTH_LONG).show();
 
-            Constants.RefreshChatsHallAsyncTaskFinish = true;
-            Constants.GetUsersPostAsyncTaskFinish = true;
-            Constants.SomethingForMePostAsyncTaskFinish = true;
-            Constants.RefreshUsersAsyncTaskFinish = true;
+                Constants.RefreshChatsHallAsyncTaskFinish = true;
+                Constants.GetUsersPostAsyncTaskFinish = true;
+                Constants.SomethingForMePostAsyncTaskFinish = true;
+                Constants.RefreshUsersAsyncTaskFinish = true;
 
-            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            View logoutButton = inflater.inflate(R.layout.logout, null);
+                LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                View logoutButton = inflater.inflate(R.layout.logout, null);
 //            logoutButton.findViewById(R.id.logOutButton).performClick();
-            logoutButton.findViewById(R.id.logOutButton).callOnClick();
+                logoutButton.findViewById(R.id.logOutButton).callOnClick();
 
-        } else {
+            } else {
 //            Toast.makeText(context, "new hilo", Toast.LENGTH_LONG).show();
-            ChatsHallActivity.somethingForMePost = new SomethingForMePostAsyncTask();
-            ChatsHallActivity.somethingForMePost.execute(new Pair<>(context, values[1]),
-                    new Pair<>(context, values[2]),
-                    new Pair<>(context, values[3]));
+                ChatsHallActivity.somethingForMePost = new SomethingForMePostAsyncTask();
+                ChatsHallActivity.somethingForMePost.execute(new Pair<>(context, values[1]),
+                        new Pair<>(context, values[2]),
+                        new Pair<>(context, values[3]));
 //            Toast.makeText(context, "new hilo ds", Toast.LENGTH_LONG).show();
-            this.cancel(true);
-        }
+                this.cancel(true);
+            }
+
+        } catch (Exception e ) {}
     }
 
     @Override

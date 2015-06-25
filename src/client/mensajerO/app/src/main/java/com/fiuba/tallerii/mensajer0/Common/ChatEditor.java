@@ -8,6 +8,7 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.fiuba.tallerii.mensajer0.Activities.ChatActivity;
 import com.fiuba.tallerii.mensajer0.Entities.Chat;
 import com.fiuba.tallerii.mensajer0.Entities.Message;
 import com.example.fernando.mensajerO.R;

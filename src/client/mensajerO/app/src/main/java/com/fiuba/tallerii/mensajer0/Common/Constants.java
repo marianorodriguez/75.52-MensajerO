@@ -92,6 +92,9 @@ final public class Constants//final to prevent instantiation
     public static boolean RefreshChatAsyncTaskFinish = false;
     public static boolean SomethingForMePostAsyncTaskFinish = false;
 
+    public static int GetUsersPostAsyncTaskFrec = 50;
+    public static int SomethingForMePostAsyncTaskFrec = 50;
+
     //private constructor to prevent instantiation/inheritance
     private Constants() {}
 

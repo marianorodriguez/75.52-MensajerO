@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.fiuba.tallerii.mensajer0.Activities.ChatActivity;
 import com.fiuba.tallerii.mensajer0.Activities.UsersActivity;
@@ -39,7 +40,8 @@ public class RefreshUsersAsyncTask extends AsyncTask<Pair<Context, String>, Stri
 //        Constants.currentUsersSize = Constants.otherUsers.size();
         context = params[0].first;
         try {
-            Thread.sleep(500);
+            Thread.sleep(1000);
+//            System.out.println("refreshing users amigoooo\n\n\n");
 
             if (Constants.RefreshUsersAsyncTaskFinish) return null;
 
@@ -102,11 +104,13 @@ public class RefreshUsersAsyncTask extends AsyncTask<Pair<Context, String>, Stri
 
     private void refreshCurrentData(View user, User wanted, RoundedBitmapDrawable img) {
 
-        img = RoundedBitmapDrawableFactory.create(resources, wanted.profile_picture);
-        img.setCornerRadius(300f);
-        ((ImageView) user.findViewById(R.id.userItemImage)).setScaleType(ImageView.ScaleType.CENTER_CROP);
-        ((ImageView) user.findViewById(R.id.userItemImage)).setImageDrawable(img);
-        ((ImageView) user.findViewById(R.id.userItemImage)).setScaleType(ImageView.ScaleType.CENTER_CROP);
+        ((ImageView)user.findViewById(R.id.userItemImage)).setImageBitmap(wanted.profile_picture);
+
+//        img = RoundedBitmapDrawableFactory.create(resources, wanted.profile_picture);
+//        img.setCornerRadius(300f);
+//        ((ImageView) user.findViewById(R.id.userItemImage)).setScaleType(ImageView.ScaleType.CENTER_CROP);
+//        ((ImageView) user.findViewById(R.id.userItemImage)).setImageDrawable(img);
+//        ((ImageView) user.findViewById(R.id.userItemImage)).setScaleType(ImageView.ScaleType.CENTER_CROP);
 
         ((TextView) user.findViewById(R.id.userItemData)).setText(wanted.username + "\n" +
                 wanted.status + " -- "
@@ -128,10 +132,12 @@ public class RefreshUsersAsyncTask extends AsyncTask<Pair<Context, String>, Stri
 
         View newUser = inflater.inflate(R.layout.user_item_users, null);
 
-        RoundedBitmapDrawable img = RoundedBitmapDrawableFactory.create(resources, userToShow.profile_picture);
-        img.setCornerRadius(300f);
-        ((ImageView) newUser.findViewById(R.id.userItemImage)).setScaleType(ImageView.ScaleType.CENTER_CROP);
-        ((ImageView) newUser.findViewById(R.id.userItemImage)).setImageDrawable(img);
+        ((ImageView)newUser.findViewById(R.id.userItemImage)).setImageBitmap(userToShow.profile_picture);
+
+//        RoundedBitmapDrawable img = RoundedBitmapDrawableFactory.create(resources, userToShow.profile_picture);
+//        img.setCornerRadius(300f);
+//        ((ImageView) newUser.findViewById(R.id.userItemImage)).setScaleType(ImageView.ScaleType.CENTER_CROP);
+//        ((ImageView) newUser.findViewById(R.id.userItemImage)).setImageDrawable(img);
 
         ((TextView) newUser.findViewById(R.id.userItemData)).setText(userToShow.username + "\n" +
                 userToShow.status + " -- "

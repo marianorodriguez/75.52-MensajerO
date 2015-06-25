@@ -29,7 +29,11 @@
         android:soundEffectsEnabled="true"
         android:scrollbarThumbVertical="@android:color/white"
         android:scrollbarAlwaysDrawVerticalTrack="false"
-        android:scrollbarSize="4dp">
+        android:scrollbarSize="4dp"
+        android:onClick="scrollDown"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:nestedScrollingEnabled="true">
 
         <LinearLayout
             android:orientation="vertical"
@@ -42,7 +46,9 @@
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
+        android:layout_height="fill_parent"
+        android:focusableInTouchMode="false"
+        android:focusable="false">
 
     </LinearLayout>
 
@@ -65,7 +71,9 @@
         android:paddingLeft="10dp"
         android:paddingBottom="5dp"
         android:paddingRight="10dp"
-        android:background="@null" />
+        android:background="@null"
+        android:clickable="true"
+        android:onClick="scrollDown"/>
 
     <ImageView
         android:layout_width="wrap_content"
@@ -102,7 +110,8 @@
         android:layout_height="1dp"
         android:text="New Button"
         android:id="@+id/focusdown"
-        android:layout_gravity="right" />
+        android:layout_gravity="right"
+        android:onClick="scrollDown" />
 
 </RelativeLayout>
 

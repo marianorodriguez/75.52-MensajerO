@@ -25,6 +25,8 @@ import android.widget.Toast;
 import com.fiuba.tallerii.mensajer0.Common.Constants;
 import com.example.fernando.mensajerO.R;
 import com.fiuba.tallerii.mensajer0.Threads.ConfigPostAsyncTask;
+import com.fiuba.tallerii.mensajer0.Threads.GetUsersPostAsyncTask;
+import com.fiuba.tallerii.mensajer0.Threads.SomethingForMePostAsyncTask;
 
 import java.io.ByteArrayOutputStream;
 import java.io.UnsupportedEncodingException;
@@ -183,6 +185,13 @@ public class ConfigurationActivity extends ActionBarActivity implements View.OnC
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        Constants.SomethingForMePostAsyncTaskFinish = true;
+        Constants.GetUsersPostAsyncTaskFinish = true;
+    }
+
+    @Override
     public void onClick(View v) {
 
         if (v.getId() == R.id.backtologin) {
@@ -295,6 +304,17 @@ public class ConfigurationActivity extends ActionBarActivity implements View.OnC
         super.onDestroy();
         if (configPost != null)
             configPost.cancel(true);
+
+        Constants.GetUsersPostAsyncTaskFinish = false;
+        Constants.SomethingForMePostAsyncTaskFinish = false;
+        ChatsHallActivity.somethingForMePost = new SomethingForMePostAsyncTask();
+        ChatsHallActivity.somethingForMePost.execute(new Pair<Context, String>(this, ChatsHallActivity.package_),
+                new Pair<Context, String>(this, Constants.somethingForMeUrl),
+                new Pair<Context, String>(this, "get"));
+        ChatsHallActivity.getUsersPost = new GetUsersPostAsyncTask();
+        ChatsHallActivity.getUsersPost.execute(new Pair<Context, String>(this, ChatsHallActivity.package_),
+                new Pair<Context, String>(this, Constants.usersUrl),
+                new Pair<Context, String>(this, "get"));
     }
 
 }

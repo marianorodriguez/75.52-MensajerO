@@ -27,6 +27,7 @@ import android.widget.Toast;
 
 import com.fiuba.tallerii.mensajer0.Common.Constants;
 import com.example.fernando.mensajerO.R;
+import com.fiuba.tallerii.mensajer0.Common.Log;
 import com.fiuba.tallerii.mensajer0.Threads.CurrentChatsPostAsyncTask;
 import com.fiuba.tallerii.mensajer0.Threads.DeleteChatPostAsyncTask;
 import com.fiuba.tallerii.mensajer0.Threads.GetUsersPostAsyncTask;
@@ -36,6 +37,7 @@ import com.fiuba.tallerii.mensajer0.Threads.SomethingForMePostAsyncTask;
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.logging.Logger;
 
 /**
  * Created by fernando on 10/04/15.
@@ -47,7 +49,7 @@ public class ChatsHallActivity extends ActionBarActivity implements View.OnClick
     public static RefreshChatsHallAsyncTask refreshChats;
     CurrentChatsPostAsyncTask currentChatsGet;
     public static DeleteChatPostAsyncTask deleteChatPost;
-    String package_;
+    static String package_;
     Context context;
 
     SharedPreferences mSharedPref;
@@ -59,6 +61,10 @@ public class ChatsHallActivity extends ActionBarActivity implements View.OnClick
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.chatshall);
+
+
+        Logger a = Log.getInstance();
+        a.info("fer");
 
         context = this;
 //        mSharedPref= getSharedPreferences(Constants.PREFS, MODE_PRIVATE);
@@ -98,7 +104,6 @@ public class ChatsHallActivity extends ActionBarActivity implements View.OnClick
 
             package_ = Constants.packager.wrap("somethingForMe", Constants.user);
 
-
             Constants.RefreshChatsHallAsyncTaskFinish = false;
             Constants.GetUsersPostAsyncTaskFinish = false;
             Constants.SomethingForMePostAsyncTaskFinish = false;
@@ -110,7 +115,6 @@ public class ChatsHallActivity extends ActionBarActivity implements View.OnClick
                     new Pair<Context, String>(this, Constants.usersUrl),
                     new Pair<Context, String>(this, "get"));
 
-
             currentChatsGet.execute(new Pair<Context, String>(this, package_),
                     new Pair<Context, String>(this, Constants.currentChatsUrl),
                     new Pair<Context, String>(this, "get"));
@@ -120,7 +124,7 @@ public class ChatsHallActivity extends ActionBarActivity implements View.OnClick
                 try {
                     Thread.sleep(1000);
                     timeout++;
-                    if (timeout == 4)
+                    if (timeout == 10)
                         Constants.currentChatsOk = "Error";
                 } catch (InterruptedException e) {
                     e.printStackTrace();
@@ -136,7 +140,7 @@ public class ChatsHallActivity extends ActionBarActivity implements View.OnClick
                 Constants.SomethingForMePostAsyncTaskFinish = true;
                 Constants.RefreshUsersAsyncTaskFinish = true;
 
-                sayGodbye();
+                sayGodbye(null);
 
             }
 
@@ -186,16 +190,20 @@ public class ChatsHallActivity extends ActionBarActivity implements View.OnClick
     @Override
     protected void onResume() {
         super.onResume();
-        refreshChats = new RefreshChatsHallAsyncTask();
-        refreshChats.execute(new Pair<Context, String>(this, package_),
-                new Pair<Context, String>(this, Constants.usersUrl),
-                new Pair<Context, String>(this, "post"));
+        if (Constants.RefreshChatsHallAsyncTaskFinish) {
+            Constants.RefreshChatsHallAsyncTaskFinish = false;
+            refreshChats = new RefreshChatsHallAsyncTask();
+            refreshChats.execute(new Pair<Context, String>(this, package_),
+                    new Pair<Context, String>(this, Constants.usersUrl),
+                    new Pair<Context, String>(this, "post"));
+        }
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        refreshChats.cancel(true);
+
+        Constants.RefreshChatsHallAsyncTaskFinish = true;
     }
 
     @Override
@@ -210,7 +218,7 @@ public class ChatsHallActivity extends ActionBarActivity implements View.OnClick
 
         } else if (id == R.id.logOut) {
 
-            sayGodbye();
+            sayGodbye(null);
 
         } else if (id == R.id.settings) {
 
@@ -239,30 +247,11 @@ public class ChatsHallActivity extends ActionBarActivity implements View.OnClick
         finish();
     }
 
-    public void sayGodbye() {
-        SharedPreferences.Editor e = mSharedPref.edit();
-
-        String username = mSharedPref.getString(Constants.PREF_NAME, "");
-        e.putString(username+"chats", Constants.user.chatsToJson().toString());
-
-        e.putString(Constants.PREF_NAME, "");
-        e.putString(Constants.PREF_PASS, "");
-
-        e.commit();
-
-        Intent login = new Intent(this, LogInActivity.class);
-        startActivity(login);
-        finish();
-    }
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
 
         if (somethingForMePost != null) {
-            somethingForMePost.cancel(true);
-            getUsersPost.cancel(true);
-            refreshChats.cancel(true);
 
             Constants.RefreshChatsHallAsyncTaskFinish = true;
             Constants.GetUsersPostAsyncTaskFinish = true;
@@ -285,7 +274,7 @@ public class ChatsHallActivity extends ActionBarActivity implements View.OnClick
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.logOutButton) {
-            sayGodbye();
+            sayGodbye(null);
         }
     }
 
