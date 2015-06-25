@@ -172,12 +172,16 @@ public class ChatsHallActivity extends ActionBarActivity implements View.OnClick
 
     public String BitMapToString(Bitmap bitmap){
 
-        ByteArrayOutputStream baos=new  ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
-        byte [] b=baos.toByteArray();
-        String temp=Base64.encodeToString(b, Base64.DEFAULT);
-        temp = temp.replaceAll("(?:\\r\\n|\\n\\r|\\n|\\r)", "");
-        return temp;
+        try {
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+            byte[] b = baos.toByteArray();
+            String temp = Base64.encodeToString(b, Base64.DEFAULT);
+            temp = temp.replaceAll("(?:\\r\\n|\\n\\r|\\n|\\r)", "");
+            return temp;
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     @Override

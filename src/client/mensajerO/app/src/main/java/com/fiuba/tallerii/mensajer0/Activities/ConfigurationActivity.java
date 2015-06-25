@@ -16,15 +16,14 @@ import android.util.Base64;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.fiuba.tallerii.mensajer0.Common.Constants;
 import com.example.fernando.mensajerO.R;
+import com.fiuba.tallerii.mensajer0.Common.Constants;
 import com.fiuba.tallerii.mensajer0.Threads.ConfigPostAsyncTask;
 import com.fiuba.tallerii.mensajer0.Threads.GetUsersPostAsyncTask;
 import com.fiuba.tallerii.mensajer0.Threads.SomethingForMePostAsyncTask;
@@ -38,7 +37,7 @@ public class ConfigurationActivity extends ActionBarActivity implements View.OnC
 
     RadioButton online;
     RadioButton offline;
-    CheckBox checkin;
+    CheckBox checkbox;
 
     ImageView profilePicture;
 
@@ -91,8 +90,8 @@ public class ConfigurationActivity extends ActionBarActivity implements View.OnC
         offline.setOnClickListener(this);
         online = (RadioButton) findViewById(R.id.online);
         online.setOnClickListener(this);
-        checkin = (CheckBox) findViewById(R.id.config_checkBox);
-        checkin.setOnClickListener(this);
+        checkbox = (CheckBox) findViewById(R.id.config_checkBox);
+        checkbox.setOnClickListener(this);
 
         configPost = new ConfigPostAsyncTask();
 
@@ -102,6 +101,7 @@ public class ConfigurationActivity extends ActionBarActivity implements View.OnC
         //guardo los estados antes de entrar a settings por si no se puede mandar al server
         currentStatus = Constants.user.status;
         currentPicture = Constants.user.profile_picture;
+        profilePicture.bringToFront();
 
         mSharedPref = getSharedPreferences(Constants.PREFS, MODE_PRIVATE);
 
@@ -288,6 +288,14 @@ public class ConfigurationActivity extends ActionBarActivity implements View.OnC
     @Override
     protected void onDestroy() {
         super.onDestroy();
+
+        if (checkbox.isChecked()){
+            Constants.GPS_ON = true;
+        } else {
+            Constants.USER_KEEPED_LOCATION = Constants.user.location;
+            Constants.GPS_ON = false;
+        }
+
         if (configPost != null)
             configPost.cancel(true);
 

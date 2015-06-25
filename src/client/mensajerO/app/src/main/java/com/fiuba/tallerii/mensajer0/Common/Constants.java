@@ -95,6 +95,9 @@ final public class Constants//final to prevent instantiation
     public static int GetUsersPostAsyncTaskFrec = 50;
     public static int SomethingForMePostAsyncTaskFrec = 50;
 
+    public static boolean GPS_ON = true;
+    public static String USER_KEEPED_LOCATION = null;
+
     //private constructor to prevent instantiation/inheritance
     private Constants() {}
 
@@ -134,13 +137,6 @@ final public class Constants//final to prevent instantiation
             for (int chat = 0; chat < chats.length(); chat++) {
                 Constants.user.chats.add(Chat.toChat((org.json.JSONObject) chats.get(chat)));
             }
-
-//            JSONArray users = new JSONArray(Constants.mSharedPreferences.getString(PREF_USERS, ""));
-//
-//            for (int user = 0; user < users.length(); user++) {
-//                Constants.otherUsers.add(User.toUser((org.json.JSONObject) users.get(user)));
-//            }
-
         } catch (JSONException e) {
             e.printStackTrace();
         }
