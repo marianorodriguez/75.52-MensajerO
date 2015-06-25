@@ -1,5 +1,5 @@
 .. index:: Cierre de sesión
-.. |overflow| image:: images/overflow.png
+
 
 Cierre de sesión
 ****************
@@ -11,13 +11,7 @@ En el caso de que cierres MensajerO!, quedarán registrados tu nombre de usuario
 
 Esto significa que la próxima vez que abras la aplicación aparecerás directamente en la ventana de chats.
 
-Para cerrar completamente tu sesión de MensajerO!, tenés que acceder a la pantalla de usuarios, tocar el ícono |overflow| y seleccionar la opción de cierre de sesión.
-
-.. figure::  images/logOut.png
-   :align:   center
-
-   *Cerrando sesión en MensajerO!.*
-
+Para cerrar completamente tu sesión de MensajerO!, tenés que acceder a la pantalla de usuarios, presionar el botón de menú de tu celular, y seleccionar la opción de Sign Out.
 
 La próxima vez que accedas se te preguntará por tu nombre de usuario y contraseña, teniendo la posibilidad de reanudar tu sesión, abrir una cuenta diferente o registrar un nuevo usuario.
 

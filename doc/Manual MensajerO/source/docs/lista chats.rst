@@ -1,5 +1,4 @@
 .. index:: Pantalla de chats
-.. |users| image:: images/users.png
 
 Pantalla de chats
 *****************
@@ -15,4 +14,4 @@ Si querés abrir un chat en particular, solo tenés que tocar el que quieras.
 
 Si es la primera vez que abris MensajerO!, es probable que no tengas ningún chat iniciado.
 
-Para comenzar un chat tocá el ícono |users|. Irás a una pantalla con el listado de los usuarios registrados en MensajerO! 
+Para comenzar un chat tocá el ícono de usuarios. Irás a una pantalla con el listado de los usuarios registrados en MensajerO! 
