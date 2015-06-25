@@ -126,7 +126,6 @@ public class User {
     }
 
     public JSONObject toJsonForServer (String msg_toID, String msg_text) {
-//        JSONObject juser_ = toJsonForServer();
         JSONObject jmessage = new JSONObject();
         try {
             jmessage.put("msg_fromID", username);
@@ -138,22 +137,6 @@ public class User {
             jmessage.put("msg_time", "");
 
             return jmessage;
-        } catch (JSONException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    public JSONObject toJsonForDisk () {
-        JSONObject juser = toJsonForServer(0);
-        JSONArray jchats = new JSONArray();
-        for (int i = 0; i < chats.size(); i++) {
-            jchats.put(chats.get(i).toJson());
-        }
-        try {
-            juser.put("chats", jchats);
-
-            return juser;
         } catch (JSONException e) {
             e.printStackTrace();
             return null;

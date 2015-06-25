@@ -19,16 +19,12 @@ public class RefreshChatsHallAsyncTask extends AsyncTask<Pair<Context, String>, 
     @Override
     protected String doInBackground(Pair<Context, String>... params) {
 
-        //Constants.currentChatsSize = Constants.user.chats.size();
         context = params[0].first;
         try {
             Thread.sleep(1000);
-//            System.out.println("refreshing chats amigoooo\n\n\n");
-
             if (Constants.RefreshChatsHallAsyncTaskFinish) return null;
 
             publishProgress("refresh");
-
             publishProgress("run again", params[0].second,
                     params[1].second, params[2].second);
 
@@ -43,7 +39,6 @@ public class RefreshChatsHallAsyncTask extends AsyncTask<Pair<Context, String>, 
         super.onProgressUpdate(values);
 
         if (values[0].compareTo("run again") == 0) {
-//            Toast.makeText(context, "new refresh", Toast.LENGTH_LONG).show();
             ChatsHallActivity.refreshChats = new RefreshChatsHallAsyncTask();
             ChatsHallActivity.refreshChats.execute(new Pair<>(context, values[1]),
                     new Pair<>(context, values[2]),
@@ -57,7 +52,6 @@ public class RefreshChatsHallAsyncTask extends AsyncTask<Pair<Context, String>, 
                 Chat chatToShow = Constants.user.chats.get(chat);
 
                 Constants.chatsAdapter.add(chatToShow.otherUser);
-
             }
             Constants.chatListView.setAdapter(Constants.chatsAdapter);
 

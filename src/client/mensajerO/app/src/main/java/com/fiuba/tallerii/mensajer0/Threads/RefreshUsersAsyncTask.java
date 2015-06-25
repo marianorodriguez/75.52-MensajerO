@@ -18,7 +18,7 @@ import com.fiuba.tallerii.mensajer0.Activities.UsersActivity;
 import com.fiuba.tallerii.mensajer0.Common.Constants;
 import com.fiuba.tallerii.mensajer0.Entities.Chat;
 import com.fiuba.tallerii.mensajer0.Entities.User;
-import com.example.fernando.mensajerO.R;
+import com.fiuba.tallerii.mensajer0.R;
 
 import java.util.ArrayList;
 
@@ -37,11 +37,9 @@ public class RefreshUsersAsyncTask extends AsyncTask<Pair<Context, String>, Stri
     @Override
     protected String doInBackground(Pair<Context, String>... params) {
 
-//        Constants.currentUsersSize = Constants.otherUsers.size();
         context = params[0].first;
         try {
             Thread.sleep(1000);
-//            System.out.println("refreshing users amigoooo\n\n\n");
 
             if (Constants.RefreshUsersAsyncTaskFinish) return null;
 
@@ -61,7 +59,6 @@ public class RefreshUsersAsyncTask extends AsyncTask<Pair<Context, String>, Stri
         super.onProgressUpdate(values);
 
         if (values[0].compareTo("run again") == 0) {
-//            Toast.makeText(context, "new refresh users", Toast.LENGTH_LONG).show();
             UsersActivity.refreshUsers = new RefreshUsersAsyncTask();
             UsersActivity.refreshUsers.execute(new Pair<>(context, values[1]),
                     new Pair<>(context, values[2]),

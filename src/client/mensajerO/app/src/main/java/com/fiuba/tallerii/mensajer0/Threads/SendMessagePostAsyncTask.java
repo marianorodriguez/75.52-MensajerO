@@ -72,7 +72,6 @@ public class SendMessagePostAsyncTask extends AsyncTask<Pair<Context, String>, S
         try {
             String package_ = params[0].second;
             String url = params[1].second;
-            String type = params[2].second;
 
             HttpClient httpClient = new DefaultHttpClient();
             HttpPost httpPost = new HttpPost(url);

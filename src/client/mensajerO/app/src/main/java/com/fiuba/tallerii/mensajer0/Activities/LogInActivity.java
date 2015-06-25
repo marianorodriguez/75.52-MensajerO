@@ -24,8 +24,7 @@ import com.fiuba.tallerii.mensajer0.Common.Constants;
 import com.fiuba.tallerii.mensajer0.Common.MyLocationListener;
 import com.fiuba.tallerii.mensajer0.Threads.LogInPostAsyncTask;
 import com.fiuba.tallerii.mensajer0.Entities.User;
-import com.example.fernando.mensajerO.R;
-
+import com.fiuba.tallerii.mensajer0.R;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -36,15 +35,12 @@ import java.security.NoSuchAlgorithmException;
 
 public class LogInActivity extends ActionBarActivity implements View.OnClickListener {
 
-    // To close this activity from SignUp Activity
     public static final String ACTION_CLOSE = "yourPackageName.ACTION_CLOSE";
     private FinishSignalReceiver firstReceiver;
 
     EditText txtUsername, txtPassword;
-
     LogInPostAsyncTask logInPost;
 
-    //    CurrentChatsPostAsyncTask currentChatsGet;
     static SharedPreferences mSharedPref;
 
     public static SharedPreferences getmSharedPref() {
@@ -68,12 +64,10 @@ public class LogInActivity extends ActionBarActivity implements View.OnClickList
         firstReceiver = new FinishSignalReceiver();
         registerReceiver(firstReceiver, filter);
 
-        // get Username, Password input text
         txtUsername = (EditText) findViewById(R.id.txtUsername);
         txtPassword = (EditText) findViewById(R.id.txtPassword);
 
         logInPost = new LogInPostAsyncTask();
-//        currentChatsGet = new CurrentChatsPostAsyncTask();
 
         mSharedPref = getSharedPreferences(Constants.PREFS, MODE_PRIVATE);
         Constants.ipServer = mSharedPref.getString("ipServer", "");
@@ -118,7 +112,7 @@ public class LogInActivity extends ActionBarActivity implements View.OnClickList
                 password = md5(password);
                 User currentUser = new User(username, password);
 
-                String gps = mSharedPref.getString(username+"GPS", "");
+                String gps = mSharedPref.getString(username + "GPS", "");
                 if (gps.isEmpty()) {
                     Toast.makeText(this, "Invalid username and/or password. Enter data again or sign up in MensajerO.", Toast.LENGTH_SHORT).show();
                     txtPassword.setText("");
@@ -242,41 +236,11 @@ public class LogInActivity extends ActionBarActivity implements View.OnClickList
             l1 = l.getLongitude();
             l2 = l.getLatitude();
         }
-//        Toast.makeText(getApplicationContext(),"location: " + l1 + "," + l2, Toast.LENGTH_LONG).show();
         LocationListener mlocListener = new MyLocationListener(this);
         mlocManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 10, mlocListener);
 
-        l = mlocManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-
-        l = getLastBestLocation(mlocManager);
-
-
-        // VER SI l1 y l2 son distintas de cero --> si es asi mandar Unknown
         return String.valueOf(l2) + ";" + String.valueOf(l1);
     }
-
-    private static Location getLastBestLocation(LocationManager mLocationManager) {
-        Location locationGPS = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        Location locationNet = mLocationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-
-        long GPSLocationTime = 0;
-        if (null != locationGPS) {
-            GPSLocationTime = locationGPS.getTime();
-        }
-
-        long NetLocationTime = 0;
-
-        if (null != locationNet) {
-            NetLocationTime = locationNet.getTime();
-        }
-
-        if (0 < GPSLocationTime - NetLocationTime) {
-            return locationGPS;
-        } else {
-            return locationNet;
-        }
-    }
-
 
     @Override
     protected void onDestroy() {
@@ -287,7 +251,6 @@ public class LogInActivity extends ActionBarActivity implements View.OnClickList
     class FinishSignalReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
-//            Log.e("FirstReceiver", "FirstReceiver");
             if (intent.getAction().equals(ACTION_CLOSE)) {
                 LogInActivity.this.finish();
             }

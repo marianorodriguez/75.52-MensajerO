@@ -11,7 +11,7 @@ import com.fiuba.tallerii.mensajer0.Activities.ChatsHallActivity;
 import com.fiuba.tallerii.mensajer0.Entities.Chat;
 import com.fiuba.tallerii.mensajer0.Common.Constants;
 import com.fiuba.tallerii.mensajer0.Entities.Message;
-import com.example.fernando.mensajerO.R;
+import com.fiuba.tallerii.mensajer0.R;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -51,7 +51,7 @@ public class SomethingForMePostAsyncTask extends AsyncTask<Pair<Context, String>
 
             if (Constants.SomethingForMePostAsyncTaskFinish) return null;
 
-            if ( Constants.server != null ) {
+            if (Constants.server != null) {
                 String response = Constants.server.somethingForMe(params[0].second);
 
                 allocateMessages(response);
@@ -62,7 +62,7 @@ public class SomethingForMePostAsyncTask extends AsyncTask<Pair<Context, String>
                 return "";
 
             } else {
-                    HttpResponse response = doRequest(params);
+                HttpResponse response = doRequest(params);
 
                 if (response != null && response.getStatusLine().getStatusCode() == 200) {
 
@@ -77,7 +77,6 @@ public class SomethingForMePostAsyncTask extends AsyncTask<Pair<Context, String>
                     publishProgress("serverError");
                     return null;
                 }
-                //return "Error: " + response.getStatusLine().getStatusCode() + " " + response.getStatusLine().getReasonPhrase();
             }
 
         } catch (InterruptedException e) {
@@ -160,20 +159,18 @@ public class SomethingForMePostAsyncTask extends AsyncTask<Pair<Context, String>
 
                 LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 View logoutButton = inflater.inflate(R.layout.logout, null);
-//            logoutButton.findViewById(R.id.logOutButton).performClick();
                 logoutButton.findViewById(R.id.logOutButton).callOnClick();
 
             } else {
-//            Toast.makeText(context, "new hilo", Toast.LENGTH_LONG).show();
                 ChatsHallActivity.somethingForMePost = new SomethingForMePostAsyncTask();
                 ChatsHallActivity.somethingForMePost.execute(new Pair<>(context, values[1]),
                         new Pair<>(context, values[2]),
                         new Pair<>(context, values[3]));
-//            Toast.makeText(context, "new hilo ds", Toast.LENGTH_LONG).show();
                 this.cancel(true);
             }
 
-        } catch (Exception e ) {}
+        } catch (Exception e) {
+        }
     }
 
     @Override
@@ -195,13 +192,8 @@ public class SomethingForMePostAsyncTask extends AsyncTask<Pair<Context, String>
             try {
 
                 JSONObject object = new JSONObject(newMessages.get(message).toString());
-//                    JSONObject jsonObject = new JSONObject(username);
 
                 Message newMessage = Message.toMessage(object);
-//
-//                User newUser = User.toUser(object);
-//
-//                Message newMessage = Message.toMessage((JSONObject) newMessages.get(message));
 
                 for (int chat = 0; chat < Constants.user.chats.size(); chat++) {
                     if (Constants.user.chats.get(chat).otherUser.compareTo(newMessage.msg_fromID) == 0) {

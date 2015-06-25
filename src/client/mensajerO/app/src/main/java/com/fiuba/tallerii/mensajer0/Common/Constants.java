@@ -40,12 +40,9 @@ final public class Constants//final to prevent instantiation
 
     public static User user = null;
 
-//    public static SharedPreferences mSharedPreferences;
     public static final String PREFS = "prefs";
     public static final String PREF_NAME = "name";
     public static final String PREF_PASS = "password";
-//    public static final String PREF_CHATS = "chats";
-//    private static final String PREF_USERS = "users";
 
     public static final Packager packager = new Packager();
     public static ArrayList<User> otherUsers = new ArrayList<>();
@@ -73,7 +70,7 @@ final public class Constants//final to prevent instantiation
     public static ScrollView usersScroll = null;
 
     public static Server server = null;
-//  public static Server server = new Server(); //si no pones en null
+//  public static Server server = new Server(); //SERVER MOCK
 
     //La cantidad actual de chats renderizados hasta el momento
     public static int currentChatsSize = 0;
@@ -98,7 +95,6 @@ final public class Constants//final to prevent instantiation
     public static boolean GPS_ON = true;
     public static String USER_KEEPED_LOCATION = "";
 
-    //private constructor to prevent instantiation/inheritance
     private Constants() {}
 
     public static void setIp(String ip) {
@@ -134,7 +130,6 @@ final public class Constants//final to prevent instantiation
 
             JSONObject chatsObject = new JSONObject(mSharedPref.getString(username+"chats", ""));
             JSONArray chats = (JSONArray) chatsObject.get("chats");
-//            JSONArray chats = new JSONArray(mSharedPref.getString(username+"chats", ""));
 
             for (int chat = 0; chat < chats.length(); chat++) {
                 Constants.user.chats.add(Chat.toChat((org.json.JSONObject) chats.get(chat)));

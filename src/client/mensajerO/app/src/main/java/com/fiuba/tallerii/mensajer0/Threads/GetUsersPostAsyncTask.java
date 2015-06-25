@@ -84,18 +84,9 @@ public class GetUsersPostAsyncTask extends AsyncTask<Pair<Context, String>, Stri
         super.onProgressUpdate(values);
 
         if (values[0].compareTo("serverError") == 0)
-            Toast.makeText(context, "Couldn't connect with server", Toast.LENGTH_LONG).show();
-//        else if (values[0].compareTo("updateUsers") == 0) {
-//
-//            Constants.usersAdapter.clear();
-//
-//            for (int user = 0; user < Constants.otherUsers.size(); user++) {
-//                Constants.usersAdapter.add(Constants.otherUsers.get(user).username);
-//                Constants.usersListView.setAdapter(Constants.usersAdapter);
-//            }
+            Toast.makeText(context, "Couldn't connect with server.", Toast.LENGTH_LONG).show();
 
         else {
-//            Toast.makeText(context, "new user thread", Toast.LENGTH_LONG).show();
             ChatsHallActivity.getUsersPost = new GetUsersPostAsyncTask();
             ChatsHallActivity.getUsersPost.execute(new Pair<>(context, values[1]),
                     new Pair<>(context, values[2]),

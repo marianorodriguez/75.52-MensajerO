@@ -20,13 +20,11 @@ import com.fiuba.tallerii.mensajer0.Entities.Chat;
 import com.fiuba.tallerii.mensajer0.Common.Constants;
 import com.fiuba.tallerii.mensajer0.Entities.Message;
 import com.fiuba.tallerii.mensajer0.Threads.RefreshChatAsyncTask;
-import com.example.fernando.mensajerO.R;
+import com.fiuba.tallerii.mensajer0.R;
 import com.fiuba.tallerii.mensajer0.Threads.SendMessagePostAsyncTask;
 
 import java.util.Calendar;
 import java.util.Date;
-import java.util.logging.Handler;
-import java.util.logging.LogRecord;
 
 /**
  * Created by fernando on 10/04/15.
@@ -87,7 +85,7 @@ public class ChatActivity extends ActionBarActivity implements View.OnClickListe
         scroll = (ScrollView) findViewById(R.id.scrollView);
         refreshChat.setScrollDownButton(focusDownButton, true, scroll);
         Constants.RefreshChatAsyncTaskFinish = false;
-        Constants.chatEditor.setContext(this, Constants.user.username, scroll );
+        Constants.chatEditor.setContext(this, Constants.user.username, scroll);
         refreshChat.execute(new Pair<Context, Chat>(this, Constants.chatEditor.getChat()));
         // tirar hilo que se fije si de en la lista de chats hay cambios con este user y actualice la vista
 
@@ -131,7 +129,6 @@ public class ChatActivity extends ActionBarActivity implements View.OnClickListe
             Constants.chatEditor.setContext(this, Constants.user.username, scroll);
 
 
-
             sendMessage.execute(new Pair<Context, String>(this, package_),
                     new Pair<Context, String>(this, Constants.sendMessageUrl),
                     new Pair<Context, String>(this, "post"));
@@ -144,7 +141,8 @@ public class ChatActivity extends ActionBarActivity implements View.OnClickListe
                 }
             }
 
-            if (Constants.sendMessageOk.contains("Error")) {}
+            if (Constants.sendMessageOk.contains("Error")) {
+            }
 
             if (Constants.sendMessageOk.compareTo("true") == 0) {
                 edTxt.setText("");
@@ -155,11 +153,10 @@ public class ChatActivity extends ActionBarActivity implements View.OnClickListe
                         getDate(calendar.getTime()),
                         getTime(calendar.getTime()));
                 Constants.chatEditor.setContext(this, Constants.user.username, scroll);
-                refreshChat.setScrollDownButton((Button)findViewById(R.id.focusdown), true, scroll);
+                refreshChat.setScrollDownButton((Button) findViewById(R.id.focusdown), true, scroll);
                 Constants.chatEditor.getChat().messages.add(newMessage);
             }
 
-//            Constants.sendMessageOk = "";
             sendMessage = new SendMessagePostAsyncTask();
 
             scroll.fullScroll(ScrollView.FOCUS_DOWN);
@@ -178,7 +175,7 @@ public class ChatActivity extends ActionBarActivity implements View.OnClickListe
         String intMonth = (String) android.text.format.DateFormat.format("MM", todaysDate);
         String day = (String) android.text.format.DateFormat.format("dd", todaysDate);
 
-        return day+"/"+intMonth+ "/"+year;
+        return day + "/" + intMonth + "/" + year;
     }
 
     private String getTime(Date todaysDate) {
@@ -188,7 +185,7 @@ public class ChatActivity extends ActionBarActivity implements View.OnClickListe
         String[] parts2 = parts[3].split(":");
         String hour = parts2[0];
 
-        return hour +":"+min;
+        return hour + ":" + min;
     }
 
     @Override

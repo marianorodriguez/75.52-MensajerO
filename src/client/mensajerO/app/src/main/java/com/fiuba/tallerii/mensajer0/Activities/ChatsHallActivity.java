@@ -29,8 +29,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fiuba.tallerii.mensajer0.Common.Constants;
-import com.example.fernando.mensajerO.R;
-import com.fiuba.tallerii.mensajer0.Common.Log;
+import com.fiuba.tallerii.mensajer0.R;
 import com.fiuba.tallerii.mensajer0.Common.MyLocationListener;
 import com.fiuba.tallerii.mensajer0.Threads.CurrentChatsPostAsyncTask;
 import com.fiuba.tallerii.mensajer0.Threads.DeleteChatPostAsyncTask;
@@ -41,7 +40,6 @@ import com.fiuba.tallerii.mensajer0.Threads.SomethingForMePostAsyncTask;
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.logging.Logger;
 
 /**
  * Created by fernando on 10/04/15.
@@ -58,23 +56,12 @@ public class ChatsHallActivity extends ActionBarActivity implements View.OnClick
 
     SharedPreferences mSharedPref;
 
-    // EL SERVER YA TIENE LOS CHATS ! TIENE LOS CHATS QUE YO TENGO EN EL TELEFONO
-    // MANDAR POST CUANDO BORRO UN CHAT ! -----------------------------------------
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.chatshall);
 
-
-        Logger a = Log.getInstance();
-        a.info("fer");
-
         context = this;
-//        mSharedPref= getSharedPreferences(Constants.PREFS, MODE_PRIVATE);
-//        SharedPreferences.Editor ee = mSharedPref.edit();
-//        ee.clear();
-//        ee.commit();
 
         mSharedPref = getSharedPreferences(Constants.PREFS, MODE_PRIVATE);
 
@@ -157,7 +144,6 @@ public class ChatsHallActivity extends ActionBarActivity implements View.OnClick
             getSupportActionBar().setDisplayShowCustomEnabled(true);
             getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-//            LayoutInflater inflater = (LayoutInflater) getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View actionBar = inflater.inflate(R.layout.action_bar, null);
             getSupportActionBar().setCustomView(actionBar);
 
@@ -302,38 +288,10 @@ public class ChatsHallActivity extends ActionBarActivity implements View.OnClick
             l1 = l.getLongitude();
             l2 = l.getLatitude();
         }
-//        Toast.makeText(getApplicationContext(),"location: " + l1 + "," + l2, Toast.LENGTH_LONG).show();
         LocationListener mlocListener = new MyLocationListener(this);
         mlocManager.requestLocationUpdates( LocationManager.GPS_PROVIDER, 5000, 10, mlocListener);
 
-        l = mlocManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-
-        l = getLastBestLocation(mlocManager);
-
-
-        // VER SI l1 y l2 son distintas de cero --> si es asi mandar Unknown
         return String.valueOf(l2)+";"+String.valueOf(l1);
-    }
-
-    private static Location getLastBestLocation(LocationManager mLocationManager) {
-        Location locationGPS = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        Location locationNet = mLocationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-
-        long GPSLocationTime = 0;
-        if (null != locationGPS) { GPSLocationTime = locationGPS.getTime(); }
-
-        long NetLocationTime = 0;
-
-        if (null != locationNet) {
-            NetLocationTime = locationNet.getTime();
-        }
-
-        if ( 0 < GPSLocationTime - NetLocationTime ) {
-            return locationGPS;
-        }
-        else {
-            return locationNet;
-        }
     }
 
     public void drawCurrentChats() {
@@ -357,7 +315,6 @@ public class ChatsHallActivity extends ActionBarActivity implements View.OnClick
             public void onItemClick(AdapterView<?> parent, final View view,
                                     int position, long id) {
                 // ver aca el tema de donde es el touch para qe lo tome y que trae
-                // getItemAtposition
                 final String chatSelected = (String) parent.getItemAtPosition(position);
 
                 for (int chat = 0; chat < Constants.user.chats.size(); chat++) {
@@ -439,7 +396,6 @@ public class ChatsHallActivity extends ActionBarActivity implements View.OnClick
     }
 
     public class StableArrayAdapter extends ArrayAdapter<String> {
-        // hashmap <User, integer>
         HashMap<String, Integer> mIdMap = new HashMap<>();
 
         public StableArrayAdapter(Context context,
@@ -463,7 +419,6 @@ public class ChatsHallActivity extends ActionBarActivity implements View.OnClick
             return true;
         }
 
-        // add (User object)
         @Override
         public void add(String object) {
             super.add(object);
@@ -479,10 +434,7 @@ public class ChatsHallActivity extends ActionBarActivity implements View.OnClick
             ImageView userItemImage = (ImageView) userView.findViewById(R.id.userItemImage);
 
             RoundedBitmapDrawable img;
-//            RoundedBitmapDrawable img; = RoundedBitmapDrawableFactory.create(getResources(), bitmap);
-//            img.setCornerRadius(radius);
-//
-//            imageView.setImageDrawable(img);
+
             String username = userItemData.getText().toString().split("\n")[0];
             for (int otherUser = 0; otherUser < Constants.otherUsers.size(); otherUser++) {
                 if (Constants.otherUsers.get(otherUser).username.compareTo(username) == 0) {
@@ -491,13 +443,10 @@ public class ChatsHallActivity extends ActionBarActivity implements View.OnClick
                     img = RoundedBitmapDrawableFactory.create(getResources(), a);
                     img.setCornerRadius(Math.max(a.getWidth(), a.getHeight()) / 2.0f);
                     userItemImage.setImageDrawable(img);
-
-//                    userItemImage.setImageBitmap(Constants.otherUsers.get(otherUser).profile_picture);
                     break;
                 }
             }
             return userView;
         }
-
     }
 }

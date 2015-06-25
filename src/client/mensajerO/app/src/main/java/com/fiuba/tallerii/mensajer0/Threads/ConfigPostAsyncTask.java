@@ -73,7 +73,6 @@ public class ConfigPostAsyncTask extends AsyncTask<Pair<Context, String>, String
         try {
             String package_ = params[0].second;
             String url = params[1].second;
-            String type = params[2].second;
 
             HttpClient httpClient = new DefaultHttpClient();
             HttpPost httpPost = new HttpPost(url);

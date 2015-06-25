@@ -18,7 +18,7 @@ import com.fiuba.tallerii.mensajer0.Activities.ChatActivity;
 import com.fiuba.tallerii.mensajer0.Entities.Chat;
 import com.fiuba.tallerii.mensajer0.Common.Constants;
 import com.fiuba.tallerii.mensajer0.Entities.Message;
-import com.example.fernando.mensajerO.R;
+import com.fiuba.tallerii.mensajer0.R;
 
 import java.util.ArrayList;
 
@@ -39,7 +39,7 @@ public class RefreshChatAsyncTask extends AsyncTask<Pair<Context, Chat>, String,
 
     boolean scrollRequired = false;
 
-    public void setScrollDownButton (Button scrollDown, boolean firstTime, ScrollView cont) {
+    public void setScrollDownButton(Button scrollDown, boolean firstTime, ScrollView cont) {
         this.scroll = cont;
         this.scrollDown = scrollDown;
         this.firstTime = firstTime;
@@ -65,7 +65,6 @@ public class RefreshChatAsyncTask extends AsyncTask<Pair<Context, Chat>, String,
                     newMessages.add(chatToUpdate.messages.get(message));
                 }
                 Constants.messagesSize = chatToUpdate.messages.size();
-//                Constants.chatEditor.renderNewMessages(newMessages);
                 publishProgress("");
             }
 
@@ -98,18 +97,12 @@ public class RefreshChatAsyncTask extends AsyncTask<Pair<Context, Chat>, String,
         ((ImageView) Constants.chatActionBar.findViewById(R.id.actionBarIcon)).setImageDrawable(img);
 
         if (values[0].compareTo("run again") == 0) {
-//            Toast.makeText(context, "new refresh chat", Toast.LENGTH_LONG).show();
             ChatActivity.refreshChat = new RefreshChatAsyncTask();
             ChatActivity.refreshChat.execute(new Pair<>(context, chatToUpdate));
 
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View chat = inflater.inflate(R.layout.chat, null);
             chat.findViewById(R.id.editText).requestFocus();
-//            scrollDown = (Button) chat.findViewById(R.id.focusdown);
-//            scrollDown.performClick();
-//            scrollDown.callOnClick();
-
-
 
             if (firstTime) {
                 scrollDown.callOnClick();
@@ -125,25 +118,10 @@ public class RefreshChatAsyncTask extends AsyncTask<Pair<Context, Chat>, String,
             }
 
         } else {
-
-//            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//            View chat = inflater.inflate(R.layout.chat, null);
-//            scrollDown = (Button) chat.findViewById(R.id.focusdown);
-//
-//            scroll = (ScrollView) chat.findViewById(R.id.scrollView);
-
-
-
             Constants.chatEditor.renderNewMessages(newMessages);
 
             scrollRequired = true;
-
-//            scroll.scrollTo(0, scroll.getBottom());
-//            scroll.fullScroll(ScrollView.FOCUS_DOWN);
-//            ChatActivity.scrollDown();
-
             newMessages.clear();
-
         }
     }
 

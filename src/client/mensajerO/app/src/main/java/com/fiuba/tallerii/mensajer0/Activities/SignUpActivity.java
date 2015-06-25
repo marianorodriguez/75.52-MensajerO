@@ -17,10 +17,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
 import com.fiuba.tallerii.mensajer0.Common.Constants;
 import com.fiuba.tallerii.mensajer0.Common.MyLocationListener;
 import com.fiuba.tallerii.mensajer0.Entities.User;
-import com.example.fernando.mensajerO.R;
+import com.fiuba.tallerii.mensajer0.R;
 import com.fiuba.tallerii.mensajer0.Threads.SignUpPostAsyncTask;
 
 import java.io.ByteArrayOutputStream;
@@ -31,7 +32,6 @@ import java.io.ByteArrayOutputStream;
 
 public class SignUpActivity extends ActionBarActivity implements View.OnClickListener {
 
-    // To user enter password and username
     EditText txtUsername, txtPassword;
     SignUpPostAsyncTask signUpPost;
     SharedPreferences mSharedPref;
@@ -46,7 +46,6 @@ public class SignUpActivity extends ActionBarActivity implements View.OnClickLis
         Button button2 = (Button) findViewById(R.id.signupbutton);
         button2.setOnClickListener(this);
 
-        // get Email, Password input text
         txtUsername = (EditText) findViewById(R.id.txtUsername);
         txtPassword = (EditText) findViewById(R.id.txtPassword);
 
@@ -61,20 +60,18 @@ public class SignUpActivity extends ActionBarActivity implements View.OnClickLis
 
         if (v.getId() == R.id.signupbutton) {
 
-//            Constants.ipServer = mSharedPref.getString("ipServer", "");
-
             String username = txtUsername.getText().toString();
             String password = txtPassword.getText().toString();
 
             // Validate if username, password is filled
-            if(username.trim().length() > 0 && password.trim().length() > 0) {
+            if (username.trim().length() > 0 && password.trim().length() > 0) {
 
                 password = LogInActivity.md5(password);
                 User currentUser = new User(username, password);
                 currentUser.location = getLocation();
 
                 Constants.USER_KEEPED_LOCATION = currentUser.location;
-                currentUser.status = "online";
+                currentUser.status = "Online";
 
                 Drawable myDrawable = getResources().getDrawable(R.drawable.defprofpic);
                 currentUser.profile_picture = ((BitmapDrawable) myDrawable).getBitmap();
@@ -96,7 +93,7 @@ public class SignUpActivity extends ActionBarActivity implements View.OnClickLis
 
                 if (Constants.signUpOk.contains("Error")) {
                     Toast.makeText(this, "Couldn't connect with server. " +
-                            "Check your internet connection or try again later. Thanks.", Toast.LENGTH_LONG).show();
+                            "Check your internet connection or try again later.", Toast.LENGTH_LONG).show();
                     txtUsername.setText("");
                     txtPassword.setText("");
 
@@ -121,7 +118,7 @@ public class SignUpActivity extends ActionBarActivity implements View.OnClickLis
                         e.commit();
 
                     } else {
-                        Toast.makeText(this, "Invalid username. Try another one.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "Username already exists, try another.", Toast.LENGTH_SHORT).show();
                         txtUsername.setText("");
                         txtPassword.setText("");
 
@@ -136,7 +133,6 @@ public class SignUpActivity extends ActionBarActivity implements View.OnClickLis
                     Intent config = new Intent(this, ConfigurationActivity.class);
                     startActivity(config);
 
-                    // hago finish de log in tambien
                     Intent myIntent = new Intent(LogInActivity.ACTION_CLOSE);
                     sendBroadcast(myIntent);
 
@@ -144,9 +140,8 @@ public class SignUpActivity extends ActionBarActivity implements View.OnClickLis
                 }
 
             } else {
-                // user didn't entered username or password
                 Toast.makeText(getApplicationContext(),
-                        "Please enter username and password", Toast.LENGTH_SHORT).show();
+                        "Please enter username and password.", Toast.LENGTH_SHORT).show();
             }
 
         } else {
@@ -157,35 +152,32 @@ public class SignUpActivity extends ActionBarActivity implements View.OnClickLis
 
     public String getLocation() {
 
-        LocationManager mlocManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
+        LocationManager mlocManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         boolean net = mlocManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
         Location l = null;
-        if(net)
-            l= mlocManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        if (net)
+            l = mlocManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 
         double l1 = 0;
         double l2 = 0;
-        if(l!=null)
-        {
+        if (l != null) {
             l1 = l.getLongitude();
             l2 = l.getLatitude();
         }
 
-        //Toast.makeText(getApplicationContext(),"location: " + l1 + "," + l2, Toast.LENGTH_LONG).show();
         LocationListener mlocListener = new MyLocationListener(this);
-        mlocManager.requestLocationUpdates( LocationManager.GPS_PROVIDER, 0, 0, mlocListener);
-        // VER SI l1 y l2 son distintas de cero --> si es asi mandar Unknown
-        return String.valueOf(l1)+";"+String.valueOf(l2);
+        mlocManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, mlocListener);
+        return String.valueOf(l1) + ";" + String.valueOf(l2);
     }
 
     private String setDefaultPicture() {
         Drawable myDrawable = getResources().getDrawable(R.drawable.defprofpic);
         Bitmap defaultPicture = ((BitmapDrawable) myDrawable).getBitmap();
 
-        ByteArrayOutputStream baos = new  ByteArrayOutputStream();
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
         defaultPicture.compress(Bitmap.CompressFormat.PNG, 100, baos);
-        byte [] b=baos.toByteArray();
-        String temp= Base64.encodeToString(b, Base64.DEFAULT);
+        byte[] b = baos.toByteArray();
+        String temp = Base64.encodeToString(b, Base64.DEFAULT);
 
         return temp;
     }
