@@ -15,7 +15,9 @@
         android:textStyle="bold"
         android:layout_alignTop="@+id/config_okButton"
         android:layout_alignRight="@+id/buttomBar"
-        android:layout_alignEnd="@+id/buttomBar" />
+        android:layout_alignEnd="@+id/buttomBar"
+        android:clickable="true"
+        android:onClick="cancel"/>
     <ImageView
         android:src="@drawable/config_ok"
         android:id="@+id/config_okButton"

@@ -194,23 +194,27 @@ public class ConfigurationActivity extends ActionBarActivity implements View.OnC
         Constants.GetUsersPostAsyncTaskFinish = true;
     }
 
+    public void cancel(View v) {
+        //Cancel button
+        // seteo al user los valores que tenia antes de entrar
+        SharedPreferences.Editor e = mSharedPref.edit();
+        Constants.user.profile_picture = currentPicture;
+        e.putString(Constants.user.username+"profile_picture", setPicture(currentPicture));
+        profilePicture.setImageBitmap(Constants.user.profile_picture);
+
+        Constants.user.status = currentStatus;
+        e.putString(Constants.user.username+"status", currentStatus);
+        e.commit();
+        setUserStatus();
+
+        finish();
+    }
+
     @Override
     public void onClick(View v) {
 
         if (v.getId() == R.id.config_cancelButton) {
-            //Cancel button
-            // seteo al user los valores que tenia antes de entrar
-            SharedPreferences.Editor e = mSharedPref.edit();
-            Constants.user.profile_picture = currentPicture;
-            e.putString(Constants.user.username+"profile_picture", setPicture(currentPicture));
-            profilePicture.setImageBitmap(Constants.user.profile_picture);
-
-            Constants.user.status = currentStatus;
-            e.putString(Constants.user.username+"status", currentStatus);
-            e.commit();
-            setUserStatus();
-
-            finish();
+            cancel(null);
 
         } else if (v.getId() == R.id.config_okButton) {
             //Done button
@@ -238,7 +242,11 @@ public class ConfigurationActivity extends ActionBarActivity implements View.OnC
                 Constants.configOK = "";
                 finish();
 
-                ((TextView) Constants.chatsHallActionBar.findViewById(R.id.actionBarSubtitle)).setText("Status: "+Constants.user.status);
+                try {
+                    ((TextView) Constants.chatsHallActionBar.findViewById(R.id.actionBarSubtitle)).setText("Status: " + Constants.user.status);
+                } catch (Exception e) {
+                    findViewById(R.id.config_cancelButton).callOnClick();
+                }
 
                 RoundedBitmapDrawable img;
                 img = RoundedBitmapDrawableFactory.create(getResources(), Constants.user.profile_picture);
