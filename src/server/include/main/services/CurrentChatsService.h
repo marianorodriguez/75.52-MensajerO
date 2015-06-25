@@ -13,7 +13,7 @@ class CurrentChatsService: public ServiceInterface  {
 public:
 	CurrentChatsService(Database& userDb, Database& chatDb);
 	virtual ~CurrentChatsService();
-	/*
+	/**
 	* Devuelve el nombre del servicio: CurrentChats
 	*/
 	virtual std::string getUri() const;
@@ -29,7 +29,9 @@ private:
 	static const std::string serviceName;
 	Json::Value serializeUserChats(const std::string& username,
 								const std::vector<std::string>& chats) const;
-	/** Base de datos de usuarios **/
+	/**
+	 * Base de datos de usuarios
+	 */
 	Database& userDb;
 	/** Base de datos de chats **/
 	Database& chatDb;

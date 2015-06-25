@@ -61,9 +61,11 @@ public class LogInPostAsyncTask extends AsyncTask<Pair<Context, String>, String,
                             EntityUtils.toString(response.getEntity()));
 
                     Constants.logInOk = respons.getString("ok");
-                    Constants.logInPicture = respons.getString("profile_picture");
-                    Constants.logInStatus = respons.getString("status");
-                    Constants.logInLocation = respons.getString("location");
+                    if(Constants.logInOk.compareTo("true")==0) {
+                        Constants.logInPicture = respons.getString("profile_picture");
+                        Constants.logInStatus = respons.getString("status");
+                        Constants.logInLocation = respons.getString("location");
+                    }
 
                     return "";
 

@@ -383,8 +383,8 @@ public class ChatsHallActivity extends ActionBarActivity implements View.OnClick
                                            final int position, long id) {
 
                 AlertDialog.Builder deleteChat = new AlertDialog.Builder(context);
-                deleteChat.setTitle("Delete entry");
-                deleteChat.setMessage("Are you sure you want to delete this entry?");
+                deleteChat.setTitle("Delete chat.");
+                deleteChat.setMessage("Are you sure you want to delete this chat?");
                 deleteChat.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
 

@@ -72,6 +72,7 @@ public class SignUpActivity extends ActionBarActivity implements View.OnClickLis
                 password = LogInActivity.md5(password);
                 User currentUser = new User(username, password);
                 currentUser.location = getLocation();
+
                 Constants.USER_KEEPED_LOCATION = currentUser.location;
                 currentUser.status = "online";
 

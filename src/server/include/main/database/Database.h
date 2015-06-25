@@ -16,7 +16,7 @@
 #include "../exceptions/InvalidKeyException.h"
 #include "../utilities/Logger.h"
 
-/*
+/**
  * Esta clase define una base de datos donde la informacion se guarda como key-value.
  */
 
@@ -25,22 +25,22 @@ private:
 	rocksdb::DB* database;
 public:
 	Database();
-	/*
-	 * Abre la base de datos en el @param path especificado. Si la base de datos no existe, la crea.
+	/**
+	 * Abre la base de datos en el parametro path especificado. Si la base de datos no existe, la crea.
 	 */
 	Database(const string& path);
 
-	/*
-	 * Escribe informacion en la bd. Si @param key ya existe, el nuevo
-	 * @param value reemplaza al anterior.
+	/**
+	 * Escribe informacion en la bd. Si parametro key ya existe, el nuevo
+	 * parametro value reemplaza al anterior.
 	 * No importa el orden de los strings dentro del vector,
 	 * los mismos strings siempre forman la misma key.
 	 */
 	void write(const std::vector<std::string>& key, const string& value) override;
 
-	/*
-	 * Retorna el value indicado por @param key. Si la key no existe, retorna
-	 * @param error = true, si existe falso.
+	/**
+	 * Retorna el value indicado por parametro key. Si la key no existe, retorna
+	 * parametro error = true, si existe falso.
 	 */
 	std::string read(const std::vector<std::string>& key) const override;
 
@@ -49,8 +49,8 @@ public:
 	 */
 	std::vector<std::string> getAllKeys() const;
 
-	/*
-	 * Borra el @param key con el value asociado de la bd.
+	/**
+	 * Borra el parametro key con el value asociado de la bd.
 	 */
 	void erase(const std::vector<std::string>& key);
 	/**
@@ -65,7 +65,7 @@ public:
 	virtual ~Database();
 
 private:
-	/*
+	/**
 	 * Forma una key a partir de un vector de strings.
 	 */
 	string getKey(const std::vector<std::string>& key) const;

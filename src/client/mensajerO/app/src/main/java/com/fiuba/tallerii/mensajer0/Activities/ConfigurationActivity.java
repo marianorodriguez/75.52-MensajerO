@@ -61,7 +61,7 @@ public class ConfigurationActivity extends ActionBarActivity implements View.OnC
         ((TextView) actionBar.findViewById(R.id.actionBarTitle)).setText("SETTINGS");
         ((TextView) actionBar.findViewById(R.id.actionBarSubtitle)).setText("Hi " + Constants.user.username + "!");
 
-        ((ImageView) actionBar.findViewById(R.id.actionBarIcon)).setImageResource(R.drawable.settings4);
+        ((ImageView) actionBar.findViewById(R.id.actionBarIcon)).setImageResource(R.drawable.settings);
 
 
         ImageView cancelButton = (ImageView) findViewById(R.id.config_cancelButton);
@@ -125,10 +125,10 @@ public class ConfigurationActivity extends ActionBarActivity implements View.OnC
 
     private void setUserStatus() {
         //cargar de shared preferences al constants.user el staus (en LOGIN, en SIGN UP ya esta)
-        if (Constants.user.status.compareTo("online")== 0) {
+        if (Constants.user.status.compareTo("Online")== 0) {
             online.setChecked(true);
             offline.setChecked(false);
-        } else if (Constants.user.status.compareTo("offline")== 0) {
+        } else if (Constants.user.status.compareTo("Offline")== 0) {
             online.setChecked(false);
             offline.setChecked(true);
         }
@@ -154,7 +154,7 @@ public class ConfigurationActivity extends ActionBarActivity implements View.OnC
             Bitmap imageSelected = BitmapFactory.decodeFile(picturePath);
 
             if (imageSelected == null) {
-                Toast.makeText(this, "Problem happen while trying to open your picture.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "A problem happened while trying to open your picture.", Toast.LENGTH_SHORT).show();
                 return;
             } else {
 
@@ -234,7 +234,7 @@ public class ConfigurationActivity extends ActionBarActivity implements View.OnC
             }
 
             if (Constants.configOK.compareTo("true") == 0) {
-                Toast.makeText(this, "Changes saved properly.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Changes saved!", Toast.LENGTH_SHORT).show();
                 Constants.configOK = "";
                 finish();
 
@@ -265,12 +265,12 @@ public class ConfigurationActivity extends ActionBarActivity implements View.OnC
 
         switch (i) {
             case 0:
-                Constants.user.status = "online";
-                e.putString(Constants.user.username+"status", "online");
+                Constants.user.status = "Online";
+                e.putString(Constants.user.username+"status", "Online");
                 break;
             case 1:
-                Constants.user.status = "offline";
-                e.putString(Constants.user.username+"status", "offline");
+                Constants.user.status = "Offline";
+                e.putString(Constants.user.username+"status", "Offline");
                 break;
         }
         e.commit();

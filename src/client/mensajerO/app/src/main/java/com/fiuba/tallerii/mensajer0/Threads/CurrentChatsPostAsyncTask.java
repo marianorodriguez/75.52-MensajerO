@@ -73,24 +73,25 @@ public class CurrentChatsPostAsyncTask extends AsyncTask<Pair<Context, String>, 
                     JSONObject respons = Constants.packager.unwrap(EntityUtils.toString(response.getEntity()));
 
                     Constants.currentChatsOk = respons.getString("ok");
-                    JSONArray chats = new JSONArray(respons.getString("chats"));
+                    if(Constants.currentChatsOk.compareTo("true")==0) {
+                        JSONArray chats = new JSONArray(respons.getString("chats"));
 
-                    for (int chat = 0; chat < chats.length(); chat++) {
+                        for (int chat = 0; chat < chats.length(); chat++) {
 
-                        JSONObject object = new JSONObject(chats.get(chat).toString());
+                            JSONObject object = new JSONObject(chats.get(chat).toString());
 //                    JSONObject jsonObject = new JSONObject(username);
 
-                        Chat newChat = Chat.toChat(object);
-                        boolean chatOnList = true;
-                        if (newChat != null)
-                            chatOnList = checkForRepetitions(newChat, Constants.user.chats);
-                        if (!chatOnList) {
-                            Constants.user.chats.add(newChat);
+                            Chat newChat = Chat.toChat(object);
+                            boolean chatOnList = true;
+                            if (newChat != null)
+                                chatOnList = checkForRepetitions(newChat, Constants.user.chats);
+                            if (!chatOnList) {
+                                Constants.user.chats.add(newChat);
+                            }
                         }
+
+                        Constants.currentChatsOk = respons.getString("chats");
                     }
-
-                    Constants.currentChatsOk = respons.getString("chats");
-
                     return "";
 
                 } catch (JSONException e) {
