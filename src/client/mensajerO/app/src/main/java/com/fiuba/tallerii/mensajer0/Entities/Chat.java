@@ -9,17 +9,22 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 /**
- * Created by fernando on 19/04/15.
+ * Esta clase representa un chat entre dos usuarios. 
  */
 public class Chat {
     public ArrayList<Message> messages;
     public String otherUser;
 
+/**
+* Crea un nuevo chat con el parámetro otherUser.
+*/
     public Chat(String otherUser) {
         this.messages = new ArrayList<>();
         this.otherUser = otherUser;
     }
-
+/**
+* Convierte la clase en un objeto JSONObject
+*/
     public JSONObject toJson() {
         JSONObject jchat = new JSONObject();
         JSONArray jmessages = new JSONArray();
@@ -39,7 +44,9 @@ public class Chat {
             return null;
         }
     }
-
+/**
+* Desde un JSONObject se crea un chat. 
+*/
     public static Chat toChat(JSONObject jsonChat) {
         try {
             Chat newChat;

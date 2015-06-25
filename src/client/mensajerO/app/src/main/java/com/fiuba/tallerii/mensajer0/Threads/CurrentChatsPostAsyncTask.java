@@ -27,7 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by fernando on 27/04/15.
+ * Clase usada para hacer la conexion con el servidor cuando se realiza la actividad de currentChats donde se piden los chats de un usuario. 
  */
 public class CurrentChatsPostAsyncTask extends AsyncTask<Pair<Context, String>, String, String> {
     @Override

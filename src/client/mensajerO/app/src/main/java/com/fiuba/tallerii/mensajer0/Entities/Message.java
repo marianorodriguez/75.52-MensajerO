@@ -4,7 +4,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
- * Created by fernando on 19/04/15.
+ * Esta clase representa un mensaje entre dos usuarios. 
  */
 public class Message {
     public String msg_date;
@@ -12,7 +12,9 @@ public class Message {
     public String msg_fromID;
     public String msg_text;
     public String msg_toID;
-
+/**
+* Crea un nuevo mensaje. @param msg_fromID: el usuario que mando el mensaje, msg_toID: a quien, text: el mensaje , date: fecha y time:hora. 
+*/
     public Message (String msg_fromID, String msg_toID, String text, String date, String time) {
         this.msg_fromID = msg_fromID;
         this.msg_toID = msg_toID;
@@ -20,7 +22,9 @@ public class Message {
         this.msg_date = date;
         this.msg_time = time;
     }
-
+/**
+* Convierte un mensaje en un JSONObject
+*/
     public JSONObject toJson() {
         JSONObject jmess = new JSONObject();
         try {
@@ -37,7 +41,9 @@ public class Message {
         }
 
     }
-
+/**
+* Crea un mensaje a partir de un JSONObject
+*/
     public static Message toMessage(JSONObject jsonMessage) {
         try {
             Message newMessage = new Message(

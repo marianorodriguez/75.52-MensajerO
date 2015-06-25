@@ -42,7 +42,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
- * Created by fernando on 10/04/15.
+ * Esta clase representa la actividad donde se pueden ver los disintos chats que se tienen con otros usuarios. 
  */
 public class ChatsHallActivity extends ActionBarActivity implements View.OnClickListener {
 
@@ -272,7 +272,9 @@ public class ChatsHallActivity extends ActionBarActivity implements View.OnClick
             sayGodbye(null);
         }
     }
-
+/**
+* Retorna la ubicación en coordenadas latitud;longitud
+*/
     public String getLocation() {
 
         LocationManager mlocManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
@@ -360,7 +362,9 @@ public class ChatsHallActivity extends ActionBarActivity implements View.OnClick
             }
         });
     }
-
+/**
+* Se borra el chat con usuario.
+*/
     private void doDeleteOfChat(String chatSelected) {
         String package_ = Constants.packager.wrap("deleteChat", Constants.user, chatSelected, "");
         deleteChatPost.execute(new Pair<Context, String>(this, package_),

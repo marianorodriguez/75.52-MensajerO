@@ -45,6 +45,5 @@ int main(int argc, const char** argv) {
 	Logger::getLogger()->write(Logger::INFO, shutting);
 	Logger::getLogger()->saveStatus();
 	server.join();
-	std::cout << "destroying" << std::endl;
 	return 0;
 }

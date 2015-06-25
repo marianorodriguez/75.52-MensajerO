@@ -1,6 +1,4 @@
 .. index:: Pantalla de usuarios
-.. |chats| image:: images/mail.png
-.. |overflow| image:: images/overflow.png
 
 Pantalla de usuarios
 ********************
@@ -14,9 +12,10 @@ En esta pantalla, aparecerán todos los usuarios que se hayan registrado en Mens
 
 Al tocar sobre cualquier usuario, tendrás la posibilidad de enviarle un mensaje o continuar una conversacion previamente iniciada.
 
-El ícono |chats| te enviará a la pantalla de chats, donde podrás ver tus conversaciones iniciadas.
+El ícono de chat te enviará a la pantalla de chats, donde podrás ver tus conversaciones iniciadas.
+El ícono del megafono te será de utilidad si querés enviar mensajes de difusión. Más adelante será explicado.
 
-El ícono |overflow| abrirá un menú emergente, con las opciones:
+Mediante el botón del menú de tu celular, se abrirá un menú emergente con las opciones:
 	* **Settings:** Para modificar tu información personal.
 	* **Log Out:** Para cerrar tu sesión de MensajerO!.
 

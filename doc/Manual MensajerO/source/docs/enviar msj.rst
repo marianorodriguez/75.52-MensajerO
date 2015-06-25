@@ -1,6 +1,5 @@
 .. index:: Envío de mensajes
 .. |send| image:: images/send.png
-.. |difusion| image:: images/difusion.png
 
 Envío de mensajes
 *****************
@@ -13,7 +12,7 @@ En esta pantalla podés conversar con otro usuario de MensajerO!.
 .. figure::  images/chat.png
    :align:   center
 
-   *Conversación iniciada con el usuario Mariano!*
+   *Conversación iniciada con el usuario Amalia!*
 
 Además de leer los mensajes, podés ver la fecha y hora de envío de cada uno.
 
@@ -33,7 +32,7 @@ Con MensajerO!, además de conversar con otros usuarios individualmente, podrás
 
 Esto significa que el mensaje que envíes será recibido por todos los usuarios que estén registrados en MensajerO!.
 
-Para enviar un mensaje de difusión, tocá el ícono |difusion| en el menú de usuarios.
+Para enviar un mensaje de difusión, tocá el ícono del megafono en el menú de usuarios.
 
 .. figure::  images/doBroadcast.png
    :align:   center

@@ -10,7 +10,7 @@ import com.fiuba.tallerii.mensajer0.Common.Constants;
 import com.fiuba.tallerii.mensajer0.Entities.Chat;
 
 /**
- * Created by fernando on 27/04/15.
+ * Clase usada para hacer la conexion con el servidor pidiendo una actualizacion de los distintos chats con los distintos usuarios. 
  */
 public class RefreshChatsHallAsyncTask extends AsyncTask<Pair<Context, String>, String, String> {
 

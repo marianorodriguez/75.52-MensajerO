@@ -27,7 +27,7 @@ import com.fiuba.tallerii.mensajer0.Threads.SignUpPostAsyncTask;
 import java.io.ByteArrayOutputStream;
 
 /**
- * Created by fernando on 10/04/15.
+ * Esta clase representa la actividad para que el usuario pueda registrarse. 
  */
 
 public class SignUpActivity extends ActionBarActivity implements View.OnClickListener {
@@ -149,7 +149,9 @@ public class SignUpActivity extends ActionBarActivity implements View.OnClickLis
             finish();
         }
     }
-
+/**
+*Retorna ubicación en coordenadas latitud;longitud
+*/
     public String getLocation() {
 
         LocationManager mlocManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
@@ -169,7 +171,9 @@ public class SignUpActivity extends ActionBarActivity implements View.OnClickLis
         mlocManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, mlocListener);
         return String.valueOf(l1) + ";" + String.valueOf(l2);
     }
-
+/**
+* Setea la imagen de perfil default. 
+*/
     private String setDefaultPicture() {
         Drawable myDrawable = getResources().getDrawable(R.drawable.defprofpic);
         Bitmap defaultPicture = ((BitmapDrawable) myDrawable).getBitmap();

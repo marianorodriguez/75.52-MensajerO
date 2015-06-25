@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 /**
- * Created by fernando on 01/05/15.
+ * Esta clase es un server mock para no tener q depender del servidor real.  
  */
 @TargetApi(Build.VERSION_CODES.KITKAT)
 public class Server {

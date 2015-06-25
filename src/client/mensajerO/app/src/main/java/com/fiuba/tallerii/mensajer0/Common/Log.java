@@ -10,6 +10,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.Logger;
 
+/**
+* Esta clase permite hacers logs. 
+*/
+
 public class Log {
     private DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
     private boolean doInfo, doDebug, doWarning, doError;
@@ -24,31 +28,42 @@ public class Log {
         }
         return instance;
     }
-
+/**
+* Escribe un log con nivel INFO.
+*/
     public void info(String message) {
         if (doInfo) {
             write("INFO: " + message);
         }
     }
 
+/**
+* Escribe un log con nivel DEBUG
+*/
     public void debug(String message) {
         if (doDebug) {
             write("DEBUG: " + message);
         }
     }
-
+/**
+* Escribe un log con nivel WARNING
+*/
     public void warning(String message) {
         if (doWarning) {
             write("WARNING: " + message);
         }
     }
-
+/**
+* Escribe un log con nivel ERROR
+*/
     public void error(String message) {
         if (doError) {
             write("ERROR: " + message);
         }
     }
-
+/**
+* Escribe en el log.
+*/
     private void write(String data) {
         Date date = new Date();
         writer.append(dateFormat.format(date) + " | " + data + "\n");

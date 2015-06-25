@@ -23,7 +23,7 @@ import com.fiuba.tallerii.mensajer0.R;
 import java.util.ArrayList;
 
 /**
- * Created by fernando on 27/04/15.
+ * Clase usada para hacer la conexion con el servidor pidiendo una actualizacion del chat con un usuario y actualizando si hay.
  */
 public class RefreshChatAsyncTask extends AsyncTask<Pair<Context, Chat>, String, String> {
 
