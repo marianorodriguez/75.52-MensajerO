@@ -161,7 +161,7 @@ public class GetUsersPostAsyncTask extends AsyncTask<Pair<Context, String>, Stri
                 User newUser = User.toUser(objectUser);
 
                 if (newUser.username.compareTo(Constants.user.username) != 0 &&
-                        newUser.status.compareTo("offline") != 0) {
+                        newUser.status.compareTo("Offline") != 0) {
                     otherUsers.add(newUser);
                 }
 

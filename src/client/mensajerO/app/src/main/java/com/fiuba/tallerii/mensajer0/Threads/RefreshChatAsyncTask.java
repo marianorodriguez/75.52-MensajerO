@@ -156,7 +156,7 @@ public class RefreshChatAsyncTask extends AsyncTask<Pair<Context, Chat>, String,
                 return;
             }
         }
-        otherUserStatus = "offline";
+        otherUserStatus = "Offline";
         otherUserPicture = BitmapFactory.decodeResource(Constants.resources,
                 R.drawable.offline1);
         otherUserLastTimeConnected = "";
