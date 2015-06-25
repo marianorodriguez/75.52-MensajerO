@@ -103,7 +103,7 @@ public class UsersActivity extends ActionBarActivity implements View.OnClickList
         }  else if (id == R.id.broadcast) {
 
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("Send broadcast");
+            builder.setTitle("Send broadcast message.");
             builder.setIcon(R.drawable.broadcastdialog);
 
             // Set up the input
@@ -111,11 +111,11 @@ public class UsersActivity extends ActionBarActivity implements View.OnClickList
             // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
             input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_WEB_EDIT_TEXT);
             input.setTypeface(Typeface.SANS_SERIF);
-            input.setHint("Write your broadcast message here");
+            input.setHint("Write your broadcast message here.");
             builder.setView(input);
 
             // Set up the buttons
-            builder.setPositiveButton("SEND", new DialogInterface.OnClickListener() {
+            builder.setPositiveButton("Send", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     if (!input.getText().toString().isEmpty()) {

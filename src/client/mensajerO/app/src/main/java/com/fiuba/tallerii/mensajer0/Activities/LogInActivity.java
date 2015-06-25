@@ -113,7 +113,7 @@ public class LogInActivity extends ActionBarActivity implements View.OnClickList
             String password = txtPassword.getText().toString();
 
             // Validate if username, password is filled
-            if(username.trim().length() > 0 && password.trim().length() > 0) {
+            if (username.trim().length() > 0 && password.trim().length() > 0) {
 
                 password = md5(password);
                 User currentUser = new User(username, password);
@@ -131,15 +131,16 @@ public class LogInActivity extends ActionBarActivity implements View.OnClickList
                     try {
                         Thread.sleep(1000);
                         timeOut++;
-                        if (timeOut == 4)
+                        if (timeOut >= 4) {
                             Constants.logInOk = "Error";
+                        }
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
                 }
 
-                if (Constants.logInOk.contains("Error")) {
-                    Toast.makeText(this, "Couldn't connect with server. Check your internet connection or try again later. Thanks.", Toast.LENGTH_LONG).show();
+                if (Constants.logInOk.compareTo("Error") == 0) {
+                    Toast.makeText(this, "Couldn't connect with server. Check your internet connection or try again later.", Toast.LENGTH_LONG).show();
                     txtPassword.setText("");
                     txtUsername.setText("");
                     Constants.logInOk = "";
@@ -193,12 +194,12 @@ public class LogInActivity extends ActionBarActivity implements View.OnClickList
         }
     }
 
-    public Bitmap stringToBitmap(String pictureString){
+    public Bitmap stringToBitmap(String pictureString) {
         try {
-            byte [] encodeByte = Base64.decode(pictureString, Base64.DEFAULT);
+            byte[] encodeByte = Base64.decode(pictureString, Base64.DEFAULT);
             Bitmap bitmap = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
             return bitmap;
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.getMessage();
             return null;
         }
@@ -206,22 +207,21 @@ public class LogInActivity extends ActionBarActivity implements View.OnClickList
 
     public String getLocation() {
 
-        LocationManager mlocManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
+        LocationManager mlocManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         boolean net = mlocManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
         Location l = null;
-        if(net)
-        l= mlocManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        if (net)
+            l = mlocManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 
         double l1 = 0;
         double l2 = 0;
-        if(l!=null)
-        {
+        if (l != null) {
             l1 = l.getLongitude();
             l2 = l.getLatitude();
         }
 //        Toast.makeText(getApplicationContext(),"location: " + l1 + "," + l2, Toast.LENGTH_LONG).show();
         LocationListener mlocListener = new MyLocationListener(this);
-        mlocManager.requestLocationUpdates( LocationManager.GPS_PROVIDER, 5000, 10, mlocListener);
+        mlocManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 10, mlocListener);
 
         l = mlocManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 
@@ -229,7 +229,7 @@ public class LogInActivity extends ActionBarActivity implements View.OnClickList
 
 
         // VER SI l1 y l2 son distintas de cero --> si es asi mandar Unknown
-        return String.valueOf(l2)+";"+String.valueOf(l1);
+        return String.valueOf(l2) + ";" + String.valueOf(l1);
     }
 
     private Location getLastBestLocation(LocationManager mLocationManager) {
@@ -237,7 +237,9 @@ public class LogInActivity extends ActionBarActivity implements View.OnClickList
         Location locationNet = mLocationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 
         long GPSLocationTime = 0;
-        if (null != locationGPS) { GPSLocationTime = locationGPS.getTime(); }
+        if (null != locationGPS) {
+            GPSLocationTime = locationGPS.getTime();
+        }
 
         long NetLocationTime = 0;
 
@@ -245,10 +247,9 @@ public class LogInActivity extends ActionBarActivity implements View.OnClickList
             NetLocationTime = locationNet.getTime();
         }
 
-        if ( 0 < GPSLocationTime - NetLocationTime ) {
+        if (0 < GPSLocationTime - NetLocationTime) {
             return locationGPS;
-        }
-        else {
+        } else {
             return locationNet;
         }
     }

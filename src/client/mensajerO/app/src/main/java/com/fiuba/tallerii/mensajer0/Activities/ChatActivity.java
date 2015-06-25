@@ -57,7 +57,7 @@ public class ChatActivity extends ActionBarActivity implements View.OnClickListe
         findOtherUserData();
 
         ((TextView) actionBar.findViewById(R.id.actionBarTitle)).setText("CHAT WITH ".concat(Constants.chatWith));
-        if (otherUserStatus.compareTo("offline") != 0) {
+        if (otherUserStatus.compareTo("Offline") != 0) {
             ((TextView) actionBar.findViewById(R.id.actionBarSubtitle)).setText("Status: " + otherUserStatus +
                     "\nLast time seen: " + otherUserLastTimeConnected);
             ((TextView) actionBar.findViewById(R.id.actionBarSubtitle)).setTextSize(10);
@@ -110,7 +110,7 @@ public class ChatActivity extends ActionBarActivity implements View.OnClickListe
                 return;
             }
         }
-        otherUserStatus = "offline";
+        otherUserStatus = "Offline";
         otherUserPicture = BitmapFactory.decodeResource(this.getResources(),
                 R.drawable.offline1);
         otherUserLastTimeConnected = "";

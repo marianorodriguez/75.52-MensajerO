@@ -72,7 +72,7 @@ public class SignUpActivity extends ActionBarActivity implements View.OnClickLis
                 password = LogInActivity.md5(password);
                 User currentUser = new User(username, password);
                 currentUser.location = getLocation();
-                currentUser.status = "online";
+                currentUser.status = "Online";
 
                 Drawable myDrawable = getResources().getDrawable(R.drawable.defprofpic);
                 currentUser.profile_picture = ((BitmapDrawable) myDrawable).getBitmap();
