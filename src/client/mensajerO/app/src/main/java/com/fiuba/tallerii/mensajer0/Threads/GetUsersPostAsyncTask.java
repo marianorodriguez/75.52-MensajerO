@@ -29,7 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by fernando on 27/04/15.
+ * Clase usada para hacer la conexion con el servidor cuando se pide la lista de usuarios. 
  */
 public class GetUsersPostAsyncTask extends AsyncTask<Pair<Context, String>, String, String> {
 

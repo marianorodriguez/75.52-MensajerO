@@ -16,7 +16,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 /**
- * Created by fernando on 19/04/15.
+ * Esta clase representa un usuario. 
  */
 public class User {
 
@@ -27,7 +27,9 @@ public class User {
     public String status;
     public String lastTimeConnected = "lastTimeConnected";
     public ArrayList<Chat> chats;
-
+/**
+* Crea un usuario con su nombre y constraseña.
+*/
     public User(String username, String password) {
         this.username = username;
         this.password = password;
@@ -46,7 +48,9 @@ public class User {
         this.lastTimeConnected = getLastTimeConnected(lastTimeConnected);
     }
 
-    // En este metodo se haria la conversion de segundos a la fecha y hora corresp
+/**
+* En este metodo se haria la conversion de segundos a la fecha y hora correspondiente. Se obtiene la la ultima vez q se conecto el usuario.
+*/ 
     private String getLastTimeConnected(String lastTimeConnected) {
         Calendar c = Calendar.getInstance();
 
@@ -69,7 +73,9 @@ public class User {
 
         return day+"/"+intMonth+" - "+ hour2 +":"+min;
     }
-
+/**
+* Crea un usario a partir de un JSONObject
+*/
     public User(JSONObject jsonObject) {
         toUser(jsonObject);
     }
@@ -111,7 +117,9 @@ public class User {
             return null;
         }
     }
-
+/**
+* Setea la imgen de perfil de el usuario.
+*/
     private String setPicture(Bitmap pictureBitmap) {
 
         if (pictureBitmap == null) return "";
@@ -142,7 +150,9 @@ public class User {
             return null;
         }
     }
-
+/**
+* Convierte los chats del usuario a un JSONObject
+*/
     public JSONObject chatsToJson () {
         JSONObject allChats = new JSONObject();
         JSONArray jchats = new JSONArray();
@@ -156,7 +166,9 @@ public class User {
         }
         return allChats;
     }
-
+/**
+* Crea un usuario a partir de un JSONObject
+*/
     public static User toUser(JSONObject jsonObject) {
         try {
             User newUser = new User(jsonObject.getString("username"));

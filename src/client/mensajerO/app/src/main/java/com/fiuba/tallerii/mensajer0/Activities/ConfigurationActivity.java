@@ -29,7 +29,9 @@ import com.fiuba.tallerii.mensajer0.Threads.GetUsersPostAsyncTask;
 import com.fiuba.tallerii.mensajer0.Threads.SomethingForMePostAsyncTask;
 
 import java.io.ByteArrayOutputStream;
-
+/**
+* Esta clase representa la actividad de configuración de usuario. 
+*/
 public class ConfigurationActivity extends ActionBarActivity implements View.OnClickListener {
 
     ConfigPostAsyncTask configPost;
@@ -120,7 +122,9 @@ public class ConfigurationActivity extends ActionBarActivity implements View.OnC
             profilePicture.bringToFront();
         }
     }
-
+/**
+* Setea el status del usuario (online/offline)
+*/
     private void setUserStatus() {
         //cargar de shared preferences al constants.user el staus (en LOGIN, en SIGN UP ya esta)
         if (Constants.user.status.compareTo("Online") == 0) {
@@ -172,7 +176,9 @@ public class ConfigurationActivity extends ActionBarActivity implements View.OnC
             }
         }
     }
-
+/**
+* Setea la foto de perfil. 
+*/
     private String setPicture(Bitmap pictureBitmap) {
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -190,10 +196,11 @@ public class ConfigurationActivity extends ActionBarActivity implements View.OnC
         Constants.SomethingForMePostAsyncTaskFinish = true;
         Constants.GetUsersPostAsyncTaskFinish = true;
     }
-
+/**
+* Cancel button->Setea al user los valores que tenia antes de entrar
+*/
     public void cancel(View v) {
-        //Cancel button
-        // seteo al user los valores que tenia antes de entrar
+
         SharedPreferences.Editor e = mSharedPref.edit();
         Constants.user.profile_picture = currentPicture;
         e.putString(Constants.user.username + "profile_picture", setPicture(currentPicture));

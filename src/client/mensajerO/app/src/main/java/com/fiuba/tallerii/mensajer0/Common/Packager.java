@@ -11,7 +11,7 @@ import org.json.JSONObject;
 import java.io.UnsupportedEncodingException;
 
 /**
- * Created by fernando on 19/04/15.
+ * Esta clase hace conversiones entre JSon y strings para el posteriro intercambio de información con el servidor.  
  */
 public class Packager {
 

@@ -27,7 +27,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 /**
- * Created by fernando on 10/04/15.
+ * Esta clase representa la actividad donde se puede chattear con otro usuario. 
  */
 public class ChatActivity extends ActionBarActivity implements View.OnClickListener {
 
@@ -98,7 +98,9 @@ public class ChatActivity extends ActionBarActivity implements View.OnClickListe
         Constants.SomethingForMePostAsyncTaskFrec = 10;
         Constants.GetUsersPostAsyncTaskFrec = 10;
     }
-
+    /**
+* Este método permite encontrar información de otro usuario. 
+*/
     private void findOtherUserData() {
         for (int otherUser = 0; otherUser < Constants.otherUsers.size(); otherUser++) {
             if (Constants.otherUsers.get(otherUser).username.compareTo(Constants.chatWith) == 0) {
@@ -169,7 +171,9 @@ public class ChatActivity extends ActionBarActivity implements View.OnClickListe
     public static void scrollDown(View v) {
         scroll.fullScroll(ScrollView.FOCUS_DOWN);
     }
-
+/**
+* Retorna la fecha en formato dia/mes/año
+*/
     private String getDate(Date todaysDate) {
         String year = (String) android.text.format.DateFormat.format("yyyy", todaysDate);
         String intMonth = (String) android.text.format.DateFormat.format("MM", todaysDate);
@@ -177,7 +181,9 @@ public class ChatActivity extends ActionBarActivity implements View.OnClickListe
 
         return day + "/" + intMonth + "/" + year;
     }
-
+/**
+* Retorna la hora en formato hora:minuto
+*/
     private String getTime(Date todaysDate) {
         String min = (String) android.text.format.DateFormat.format("mm", todaysDate);
 

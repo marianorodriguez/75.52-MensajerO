@@ -12,6 +12,9 @@ import android.widget.Toast;
 import com.fiuba.tallerii.mensajer0.Common.Constants;
 import com.fiuba.tallerii.mensajer0.R;
 
+/**
+* Esta clase representa la actividad inicial donde se ingresa el IP del servidor. 
+*/
 public class GetInActivity extends ActionBarActivity implements View.OnClickListener {
 
     EditText ipContainer;

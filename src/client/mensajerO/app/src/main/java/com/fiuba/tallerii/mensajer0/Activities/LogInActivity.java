@@ -30,7 +30,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 /**
- * Created by fernando on 07/04/15.
+ * Esta clase representa la actividad para que el usuario pueda hacer un login.
  */
 
 public class LogInActivity extends ActionBarActivity implements View.OnClickListener {
@@ -210,7 +210,9 @@ public class LogInActivity extends ActionBarActivity implements View.OnClickList
             startActivity(signUpActivity);
         }
     }
-
+/**
+* Dado un string de una imagen, retorna la imagen. 
+*/
     public Bitmap stringToBitmap(String pictureString) {
         try {
             byte[] encodeByte = Base64.decode(pictureString, Base64.DEFAULT);
@@ -221,7 +223,9 @@ public class LogInActivity extends ActionBarActivity implements View.OnClickList
             return null;
         }
     }
-
+/**
+* Retorna ubicación en coordenadas latitud;longitud
+*/
     public String getLocation() {
 
         LocationManager mlocManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);

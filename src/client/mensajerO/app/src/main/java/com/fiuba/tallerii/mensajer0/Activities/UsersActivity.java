@@ -30,7 +30,7 @@ import com.fiuba.tallerii.mensajer0.Threads.RefreshUsersAsyncTask;
 import com.fiuba.tallerii.mensajer0.Threads.SendMessagePostAsyncTask;
 
 /**
- * Created by fernando on 10/04/15.
+ * Esta clase representa la actividad donde un usuario puede ver a los demas usuarios.
  */
 public class UsersActivity extends ActionBarActivity implements View.OnClickListener {
 
@@ -127,6 +127,9 @@ public class UsersActivity extends ActionBarActivity implements View.OnClickList
         return super.onOptionsItemSelected(item);
     }
 
+/**
+* Envía un broadcast a todos los usuarios conectados. 
+*/
     private void sendingBroadcast(String message) {
 
         String package_ = Constants.packager.wrap("sendMessage",

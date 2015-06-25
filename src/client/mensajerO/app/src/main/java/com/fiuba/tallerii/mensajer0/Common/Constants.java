@@ -22,7 +22,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 /**
- * Created by fernando on 22/04/15.
+ * Inicizaliza constantes para las demas clases. 
  */
 final public class Constants//final to prevent instantiation
 {
