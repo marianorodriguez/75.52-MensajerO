@@ -22,48 +22,8 @@ Para la compilación del servidor se utilizó **CMake** , el cual genera un Make
 
 Como compilar
 ------------
-Desde consola dirigirse a la carpeta del proyecto y ejecutar los siguientes comandos:
+Desde consola dirigirse a la carpeta del proyecto y ejecutar el siguiente comando::
 
-Instalar dependencias
-
-    $ sudo apt-get install g++ cmake libbz2-dev zlib1g-dev libcppunit-dev libcurl4-gnutls-dev 
-
-	Además, si se quieren ejecutar las pruebas de coverage, se deberá ingresar:
-
-    $ sudo apt-get install lcov
-
-
-Compilar rocksdb
-
-    $ cd src/server/3rd-party/rocksdb
-
-    $ make static_lib
-
-Configurar script de compilación
-
-    Desde *src/server* correr
-
-    $ cmake .
-
-    Si se quiere correr pruebas de coverage, se debe correr
-
-    $ cmake . -Dcoverage-test=true
-
-Se compila desde src/server:
-
-Para compilar las pruebas:
-
-    $ make tests
-
-Para compilar el servidor:
-
-    $ make server
-
-Para limpiar el proyecto:
-
-    $ make clean
-
-Para facilitar la compilación, se encuentra el script prearmado **build.sh** en *src/server* el cual realiza todos estos pasos automaticamente. 
-	
     $ ./build.sh
 
+Este script es un instalador que verificará que tengas todas las dependencias necesarias y compilará el proyecto.
