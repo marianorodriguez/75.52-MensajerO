@@ -1,0 +1,24 @@
+var searchData=
+[
+  ['service_5fbroadcast_5fname',['SERVICE_BROADCAST_NAME',['../config_8h.html#aaf67191afb6e0ccc6be9d72db2021b51',1,'config.h']]],
+  ['service_5fcurrentchats_5fchats',['SERVICE_CURRENTCHATS_CHATS',['../config_8h.html#a60fae5b3439477283f620efc39c625b2',1,'config.h']]],
+  ['service_5fcurrentchats_5fname',['SERVICE_CURRENTCHATS_NAME',['../config_8h.html#af2226efd614be4344979856a80c0514d',1,'config.h']]],
+  ['service_5fdeletechat_5fname',['SERVICE_DELETECHAT_NAME',['../config_8h.html#a8fdd9c16af9b28426037f098ecec5699',1,'config.h']]],
+  ['service_5fdeletechat_5fwho',['SERVICE_DELETECHAT_WHO',['../config_8h.html#ac0f4e292f2327efb91e86cd922f54ad1',1,'config.h']]],
+  ['service_5flogin_5fname',['SERVICE_LOGIN_NAME',['../config_8h.html#a87daa22aaf814743449c547ea098240e',1,'config.h']]],
+  ['service_5fout_5fbroadcastfailedtosome',['SERVICE_OUT_BROADCASTFAILEDTOSOME',['../config_8h.html#af478cb40735315653aa3b42b4d40d934',1,'config.h']]],
+  ['service_5fout_5finvalidpwd',['SERVICE_OUT_INVALIDPWD',['../config_8h.html#a875a4b8112fae5f0ca94576543ecbdc4',1,'config.h']]],
+  ['service_5fout_5finvaliduser',['SERVICE_OUT_INVALIDUSER',['../config_8h.html#ac13c1b9f5e630429a1e06077c49da90c',1,'config.h']]],
+  ['service_5fout_5fok',['SERVICE_OUT_OK',['../config_8h.html#a6d1bb8f3a80876d0a8fb4e18dcd7d042',1,'config.h']]],
+  ['service_5fout_5fusernameexists',['SERVICE_OUT_USERNAMEEXISTS',['../config_8h.html#a9f3be687a4f4ea3c724882f2f106d6d1',1,'config.h']]],
+  ['service_5fout_5fwhat',['SERVICE_OUT_WHAT',['../config_8h.html#ae2db0131b16a83e93813909602d31c51',1,'config.h']]],
+  ['service_5fsendmessage_5fname',['SERVICE_SENDMESSAGE_NAME',['../config_8h.html#a99420a3b1a8ef25dd41fd6125c59988d',1,'config.h']]],
+  ['service_5fsignup_5fname',['SERVICE_SIGNUP_NAME',['../config_8h.html#adf5a5a22b81b677df1adc0c86f7d1ca2',1,'config.h']]],
+  ['service_5fsomethingforme_5fmessages',['SERVICE_SOMETHINGFORME_MESSAGES',['../config_8h.html#aeea524730748915aebc4ad78be8dd590',1,'config.h']]],
+  ['service_5fsomethingforme_5fname',['SERVICE_SOMETHINGFORME_NAME',['../config_8h.html#a2a15ec12c3cdfdfed8b3def5fd696dc6',1,'config.h']]],
+  ['service_5fuserconfig_5flocation',['SERVICE_USERCONFIG_LOCATION',['../config_8h.html#a54c79684c3b1d101019dbb4dd2f764de',1,'config.h']]],
+  ['service_5fuserconfig_5fname',['SERVICE_USERCONFIG_NAME',['../config_8h.html#a708505e86b166f2ebe1dc9af82c9f030',1,'config.h']]],
+  ['service_5fuserconfig_5fpicture',['SERVICE_USERCONFIG_PICTURE',['../config_8h.html#ae213ed9f468e4e0d25cfee5ae8b7c81f',1,'config.h']]],
+  ['service_5fuserconfig_5fstatus',['SERVICE_USERCONFIG_STATUS',['../config_8h.html#a9fe071fb8416ec3ed1755c9ca33a5d08',1,'config.h']]],
+  ['service_5fusers_5fname',['SERVICE_USERS_NAME',['../config_8h.html#a7d0ede91d46d5eb5f4b014c0a5e5c8c1',1,'config.h']]]
+];

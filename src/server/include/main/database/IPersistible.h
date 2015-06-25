@@ -21,11 +21,11 @@ public:
 	IPersistible();
 	virtual ~IPersistible();
 
-	/*
+	/**
 	 * Escribe informacion a partir de @param key y @param value.
 	 */
 	virtual void write(const std::vector<std::string>& key, const std::string& value) = 0;
-	/*
+	/**
 	 * Lee y retorna informacion en @param key.
 	 */
 	virtual std::string read(const std::vector<std::string>& key) const = 0 ;

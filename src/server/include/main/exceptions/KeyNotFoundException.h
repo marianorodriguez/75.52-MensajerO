@@ -12,7 +12,7 @@
 #include <string>
 using namespace std;
 
-/*
+/**
  * Define una excepcion de tipo "key no encontrada"
  * Esta excepcion se lanza cuando no se encuentra una key en la base de datos.
  */

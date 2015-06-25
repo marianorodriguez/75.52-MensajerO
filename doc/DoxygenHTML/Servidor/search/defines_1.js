@@ -1,0 +1,23 @@
+var searchData=
+[
+  ['json_5fchat_5ffirst_5f1',['JSON_CHAT_FIRST_1',['../config_8h.html#a525ef16d07e3ad1e26eb6eb550847de6',1,'config.h']]],
+  ['json_5fchat_5ffirst_5f2',['JSON_CHAT_FIRST_2',['../config_8h.html#aa8ea42a1ce7793b85e6afbcac72bb8f8',1,'config.h']]],
+  ['json_5fchat_5fmessages',['JSON_CHAT_MESSAGES',['../config_8h.html#ad17d59a77f81891d6e426f047516f838',1,'config.h']]],
+  ['json_5fchat_5fuser_5f1',['JSON_CHAT_USER_1',['../config_8h.html#abecb709d5604bc29ca2f238f341e554c',1,'config.h']]],
+  ['json_5fchat_5fuser_5f2',['JSON_CHAT_USER_2',['../config_8h.html#a90d743217e5e873e958f230640ac6b6c',1,'config.h']]],
+  ['json_5fconfig_5ffile',['JSON_CONFIG_FILE',['../config_8h.html#a577b81f8cd34db040981497cf224f67a',1,'config.h']]],
+  ['json_5fmsg_5fdate_5fvalue',['JSON_MSG_DATE_VALUE',['../config_8h.html#aa5bcefae3b5b574155f438edbce188db',1,'config.h']]],
+  ['json_5fmsg_5ffrom_5fvalue',['JSON_MSG_FROM_VALUE',['../config_8h.html#a0498e6ace432e516053e97e85ec29e55',1,'config.h']]],
+  ['json_5fmsg_5fsent',['JSON_MSG_SENT',['../config_8h.html#ae08720a3c9f713181af0e1db33d194c8',1,'config.h']]],
+  ['json_5fmsg_5ftext',['JSON_MSG_TEXT',['../config_8h.html#a96790b2fe901e8045d0ae4646a1e4945',1,'config.h']]],
+  ['json_5fmsg_5ftime_5fvalue',['JSON_MSG_TIME_VALUE',['../config_8h.html#a7115d58941fee152a407eb51b90f13d1',1,'config.h']]],
+  ['json_5fmsg_5fto_5fvalue',['JSON_MSG_TO_VALUE',['../config_8h.html#a073cbd64ab0e2370c63ecb896f6932b0',1,'config.h']]],
+  ['json_5fuser_5fchats_5fwith',['JSON_USER_CHATS_WITH',['../config_8h.html#ab9bd59c79d203e21955283d726b6d059',1,'config.h']]],
+  ['json_5fuser_5fconnected',['JSON_USER_CONNECTED',['../config_8h.html#a138e346bc7e4073ca82aed257c4aca9e',1,'config.h']]],
+  ['json_5fuser_5flasttime',['JSON_USER_LASTTIME',['../config_8h.html#a325cb5f04ef34e9155a1de4253231200',1,'config.h']]],
+  ['json_5fuser_5flocation',['JSON_USER_LOCATION',['../config_8h.html#ac6ea62f9f7d7d93e93dede2ae22e42c4',1,'config.h']]],
+  ['json_5fuser_5fname',['JSON_USER_NAME',['../config_8h.html#a232a441f2ca6d8227bcead2611e9eb70',1,'config.h']]],
+  ['json_5fuser_5fprofile_5fpicture',['JSON_USER_PROFILE_PICTURE',['../config_8h.html#a8d9e31658be3391c10de62e643916d56',1,'config.h']]],
+  ['json_5fuser_5fpwd',['JSON_USER_PWD',['../config_8h.html#af7cefb684fad4fc4bf65c291b5c4d852',1,'config.h']]],
+  ['json_5fuser_5fstatus',['JSON_USER_STATUS',['../config_8h.html#af2f26e8f0b0b0af67461233c95f6d7cf',1,'config.h']]]
+];
