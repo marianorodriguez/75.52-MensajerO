@@ -96,7 +96,7 @@ final public class Constants//final to prevent instantiation
     public static int SomethingForMePostAsyncTaskFrec = 50;
 
     public static boolean GPS_ON = true;
-    public static String USER_KEEPED_LOCATION = null;
+    public static String USER_KEEPED_LOCATION = "";
 
     //private constructor to prevent instantiation/inheritance
     private Constants() {}
@@ -127,6 +127,8 @@ final public class Constants//final to prevent instantiation
         if (Constants.server != null) {
             Constants.server.setSharedPref(mSharedPref);
         }
+
+        Constants.GPS_ON = Boolean.getBoolean(mSharedPref.getString(Constants.user.username+"GPS", ""));
 
         try {
 

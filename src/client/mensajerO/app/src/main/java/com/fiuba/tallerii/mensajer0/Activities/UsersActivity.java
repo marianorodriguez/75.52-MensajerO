@@ -217,19 +217,18 @@ public class UsersActivity extends ActionBarActivity implements View.OnClickList
 
             View newUser = inflater.inflate(R.layout.user_item_users, null);
 
-//            Bitmap a = userToShow.profile_picture;
-//            img = RoundedBitmapDrawableFactory.create(getResources(), a);
-//            img.setCornerRadius(300f);
-
             ((ImageView)newUser.findViewById(R.id.userItemImage)).setImageBitmap(userToShow.profile_picture);
-
-//            ((ImageView) newUser.findViewById(R.id.userItemImage)).setImageDrawable(img);
-//            ((ImageView) newUser.findViewById(R.id.userItemImage)).setScaleType(ImageView.ScaleType.CENTER_CROP);
 
             ((TextView) newUser.findViewById(R.id.userItemData)).setText(userToShow.username);
             ((TextView) newUser.findViewById(R.id.userItemStatus)).setText(userToShow.status);
             ((TextView) newUser.findViewById(R.id.userItemLastTime)).setText(userToShow.lastTimeConnected);
-            ((TextView) newUser.findViewById(R.id.userItemLocation)).setText(userToShow.location);
+
+            if (userToShow.location.compareTo("unknown") != 0) {
+                newUser.findViewById(R.id.userItemLocation).setVisibility(View.VISIBLE);
+                ((TextView) newUser.findViewById(R.id.userItemLocation)).setText(userToShow.location);
+            } else {
+                newUser.findViewById(R.id.userItemLocation).setVisibility(View.INVISIBLE);
+            }
 
             newUser.setOnClickListener(new View.OnClickListener() {
                 @Override

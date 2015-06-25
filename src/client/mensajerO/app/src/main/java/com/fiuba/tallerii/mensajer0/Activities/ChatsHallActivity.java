@@ -6,6 +6,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
@@ -28,6 +31,7 @@ import android.widget.Toast;
 import com.fiuba.tallerii.mensajer0.Common.Constants;
 import com.example.fernando.mensajerO.R;
 import com.fiuba.tallerii.mensajer0.Common.Log;
+import com.fiuba.tallerii.mensajer0.Common.MyLocationListener;
 import com.fiuba.tallerii.mensajer0.Threads.CurrentChatsPostAsyncTask;
 import com.fiuba.tallerii.mensajer0.Threads.DeleteChatPostAsyncTask;
 import com.fiuba.tallerii.mensajer0.Threads.GetUsersPostAsyncTask;
@@ -240,6 +244,7 @@ public class ChatsHallActivity extends ActionBarActivity implements View.OnClick
 
         String username = mSharedPref.getString(Constants.PREF_NAME, "");
         e.putString(username+"chats", Constants.user.chatsToJson().toString());
+        e.putString(username+"GPS", String.valueOf(Constants.GPS_ON));
 
         e.putString(Constants.PREF_NAME, "");
         e.putString(Constants.PREF_PASS, "");
@@ -279,6 +284,55 @@ public class ChatsHallActivity extends ActionBarActivity implements View.OnClick
     public void onClick(View v) {
         if (v.getId() == R.id.logOutButton) {
             sayGodbye(null);
+        }
+    }
+
+    public String getLocation() {
+
+        LocationManager mlocManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
+        boolean net = mlocManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        Location l = null;
+        if(net)
+            l= mlocManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+
+        double l1 = 0;
+        double l2 = 0;
+        if(l!=null)
+        {
+            l1 = l.getLongitude();
+            l2 = l.getLatitude();
+        }
+//        Toast.makeText(getApplicationContext(),"location: " + l1 + "," + l2, Toast.LENGTH_LONG).show();
+        LocationListener mlocListener = new MyLocationListener(this);
+        mlocManager.requestLocationUpdates( LocationManager.GPS_PROVIDER, 5000, 10, mlocListener);
+
+        l = mlocManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+
+        l = getLastBestLocation(mlocManager);
+
+
+        // VER SI l1 y l2 son distintas de cero --> si es asi mandar Unknown
+        return String.valueOf(l2)+";"+String.valueOf(l1);
+    }
+
+    private static Location getLastBestLocation(LocationManager mLocationManager) {
+        Location locationGPS = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        Location locationNet = mLocationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+
+        long GPSLocationTime = 0;
+        if (null != locationGPS) { GPSLocationTime = locationGPS.getTime(); }
+
+        long NetLocationTime = 0;
+
+        if (null != locationNet) {
+            NetLocationTime = locationNet.getTime();
+        }
+
+        if ( 0 < GPSLocationTime - NetLocationTime ) {
+            return locationGPS;
+        }
+        else {
+            return locationNet;
         }
     }
 

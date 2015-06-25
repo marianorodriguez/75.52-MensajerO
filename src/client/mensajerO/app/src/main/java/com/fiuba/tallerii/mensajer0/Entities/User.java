@@ -67,7 +67,7 @@ public class User {
         String[] parts2 = parts[3].split(":");
         String hour2 = parts2[0];
 
-        return intMonth+"/"+day+" - "+ hour2 +":"+min;
+        return day+"/"+intMonth+" - "+ hour2 +":"+min;
     }
 
     public User(JSONObject jsonObject) {

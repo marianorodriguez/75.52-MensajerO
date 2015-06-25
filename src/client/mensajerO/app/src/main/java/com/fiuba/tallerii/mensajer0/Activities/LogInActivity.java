@@ -117,7 +117,29 @@ public class LogInActivity extends ActionBarActivity implements View.OnClickList
 
                 password = md5(password);
                 User currentUser = new User(username, password);
-                currentUser.location = getLocation();
+
+                String gps = mSharedPref.getString(username+"GPS", "");
+                if (gps.isEmpty()) {
+                    Toast.makeText(this, "Invalid username and/or password. Enter data again or sign up in MensajerO.", Toast.LENGTH_SHORT).show();
+                    txtPassword.setText("");
+                    txtUsername.setText("");
+
+                    Constants.logInOk = "";
+                    logInPost = new LogInPostAsyncTask();
+                    return;
+                }
+
+                if (gps.compareTo("true") == 0)
+                    Constants.GPS_ON = true;
+                else
+                    Constants.GPS_ON = false;
+
+                if (Constants.GPS_ON) {
+                    currentUser.location = getLocation();
+                    Constants.USER_KEEPED_LOCATION = currentUser.location;
+                } else {
+                    currentUser.location = "0;0";
+                }
 
                 String package_ = Constants.packager.wrap("logIn", currentUser);
                 Constants.ipServer = mSharedPref.getString("ipServer", "");
@@ -151,6 +173,7 @@ public class LogInActivity extends ActionBarActivity implements View.OnClickList
                         Constants.user = currentUser;
 
                         Constants.user.location = Constants.logInLocation;
+
                         Constants.user.status = Constants.logInStatus;
                         Constants.user.profile_picture = stringToBitmap(Constants.logInPicture);
 
@@ -232,7 +255,7 @@ public class LogInActivity extends ActionBarActivity implements View.OnClickList
         return String.valueOf(l2)+";"+String.valueOf(l1);
     }
 
-    private Location getLastBestLocation(LocationManager mLocationManager) {
+    private static Location getLastBestLocation(LocationManager mLocationManager) {
         Location locationGPS = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
         Location locationNet = mLocationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 

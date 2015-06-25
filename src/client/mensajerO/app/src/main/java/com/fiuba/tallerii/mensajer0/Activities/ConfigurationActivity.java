@@ -93,6 +93,13 @@ public class ConfigurationActivity extends ActionBarActivity implements View.OnC
         checkbox = (CheckBox) findViewById(R.id.config_checkBox);
         checkbox.setOnClickListener(this);
 
+        mSharedPref = getSharedPreferences(Constants.PREFS, MODE_PRIVATE);
+
+        if (Constants.GPS_ON)
+            checkbox.setChecked(true);
+        else
+            checkbox.setChecked(false);
+
         configPost = new ConfigPostAsyncTask();
 
         //setear los radio buttons segun el status del user
@@ -291,8 +298,9 @@ public class ConfigurationActivity extends ActionBarActivity implements View.OnC
 
         if (checkbox.isChecked()){
             Constants.GPS_ON = true;
+            Constants.user.location = Constants.USER_KEEPED_LOCATION;
         } else {
-            Constants.USER_KEEPED_LOCATION = Constants.user.location;
+            Constants.user.location = "0;0";
             Constants.GPS_ON = false;
         }
 

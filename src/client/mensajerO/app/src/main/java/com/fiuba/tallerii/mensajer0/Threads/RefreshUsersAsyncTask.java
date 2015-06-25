@@ -109,7 +109,14 @@ public class RefreshUsersAsyncTask extends AsyncTask<Pair<Context, String>, Stri
         ((TextView) user.findViewById(R.id.userItemData)).setText(wanted.username);
         ((TextView) user.findViewById(R.id.userItemStatus)).setText(wanted.status);
         ((TextView) user.findViewById(R.id.userItemLastTime)).setText(wanted.lastTimeConnected);
-        ((TextView) user.findViewById(R.id.userItemLocation)).setText(wanted.location);
+
+        if (wanted.location.compareTo("unknown") != 0) {
+            user.findViewById(R.id.userItemLocation).setVisibility(View.VISIBLE);
+            ((TextView) user.findViewById(R.id.userItemLocation)).setText(wanted.location);
+        } else {
+            user.findViewById(R.id.userItemLocation).setVisibility(View.INVISIBLE);
+        }
+
     }
 
     private User isInOtherUsers(String username) {
@@ -131,7 +138,13 @@ public class RefreshUsersAsyncTask extends AsyncTask<Pair<Context, String>, Stri
         ((TextView) newUser.findViewById(R.id.userItemData)).setText(userToShow.username);
         ((TextView) newUser.findViewById(R.id.userItemStatus)).setText(userToShow.status);
         ((TextView) newUser.findViewById(R.id.userItemLastTime)).setText(userToShow.lastTimeConnected);
-        ((TextView) newUser.findViewById(R.id.userItemLocation)).setText(userToShow.location);
+
+        if (userToShow.location.compareTo("unknown") != 0) {
+            newUser.findViewById(R.id.userItemLocation).setVisibility(View.VISIBLE);
+            ((TextView) newUser.findViewById(R.id.userItemLocation)).setText(userToShow.location);
+        } else {
+            newUser.findViewById(R.id.userItemLocation).setVisibility(View.INVISIBLE);
+        }
 
         newUser.setOnClickListener(new View.OnClickListener() {
             @Override
