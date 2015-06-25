@@ -4,15 +4,12 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v7.app.ActionBarActivity;
 import android.text.InputType;
-import android.util.Base64;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -28,11 +25,9 @@ import android.widget.Toast;
 import com.fiuba.tallerii.mensajer0.Common.Constants;
 import com.fiuba.tallerii.mensajer0.Entities.Chat;
 import com.fiuba.tallerii.mensajer0.Entities.User;
-import com.example.fernando.mensajerO.R;
-import com.fiuba.tallerii.mensajer0.Threads.GetUsersPostAsyncTask;
+import com.fiuba.tallerii.mensajer0.R;
 import com.fiuba.tallerii.mensajer0.Threads.RefreshUsersAsyncTask;
 import com.fiuba.tallerii.mensajer0.Threads.SendMessagePostAsyncTask;
-import com.fiuba.tallerii.mensajer0.Threads.SomethingForMePostAsyncTask;
 
 /**
  * Created by fernando on 10/04/15.
@@ -58,7 +53,7 @@ public class UsersActivity extends ActionBarActivity implements View.OnClickList
         getSupportActionBar().setCustomView(actionBar);
 
         ((TextView) actionBar.findViewById(R.id.actionBarTitle)).setText("USERS");
-        ((TextView) actionBar.findViewById(R.id.actionBarSubtitle)).setText("Status: "+Constants.user.status);
+        ((TextView) actionBar.findViewById(R.id.actionBarSubtitle)).setText("Status: " + Constants.user.status);
 
         RoundedBitmapDrawable img;
         img = RoundedBitmapDrawableFactory.create(getResources(), Constants.user.profile_picture);
@@ -67,9 +62,6 @@ public class UsersActivity extends ActionBarActivity implements View.OnClickList
 
         Constants.usersHallActionBar = actionBar;
 
-        String package_ = Constants.packager.wrap("somethingForMe", Constants.user);
-
-        // dibujar los usuarios de la lista de usuarios Constants.users
         drawCurrentUsers();
 
         goingToChats = false;
@@ -93,14 +85,13 @@ public class UsersActivity extends ActionBarActivity implements View.OnClickList
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.chatsHall) {
 
             goingToChats = true;
             finish();
             return true;
 
-        }  else if (id == R.id.broadcast) {
+        } else if (id == R.id.broadcast) {
 
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("Send broadcast message.");
@@ -153,7 +144,8 @@ public class UsersActivity extends ActionBarActivity implements View.OnClickList
             }
         }
 
-        if (Constants.sendMessageOk.contains("Error")) {}
+        if (Constants.sendMessageOk.contains("Error")) {
+        }
 
         if (Constants.sendMessageOk.compareTo("true") == 0) {
             Toast.makeText(this, "Broadcast message sent.", Toast.LENGTH_LONG).show();
@@ -172,8 +164,6 @@ public class UsersActivity extends ActionBarActivity implements View.OnClickList
         super.onResume();
 
         if (Constants.RefreshUsersAsyncTaskFinish) {
-
-            String package_ = Constants.packager.wrap("somethingForMe", Constants.user);
 
             Constants.RefreshUsersAsyncTaskFinish = false;
 
@@ -202,12 +192,11 @@ public class UsersActivity extends ActionBarActivity implements View.OnClickList
 
     private void drawCurrentUsers() {
 
-        Constants.usersScroll = (ScrollView)findViewById(R.id.scroll);
+        Constants.usersScroll = (ScrollView) findViewById(R.id.scroll);
 
         LinearLayout users = (LinearLayout) Constants.usersScroll.findViewById(R.id.users);
         Constants.usersListView = users;
 
-        RoundedBitmapDrawable img;
         LayoutInflater inflater = (LayoutInflater) getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         Constants.currentUsersSize = Constants.otherUsers.size();
@@ -217,7 +206,7 @@ public class UsersActivity extends ActionBarActivity implements View.OnClickList
 
             View newUser = inflater.inflate(R.layout.user_item_users, null);
 
-            ((ImageView)newUser.findViewById(R.id.userItemImage)).setImageBitmap(userToShow.profile_picture);
+            ((ImageView) newUser.findViewById(R.id.userItemImage)).setImageBitmap(userToShow.profile_picture);
 
             ((TextView) newUser.findViewById(R.id.userItemData)).setText(userToShow.username);
             ((TextView) newUser.findViewById(R.id.userItemStatus)).setText(userToShow.status);
@@ -271,16 +260,4 @@ public class UsersActivity extends ActionBarActivity implements View.OnClickList
         Constants.usersScroll.addView(Constants.usersListView);
 
     }
-
-    public Bitmap stringToBitmap(String pictureString){
-        try {
-            byte [] encodeByte= Base64.decode(pictureString, Base64.DEFAULT);
-            Bitmap bitmap= BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
-            return bitmap;
-        } catch(Exception e) {
-            e.getMessage();
-            return null;
-        }
-    }
-
 }

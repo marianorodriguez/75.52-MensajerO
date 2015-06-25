@@ -10,7 +10,7 @@
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:id="@+id/userItemImage"
-        android:src="@mipmap/ic_launcher" />
+        android:src="@drawable/offline1" />
 
     <TextView
         android:layout_width="match_parent"

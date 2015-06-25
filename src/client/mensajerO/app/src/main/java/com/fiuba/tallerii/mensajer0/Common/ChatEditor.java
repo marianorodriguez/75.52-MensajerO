@@ -8,11 +8,9 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.fiuba.tallerii.mensajer0.Activities.ChatActivity;
 import com.fiuba.tallerii.mensajer0.Entities.Chat;
 import com.fiuba.tallerii.mensajer0.Entities.Message;
-import com.example.fernando.mensajerO.R;
-
+import com.fiuba.tallerii.mensajer0.R;
 import java.util.ArrayList;
 
 /**
@@ -20,7 +18,6 @@ import java.util.ArrayList;
  */
 public class ChatEditor {
     private String owner = Constants.PREF_NAME;
-    private String otherUser;
     private Chat chat;
     private ScrollView chatView;
     private Context context;
@@ -37,21 +34,6 @@ public class ChatEditor {
     public void setChat(ScrollView chatView) {
         this.chatView = chatView;
     }
-
-//    public void renderChat(TextView chatView) {
-//        this.chatView = chatView;
-//        Message messageToRender;
-//        for (int message = 0; message < chat.messages.size(); message++) {
-//
-//            messageToRender = chat.messages.get(message);
-//
-//            chatView.append(messageToRender.msg_date);
-////            chatView.append(" - " + messageToRender.hour);
-//            chatView.append(" - " + messageToRender.msg_fromID);
-//            chatView.append(": " + messageToRender.msg_text + "\n");
-//
-//        }
-//    }
 
     public void renderNewMessages(ArrayList<Message> newMessages) {
         Message messageToRender;

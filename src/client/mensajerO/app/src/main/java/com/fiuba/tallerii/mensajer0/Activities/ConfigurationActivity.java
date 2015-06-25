@@ -22,14 +22,13 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.fernando.mensajerO.R;
+import com.fiuba.tallerii.mensajer0.R;
 import com.fiuba.tallerii.mensajer0.Common.Constants;
 import com.fiuba.tallerii.mensajer0.Threads.ConfigPostAsyncTask;
 import com.fiuba.tallerii.mensajer0.Threads.GetUsersPostAsyncTask;
 import com.fiuba.tallerii.mensajer0.Threads.SomethingForMePostAsyncTask;
 
 import java.io.ByteArrayOutputStream;
-import java.io.UnsupportedEncodingException;
 
 public class ConfigurationActivity extends ActionBarActivity implements View.OnClickListener {
 
@@ -38,7 +37,6 @@ public class ConfigurationActivity extends ActionBarActivity implements View.OnC
     RadioButton online;
     RadioButton offline;
     CheckBox checkbox;
-
     ImageView profilePicture;
 
     private static int RESULT_LOAD_IMAGE = 1;
@@ -125,10 +123,10 @@ public class ConfigurationActivity extends ActionBarActivity implements View.OnC
 
     private void setUserStatus() {
         //cargar de shared preferences al constants.user el staus (en LOGIN, en SIGN UP ya esta)
-        if (Constants.user.status.compareTo("Online")== 0) {
+        if (Constants.user.status.compareTo("Online") == 0) {
             online.setChecked(true);
             offline.setChecked(false);
-        } else if (Constants.user.status.compareTo("Offline")== 0) {
+        } else if (Constants.user.status.compareTo("Offline") == 0) {
             online.setChecked(false);
             offline.setChecked(true);
         }
@@ -140,7 +138,7 @@ public class ConfigurationActivity extends ActionBarActivity implements View.OnC
 
         if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data) {
             Uri selectedImage = data.getData();
-            String[] filePathColumn = { MediaStore.Images.Media.DATA };
+            String[] filePathColumn = {MediaStore.Images.Media.DATA};
 
             Cursor cursor = getContentResolver().query(selectedImage,
                     filePathColumn, null, null, null);
@@ -150,7 +148,6 @@ public class ConfigurationActivity extends ActionBarActivity implements View.OnC
             String picturePath = cursor.getString(columnIndex);
             cursor.close();
 
-//            ImageView imageView = (ImageView) findViewById(R.id.imageView);
             Bitmap imageSelected = BitmapFactory.decodeFile(picturePath);
 
             if (imageSelected == null) {
@@ -163,7 +160,7 @@ public class ConfigurationActivity extends ActionBarActivity implements View.OnC
                 Constants.user.profile_picture = BitmapFactory.decodeFile(picturePath);
 
                 SharedPreferences.Editor e = mSharedPref.edit();
-                e.putString(Constants.user.username+"profile_picture", setPicture(Constants.user.profile_picture));
+                e.putString(Constants.user.username + "profile_picture", setPicture(Constants.user.profile_picture));
                 e.commit();
 
                 RoundedBitmapDrawable img;
@@ -178,9 +175,9 @@ public class ConfigurationActivity extends ActionBarActivity implements View.OnC
 
     private String setPicture(Bitmap pictureBitmap) {
 
-        ByteArrayOutputStream baos = new  ByteArrayOutputStream();
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
         pictureBitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
-        byte [] b=baos.toByteArray();
+        byte[] b = baos.toByteArray();
         String temp = Base64.encodeToString(b, Base64.DEFAULT);
         temp = temp.replaceAll("(?:\\r\\n|\\n\\r|\\n|\\r)", "");
 
@@ -199,11 +196,11 @@ public class ConfigurationActivity extends ActionBarActivity implements View.OnC
         // seteo al user los valores que tenia antes de entrar
         SharedPreferences.Editor e = mSharedPref.edit();
         Constants.user.profile_picture = currentPicture;
-        e.putString(Constants.user.username+"profile_picture", setPicture(currentPicture));
+        e.putString(Constants.user.username + "profile_picture", setPicture(currentPicture));
         profilePicture.setImageBitmap(Constants.user.profile_picture);
 
         Constants.user.status = currentStatus;
-        e.putString(Constants.user.username+"status", currentStatus);
+        e.putString(Constants.user.username + "status", currentStatus);
         e.commit();
         setUserStatus();
 
@@ -244,14 +241,13 @@ public class ConfigurationActivity extends ActionBarActivity implements View.OnC
 
                 try {
                     ((TextView) Constants.chatsHallActionBar.findViewById(R.id.actionBarSubtitle)).setText("Status: " + Constants.user.status);
+                    RoundedBitmapDrawable img;
+                    img = RoundedBitmapDrawableFactory.create(getResources(), Constants.user.profile_picture);
+                    img.setCornerRadius(300f);
+                    ((ImageView) Constants.chatsHallActionBar.findViewById(R.id.actionBarIcon)).setImageDrawable(img);
                 } catch (Exception e) {
                     findViewById(R.id.config_cancelButton).callOnClick();
                 }
-
-                RoundedBitmapDrawable img;
-                img = RoundedBitmapDrawableFactory.create(getResources(), Constants.user.profile_picture);
-                img.setCornerRadius(300f);
-                ((ImageView) Constants.chatsHallActionBar.findViewById(R.id.actionBarIcon)).setImageDrawable(img);
 
             } else {
                 Toast.makeText(this, "Couldn't connect with server. Your changes won't be saved.", Toast.LENGTH_LONG).show();
@@ -274,37 +270,21 @@ public class ConfigurationActivity extends ActionBarActivity implements View.OnC
         switch (i) {
             case 0:
                 Constants.user.status = "Online";
-                e.putString(Constants.user.username+"status", "Online");
+                e.putString(Constants.user.username + "status", "Online");
                 break;
             case 1:
                 Constants.user.status = "Offline";
-                e.putString(Constants.user.username+"status", "Offline");
+                e.putString(Constants.user.username + "status", "Offline");
                 break;
         }
         e.commit();
-    }
-
-    public String wrap(Bitmap profilePicture) {
-
-        byte[] data;
-        try {
-            data = profilePicture.toString().getBytes("UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-            return null;
-        }
-
-        String packageEncoded = Base64.encodeToString(data, Base64.NO_WRAP);
-        packageEncoded = packageEncoded.replaceAll("(?:\\r\\n|\\n\\r|\\n|\\r)", "");
-
-        return packageEncoded;
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
 
-        if (checkbox.isChecked()){
+        if (checkbox.isChecked()) {
             Constants.GPS_ON = true;
             Constants.user.location = Constants.USER_KEEPED_LOCATION;
         } else {

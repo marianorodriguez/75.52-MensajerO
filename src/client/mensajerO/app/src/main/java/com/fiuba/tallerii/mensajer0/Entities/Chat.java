@@ -20,7 +20,7 @@ public class Chat {
         this.otherUser = otherUser;
     }
 
-    public JSONObject toJson() {  // AGREGAR MI PROPIO USERNAME AL JSON CHAT
+    public JSONObject toJson() {
         JSONObject jchat = new JSONObject();
         JSONArray jmessages = new JSONArray();
         try {
@@ -52,13 +52,6 @@ public class Chat {
             JSONArray jsonMessages = jsonChat.getJSONArray("messages");
 
             for (int message = 0; message < jsonMessages.length(); message++) {
-
-//                JSONObject object = new JSONObject(chats.get(chat).toString());
-////                    JSONObject jsonObject = new JSONObject(username);
-//
-//                Chat newChat = Chat.toChat(object);
-//
-//                Constants.user.chats.add(newChat);
 
                 if (jsonMessages.get(message).toString().compareTo("null") != 0) {
                     JSONObject oneMessage = new JSONObject(jsonMessages.get(message).toString());

@@ -79,7 +79,6 @@ public class CurrentChatsPostAsyncTask extends AsyncTask<Pair<Context, String>, 
                         for (int chat = 0; chat < chats.length(); chat++) {
 
                             JSONObject object = new JSONObject(chats.get(chat).toString());
-//                    JSONObject jsonObject = new JSONObject(username);
 
                             Chat newChat = Chat.toChat(object);
                             boolean chatOnList = true;

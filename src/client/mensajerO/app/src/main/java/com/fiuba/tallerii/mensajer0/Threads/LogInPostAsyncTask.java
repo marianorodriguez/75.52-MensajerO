@@ -31,7 +31,6 @@ public class LogInPostAsyncTask extends AsyncTask<Pair<Context, String>, String,
 
     @Override
     protected String doInBackground(Pair<Context, String>... params) {
-        //        context = params[0].first;
 
         if ( Constants.server != null ) {
             String response = Constants.server.logIn(params[0].second);

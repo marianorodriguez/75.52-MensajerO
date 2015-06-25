@@ -177,8 +177,6 @@ public class Server {
         try {
             JSONArray users = new JSONArray();
 
-//            loguedUsers.remove(userP.getString("username"));
-
             for (int user = 0; user < loguedUsers.size(); user++) {
                 String username = loguedUsers.get(user);
                 User newUser = new User(username,
@@ -189,8 +187,6 @@ public class Server {
                 JSONObject newUserJson = newUser.toJsonForServer(0);
                 users.put(newUserJson);
             }
-
-//            loguedUsers.add(userP.getString("username"));
 
             JSONObject response = new JSONObject();
             response.put("users", users);

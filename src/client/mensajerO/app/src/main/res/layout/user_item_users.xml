@@ -11,7 +11,7 @@
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:id="@+id/userItemImage"
-        android:src="@drawable/man"
+        android:src="@drawable/defprofpic"
         android:scaleType="centerCrop"
         android:padding="2dp"
         android:background="@drawable/back_photo" />
