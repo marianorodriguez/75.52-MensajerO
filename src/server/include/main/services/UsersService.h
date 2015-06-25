@@ -12,17 +12,19 @@
  */
 class UsersService: public ServiceInterface {
 public:
+	UsersService(Database& userDb);
 	virtual std::string getUri() const;
-	virtual std::string executeRequest(const Json::Value &paramMap) const;
+	virtual std::string executeRequest(const std::string &paramMap) const;
 	/**
 	 * Aplica el servicio de listado de usuarios.
 	 * @param data informacion de entrada para el servicio.
 	 * @return listado con informacion de todos los usuarios registrados en el servidor.
 	 */
-	Json::Value doUsers(const Json::Value &data) const;
+	std::string doUsers(const std::string &data) const;
 	
 private:
 	static const std::string serviceName;
+	Database & userDb;
 };
 
 /**

@@ -2,48 +2,51 @@
 
 const std::string UsersService::serviceName = SERVICE_USERS_NAME;
 
+UsersService::UsersService(Database& users): userDb(users){
+
+}
+
 std::string UsersService::getUri() const {
 	return serviceName;
 }
 
-std::string UsersService::executeRequest(const Json::Value &paramMap) const {
+std::string UsersService::executeRequest(const string &paramMap) const {
 
-	Json::Reader reader;
-	Json::Value data;
-	reader.parse(paramMap.asString(), data);
 	Logger::getLogger()->write(Logger::INFO,
 			"Executing Users service...");
-	Json::Value output = doUsers(data);
 
-	ConnectionManager::getInstance()->updateUser(
-			data[SERVICE_USERNAME].asString());
+	string output = doUsers(paramMap);
 
-	return output.toStyledString();
+	return output;
 }
 
-Json::Value UsersService::doUsers(const Json::Value &data) const {
+string UsersService::doUsers(const string &data) const {
 
-	Database DB(DATABASE_USERS_PATH);
+	Json::Value jsonData;
+	Json::Reader reader;
+	reader.parse(data, jsonData);
 
+	string username = jsonData[SERVICE_USERNAME].asString();
+	string password = jsonData[SERVICE_PASSWORD].asString();
 	Json::Value output;
 
 	try {
 
 		std::vector<std::string> key;
-		key.push_back(data[SERVICE_USERNAME].asString());
-		std::string userValue = DB.read(key);
+		key.push_back(username);
+		std::string userValue = userDb.read(key);
 		User user(userValue);
 
-		if (data[SERVICE_PASSWORD].asString() == user.getPassword()) {
+		if (user.getPassword() == password) {
 
 			Logger::getLogger()->write(Logger::DEBUG,
 					"Fetching all users in database...");
-			vector<string> keys = DB.getAllKeys();
+			vector<string> keys = userDb.getAllKeys();
 			vector<string> key;
 
 			for (unsigned int i = 0; i < keys.size(); i++) {
 				key.push_back(keys.at(i));
-				output["users"][i] = DB.read(key);
+				output["users"][i] = userDb.read(key);
 				key.clear();
 			}
 
@@ -63,10 +66,10 @@ Json::Value UsersService::doUsers(const Json::Value &data) const {
 				"Some unregistered user tried to use this service.");
 	}
 
-	DB.close();
-	return output;
+	ConnectionManager::getInstance()->updateUser(userDb, username);
+	return output.toStyledString();
 }
 
 ServiceInterface* UsersServiceCreator::create(Database& userDb, Database& chatDb) {
-	return new UsersService();
+	return new UsersService(userDb);
 }

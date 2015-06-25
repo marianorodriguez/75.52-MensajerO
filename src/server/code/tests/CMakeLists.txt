@@ -14,9 +14,11 @@ add_executable(tests
 	user/userTests.cpp
 	ArgsParserTests.cpp
 	NumberConverterTests.cpp
+	ServerOptionsTests.cpp
 	services/ConnectionManagerTest.cpp
 	services/LogInServiceTest.cpp
 	LocationManagerTests.cpp
+	Base64Tests.cpp
 	main.cpp)
 
 target_link_libraries(tests ${CPPUNIT_LIBRARIES} mensajero-utilities service-test rest-client ${JSONCPP_LIBRARIES})

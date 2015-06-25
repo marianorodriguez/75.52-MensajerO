@@ -8,12 +8,13 @@
 #ifndef TESTS_SERVICES_CURRENTCHATSSERVICETEST_H_
 #define TESTS_SERVICES_CURRENTCHATSSERVICETEST_H_
 
-#include <cppunit/extensions/HelperMacros.h>
+#include "ServiceTest.h"
 #include "../../main/services/CurrentChatsService.h"
 
-class CurrentChatsServiceTest: public CppUnit::TestFixture {
+class CurrentChatsServiceTest: public ServiceTest {
 
 	CPPUNIT_TEST_SUITE(CurrentChatsServiceTest);
+	CPPUNIT_TEST(testShouldGetUri);
 	CPPUNIT_TEST(testShouldGetCurrentChats);
 	CPPUNIT_TEST(testShouldThrowInvalidPassword);
 	CPPUNIT_TEST(testShouldThrowInvalidUsername);
@@ -21,12 +22,12 @@ class CurrentChatsServiceTest: public CppUnit::TestFixture {
 	CPPUNIT_TEST_SUITE_END();
 
 public:
-	CurrentChatsServiceTest();
 	virtual ~CurrentChatsServiceTest();
 
 	void setUp();
 	void tearDown();
 
+	void testShouldGetUri();
 	void testShouldGetCurrentChats();
 	void shouldGetEmptyChatList();
 	void testShouldThrowInvalidUsername();

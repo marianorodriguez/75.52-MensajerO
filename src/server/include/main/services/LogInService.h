@@ -15,13 +15,13 @@ public:
 	LogInService(Database& userDb);
 	virtual ~LogInService();
 	virtual std::string getUri() const;
-	virtual std::string executeRequest(const Json::Value &paramMap) const;
+	virtual std::string executeRequest(const std::string &paramMap) const;
 	/**
 	 * Aplica el servicio de inicio de sesion del servidor.
 	 * @param data informacion de entrada.
 	 * @return informacion sobre el resultado de la operación.
 	 */
-	Json::Value doLogIn(const Json::Value& data) const;
+	std::string doLogIn(const std::string& data) const;
 
 private:
 	static const std::string serviceName;

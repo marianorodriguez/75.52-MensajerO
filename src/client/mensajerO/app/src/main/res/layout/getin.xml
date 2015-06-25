@@ -22,11 +22,11 @@
             android:textSize="18dp"
             android:textColor="#ffffffff"
             android:singleLine="false"
+            android:layout_marginBottom="172dp"
+            android:textStyle="bold"
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginBottom="171dp"
-            android:textStyle="bold" />
+            android:layout_alignParentStart="true" />
 
     <EditText
         android:layout_width="fill_parent"
@@ -34,34 +34,31 @@
         android:id="@+id/ipedittext"
         android:hint="Enter server&apos;s IP"
         android:textSize="18dp"
-        android:textColorHint="#bbffffff"
+        android:textColorHint="#55000000"
         android:gravity="center_vertical|center_horizontal"
         android:textColor="#ffffffff"
         android:background="@drawable/rounded_text"
         android:layout_marginBottom="5dp"
         android:layout_above="@+id/backtologin"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="false"
         android:textStyle="bold|italic"
         android:typeface="sans"
         android:singleLine="true"
-        android:cursorVisible="false"/>
+        android:cursorVisible="false"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
         android:id="@+id/imageView3"
-        android:layout_alignParentBottom="false"
-        android:layout_alignParentLeft="false"
-        android:layout_alignParentStart="false"
-        android:layout_marginBottom="15dp"
-        android:layout_above="@+id/ipedittext"
-        android:layout_marginLeft="40dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginRight="40dp"
-        android:layout_centerHorizontal="true"
         android:src="@drawable/logo"
         android:scaleType="fitXY"
-        android:background="@drawable/chatsback" />
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_above="@+id/ipedittext"
+        android:layout_alignParentRight="true" />
 
 </RelativeLayout>

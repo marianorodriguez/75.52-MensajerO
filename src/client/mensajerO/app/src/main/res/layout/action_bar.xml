@@ -29,16 +29,22 @@
         android:layout_centerVertical="true" />
 
     <TextView
+        android:id="@+id/actionBarSubtitle"
         android:layout_width="wrap_content"
         android:layout_height="25dp"
         android:text="your status"
-        android:id="@+id/actionBarSubtitle"
-        android:layout_below="@+id/actionBarTitle"
-        android:layout_alignLeft="@+id/actionBarTitle"
         android:textStyle="italic"
         android:typeface="sans"
         android:textColor="@android:color/white"
         android:gravity="center_vertical|left"
-        android:textSize="14dp" />
+        android:textSize="14dp"
+        android:layout_alignParentBottom="false"
+        android:layout_alignLeft="@+id/actionBarTitle"
+        android:layout_alignStart="@+id/actionBarTitle"
+        android:layout_alignParentTop="false"
+        android:layout_alignParentLeft="false"
+        android:layout_alignParentRight="false"
+        android:layout_alignWithParentIfMissing="false"
+        android:layout_alignBottom="@+id/actionBarIcon" />
 
 </RelativeLayout>

@@ -8,12 +8,13 @@
 #ifndef TESTS_SERVICES_SOMETHINGFORMESERVICETEST_H_
 #define TESTS_SERVICES_SOMETHINGFORMESERVICETEST_H_
 
-#include <cppunit/extensions/HelperMacros.h>
+#include "ServiceTest.h"
 #include "../../main/services/SomethingForMeService.h"
 
-class SomethingForMeServiceTest: public CppUnit::TestFixture {
+class SomethingForMeServiceTest: public ServiceTest{
 
 	CPPUNIT_TEST_SUITE(SomethingForMeServiceTest);
+	CPPUNIT_TEST(testGetUri);
 	CPPUNIT_TEST(shouldThrowInvalidPassword);
 	CPPUNIT_TEST(shouldThrowInvalidUsername);
 	CPPUNIT_TEST(testGetNewMessages);
@@ -21,12 +22,12 @@ class SomethingForMeServiceTest: public CppUnit::TestFixture {
 	CPPUNIT_TEST_SUITE_END();
 
 public:
-	SomethingForMeServiceTest();
 	virtual ~SomethingForMeServiceTest();
 
 	void setUp();
 	void tearDown();
 
+	void testGetUri();
 	void shouldThrowInvalidUsername();
 	void shouldThrowInvalidPassword();
 	void testGetNewMessages();

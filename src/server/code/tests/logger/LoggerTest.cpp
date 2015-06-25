@@ -202,3 +202,7 @@ void LoggerTest::should_throw_file_not_found_exception() {
 
 	CPPUNIT_ASSERT_THROW(new Logger("invalid route"), BaseException);
 }
+
+void LoggerTest::should_start_stop_logger() {
+	LoggerManager manager;
+}

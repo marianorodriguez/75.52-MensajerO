@@ -12,7 +12,9 @@
 #include "json/json.h"
 #include <map>
 #include <fstream>
+#include <string.h>
 #include <math.h>
+#include "../../../include/main/exceptions/FileNotFoundException.h"
 
 /**
  * Define un nodo del geolocalizador.
@@ -48,13 +50,15 @@ class LocationManager {
 public:
 	virtual ~LocationManager();
 	static LocationManager* getInstance();
+	static void destroyInstance();
 
 	/**
 	 * Devuelve el nombre del barrio al que apunta @param location
 	 */
-	static std::string getLocation(const std::string &location);
+	std::string getLocation(const std::string &location);
 
 private:
+	static std::string path;
 	LocationManager();
 	static LocationManager* instance;
 	static std::map<std::string, std::string> nodes;

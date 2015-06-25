@@ -7,11 +7,14 @@ std::string EchoService::getUri() const{
 	return EchoService::serviceName;
 }
 
-std::string EchoService::executeRequest(const Json::Value &paramMap) const{
+std::string EchoService::executeRequest(const std::string &paramMap) const{
 	std::string output;
+	Json::Reader reader;
+	Json::Value jsonMap;
+	reader.parse(paramMap, jsonMap);
 
-	for (Json::ValueIterator it = paramMap.begin(); it != paramMap.end(); ++it){
-		std::string message(it.key().toStyledString() + " = " + paramMap[it.key().toStyledString()].toStyledString());
+	for (Json::ValueIterator it = jsonMap.begin(); it != jsonMap.end(); ++it){
+		std::string message(it.key().toStyledString() + " = " + jsonMap[it.key().toStyledString()].toStyledString());
 		output.append(message);
 	}
 	return output;

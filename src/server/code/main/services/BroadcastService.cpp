@@ -12,66 +12,79 @@
 
 const std::string serviceName = SERVICE_BROADCAST_NAME;
 
-BroadcastService::BroadcastService(Database& userDb, Database& chatDb)
-		:userDb(userDb), chatDb(chatDb) {}
+BroadcastService::BroadcastService(Database& userDb, Database& chatDb) :
+		userDb(userDb), chatDb(chatDb) {
+}
 
-BroadcastService::~BroadcastService() {}
+BroadcastService::~BroadcastService() {
+}
 
 std::string BroadcastService::getUri() const {
 	return serviceName;
 }
 
 std::string BroadcastService::executeRequest(
-		const Json::Value &paramMap) const {
+		const string &paramMap) const {
 
-	Json::Reader reader;
-	Json::Value data;
-	reader.parse(paramMap.asString(), data);
+	Json::StyledWriter writer;
 	Logger::getLogger()->write(Logger::INFO, "Executing Broadcast service...");
-	Json::Value output = doBroadcast(data);
 
-	ConnectionManager::getInstance()->updateUser(
-			data[SERVICE_USERNAME].asString());
+	string output = doBroadcast(paramMap);
 
-	return output.toStyledString();
+	return output;
+
 }
 
-Json::Value BroadcastService::doBroadcast(const Json::Value &data) const {
+string BroadcastService::doBroadcast(const string &data) const {
 
-	Json::Value input;
-	input[SERVICE_USERNAME] = data[SERVICE_USERNAME].asString();
-	input[SERVICE_PASSWORD] = data[SERVICE_PASSWORD].asString();
-	input[SERVICE_SENDMESSAGE_MESSAGE] =
-			data[SERVICE_SENDMESSAGE_MESSAGE].asString();
+	Json::Value input, jsonIn;
+	Json::Reader reader;
+
+	reader.parse(data, jsonIn);
+
+	string username = jsonIn[SERVICE_USERNAME].asString();
+	string password = jsonIn[SERVICE_PASSWORD].asString();
+	string message = jsonIn[SERVICE_SENDMESSAGE_MESSAGE].asString();
+
+	input[SERVICE_USERNAME] = username;
+	input[SERVICE_PASSWORD] = password;
+	input[SERVICE_SENDMESSAGE_MESSAGE] = message;
 
 	Json::Value broadcastOut;
 	broadcastOut[SERVICE_OUT_OK] = true;
 	broadcastOut[SERVICE_OUT_WHAT] = "";
 
 	std::vector<std::string> keyUser;
-	keyUser.push_back(data[SERVICE_USERNAME].asString());
+	keyUser.push_back(username);
 
 	try {
 		std::vector<std::string> users = this->userDb.getAllKeys();
 		User user(this->userDb.read(keyUser));
 
-		if(user.getPassword() != data[SERVICE_PASSWORD].asString()){
+		if (user.getPassword() != password) {
 			broadcastOut[SERVICE_OUT_OK] = false;
 			broadcastOut[SERVICE_OUT_WHAT] = SERVICE_OUT_INVALIDPWD;
-			Logger::getLogger()->write(Logger::WARN, "Invalid password from user " + user.getUsername());
-			return broadcastOut;
+			Logger::getLogger()->write(Logger::WARN,
+					"Invalid password from user " + user.getUsername());
+			return broadcastOut.toStyledString();
 		}
 
 		SendMessageService sendMessageService(this->userDb, this->chatDb);
 		for (unsigned int i = 0; i < users.size(); i++) {
-			if (users.at(i) != data[SERVICE_USERNAME].asString()) {
+			if (users.at(i) != username) {
 				input[SERVICE_SENDMESSAGE_USERNAME_TO] = users.at(i);
-				Logger::getLogger()->write(Logger::DEBUG, "Sending broadcast message to user " + users.at(i));
-				Json::Value output = sendMessageService.doSendMessage(input);
-				if (output[SERVICE_OUT_WHAT] == SERVICE_OUT_INVALIDUSER) {
+				Logger::getLogger()->write(Logger::DEBUG,
+						"Sending broadcast message to user " + users.at(i));
+				string output = sendMessageService.doSendMessage(input.toStyledString());
+				Json::Value something4meOut;
+				reader.parse(output, something4meOut);
+				if (something4meOut[SERVICE_OUT_WHAT] == SERVICE_OUT_INVALIDUSER) {
 					broadcastOut[SERVICE_OUT_OK] = false;
-					broadcastOut[SERVICE_OUT_WHAT] = SERVICE_OUT_BROADCASTFAILEDTOSOME;
-					Logger::getLogger()->write(Logger::WARN, "Failed to send broadcast message to " + users.at(i));
+					broadcastOut[SERVICE_OUT_WHAT] =
+							SERVICE_OUT_BROADCASTFAILEDTOSOME;
+					Logger::getLogger()->write(Logger::WARN,
+							"Failed to send broadcast message to "
+									+ users.at(i));
 				}
 			}
 		}
@@ -79,12 +92,16 @@ Json::Value BroadcastService::doBroadcast(const Json::Value &data) const {
 	} catch (KeyNotFoundException &e) {
 		broadcastOut[SERVICE_OUT_OK] = false;
 		broadcastOut[SERVICE_OUT_WHAT] = SERVICE_OUT_INVALIDUSER;
-		Logger::getLogger()->write(Logger::WARN, "Some unregistered user tried to use this service.");
+		Logger::getLogger()->write(Logger::WARN,
+				"Some unregistered user tried to use this service.");
 	}
-	return broadcastOut;
+
+	ConnectionManager::getInstance()->updateUser(this->userDb, username);
+
+	return broadcastOut.toStyledString();
 }
 
-
-ServiceInterface* BroadcastServiceCreator::create(Database& userDb, Database& chatDb) {
+ServiceInterface* BroadcastServiceCreator::create(Database& userDb,
+		Database& chatDb) {
 	return new BroadcastService(userDb, chatDb);
 }

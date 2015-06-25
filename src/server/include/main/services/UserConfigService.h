@@ -22,17 +22,20 @@ using namespace std;
  */
 class UserConfigService: public ServiceInterface {
 public:
+
+	UserConfigService(Database& userDb);
 	std::string getUri() const;
-	std::string executeRequest(const Json::Value &paramMap) const;
+	std::string executeRequest(const std::string &paramMap) const;
 	/**
 	 * Aplica el servicio de configuracion de un usuario.
 	 * @param data informacion actualizada de un usuario.
 	 * @return informacion sobre el resultado del servicio.
 	 */
-	Json::Value doUserConfig(const Json::Value &data) const;
+	std::string doUserConfig(const std::string &data) const;
 
 private:
 	static const std::string serviceName;
+	Database& userDb;
 };
 
 /**

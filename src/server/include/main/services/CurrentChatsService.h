@@ -17,13 +17,13 @@ public:
 	* Devuelve el nombre del servicio: CurrentChats
 	*/
 	virtual std::string getUri() const;
-	virtual std::string executeRequest(const Json::Value &paramMap) const;
+	virtual std::string executeRequest(const std::string &paramMap) const;
 	/**
 	 * Encargado de aplicar el servicio de consulta de chats.
 	 * @param data informacion de entrada para este servicio.
 	 * @return listado de chats activos del usuario que invocó este servicio.
 	 */
-	Json::Value doCurrentChats(const Json::Value &data) const;
+	std::string doCurrentChats(const std::string &data) const;
 
 private:
 	static const std::string serviceName;

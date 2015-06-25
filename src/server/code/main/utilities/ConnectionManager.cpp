@@ -79,26 +79,22 @@ std::vector<std::string> ConnectionManager::getConnectedUsers() {
 	return usernames;
 }
 
-void ConnectionManager::updateUser(const std::string username) {
+void ConnectionManager::updateUser(Database& db, const std::string username) {
 
 	//tengo que abrir el user, si status != offline , le actualizo el lastTime
 	std::vector<std::string> key;
 	key.push_back(username);
 	try {
-		User user(this->userDb->read(key));
+		User user(db.read(key));
 		if(user.getStatus() != "offline") {
 			user.setLastTimeConnected();
 		}
-		this->userDb->write(key, user.serialize());
+		db.write(key, user.serialize());
 	} catch (KeyNotFoundException &e) {
 		Logger::getLogger()->write(Logger::DEBUG, e.what());
 	}
 
 	connectedUsers[username] = time(0);
-}
-
-void ConnectionManager::setDatabase(Database* userDb){
-	this->userDb = userDb;
 }
 
 void ConnectionManager::setUserAliveTime(int deltaTimeMsecs){

@@ -16,6 +16,7 @@ class LoggerTest: public CPPUNIT_NS::TestFixture {
 	CPPUNIT_TEST(should_write_only_an_info);
 	CPPUNIT_TEST(should_return_loggingLevels);
 	CPPUNIT_TEST(should_throw_file_not_found_exception);
+	CPPUNIT_TEST(should_start_stop_logger);
 	CPPUNIT_TEST_SUITE_END();
 
 private:
@@ -31,6 +32,7 @@ protected:
 	void should_return_loggingLevels();
 	void should_throw_file_not_found_exception();
 	void should_be_thread_safe();
+	void should_start_stop_logger();
 };
 
 #endif

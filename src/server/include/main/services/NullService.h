@@ -10,7 +10,7 @@
 class NullService: public ServiceInterface {
 public:
 	virtual std::string getUri() const;
-	virtual std::string executeRequest(const Json::Value &paramMap) const;
+	virtual std::string executeRequest(const std::string &paramMap) const;
 };
 
 #endif // NULLSERVICE_H

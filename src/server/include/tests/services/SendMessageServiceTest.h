@@ -8,12 +8,13 @@
 #ifndef TESTS_SERVICES_SENDMESSAGESERVICETEST_H_
 #define TESTS_SERVICES_SENDMESSAGESERVICETEST_H_
 
-#include <cppunit/extensions/HelperMacros.h>
+#include "ServiceTest.h"
 #include "../../main/services/SendMessageService.h"
 
-class SendMessageServiceTest: public CppUnit::TestFixture {
+class SendMessageServiceTest: public ServiceTest {
 
 	CPPUNIT_TEST_SUITE(SendMessageServiceTest);
+	CPPUNIT_TEST(testGetUri);
 	CPPUNIT_TEST(testShouldThrowInvalidUsername);
 	CPPUNIT_TEST(testShouldThrowInvalidPassword);
 	CPPUNIT_TEST(testShouldAddMessageToExistingChat);
@@ -21,12 +22,12 @@ class SendMessageServiceTest: public CppUnit::TestFixture {
 	CPPUNIT_TEST_SUITE_END();
 
 public:
-	SendMessageServiceTest();
 	virtual ~SendMessageServiceTest();
 
 	void setUp();
 	void tearDown();
 
+	void testGetUri();
 	void testShouldThrowInvalidUsername();
 	void testShouldThrowInvalidPassword();
 	void testShouldAddMessageToExistingChat();

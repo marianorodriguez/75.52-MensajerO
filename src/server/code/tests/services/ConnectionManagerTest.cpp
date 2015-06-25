@@ -9,7 +9,6 @@
 
 CPPUNIT_TEST_SUITE_REGISTRATION(ConnectionManagerTest);
 
-ConnectionManagerTest::ConnectionManagerTest() {}
 
 ConnectionManagerTest::~ConnectionManagerTest() {}
 
@@ -18,7 +17,6 @@ ConnectionManagerTest::~ConnectionManagerTest() {}
 void ConnectionManagerTest::setUp(){
 	TestFixture::setUp();
 	testDb = new Database(DATABASE_USERS_PATH);
-	manager.setDatabase(testDb);
 	manager.startUpdating();
 }
 
@@ -36,7 +34,7 @@ void ConnectionManagerTest::testAddRecentlyConnectedUser() {
 	it = manager.connectedUsers.find(newUser);
 	CPPUNIT_ASSERT(it == manager.connectedUsers.end());
 
-	manager.updateUser(newUser);
+	manager.updateUser(*testDb, newUser);
 
 	//verifico que el user se haya agregado a la lista
 	it = manager.connectedUsers.find(newUser);
@@ -46,12 +44,12 @@ void ConnectionManagerTest::testAddRecentlyConnectedUser() {
 void ConnectionManagerTest::testUpdateAlreadyConnectedUser() {
 
 	std::string newUser = "Mariano";
-	manager.updateUser(newUser);
+	manager.updateUser(*testDb, newUser);
 	int userTime_1 = manager.connectedUsers[newUser];
 
 	sleep(MAXIMUM_IDLE_TIME - 1); //dejo que pase 1 segundo para que se actualice el manager
 
-	manager.updateUser(newUser);
+	manager.updateUser(*testDb, newUser);
 	int userTime_2 = manager.connectedUsers[newUser];
 
 	CPPUNIT_ASSERT(userTime_1 < userTime_2);
@@ -60,7 +58,7 @@ void ConnectionManagerTest::testUpdateAlreadyConnectedUser() {
 void ConnectionManagerTest::testDisconnectUser() {
 
 	std::string newUser = "Mariano";
-	manager.updateUser(newUser);
+	manager.updateUser(*testDb, newUser);
 
 	//supero el timeOut para que el manager desconecte al usuario
 	sleep(MAXIMUM_IDLE_TIME + 1);
@@ -78,17 +76,17 @@ void ConnectionManagerTest::testManageMultipleUsers() {
 	std::string user_4 = "Fernando";
 
 	//agrego a todos los usuarios
-	manager.updateUser(user_1);
-	manager.updateUser(user_2);
-	manager.updateUser(user_3);
-	manager.updateUser(user_4);
+	manager.updateUser(*testDb, user_1);
+	manager.updateUser(*testDb, user_2);
+	manager.updateUser(*testDb, user_3);
+	manager.updateUser(*testDb, user_4);
 
 	//se desconecta el user_1 (actualizo a todos menos a el)
 	for (int i = 0; i <= MAXIMUM_IDLE_TIME + 1; i++) {
 		sleep(1);
-		manager.updateUser(user_2);
-		manager.updateUser(user_3);
-		manager.updateUser(user_4);
+		manager.updateUser(*testDb, user_2);
+		manager.updateUser(*testDb, user_3);
+		manager.updateUser(*testDb, user_4);
 	}
 
 	//tienen que estar conectados los user 2, 3 y 4
@@ -108,8 +106,8 @@ void ConnectionManagerTest::testManageMultipleUsers() {
 
 	for (int i = 0; i <= MAXIMUM_IDLE_TIME + 1; i++) {
 		sleep(1);
-		manager.updateUser(user_2);
-		manager.updateUser(user_3);
+		manager.updateUser(*testDb, user_2);
+		manager.updateUser(*testDb, user_3);
 	}
 
 	//tienen que estar conectados los user 2 y 3
@@ -143,9 +141,9 @@ void ConnectionManagerTest::testManageMultipleUsers() {
 
 void ConnectionManagerTest::testGetConnectedUsers(){
 
-	manager.updateUser("Mariano");
-	manager.updateUser("Fernando");
-	manager.updateUser("Zidane");
+	manager.updateUser(*testDb, "Mariano");
+	manager.updateUser(*testDb, "Fernando");
+	manager.updateUser(*testDb, "Zidane");
 
 	std::vector<std::string> connectedUsers;
 
@@ -157,8 +155,8 @@ void ConnectionManagerTest::testGetConnectedUsers(){
 
 	for (int i = 0; i <= MAXIMUM_IDLE_TIME + 1; i++) {
 		sleep(1);
-		manager.updateUser("Fernando");
-		manager.updateUser("Zidane");
+		manager.updateUser(*testDb, "Fernando");
+		manager.updateUser(*testDb, "Zidane");
 	}
 
 	connectedUsers = manager.getConnectedUsers();

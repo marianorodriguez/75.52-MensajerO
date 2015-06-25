@@ -80,4 +80,20 @@ private:
 	static Mutex constructorMutex;
 };
 
+/**
+ * Ayuda a controlar la vida del singleton Logger.
+ * Se coloca en main() para que, al destruirse, libere recursos del Logger.
+ */
+class LoggerManager {
+public:
+	/**
+	 * Llama a una instancia del logger
+	 */
+	LoggerManager();
+	/**
+	 * Destruye el logger
+	 */
+	~LoggerManager();
+};
+
 #endif /* LOGGER_H_ */

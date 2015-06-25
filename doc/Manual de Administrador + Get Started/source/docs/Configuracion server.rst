@@ -117,12 +117,6 @@ Ejemplo de uso::
 	./run.sh --port 8081
 
 
-Dirección IP.
-.............
-
-Aunque este no es un parametro que se pueda configurar manualmente, se muestra para facilitarle al usuario de MensajerO! la configuración de este número dentro de la aplicación.
-
-
 Ruta de la Base de Datos.
 .........................
 

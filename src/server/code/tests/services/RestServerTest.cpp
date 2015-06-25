@@ -21,6 +21,24 @@ void RestServerTest::testConstructor(){
 	server.shutdownServer();
 }
 
+void RestServerTest::testSetOptions(){
+
+	RestServer server;
+	OptionMap map;
+	map["database"] = "database/test";
+	map["port"] = "9000";
+	map["pollDelay"] = "1000";
+	map["aliveTime"] = "4000";
+	ServerOptions options(map);
+
+	server.setOptions(options);
+
+	CPPUNIT_ASSERT(server.pollDelay == 1000);
+	CPPUNIT_ASSERT(server.port == 9000);
+	CPPUNIT_ASSERT(server.userDbPath == "database/test/users");
+	CPPUNIT_ASSERT(server.chatDbPath == "database/test/chats");
+}
+
 void RestServerTest::testEchoReply(){
 	// Instancio servidor
 	this->testServer = new ServerThread();

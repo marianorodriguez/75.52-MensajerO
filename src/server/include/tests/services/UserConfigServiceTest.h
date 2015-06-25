@@ -8,23 +8,24 @@
 #ifndef TESTS_SERVICES_USERCONFIGSERVICETEST_H_
 #define TESTS_SERVICES_USERCONFIGSERVICETEST_H_
 
-#include <cppunit/extensions/HelperMacros.h>
+#include "ServiceTest.h"
 #include "../../main/services/UserConfigService.h"
 
-class UserConfigServiceTest: public CppUnit::TestFixture {
+class UserConfigServiceTest: public ServiceTest {
 
 	CPPUNIT_TEST_SUITE(UserConfigServiceTest);
+	CPPUNIT_TEST(testGetUri);
 	CPPUNIT_TEST(testUserShouldConfigureProfile);
 	CPPUNIT_TEST(testUsernameShouldNotExist);
 	CPPUNIT_TEST(testShouldBeInvalidPassword);
 	CPPUNIT_TEST_SUITE_END();
 public:
-	UserConfigServiceTest();
 	virtual ~UserConfigServiceTest();
 
 	void setUp();
 	void tearDown();
 
+	void testGetUri();
 	void testUserShouldConfigureProfile();
 	void testShouldBeInvalidPassword();
 	void testUsernameShouldNotExist();

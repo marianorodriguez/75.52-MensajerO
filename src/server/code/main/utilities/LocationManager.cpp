@@ -9,30 +9,41 @@
 
 std::map<std::string, std::string> LocationManager::nodes;
 LocationManager* LocationManager::instance = 0;
+std::string LocationManager::path = "config/geolocation.json";
 
 LocationManager::LocationManager() {
 
 	Json::Reader reader;
 	Json::Value root;
-	std::ifstream file("config/geolocation.json");
-	reader.parse(file, root);
-	root = root["nodes"];
-	for (unsigned int i = 0; i < root.size(); i++) {
-		Json::Value node = root[i];
-		std::string name = node["name"].asString();
-		Json::Value locations = node["location"];
-		std::string dl = locations["DL"].asString();
-		std::string ur = locations["UR"].asString();
-		GeoNode geoNode(dl, ur);
-		nodes[geoNode.serialize()] = name;
+	std::ifstream file(path);
+	if (file.is_open()) {
+		reader.parse(file, root);
+		root = root["nodes"];
+		for (unsigned int i = 0; i < root.size(); i++) {
+			Json::Value node = root[i];
+			std::string name = node["name"].asString();
+			Json::Value locations = node["location"];
+			std::string dl = locations["DL"].asString();
+			std::string ur = locations["UR"].asString();
+			GeoNode geoNode(dl, ur);
+			nodes[geoNode.serialize()] = name;
+		}
+	}else{
+		FileNotFoundException exception("Couldn't find geolocation.json file");
+		throw exception;
 	}
 }
 
 LocationManager::~LocationManager() {
 }
 
+void LocationManager::destroyInstance(){
+	delete instance;
+	instance = 0;
+}
+
 LocationManager* LocationManager::getInstance() {
-	if(instance == 0){
+	if (instance == 0) {
 		instance = new LocationManager();
 	}
 	return instance;
@@ -40,8 +51,13 @@ LocationManager* LocationManager::getInstance() {
 
 std::string LocationManager::getLocation(const std::string &location) {
 
-	for (std::map<std::string, std::string>::iterator i = nodes.begin(); i != nodes.end();
-			++i) {
+	//si me llega 0;0, significa que el usuario tiene desactivado el check-in
+	if (strcmp(location.c_str(), "0;0") == 0) {
+		return "unknown";
+	}
+
+	for (std::map<std::string, std::string>::iterator i = nodes.begin();
+			i != nodes.end(); ++i) {
 		GeoNode node(i->first);
 		if (node.inside(location)) {
 			return i->second;
@@ -77,7 +93,8 @@ bool GeoNode::inside(const std::string &location) const {
 	return false;
 }
 
-void GeoNode::parseLocation(const std::string &location, double& lat, double &lon) {
+void GeoNode::parseLocation(const std::string &location, double& lat,
+		double &lon) {
 	int index = location.find(';');
 	lat = atof(location.substr(0, index).c_str());
 	lon = atof(location.substr(index + 1, location.size()).c_str());

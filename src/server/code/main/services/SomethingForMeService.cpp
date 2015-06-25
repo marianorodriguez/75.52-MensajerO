@@ -1,41 +1,46 @@
 #include "../../../include/main/services/SomethingForMeService.h"
 
-const std::string SomethingForMeService::serviceName = SERVICE_SOMETHINGFORME_NAME;
+const std::string SomethingForMeService::serviceName =
+		SERVICE_SOMETHINGFORME_NAME;
+
+SomethingForMeService::SomethingForMeService(Database& users, Database& chats) :
+		userDb(users), chatDb(chats) {
+}
 
 std::string SomethingForMeService::getUri() const {
 	return serviceName;
 }
 
 std::string SomethingForMeService::executeRequest(
-		const Json::Value &paramMap) const {
+		const string &paramMap) const {
 
-	Json::Reader reader;
-	Json::Value data;
-	reader.parse(paramMap.asString(), data);
 	Logger::getLogger()->write(Logger::INFO,
 			"Executing SomethingForMe service...");
-	Json::Value output = doSomethingForMe(data);
 
-	ConnectionManager::getInstance()->updateUser(
-			data[SERVICE_USERNAME].asString());
+	string output = doSomethingForMe(paramMap);
 
-	return output.toStyledString();
+	return output;
 }
 
-Json::Value SomethingForMeService::doSomethingForMe(const Json::Value &data) const{
+string SomethingForMeService::doSomethingForMe(
+		const string &data) const {
 
-	Database dbUsers(DATABASE_USERS_PATH);
-	Database dbChats(DATABASE_CHATS_PATH);
+	Json::Value jsonData;
+	Json::Reader reader;
+	reader.parse(data, jsonData);
+
+	string username = jsonData[SERVICE_USERNAME].asString();
+	string password = jsonData[SERVICE_PASSWORD].asString();
 
 	vector<string> keyUser;
-	keyUser.push_back(data[SERVICE_USERNAME].asString());
+	keyUser.push_back(username);
 
 	Json::Value output;
 
 	try {
-		User user(dbUsers.read(keyUser));
+		User user(userDb.read(keyUser));
 
-		if (user.getPassword() == data[SERVICE_PASSWORD].asString()) {
+		if (user.getPassword() == password) {
 
 			vector<string> chatsUser = user.getChats();
 			Logger::getLogger()->write(Logger::DEBUG,
@@ -44,15 +49,15 @@ Json::Value SomethingForMeService::doSomethingForMe(const Json::Value &data) con
 			for (unsigned int i = 0; i < chatsUser.size(); i++) {
 				cont = 0;
 				vector<string> keyChats;
-				keyChats.push_back(data[SERVICE_USERNAME].asString());
+				keyChats.push_back(username);
 				keyChats.push_back(chatsUser[i]);
-				Chat chat(dbChats.read(keyChats));
+				Chat chat(chatDb.read(keyChats));
 
 				vector<Message> messages = chat.getMessages();
 				int cont = 0;
 
 				unsigned int start = 0;
-				if (data[SERVICE_USERNAME].asString() == chat.getUsername1()) {
+				if (username == chat.getUsername1()) {
 					start = chat.getFirstMessageUser1();
 				} else {
 					start = chat.getFirstMessageUser2();
@@ -62,7 +67,7 @@ Json::Value SomethingForMeService::doSomethingForMe(const Json::Value &data) con
 
 					if ((!messages.at(j).getSent())
 							&& (messages.at(j).getUserTo()
-									== data[SERVICE_USERNAME].asString())) {
+									== username)) {
 
 						messages.at(j).setAsSent();
 						output[SERVICE_SOMETHINGFORME_MESSAGES][cont] =
@@ -72,7 +77,7 @@ Json::Value SomethingForMeService::doSomethingForMe(const Json::Value &data) con
 				}
 				if (cont != 0) {
 					chat.updateMessages(messages);
-					dbChats.write(keyChats, chat.serialize());
+					chatDb.write(keyChats, chat.serialize());
 				}
 			}
 			ostringstream convert;
@@ -86,7 +91,7 @@ Json::Value SomethingForMeService::doSomethingForMe(const Json::Value &data) con
 			output[SERVICE_OUT_OK] = false;
 			output[SERVICE_OUT_WHAT] = SERVICE_OUT_INVALIDPWD;
 			Logger::getLogger()->write(Logger::WARN,
-					"Invalid password from user " + user.getUsername());
+					"Invalid password from user " + username);
 		}
 	} catch (KeyNotFoundException& e) {
 		output[SERVICE_OUT_OK] = false;
@@ -95,11 +100,11 @@ Json::Value SomethingForMeService::doSomethingForMe(const Json::Value &data) con
 				"Some unregistered user tried to use this service.");
 	}
 
-	dbChats.close();
-	dbUsers.close();
-	return output;
+	ConnectionManager::getInstance()->updateUser(userDb, username);
+	return output.toStyledString();
 }
 
-ServiceInterface* SomethingForMeServiceCreator::create(Database& userDb, Database& chatDb) {
-	return new SomethingForMeService();
+ServiceInterface* SomethingForMeServiceCreator::create(Database& userDb,
+		Database& chatDb) {
+	return new SomethingForMeService(userDb, chatDb);
 }

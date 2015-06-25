@@ -40,18 +40,13 @@ public:
 	/**
 	 * Actualiza el estado del usuario pasado en @param username.
 	 */
-	void updateUser(const std::string username);
+	void updateUser(Database& db, const std::string username);
 
 	/**
 	 * Detiene y destruye el thread para actualizar las conexiones.
 	 */
 	void stopUpdating();
 
-	/**
-	 * TODO: Que la BD se setee en el constructor (implica que esta clase no sea
-	 * singleton)
-	 */
-	void setDatabase(Database* userDb);
 	/**
 	 * Indica el tiempo en segundos que un usuario permanece "conectado"
 	 */
@@ -73,11 +68,7 @@ private:
 	 * Función que ejecuta el thread para automatizar las actualizaciones.
 	 */
 	static void* runFunction(void* args);
-	/**
-	 * Base de datos de usuarios
-	 * TODO: que sea una referencia
-	 */
-	Database* userDb;
+
 	Mutex mtx;
 	pthread_t updateThread;
 	std::map<std::string, int> connectedUsers;
