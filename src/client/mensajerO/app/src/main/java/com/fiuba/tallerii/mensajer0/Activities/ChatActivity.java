@@ -73,7 +73,7 @@ public class ChatActivity extends ActionBarActivity implements View.OnClickListe
         Constants.chatActionBar = actionBar;
         Constants.resources = getResources();
 
-        Button sendButton = (Button) findViewById(R.id.sendButton);
+        ImageView sendButton = (ImageView) findViewById(R.id.sendButton);
         sendButton.setOnClickListener(this);
         Button focusDownButton = (Button) findViewById(R.id.focusdown);
         focusDownButton.setOnClickListener(this);
