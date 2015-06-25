@@ -122,45 +122,46 @@ public class ChatActivity extends ActionBarActivity implements View.OnClickListe
             EditText edTxt = (EditText) findViewById(R.id.editText);
             String message = edTxt.getText().toString();
 
-            String package_ = Constants.packager.wrap("sendMessage",
-                    Constants.user, Constants.chatWith, message);
+            if (message.length() > 0) {
+                String package_ = Constants.packager.wrap("sendMessage",
+                        Constants.user, Constants.chatWith, message);
 
 
-            Constants.chatEditor.setContext(this, Constants.user.username, scroll);
-
-
-            sendMessage.execute(new Pair<Context, String>(this, package_),
-                    new Pair<Context, String>(this, Constants.sendMessageUrl),
-                    new Pair<Context, String>(this, "post"));
-
-            while (Constants.sendMessageOk.compareTo("") == 0) {
-                try {
-                    Thread.sleep(1);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            if (Constants.sendMessageOk.contains("Error")) {
-            }
-
-            if (Constants.sendMessageOk.compareTo("true") == 0) {
-                edTxt.setText("");
-                Message newMessage = new Message(
-                        Constants.user.username,
-                        Constants.chatWith,
-                        message,
-                        getDate(calendar.getTime()),
-                        getTime(calendar.getTime()));
                 Constants.chatEditor.setContext(this, Constants.user.username, scroll);
-                refreshChat.setScrollDownButton((Button) findViewById(R.id.focusdown), true, scroll);
-                Constants.chatEditor.getChat().messages.add(newMessage);
+
+
+                sendMessage.execute(new Pair<Context, String>(this, package_),
+                        new Pair<Context, String>(this, Constants.sendMessageUrl),
+                        new Pair<Context, String>(this, "post"));
+
+                while (Constants.sendMessageOk.compareTo("") == 0) {
+                    try {
+                        Thread.sleep(1);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                if (Constants.sendMessageOk.contains("Error")) {
+                }
+
+                if (Constants.sendMessageOk.compareTo("true") == 0) {
+                    edTxt.setText("");
+                    Message newMessage = new Message(
+                            Constants.user.username,
+                            Constants.chatWith,
+                            message,
+                            getDate(calendar.getTime()),
+                            getTime(calendar.getTime()));
+                    Constants.chatEditor.setContext(this, Constants.user.username, scroll);
+                    refreshChat.setScrollDownButton((Button) findViewById(R.id.focusdown), true, scroll);
+                    Constants.chatEditor.getChat().messages.add(newMessage);
+                }
+
+                sendMessage = new SendMessagePostAsyncTask();
+
+                scroll.fullScroll(ScrollView.FOCUS_DOWN);
             }
-
-            sendMessage = new SendMessagePostAsyncTask();
-
-            scroll.fullScroll(ScrollView.FOCUS_DOWN);
-
         } else if (v.getId() == R.id.focusdown) {
             scroll.fullScroll(ScrollView.FOCUS_DOWN);
         }

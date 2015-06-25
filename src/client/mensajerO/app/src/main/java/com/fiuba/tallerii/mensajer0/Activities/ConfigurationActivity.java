@@ -237,7 +237,7 @@ public class ConfigurationActivity extends ActionBarActivity implements View.OnC
             if (Constants.configOK.compareTo("true") == 0) {
                 Toast.makeText(this, "Changes saved!", Toast.LENGTH_SHORT).show();
                 Constants.configOK = "";
-                finish();
+                this.finish();
 
                 try {
                     ((TextView) Constants.chatsHallActionBar.findViewById(R.id.actionBarSubtitle)).setText("Status: " + Constants.user.status);
@@ -246,8 +246,8 @@ public class ConfigurationActivity extends ActionBarActivity implements View.OnC
                     img.setCornerRadius(300f);
                     ((ImageView) Constants.chatsHallActionBar.findViewById(R.id.actionBarIcon)).setImageDrawable(img);
                 } catch (Exception e) {
-                    findViewById(R.id.config_cancelButton).callOnClick();
                 }
+
 
             } else {
                 Toast.makeText(this, "Couldn't connect with server. Your changes won't be saved.", Toast.LENGTH_LONG).show();
