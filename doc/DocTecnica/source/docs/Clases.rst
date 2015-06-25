@@ -9,7 +9,9 @@ Diagrama de clases del servidor:
    :target:  ../_images/DiagramaClases.png
    :align:   center
 
-Para un mejor entendimiento del rol de cada clase y sus métodos ver los headers en la carpeta *src/source/include*.
+Para un mejor entendimiento del rol de cada clase y sus métodos ir aqui_ .
+ 
+.. _aqui: ../../../../DoxygenHTML/Servidor/annotated.html
 
 Actividades
 ************
@@ -21,3 +23,9 @@ Diagrama de actividades del cliente:
    :align:   center
 
 En este diagrama se puden observar las numerosas actvidades en el cliente con las distintas relaciones presentes entre ellas. Cada actividad se puede pensar como las distintas "pantallas" con las que interactúa un usario. 
+
+Para un mejor entendimiento del rol de cada actividad y sus métodos ir aqui_ .
+ 
+.. _aqui: ../../../../DoxygenHTML/Servidor/annotated.html
+
+la documentacion de las clases del servidor y de las actividades del cliente fueron generadas con **Doxygen**.
