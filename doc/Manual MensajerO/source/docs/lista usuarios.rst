@@ -10,6 +10,14 @@ En esta pantalla, aparecerán todos los usuarios que se hayan registrado en Mens
 
    *Usuarios regitrados en MensajerO!*
 
+En esta pantalla podrás ver cierta información de los demás usuarios:
+	* Foto de perfil.
+	* Estado del usuario.
+	* Fecha de última conexión.
+	* Ubicación actual del usuario.
+
+Con respecto a la ubicación, solo aparecerá si ese usuario decidió activar la opción del GPS en su cuenta.
+
 Al tocar sobre cualquier usuario, tendrás la posibilidad de enviarle un mensaje o continuar una conversacion previamente iniciada.
 
 El ícono de chat te enviará a la pantalla de chats, donde podrás ver tus conversaciones iniciadas.

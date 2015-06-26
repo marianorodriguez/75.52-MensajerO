@@ -8,4 +8,5 @@ Manual de administrador + Get Started
 	Instalación.<docs/Instalacion>
 	Inicio.
 	Configuración.<docs/Configuracion server>
+	Geolocalización.<docs/geolocation>
 	Uso.<docs/uso>
