@@ -1,0 +1,8 @@
+var searchData=
+[
+  ['tochat',['toChat',['../classcom_1_1fiuba_1_1tallerii_1_1mensajer0_1_1Entities_1_1Chat.html#aeaa596e3b49e294e3482b132431de7e3',1,'com::fiuba::tallerii::mensajer0::Entities::Chat']]],
+  ['tojson',['toJson',['../classcom_1_1fiuba_1_1tallerii_1_1mensajer0_1_1Entities_1_1Chat.html#afb8fc00f28767305853ef3ed5e0ebb5d',1,'com.fiuba.tallerii.mensajer0.Entities.Chat.toJson()'],['../classcom_1_1fiuba_1_1tallerii_1_1mensajer0_1_1Entities_1_1Message.html#a00afa8a0dc43fbcf4e03f1db32655e4e',1,'com.fiuba.tallerii.mensajer0.Entities.Message.toJson()']]],
+  ['tojsonforserver',['toJsonForServer',['../classcom_1_1fiuba_1_1tallerii_1_1mensajer0_1_1Entities_1_1User.html#ad5675fc1cefe005a81ef461d7962ff4c',1,'com.fiuba.tallerii.mensajer0.Entities.User.toJsonForServer()'],['../classcom_1_1fiuba_1_1tallerii_1_1mensajer0_1_1Entities_1_1User.html#afb547386b84091d567c0f3c2e329f21a',1,'com.fiuba.tallerii.mensajer0.Entities.User.toJsonForServer(int flag)'],['../classcom_1_1fiuba_1_1tallerii_1_1mensajer0_1_1Entities_1_1User.html#ab33cad36a6f2a5f3c35e63d35807d6b3',1,'com.fiuba.tallerii.mensajer0.Entities.User.toJsonForServer(String otherUser)'],['../classcom_1_1fiuba_1_1tallerii_1_1mensajer0_1_1Entities_1_1User.html#aa053b5a87d21de800a10fa66c46c971d',1,'com.fiuba.tallerii.mensajer0.Entities.User.toJsonForServer(String msg_toID, String msg_text)']]],
+  ['tomessage',['toMessage',['../classcom_1_1fiuba_1_1tallerii_1_1mensajer0_1_1Entities_1_1Message.html#aa5a88638367a0b7b04711cabb783a230',1,'com::fiuba::tallerii::mensajer0::Entities::Message']]],
+  ['touser',['toUser',['../classcom_1_1fiuba_1_1tallerii_1_1mensajer0_1_1Entities_1_1User.html#a3a5c127a6ade910ba90c9f62bdc8ddbd',1,'com::fiuba::tallerii::mensajer0::Entities::User']]]
+];

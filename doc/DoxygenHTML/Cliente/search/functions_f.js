@@ -1,0 +1,6 @@
+var searchData=
+[
+  ['warning',['warning',['../classcom_1_1fiuba_1_1tallerii_1_1mensajer0_1_1Common_1_1Log.html#a0cd85ccd4f446dc9e1e6bd29e960c889',1,'com::fiuba::tallerii::mensajer0::Common::Log']]],
+  ['wrap',['wrap',['../classcom_1_1fiuba_1_1tallerii_1_1mensajer0_1_1Common_1_1Packager.html#aa1e8a09da7f313b47d13ab5a90dc0094',1,'com.fiuba.tallerii.mensajer0.Common.Packager.wrap(String service, User user)'],['../classcom_1_1fiuba_1_1tallerii_1_1mensajer0_1_1Common_1_1Packager.html#a728f010f71531cb1800244c0433a3788',1,'com.fiuba.tallerii.mensajer0.Common.Packager.wrap(String service, User user, String msg_toID, String msg_text)'],['../classcom_1_1fiuba_1_1tallerii_1_1mensajer0_1_1Common_1_1Packager.html#aa7d8fce6b13fee4213c01776ca26bbee',1,'com.fiuba.tallerii.mensajer0.Common.Packager.wrap(String response)'],['../classcom_1_1fiuba_1_1tallerii_1_1mensajer0_1_1Common_1_1Packager.html#a3415839d05b5f1e21079c7342fa11447',1,'com.fiuba.tallerii.mensajer0.Common.Packager.wrap(JSONObject response)']]],
+  ['wraploginresponse',['wrapLogInResponse',['../classcom_1_1fiuba_1_1tallerii_1_1mensajer0_1_1Mocks_1_1Mocks.html#a5e4831885cf0ff8e6fd11c0deaa4022a',1,'com::fiuba::tallerii::mensajer0::Mocks::Mocks']]]
+];
