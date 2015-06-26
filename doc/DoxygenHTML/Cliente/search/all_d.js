@@ -1,0 +1,22 @@
+var searchData=
+[
+  ['r',['R',['../classandroid_1_1support_1_1v7_1_1appcompat_1_1R.html',1,'android::support::v7::appcompat']]],
+  ['r',['R',['../classcom_1_1example_1_1fernando_1_1myapplication_1_1R.html',1,'com::example::fernando::myapplication']]],
+  ['r_2ejava',['R.java',['../android_2support_2v7_2appcompat_2R_8java.html',1,'']]],
+  ['r_2ejava',['R.java',['../com_2example_2fernando_2myapplication_2R_8java.html',1,'']]],
+  ['refreshchat',['refreshChat',['../classcom_1_1fiuba_1_1tallerii_1_1mensajer0_1_1Activities_1_1ChatActivity.html#a731553eb9b910676fefab9050d54dc1d',1,'com::fiuba::tallerii::mensajer0::Activities::ChatActivity']]],
+  ['refreshchatasynctask',['RefreshChatAsyncTask',['../classcom_1_1fiuba_1_1tallerii_1_1mensajer0_1_1Threads_1_1RefreshChatAsyncTask.html',1,'com::fiuba::tallerii::mensajer0::Threads']]],
+  ['refreshchatasynctask_2ejava',['RefreshChatAsyncTask.java',['../RefreshChatAsyncTask_8java.html',1,'']]],
+  ['refreshchatasynctaskfinish',['RefreshChatAsyncTaskFinish',['../classcom_1_1fiuba_1_1tallerii_1_1mensajer0_1_1Common_1_1Constants.html#aa77e0e26d4320470610193f8b47168af',1,'com::fiuba::tallerii::mensajer0::Common::Constants']]],
+  ['refreshchats',['refreshChats',['../classcom_1_1fiuba_1_1tallerii_1_1mensajer0_1_1Activities_1_1ChatsHallActivity.html#afc71e428ab79b178a469c8b96add9cb2',1,'com::fiuba::tallerii::mensajer0::Activities::ChatsHallActivity']]],
+  ['refreshchatshallasynctask',['RefreshChatsHallAsyncTask',['../classcom_1_1fiuba_1_1tallerii_1_1mensajer0_1_1Threads_1_1RefreshChatsHallAsyncTask.html',1,'com::fiuba::tallerii::mensajer0::Threads']]],
+  ['refreshchatshallasynctask_2ejava',['RefreshChatsHallAsyncTask.java',['../RefreshChatsHallAsyncTask_8java.html',1,'']]],
+  ['refreshchatshallasynctaskfinish',['RefreshChatsHallAsyncTaskFinish',['../classcom_1_1fiuba_1_1tallerii_1_1mensajer0_1_1Common_1_1Constants.html#a09444e252dc50f3747ba58836fd06878',1,'com::fiuba::tallerii::mensajer0::Common::Constants']]],
+  ['refreshusers',['refreshUsers',['../classcom_1_1fiuba_1_1tallerii_1_1mensajer0_1_1Activities_1_1UsersActivity.html#a66142dab9ab766f196ba7f8338441956',1,'com::fiuba::tallerii::mensajer0::Activities::UsersActivity']]],
+  ['refreshusersasynctask',['RefreshUsersAsyncTask',['../classcom_1_1fiuba_1_1tallerii_1_1mensajer0_1_1Threads_1_1RefreshUsersAsyncTask.html',1,'com::fiuba::tallerii::mensajer0::Threads']]],
+  ['refreshusersasynctask_2ejava',['RefreshUsersAsyncTask.java',['../RefreshUsersAsyncTask_8java.html',1,'']]],
+  ['refreshusersasynctaskfinish',['RefreshUsersAsyncTaskFinish',['../classcom_1_1fiuba_1_1tallerii_1_1mensajer0_1_1Common_1_1Constants.html#a3eba8f9f74f8b27c82907f3ec8b42c15',1,'com::fiuba::tallerii::mensajer0::Common::Constants']]],
+  ['rendernewmessages',['renderNewMessages',['../classcom_1_1fiuba_1_1tallerii_1_1mensajer0_1_1Common_1_1ChatEditor.html#a27c123f4cfc2251a5f645bd9534bf845',1,'com::fiuba::tallerii::mensajer0::Common::ChatEditor']]],
+  ['reset',['reset',['../classcom_1_1fiuba_1_1tallerii_1_1mensajer0_1_1Common_1_1Constants.html#aaeff069d26689e4ae874f8f17d91cad8',1,'com::fiuba::tallerii::mensajer0::Common::Constants']]],
+  ['resources',['resources',['../classcom_1_1fiuba_1_1tallerii_1_1mensajer0_1_1Common_1_1Constants.html#a507c726eb9b5c23138e5278f23a02ff4',1,'com::fiuba::tallerii::mensajer0::Common::Constants']]]
+];

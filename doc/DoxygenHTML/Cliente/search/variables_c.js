@@ -1,0 +1,21 @@
+var searchData=
+[
+  ['sendmessage',['sendMessage',['../classcom_1_1fiuba_1_1tallerii_1_1mensajer0_1_1Activities_1_1ChatActivity.html#a2ece0edee3381b377c406e036e6ac315',1,'com.fiuba.tallerii.mensajer0.Activities.ChatActivity.sendMessage()'],['../classcom_1_1fiuba_1_1tallerii_1_1mensajer0_1_1Activities_1_1UsersActivity.html#ac0ab5528ba2424a6fce19954160c617e',1,'com.fiuba.tallerii.mensajer0.Activities.UsersActivity.sendMessage()']]],
+  ['sendmessageok',['sendMessageOk',['../classcom_1_1fiuba_1_1tallerii_1_1mensajer0_1_1Common_1_1Constants.html#a4706516b2a7f85869d72d63b9aa8cbb7',1,'com::fiuba::tallerii::mensajer0::Common::Constants']]],
+  ['sendmessageresponseok',['sendMessageResponseOK',['../classcom_1_1fiuba_1_1tallerii_1_1mensajer0_1_1Mocks_1_1Mocks.html#a0e72c02dd082f0625aeb5476a0e4f76c',1,'com::fiuba::tallerii::mensajer0::Mocks::Mocks']]],
+  ['sendmessageresponsewrong',['sendMessageResponseWRONG',['../classcom_1_1fiuba_1_1tallerii_1_1mensajer0_1_1Mocks_1_1Mocks.html#a60b56de5b1cd92f99db0c7486ad3f671',1,'com::fiuba::tallerii::mensajer0::Mocks::Mocks']]],
+  ['sendmessageurl',['sendMessageUrl',['../classcom_1_1fiuba_1_1tallerii_1_1mensajer0_1_1Common_1_1Constants.html#a696dac2d40afc59469769ac54337c1fa',1,'com::fiuba::tallerii::mensajer0::Common::Constants']]],
+  ['server',['server',['../classcom_1_1fiuba_1_1tallerii_1_1mensajer0_1_1Common_1_1Constants.html#a99295ec90a43f13a19f5f1fb1de40383',1,'com::fiuba::tallerii::mensajer0::Common::Constants']]],
+  ['setconfigurl',['setConfigUrl',['../classcom_1_1fiuba_1_1tallerii_1_1mensajer0_1_1Common_1_1Constants.html#ada9cbf4c4813253953abd4a9c5ce7bf2',1,'com::fiuba::tallerii::mensajer0::Common::Constants']]],
+  ['signuplocation',['signUpLocation',['../classcom_1_1fiuba_1_1tallerii_1_1mensajer0_1_1Common_1_1Constants.html#a2f3cc9a2ffdba933a49da77edd9afb67',1,'com::fiuba::tallerii::mensajer0::Common::Constants']]],
+  ['signupok',['signUpOk',['../classcom_1_1fiuba_1_1tallerii_1_1mensajer0_1_1Common_1_1Constants.html#a9f4d158aa9efced09d218c5d7ee8844d',1,'com::fiuba::tallerii::mensajer0::Common::Constants']]],
+  ['signupurl',['signUpUrl',['../classcom_1_1fiuba_1_1tallerii_1_1mensajer0_1_1Common_1_1Constants.html#af5c0c61d39c637768cb5b4827be7cf1a',1,'com::fiuba::tallerii::mensajer0::Common::Constants']]],
+  ['singupresponseok',['SingUpResponseOK',['../classcom_1_1fiuba_1_1tallerii_1_1mensajer0_1_1Mocks_1_1Mocks.html#a0b29b94de17d4cbd2be4fed8088b7dbe',1,'com::fiuba::tallerii::mensajer0::Mocks::Mocks']]],
+  ['singupresponsewrong',['SingUpResponseWRONG',['../classcom_1_1fiuba_1_1tallerii_1_1mensajer0_1_1Mocks_1_1Mocks.html#a0e60de29635fbba8285a5b86ab32c1f2',1,'com::fiuba::tallerii::mensajer0::Mocks::Mocks']]],
+  ['somethingformepost',['somethingForMePost',['../classcom_1_1fiuba_1_1tallerii_1_1mensajer0_1_1Activities_1_1ChatsHallActivity.html#af7530f93bb03f750f124befe4acd213e',1,'com::fiuba::tallerii::mensajer0::Activities::ChatsHallActivity']]],
+  ['somethingformepostasynctaskfinish',['SomethingForMePostAsyncTaskFinish',['../classcom_1_1fiuba_1_1tallerii_1_1mensajer0_1_1Common_1_1Constants.html#a70cd00c0a8464ce3c52d9ea6d2f4e951',1,'com::fiuba::tallerii::mensajer0::Common::Constants']]],
+  ['somethingformepostasynctaskfrec',['SomethingForMePostAsyncTaskFrec',['../classcom_1_1fiuba_1_1tallerii_1_1mensajer0_1_1Common_1_1Constants.html#a2a18576bb8e8eb51b1164e2fa845b9a1',1,'com::fiuba::tallerii::mensajer0::Common::Constants']]],
+  ['somethingformeresponse',['SomethingForMeResponse',['../classcom_1_1fiuba_1_1tallerii_1_1mensajer0_1_1Mocks_1_1Mocks.html#aef2dacd2bd06b6e650f9c99b0bc6ad92',1,'com::fiuba::tallerii::mensajer0::Mocks::Mocks']]],
+  ['somethingformeurl',['somethingForMeUrl',['../classcom_1_1fiuba_1_1tallerii_1_1mensajer0_1_1Common_1_1Constants.html#a894a1c18f16444d37ea6b256d46ff3ba',1,'com::fiuba::tallerii::mensajer0::Common::Constants']]],
+  ['status',['status',['../classcom_1_1fiuba_1_1tallerii_1_1mensajer0_1_1Entities_1_1User.html#a9a46754b9314670804271067ded86935',1,'com::fiuba::tallerii::mensajer0::Entities::User']]]
+];
