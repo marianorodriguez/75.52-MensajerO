@@ -97,15 +97,17 @@ FUNCIONALIDADES
 * Almacenamiento de conversaciones: Antes de enviar un mensaje al usuario correspondiente mediante el servicio anteriormente citado, el servidor lo guarda en su base de datos. De esta forma, el usuario que reinstale la aplicación no perderá ningún mensaje.
 * Servicio de consulta de usuarios disponibles: Se permite consultar el listado de usuarios conectados y disponibles actualmente.
 * Log: El servidor tiene implementado el sistema de logging, aunque se lo está usando muy poco.
+* Servicio de administración de perfil de usuario: El cliente puede modificar su estado y su foto de perfil.	
+* Checkin de usuarios: El servidor tiene la capacidad de informarle el nombre del barrio en el que se encuentra.
+* Servicio de delivery de difusión: Los usuarios pueden enviar un mensaje a todos los usuarios registrados en el sistema.
 
 **Funcionalidades en Desarrollo:**
 
-* Servicio de administración de perfil de usuario: En este momento, el cliente solo puede modificar su estado y su foto de perfil. Falta agregarle el "nombre" con el que todo el mundo lo va a ver y el checkin opcional.
-* Checkin de usuarios: Mediante las coordenadas (latitud y longitud) enviadas por el cliente, el servidor tiene la capacidad de informarle el nombre del barrio en el que se encuentra. Esta funcionalidad sigue en desarrollo, falta calibrar algunas variables y hacer más pruebas, por lo que es probable que no funcione adecuadamente.
+* Ninguna.
 
 **Funcionalidades aún no implementadas:**
 
-* Servicio de delivery de difusión: El servidor debe permitir que un usuario envíe un mensaje a todos los usuarios conectados y disponibles actualmente.
+* Ninguna.
 
 
 **CLIENTE:**
@@ -119,15 +121,16 @@ FUNCIONALIDADES
 * Lista de usuarios conectados: El cliente permite visualizar un listado con los usuarios conectados, junto con su nombre, foto de perfil y estado.
 * Envío de conversaciones: Al seleccionar un usuario, el cliente permitirá mandarle a este un mensaje, iniciando así una conversación.
 * Configuración de perfil: El cliente permite a un usuario acceder a una pantalla para cambiar sus datos personales.
+* Checkin: El usuario puede activar y desactivar la opción de checkin.
 
 **Funcionalidades en Desarrollo:**
 
-* Checkin: Por el momento, el usuario no puede desactivar la opción de checkin.
+* Ninguna.
 
 **Funcionalidades aún no implementadas:**
 
 * Log: Falta implementar un sistema de logging similar al del servidor.
-* Visualización de estado de usuario: Falta diseñar una pantalla donde se puedan ver en detalle los datos públicos de cualquier usuario.
+
 
 CHANGELOG
 ---------
@@ -156,23 +159,18 @@ Known bugs / TODO:
 	* La configuración del servidor es ignorada.
 	* Se deben agregar chequeos para detectar requests maliciosos/mal hechos.
 	* Bajo uso del logger.
-	
+
+* 2015-06-25: 
+Features:
+	* Se agregó la configuracion por linea de comando o archivo del servidor.
+	* Se agregaron chequeos en el servidor para evitar posteos "maliciosos" (servicios inexistentes/contenido invalido)
+	* Se termina toda la interacción cliente-servidor.
+	* Se loggean los eventos del servidor, en diferentes niveles de importancia para permitir filtrar.
+	* El cliente puede eliminar chats que ya no quiere tener en su celular.	
 
 DIAGRAMA DE CLASES
 ------------------
 
 .. image:: diagramaDeClases.png
 
-DIVISIÓN DE TAREAS
-------------------
-
-Luego de diseñar el diagrama de clases, se dividió al servidor en 3 partes principales. De los 4 integrantes, 3 se dedicaron a desarrollar cada una de estas partes del servidor:
-
-* Serializables : Mariano Rodríguez
-* Base de Datos : Francisco Nery
-* Conexión : Matías Lafroce
-
-Luego de terminar los Serializables y la Base de Datos, los 2 integrantes se enfocaron en desarrollar la parte de la conexión y se dedicaron a empezar los servicios requeridos con sus pruebas. 
-
-El úlitmo integrante, Fernando Cortés, se enfocó en el desarrollo de la aplicación del cliente en Android.
-
+Para más información sobre el diagrama de clases, ver la documentación de código.

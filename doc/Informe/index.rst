@@ -11,6 +11,6 @@ Contenidos:
 .. toctree::
    :maxdepth: 2
 
-   Informe <informe-checkout-2>
+   Informe <informe-checkout-3>
    Esquema de servicios <service-schema>
 
